@@ -1,0 +1,1359 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ping Point — комната настольного тенниса в Брянске | Сыграй в Pong и получи промокод</title>
+<meta name="description" content="Ping Point — отдельная комната для настольного тенниса в ТРЦ «Мельница», Брянск. Бронь и оплата онлайн, вход по коду, 10:00–20:30, от 300 ₽/час. Обыграй компьютер в Pong прямо на сайте и получи промокод.">
+<meta name="theme-color" content="#0f1124">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Ping Point — сыграй в Pong и забронируй стол">
+<meta property="og:description" content="Комната настольного тенниса в ТРЦ «Мельница», Брянск. Обыграй компьютер до 5 очков — получи промокод на бронь.">
+<meta property="og:image" content="../img/room.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rubik:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SportsActivityLocation",
+  "name": "Ping Point",
+  "description": "Отдельная комната на один стол для настольного тенниса. Бронь и оплата онлайн, вход по коду без администратора.",
+  "image": "../img/room.jpg",
+  "telephone": "+7 903 644-76-53",
+  "email": "pingp-inf@bk.ru",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "ул. Красноармейская, 100, ТРЦ «Мельница»",
+    "addressLocality": "Брянск",
+    "addressCountry": "RU"
+  },
+  "openingHoursSpecification": [{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+    "opens": "10:00",
+    "closes": "20:30"
+  }],
+  "priceRange": "300–400 ₽/час",
+  "currenciesAccepted": "RUB",
+  "sameAs": ["https://t.me/PingP32", "https://vk.com/pingp32"]
+}
+</script>
+<style>
+:root{
+  --ink:#0f1124;
+  --ink2:#161934;
+  --navy:#232740;
+  --navy2:#2d3252;
+  --bordo:#7C0C0B;
+  --red:#E4483F;
+  --orange:#F5A623;
+  --cream:#F4EBDD;
+  --muted:#A9ABC4;
+  --line:rgba(244,235,221,.12);
+  --px:'Press Start 2P','Courier New',ui-monospace,monospace;
+  --tx:'Rubik',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+  --wrap:1200px;
+  --gut:clamp(16px,4vw,40px);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ink);color:var(--cream);font:400 17px/1.6 var(--tx);overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit}
+button{font:inherit}
+:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.wrap{max-width:var(--wrap);margin:0 auto;padding-inline:var(--gut)}
+[hidden]{display:none!important}
+
+/* ЭЛТ: строки развёртки поверх всей страницы (едва заметно) */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:90;
+  background:repeating-linear-gradient(to bottom,rgba(0,0,0,0) 0 2px,rgba(0,0,0,.14) 2px 3px);mix-blend-mode:multiply;opacity:.55}
+
+/* ---------- Пиксельные кнопки ---------- */
+.btn{--bg:var(--orange);--fg:var(--ink);--edge:var(--ink);
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  font:12px/1.5 var(--px);letter-spacing:.02em;text-transform:uppercase;text-decoration:none;
+  padding:15px 20px;margin:4px;background:var(--bg);color:var(--fg);border:0;cursor:pointer;position:relative;
+  box-shadow:inset -4px -4px 0 rgba(0,0,0,.28),inset 4px 4px 0 rgba(255,255,255,.35),
+    0 -4px 0 0 var(--edge),0 4px 0 0 var(--edge),-4px 0 0 0 var(--edge),4px 0 0 0 var(--edge),
+    0 0 0 4px transparent;
+  transition:transform .12s steps(2),filter .12s}
+.btn:hover{transform:translateY(-3px);filter:brightness(1.07)}
+.btn:active{transform:translateY(2px)}
+.btn--ghost{--bg:var(--navy);--fg:var(--cream);--edge:var(--cream)}
+.btn--red{--bg:var(--red);--fg:#fff}
+.btn--sm{font-size:10px;padding:11px 14px}
+.coin{white-space:normal;text-align:center}
+.coin .blink{white-space:nowrap}
+.coin .blink{color:var(--bordo)}
+.btn--red .coin .blink,.btn--ghost .coin .blink{color:var(--orange)}
+.blink{animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* ---------- Шапка ---------- */
+.hdr{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(15,17,36,.92);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-bottom:4px solid var(--navy)}
+.hdr .wrap{display:flex;align-items:center;gap:20px;min-height:72px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;flex:none}
+.brand img{width:52px;height:52px;object-fit:cover;background:#fff;padding:3px;
+  box-shadow:0 -3px 0 var(--cream),0 3px 0 var(--cream),-3px 0 0 var(--cream),3px 0 0 var(--cream)}
+.brand b{font:11px/1.4 var(--px);letter-spacing:.04em}
+.brand b span{display:block;color:var(--orange);font-size:8px;margin-top:4px}
+.nav{display:flex;gap:4px;margin-left:auto}
+.nav a{font:9px/1 var(--px);white-space:nowrap;text-decoration:none;text-transform:uppercase;padding:10px 7px;color:var(--muted);transition:color .15s}
+.nav a:hover{color:var(--orange)}
+.hdr .coin{white-space:nowrap}
+.hdr__tel{font:500 15px/1 var(--tx);text-decoration:none;white-space:nowrap;color:var(--cream)}
+.hdr__tel:hover{color:var(--orange)}
+@media (max-width:1240px){.nav{display:none}.hdr__tel{margin-left:auto}}
+@media (max-width:760px){.hdr .btn{display:none}.brand b{font-size:9px}.hdr__tel{font-size:14px}}
+
+/* ---------- Первый экран ---------- */
+.hero{position:relative;padding:clamp(28px,5vw,64px) 0 clamp(40px,6vw,80px);
+  background:radial-gradient(1000px 520px at 78% 38%,rgba(124,12,11,.35),transparent 70%),
+             radial-gradient(700px 400px at 5% 90%,rgba(35,39,64,.9),transparent 70%),var(--ink)}
+.hero__grid{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:clamp(24px,4vw,56px);align-items:center}
+.kicker{font:10px/1.8 var(--px);color:var(--orange);letter-spacing:.06em;text-transform:uppercase;margin:0 0 18px}
+.kicker i{font-style:normal;color:var(--muted)}
+h1{margin:0}
+.h1-px{display:block;font:clamp(38px,6.4vw,84px)/1.08 var(--px);letter-spacing:-.02em;color:var(--cream);
+  text-shadow:4px 4px 0 var(--bordo),0 0 22px rgba(245,166,35,.25)}
+.h1-px em{font-style:normal;color:var(--orange)}
+.h1-sub{display:block;font:700 clamp(19px,2vw,24px)/1.3 var(--tx);margin-top:22px}
+.typed{font:13px/1.9 var(--px);color:#cfd1e6;min-height:3.8em;margin:18px 0 0}
+.typed::before{content:"> ";color:var(--orange)}
+.caret{display:inline-block;width:.7em;height:1em;background:var(--orange);vertical-align:-2px;margin-left:2px;animation:blink 1s steps(1) infinite}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin:24px 0 28px;padding:0;list-style:none}
+.chips li{font:500 15px/1.2 var(--tx);padding:9px 12px;background:var(--navy);border-left:4px solid var(--orange)}
+.chips b{font-weight:800}
+.hero__cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.hero__note{font-size:14px;color:var(--muted);margin:14px 0 0}
+
+/* Аркадный автомат */
+.cab{position:relative;background:linear-gradient(180deg,var(--navy2),var(--navy));padding:14px 14px 12px;
+  box-shadow:0 -6px 0 var(--ink),0 6px 0 var(--ink),-6px 0 0 var(--ink),6px 0 0 var(--ink),
+             0 -12px 0 var(--bordo),0 12px 0 var(--bordo),-12px 0 0 var(--bordo),12px 0 0 var(--bordo),
+             0 30px 60px rgba(0,0,0,.5)}
+.cab__top{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--bordo);padding:10px 14px;margin-bottom:12px;
+  font:10px/1.5 var(--px);text-transform:uppercase;color:var(--cream)}
+.cab__top b{color:var(--orange);font-weight:400}
+.hud{display:flex;justify-content:space-between;gap:10px;font:10px/1.4 var(--px);color:var(--muted);padding:0 4px 10px;text-transform:uppercase}
+.hud span b{display:block;color:var(--cream);font-weight:400;font-size:13px;margin-top:6px}
+.hud .hi b{color:var(--orange)}
+.screen{position:relative;display:grid;place-items:center;background:#0c0e20;overflow:hidden;border-radius:14px/10px;
+  box-shadow:inset 0 0 0 3px #05060f,inset 0 0 60px rgba(0,0,0,.8)}
+.screen canvas{display:block;touch-action:auto}
+.screen.playing,.screen.playing canvas{touch-action:none;cursor:none}
+.screen::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+  background:repeating-linear-gradient(to bottom,rgba(255,255,255,.035) 0 1px,rgba(0,0,0,.22) 1px 3px),
+             radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.55) 100%);
+  animation:flicker 5s steps(1) infinite}
+@keyframes flicker{0%,100%{opacity:1}47%{opacity:.86}48%{opacity:1}72%{opacity:.93}}
+.ov{position:absolute;inset:0;display:flex;padding:14px;background:rgba(12,14,32,.86);z-index:2;text-align:center;overflow-y:auto}
+.ov__box{max-width:440px;margin:auto}
+.ov h3{font:clamp(16px,2.4vw,24px)/1.4 var(--px);margin:0 0 14px;color:var(--orange);text-shadow:3px 3px 0 var(--bordo)}
+.ov h3.lose{color:var(--red);text-shadow:3px 3px 0 #000}
+.ov p{margin:0 0 14px;font-size:15px;line-height:1.5;color:#dcdcea}
+.ov .big{font:clamp(22px,3.4vw,34px)/1.2 var(--px);color:var(--cream);margin:4px 0 12px}
+.ov .btns{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:6px}
+.promo{display:inline-flex;align-items:center;gap:12px;margin:2px 0 12px;padding:10px 12px 10px 16px;background:var(--cream);color:var(--ink);
+  box-shadow:0 -4px 0 var(--orange),0 4px 0 var(--orange),-4px 0 0 var(--orange),4px 0 0 var(--orange)}
+.promo code{font:18px/1 var(--px);letter-spacing:.08em}
+.promo button{font:9px/1 var(--px);text-transform:uppercase;background:var(--ink);color:var(--cream);border:0;padding:9px 10px;cursor:pointer}
+.cab__ctrl{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;padding:12px 4px 2px;font-size:13px;color:var(--muted)}
+.cab__ctrl .keys{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+kbd{font:9px/1 var(--px);background:var(--ink);color:var(--cream);padding:6px 7px;box-shadow:inset -2px -2px 0 rgba(255,255,255,.12)}
+.tbtn{font:9px/1 var(--px);text-transform:uppercase;background:var(--ink);color:var(--cream);border:0;padding:10px 12px;cursor:pointer;
+  box-shadow:inset -3px -3px 0 rgba(255,255,255,.12)}
+.tbtn[aria-pressed="false"]{color:var(--muted)}
+.tbtn:hover{color:var(--orange)}
+@media (max-width:980px){.hero__grid{grid-template-columns:minmax(0,1fr);gap:0}.hero__txt{display:contents}
+  .hero .kicker{order:0}.hero h1{order:1;margin-bottom:22px}.cab{order:2;margin:12px 0 30px}.typed{order:3;margin-top:0}.chips{order:4}.hero__cta{order:5}.hero__note{order:6}
+  .h1-sub{margin-top:14px}}
+@media (max-width:560px){
+  .cab{padding:10px 10px 8px}
+  .cab__top{font-size:8px;padding:8px 10px}
+  .hud{font-size:8px}.hud span b{font-size:11px}
+  .typed{font-size:11px}
+  .chips li{font-size:14px}
+}
+
+/* ---------- Пиксельные переходы между секциями ---------- */
+.edge{height:24px;background:var(--to);margin-top:-24px;position:relative;z-index:1;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='24' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h8v8H0zM24 0h8v8h-8zM48 8h8v8h-8zM16 8h8v8h-8zM40 0h8v8h-8zM56 0h8v8h-8zM8 8h8v8H8zM32 8h8v8h-8zM0 16h64v8H0zM0 8h8v8H0zM24 8h8v8h-8zM56 8h8v8h-8zM40 8h8v8h-8z' fill='%23000'/%3E%3C/svg%3E") repeat-x bottom/64px 24px;
+          mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='24' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h8v8H0zM24 0h8v8h-8zM48 8h8v8h-8zM16 8h8v8h-8zM40 0h8v8h-8zM56 0h8v8h-8zM8 8h8v8H8zM32 8h8v8h-8zM0 16h64v8H0zM0 8h8v8H0zM24 8h8v8h-8zM56 8h8v8h-8zM40 8h8v8h-8z' fill='%23000'/%3E%3C/svg%3E") repeat-x bottom/64px 24px}
+
+/* ---------- Уровни (секции) ---------- */
+.lvl{position:relative;padding:clamp(56px,8vw,110px) 0}
+.lvl--navy{background:var(--navy)}
+.lvl--ink{background:var(--ink)}
+.lvl--ink2{background:var(--ink2)}
+.lvl__head{display:grid;gap:14px;margin-bottom:clamp(28px,4vw,48px);max-width:760px}
+.tag{display:inline-flex;align-items:center;gap:10px;font:10px/1 var(--px);text-transform:uppercase;color:var(--ink);background:var(--orange);padding:8px 10px;width:max-content}
+.tag--boss{background:var(--red);color:#fff}
+.tag small{font-size:inherit;opacity:.65}
+h2{font:clamp(18px,2.6vw,32px)/1.45 var(--px);margin:0;letter-spacing:-.01em}
+h2 .acc{color:var(--orange)}
+.lead{font-size:clamp(17px,1.4vw,19px);color:#d7d8e8;margin:0;max-width:640px}
+.rv{opacity:0;transform:translateY(24px);transition:opacity .6s steps(6),transform .6s steps(6)}
+.rv.in{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}
+
+/* Пиксельные иконки */
+.spr{display:inline-block;width:32px;height:32px;flex:none;color:var(--orange)}
+.spr svg{width:100%;height:100%;display:block}
+
+/* LEVEL 1 */
+.stages{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;list-style:none;margin:0;padding:0;counter-reset:st}
+.stage{position:relative;background:var(--ink);padding:26px 22px 24px;
+  box-shadow:0 -4px 0 var(--navy2),0 4px 0 var(--navy2),-4px 0 0 var(--navy2),4px 0 0 var(--navy2)}
+.stage__n{font:10px/1 var(--px);color:var(--muted);display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.stage h3{font:700 20px/1.25 var(--tx);margin:0 0 8px}
+.stage p{margin:0;color:#cfd0e2;font-size:16px}
+.stage:not(:last-child)::after{content:"";position:absolute;right:-17px;top:50%;width:16px;height:4px;background:var(--orange);z-index:1}
+.bonusbar{margin-top:26px;display:flex;flex-wrap:wrap;gap:10px 26px;font-size:15px;color:#d7d8e8}
+.bonusbar span::before{content:"";display:inline-block;width:8px;height:8px;background:var(--orange);margin-right:10px;vertical-align:2px}
+@media (max-width:980px){.stages{grid-template-columns:repeat(2,minmax(0,1fr))}.stage:nth-child(2)::after{display:none}}
+@media (max-width:560px){.stages{grid-template-columns:1fr}.stage::after{display:none}}
+
+/* LEVEL 2 */
+.room{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:clamp(24px,4vw,56px);align-items:center}
+.pxframe{--s:8px;position:relative;padding:calc(var(--s)*1.5);background:var(--orange);
+  clip-path:polygon(0 calc(var(--s)*2),var(--s) calc(var(--s)*2),var(--s) var(--s),calc(var(--s)*2) var(--s),calc(var(--s)*2) 0,calc(100% - var(--s)*2) 0,calc(100% - var(--s)*2) var(--s),calc(100% - var(--s)) var(--s),calc(100% - var(--s)) calc(var(--s)*2),100% calc(var(--s)*2),100% calc(100% - var(--s)*2),calc(100% - var(--s)) calc(100% - var(--s)*2),calc(100% - var(--s)) calc(100% - var(--s)),calc(100% - var(--s)*2) calc(100% - var(--s)),calc(100% - var(--s)*2) 100%,calc(var(--s)*2) 100%,calc(var(--s)*2) calc(100% - var(--s)),var(--s) calc(100% - var(--s)),var(--s) calc(100% - var(--s)*2),0 calc(100% - var(--s)*2))}
+.pxframe__in{position:relative;overflow:hidden;background:var(--ink);box-shadow:0 0 0 6px var(--bordo)}
+.pxframe img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.mosaic{position:absolute;inset:0;display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:repeat(9,1fr);pointer-events:none}
+.mosaic i{background:var(--navy);transition:opacity .2s steps(2)}
+.mosaic.go i{opacity:0}
+.room__cap{position:absolute;left:14px;bottom:14px;font:9px/1.5 var(--px);background:rgba(15,17,36,.88);padding:8px 10px;text-transform:uppercase}
+.room__cap b{color:var(--orange);font-weight:400}
+.inv{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.inv li{display:flex;align-items:center;gap:14px;background:var(--ink);padding:12px 14px;border-left:4px solid var(--bordo)}
+.inv b{display:block;font-weight:700;font-size:17px;line-height:1.3}
+.inv small{display:block;color:var(--muted);font-size:14px;line-height:1.4}
+.inv__t{font:10px/1.5 var(--px);color:var(--muted);text-transform:uppercase;margin:0 0 14px}
+@media (max-width:900px){.room{grid-template-columns:1fr}}
+
+/* LEVEL 3: магазин */
+.shop{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.item{position:relative;background:var(--ink2);padding:24px 22px 22px;display:flex;flex-direction:column;gap:10px;
+  box-shadow:0 -4px 0 var(--navy2),0 4px 0 var(--navy2),-4px 0 0 var(--navy2),4px 0 0 var(--navy2);transition:transform .15s steps(2)}
+.item:hover{transform:translateY(-4px)}
+.item--hot{box-shadow:0 -4px 0 var(--orange),0 4px 0 var(--orange),-4px 0 0 var(--orange),4px 0 0 var(--orange)}
+.item__top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.item__lbl{font:9px/1.5 var(--px);color:var(--muted);text-transform:uppercase}
+.item h3{font:700 21px/1.25 var(--tx);margin:0}
+.item p{margin:0;color:#cfd0e2;font-size:15px}
+.price{margin-top:auto;padding-top:10px;display:flex;align-items:baseline;gap:8px;font:clamp(20px,2vw,24px)/1.2 var(--px);color:var(--orange)}
+.price small{font:500 14px/1 var(--tx);color:var(--muted)}
+.price .coinico{width:18px;height:18px;background:var(--orange);box-shadow:inset -3px -3px 0 #b8741a,inset 3px 3px 0 #ffd27a;align-self:center;flex:none}
+.shop__h{font:11px/1.5 var(--px);text-transform:uppercase;color:var(--cream);margin:clamp(40px,5vw,64px) 0 20px;display:flex;align-items:center;gap:14px}
+.shop__h::after{content:"";flex:1;height:4px;background:repeating-linear-gradient(90deg,var(--navy2) 0 8px,transparent 8px 16px)}
+.shop__note{font-size:14px;color:var(--muted);margin:22px 0 0}
+.secret{background:repeating-linear-gradient(45deg,var(--ink2) 0 10px,#1b1f3d 10px 20px)}
+.secret .promo{align-self:flex-start;margin-top:auto}
+.lock{font:12px/1.6 var(--px);color:var(--muted);margin-top:auto}
+@media (max-width:980px){.shop{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:600px){.shop{grid-template-columns:1fr}}
+
+/* BOSS */
+.boss{position:relative;overflow:hidden;background:#150a12}
+.boss__bg{position:absolute;inset:0;background:url("../img/stock-table-balls-bokeh.jpg") center/cover;opacity:.22;filter:grayscale(.3) contrast(1.1)}
+.boss::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(21,10,18,.6),rgba(124,12,11,.35) 50%,rgba(15,17,36,.95));z-index:0}
+.boss .wrap{position:relative;z-index:1}
+.boss__grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:start}
+.hp{margin:18px 0 26px}
+.hp__lbl{display:flex;justify-content:space-between;font:10px/1 var(--px);text-transform:uppercase;margin-bottom:10px}
+.hp__lbl b{color:var(--red);font-weight:400}
+.hp__bar{height:22px;background:var(--ink);padding:4px;box-shadow:0 -4px 0 var(--cream),0 4px 0 var(--cream),-4px 0 0 var(--cream),4px 0 0 var(--cream)}
+.hp__bar i{display:block;height:100%;width:100%;background:repeating-linear-gradient(90deg,var(--red) 0 12px,#b3302a 12px 14px);transform-origin:left;transition:transform 1.4s steps(12)}
+.hp.in .hp__bar i{transform:scaleX(.18)}
+.fmt{list-style:none;padding:0;margin:0 0 26px;display:grid;gap:12px}
+.fmt li{display:flex;gap:14px;align-items:flex-start;font-size:16px}
+.fmt li .spr{width:24px;height:24px;margin-top:2px}
+.fmt b{display:block}
+.board{background:rgba(15,17,36,.92);padding:22px clamp(16px,2.4vw,28px) 20px;
+  box-shadow:0 -4px 0 var(--orange),0 4px 0 var(--orange),-4px 0 0 var(--orange),4px 0 0 var(--orange)}
+.board h3{font:clamp(13px,1.4vw,16px)/1.5 var(--px);margin:0 0 4px;text-align:center;color:var(--orange)}
+.board__sub{text-align:center;font-size:13px;color:var(--muted);margin:0 0 16px}
+.lb{width:100%;border-collapse:collapse;font:12px/1 var(--px)}
+.lb td{padding:10px 4px;border-bottom:2px dashed rgba(244,235,221,.1)}
+.lb td:first-child{color:var(--muted);width:3.2em}
+.lb td:last-child{text-align:right}
+.lb tr:nth-child(1) td:not(:first-child){color:var(--orange)}
+.lb tr.me td{color:#7fe3a0!important}
+.lb tr.me td:nth-child(2)::after{content:" ◄";}
+.board__me{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-top:16px;font-size:14px;color:var(--muted)}
+.board__me label{display:flex;align-items:center;gap:10px}
+.board__me input{width:5.2em;font:14px/1 var(--px);text-transform:uppercase;background:var(--ink);color:var(--cream);border:0;padding:9px 8px;
+  box-shadow:inset 0 0 0 2px var(--navy2)}
+@media (max-width:900px){.boss__grid{grid-template-columns:1fr}}
+
+/* LEVEL 4 */
+.find{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(24px,4vw,48px);align-items:stretch}
+.addr{font:700 clamp(20px,2vw,26px)/1.35 var(--tx);margin:0 0 6px}
+.addr + p{margin:0 0 24px;color:var(--muted)}
+.route{list-style:none;margin:0 0 24px;padding:0;display:grid;gap:14px}
+.route li{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start}
+.route b{display:block;font-weight:700}
+.route span{color:#cfd0e2;font-size:15px}
+.hours{display:flex;flex-wrap:wrap;gap:10px}
+.hours div{background:var(--ink);padding:12px 14px;font-size:14px;color:var(--muted)}
+.hours b{display:block;font:12px/1.4 var(--px);color:var(--cream);margin-top:6px}
+.map{position:relative;min-height:360px;background:var(--ink);
+  box-shadow:0 -4px 0 var(--navy2),0 4px 0 var(--navy2),-4px 0 0 var(--navy2),4px 0 0 var(--navy2)}
+.map iframe{position:absolute;inset:0;width:100%;height:100%;border:0;filter:saturate(.85)}
+.map__ph{position:absolute;inset:0;display:grid;place-items:center;font:10px/1.6 var(--px);color:var(--muted);text-align:center;padding:20px}
+@media (max-width:900px){.find{grid-template-columns:1fr}.map{min-height:320px}}
+
+/* Правила + FAQ */
+.rules{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;list-style:none;margin:0;padding:0}
+.rules li{background:var(--ink);padding:18px 16px;font-size:15px;line-height:1.45;display:grid;gap:12px;align-content:start}
+.rules li .spr{width:28px;height:28px}
+.rules b{display:block;font-size:16px}
+@media (max-width:1000px){.rules{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.rules{grid-template-columns:1fr}}
+.faq{max-width:860px;display:grid;gap:12px}
+.faq details{background:var(--ink2);box-shadow:0 -3px 0 var(--navy2),0 3px 0 var(--navy2),-3px 0 0 var(--navy2),3px 0 0 var(--navy2)}
+.faq summary{list-style:none;cursor:pointer;padding:18px 54px 18px 20px;font:700 17px/1.4 var(--tx);position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:20px;top:50%;transform:translateY(-50%);font:14px/1 var(--px);color:var(--orange)}
+.faq details[open] summary::after{content:"–"}
+.faq details[open] summary{color:var(--orange)}
+.faq .a{padding:0 20px 18px;color:#d2d3e4;font-size:16px}
+.faq .a p{margin:0}
+
+/* Финальный экран */
+.cont{text-align:center;padding:clamp(64px,9vw,120px) 0;background:radial-gradient(600px 300px at 50% 40%,rgba(124,12,11,.45),transparent 70%),var(--ink)}
+.cont__t{font:clamp(20px,4vw,44px)/1.3 var(--px);margin:0 0 10px;color:var(--cream);text-shadow:4px 4px 0 var(--bordo)}
+.cont__n{font:clamp(48px,9vw,110px)/1 var(--px);color:var(--orange);margin:12px 0 26px;text-shadow:5px 5px 0 var(--bordo)}
+.cont p{color:var(--muted);margin:0 auto 26px;max-width:520px}
+.cont .hero__cta{justify-content:center}
+
+/* Подвал */
+.ftr{background:#0a0b19;padding:48px 0 32px;font-size:15px;color:var(--muted)}
+.ftr__grid{display:grid;grid-template-columns:1.2fr 1fr 1fr 1.2fr;gap:28px}
+.ftr h4{font:10px/1.5 var(--px);text-transform:uppercase;color:var(--cream);margin:0 0 14px}
+.ftr ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.ftr a{text-decoration:none}
+.ftr a:hover{color:var(--orange)}
+.ftr__legal{margin-top:34px;padding-top:20px;border-top:2px dashed var(--line);display:flex;flex-wrap:wrap;gap:10px 24px;justify-content:space-between;font-size:13px}
+.ftr__legal div{display:flex;flex-wrap:wrap;gap:8px 20px}
+@media (max-width:900px){.ftr__grid{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.ftr__grid{grid-template-columns:1fr}}
+
+/* Мобильная кнопка брони */
+.mbar{display:none}
+@media (max-width:760px){
+  body{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+  .mbar{display:flex;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:60;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));
+    background:rgba(15,17,36,.96);border-top:4px solid var(--bordo)}
+  .mbar .btn{flex:1;margin:4px;font-size:10px;padding:14px 10px}
+  .mbar .btn--ghost{flex:none;padding:10px 16px;font:700 20px/1 var(--tx)}
+}
+
+/* Модальное окно бронирования */
+.modal{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:16px;background:rgba(5,6,15,.8)}
+.modal__box{position:relative;width:min(920px,100%);height:min(86vh,820px);background:#fff;display:flex;flex-direction:column;
+  box-shadow:0 -6px 0 var(--orange),0 6px 0 var(--orange),-6px 0 0 var(--orange),6px 0 0 var(--orange)}
+.modal__bar{display:flex;align-items:center;gap:12px;justify-content:space-between;background:var(--ink);color:var(--cream);padding:10px 12px 10px 16px;font:10px/1.5 var(--px);text-transform:uppercase}
+.modal__bar a{font:500 13px/1 var(--tx);text-transform:none;color:var(--muted)}
+.modal__promo{background:var(--orange);color:var(--ink);font:600 14px/1.4 var(--tx);padding:8px 16px}
+.modal__promo code{font:12px/1 var(--px)}
+.modal iframe{flex:1;width:100%;border:0}
+.x{background:var(--red);color:#fff;border:0;width:36px;height:36px;font:14px/1 var(--px);cursor:pointer}
+@media (max-width:600px){.modal{padding:0}.modal__box{height:100%;box-shadow:none}}
+
+.toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:120;background:var(--cream);color:var(--ink);
+  font:600 15px/1.4 var(--tx);padding:12px 18px;max-width:calc(100% - 32px);box-shadow:0 -4px 0 var(--orange),0 4px 0 var(--orange),-4px 0 0 var(--orange),4px 0 0 var(--orange)}
+
+/* Меньше движения: игра остаётся, эффекты — нет */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .rv{opacity:1;transform:none}
+  .mosaic{display:none}
+  .hp .hp__bar i{transform:scaleX(.18)}
+  .caret{display:none}
+}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Ping Point — наверх">
+      <img src="../img/logo.jpg" alt="Логотип Ping Point" width="52" height="52">
+      <b>PING POINT<span>ARCADE ROOM</span></b>
+    </a>
+    <nav class="nav" aria-label="Разделы">
+      <a href="#game">Игра</a>
+      <a href="#how">Как работает</a>
+      <a href="#room">Комната</a>
+      <a href="#shop">Цены</a>
+      <a href="#boss">Турнир</a>
+      <a href="#find">Как найти</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="hdr__tel" href="tel:+79036447653" data-goal="phone_click">+7 903 644-76-53</a>
+    <a class="btn btn--sm" href="https://pingpongroom.ru/embed/booking?header=0&amp;footer=0" target="_blank" rel="noopener" data-book data-goal="booking_click">
+      <span class="coin"><span class="blink">INSERT COIN</span> ▶ Бронь</span>
+    </a>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ===== Первый экран: играбельный Pong ===== -->
+<section class="hero" id="game" aria-labelledby="h1">
+  <div class="wrap hero__grid">
+    <div class="hero__txt">
+      <p class="kicker">PLAYER 1 · <i>Брянск · ТРЦ «Мельница»</i></p>
+      <h1 id="h1">
+        <span class="h1-px" aria-hidden="true">PING<br><em>POINT</em></span>
+        <span class="h1-sub">Комната настольного тенниса в Брянске</span>
+      </h1>
+      <p class="typed" id="typed" data-text="Бронь онлайн ▶ код на вход ▶ играй. Без администратора, каждый день 10:00–20:30.">Бронь онлайн ▶ код на вход ▶ играй. Без администратора, каждый день 10:00–20:30.</p>
+      <ul class="chips">
+        <li>от <b>300 ₽</b>/час</li>
+        <li>до <b>4</b> игроков</li>
+        <li>ракетки и мячи — <b>бесплатно</b></li>
+      </ul>
+      <div class="hero__cta">
+        <a class="btn" href="https://pingpongroom.ru/embed/booking?header=0&amp;footer=0" target="_blank" rel="noopener" data-book data-goal="booking_click">
+          <span class="coin"><span class="blink">INSERT COIN</span> ▶ Забронировать</span>
+        </a>
+        <a class="btn btn--ghost" href="tel:+79036447653" data-goal="phone_click">Позвонить</a>
+      </div>
+      <p class="hero__note">Сначала разомнись: обыграй компьютер до 5 очков — получишь промокод на бронь.</p>
+    </div>
+
+    <div class="cab" id="cab">
+      <div class="cab__top"><span>Pong · <b>до 5 очков</b></span><span>Победа = промокод</span></div>
+      <div class="hud" aria-live="off">
+        <span>1UP<b id="hudScore">000000</b></span>
+        <span class="hi">HI-SCORE<b id="hudHi">000000</b></span>
+        <span>SPEED<b id="hudSpd">x1</b></span>
+      </div>
+      <div class="screen" id="screen">
+        <canvas id="pong" width="640" height="440" role="img" aria-label="Игра Pong: вы против компьютера"></canvas>
+
+        <div class="ov" id="ovStart">
+          <div class="ov__box">
+            <h3>PRESS START</h3>
+            <p>Вы — светлая ракетка, компьютер — красная. Первый до&nbsp;5&nbsp;очков побеждает, мяч с каждым ударом быстрее.</p>
+            <div class="btns"><button class="btn" type="button" data-act="start">▶ Играть</button></div>
+          </div>
+        </div>
+
+        <div class="ov" id="ovPause" hidden>
+          <div class="ov__box">
+            <h3>ПАУЗА</h3>
+            <div class="btns"><button class="btn" type="button" data-act="resume">▶ Продолжить</button><button class="btn btn--ghost" type="button" data-act="start">Заново</button></div>
+          </div>
+        </div>
+
+        <!-- Промокод PONG10 нужно завести в системе бронирования pingpongroom.ru (скидка и условия — на стороне системы брони) -->
+        <div class="ov" id="ovWin" hidden>
+          <div class="ov__box">
+            <h3>YOU WIN!</h3>
+            <div class="big" id="winScore">5 : 0</div>
+            <p id="winPts">Очки: 0</p>
+            <div class="promo"><code>PONG10</code><button type="button" data-act="copycode">Копировать</button></div>
+            <p>Введите код при бронировании — скидка на игру в Ping Point.</p>
+            <div class="btns">
+              <a class="btn" href="https://pingpongroom.ru/embed/booking?header=0&amp;footer=0" target="_blank" rel="noopener" data-book data-goal="booking_promo_click">Забронировать со скидкой</a>
+              <button class="btn btn--ghost btn--sm" type="button" data-act="share">Поделиться</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-act="start">Ещё раз</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="ov" id="ovLose" hidden>
+          <div class="ov__box">
+            <h3 class="lose">GAME OVER</h3>
+            <div class="big" id="loseScore">0 : 5</div>
+            <p id="losePts">Очки: 0</p>
+            <p>Компьютер оказался быстрее. Победите — и получите промокод. А живой соперник ждёт в Ping Point.</p>
+            <div class="btns">
+              <button class="btn" type="button" data-act="start">↻ Ещё раз</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-act="share">Поделиться</button>
+              <a class="btn btn--ghost btn--sm" href="https://pingpongroom.ru/embed/booking?header=0&amp;footer=0" target="_blank" rel="noopener" data-book data-goal="booking_click">Забронировать</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cab__ctrl">
+        <span class="keys">Управление: мышь · палец · <kbd>↑</kbd><kbd>↓</kbd> / <kbd>◀</kbd><kbd>▶</kbd> · пауза <kbd>P</kbd></span>
+        <span class="keys">
+          <button class="tbtn" type="button" id="sndBtn" aria-pressed="true">Звук: вкл</button>
+          <button class="tbtn" type="button" data-act="pause" id="pauseBtn">Пауза</button>
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LEVEL 1 ===== -->
+<div class="edge" style="--to:var(--navy)" aria-hidden="true"></div>
+<section class="lvl lvl--navy" id="how" aria-labelledby="h-how">
+  <div class="wrap">
+    <div class="lvl__head rv">
+      <span class="tag">Level 1 <small>/ tutorial</small></span>
+      <h2 id="h-how" data-type>Как это работает</h2>
+      <p class="lead">Никаких стоек и администраторов: всё проходит онлайн, а дверь открывается по вашему коду.</p>
+    </div>
+    <ol class="stages">
+      <li class="stage rv d1">
+        <div class="stage__n"><span>STAGE 1-1</span><i class="spr" data-sprite="clock"></i></div>
+        <h3>Выберите время</h3>
+        <p>Свободные слоты — в онлайн-бронировании. Бронь минимум за 1 час до игры.</p>
+      </li>
+      <li class="stage rv d2">
+        <div class="stage__n"><span>STAGE 1-2</span><i class="spr" data-sprite="card"></i></div>
+        <h3>Оплатите онлайн</h3>
+        <p>Картой прямо в форме брони. Есть промокод из игры — введите его здесь.</p>
+      </li>
+      <li class="stage rv d3">
+        <div class="stage__n"><span>STAGE 1-3</span><i class="spr" data-sprite="qr"></i></div>
+        <h3>Получите код</h3>
+        <p>После оплаты придёт код или QR — это ваш ключ от комнаты на время брони.</p>
+      </li>
+      <li class="stage rv d4">
+        <div class="stage__n"><span>STAGE 1-4</span><i class="spr" data-sprite="racket"></i></div>
+        <h3>Играйте</h3>
+        <p>Ракетки и мячи уже на месте. Вы с компанией до 4 человек — и стол целиком ваш.</p>
+      </li>
+    </ol>
+    <div class="bonusbar rv">
+      <span>Отмена за 3 часа — возврат 100%</span>
+      <span>Работаем ежедневно 10:00–20:30</span>
+      <span>Вопросы — <a href="https://t.me/PingP32" target="_blank" rel="noopener" data-goal="tg_click">в Telegram</a></span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LEVEL 2 ===== -->
+<div class="edge" style="--to:var(--ink2)" aria-hidden="true"></div>
+<section class="lvl lvl--ink2" id="room" aria-labelledby="h-room">
+  <div class="wrap">
+    <div class="lvl__head rv">
+      <span class="tag">Level 2 <small>/ map</small></span>
+      <h2 id="h-room" data-type>Ваша комната</h2>
+      <p class="lead">Отдельное помещение на один стол: никто не ждёт очереди за спиной и не ловит ваши мячи с соседнего корта.</p>
+    </div>
+    <div class="room">
+      <div class="pxframe rv">
+        <div class="pxframe__in">
+          <img src="../img/room.jpg" alt="Комната Ping Point: теннисный стол у большого окна, кресла-мешки" width="1200" height="900" loading="lazy">
+          <div class="mosaic" id="mosaic" aria-hidden="true"></div>
+          <span class="room__cap">Реальное фото · <b>Ping Point</b></span>
+        </div>
+      </div>
+      <div class="rv d2">
+        <p class="inv__t">Инвентарь уровня</p>
+        <ul class="inv">
+          <li><i class="spr" data-sprite="table"></i><div><b>Стол UNIX Line</b><small>Ровный отскок, сетка натянута</small></div></li>
+          <li><i class="spr" data-sprite="bulb"></i><div><b>Хорошее освещение</b><small>Мяч видно на любой скорости</small></div></li>
+          <li><i class="spr" data-sprite="window"></i><div><b>Большое окно</b><small>Дневной свет и воздух</small></div></li>
+          <li><i class="spr" data-sprite="bag"></i><div><b>Кресла-мешки</b><small>Отдохнуть между партиями</small></div></li>
+          <li><i class="spr" data-sprite="drop"></i><div><b>Кулер с водой</b><small>Свою бутылку можно не брать</small></div></li>
+          <li><i class="spr" data-sprite="people"></i><div><b>До 4 игроков</b><small>Одиночка, пара или двое на двое</small></div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LEVEL 3: магазин улучшений ===== -->
+<div class="edge" style="--to:var(--navy)" aria-hidden="true"></div>
+<section class="lvl lvl--navy" id="shop" aria-labelledby="h-shop">
+  <div class="wrap">
+    <div class="lvl__head rv">
+      <span class="tag">Level 3 <small>/ shop</small></span>
+      <h2 id="h-shop" data-type>Магазин улучшений</h2>
+      <p class="lead">Платите только за время на столе. Всё остальное — бонусы, которые можно подключить.</p>
+    </div>
+
+    <div class="shop">
+      <article class="item rv d1">
+        <div class="item__top"><span class="item__lbl">Слот · будни</span><i class="spr" data-sprite="sun"></i></div>
+        <h3>Дневная игра</h3>
+        <p>Пн–Пт, 10:00–16:00. Самое спокойное время.</p>
+        <div class="price"><i class="coinico"></i>300 ₽<small>/ час</small></div>
+      </article>
+      <article class="item item--hot rv d2">
+        <div class="item__top"><span class="item__lbl">Слот · будни</span><i class="spr" data-sprite="moon"></i></div>
+        <h3>Вечерняя игра</h3>
+        <p>Пн–Пт, 16:00–20:30. После работы или учёбы.</p>
+        <div class="price"><i class="coinico"></i>400 ₽<small>/ час</small></div>
+      </article>
+      <article class="item rv d3">
+        <div class="item__top"><span class="item__lbl">Слот · выходные</span><i class="spr" data-sprite="star"></i></div>
+        <h3>Выходной день</h3>
+        <p>Сб–Вс, 10:00–20:30. Лучше бронировать заранее.</p>
+        <div class="price"><i class="coinico"></i>400 ₽<small>/ час</small></div>
+      </article>
+    </div>
+
+    <h3 class="shop__h rv">Power-ups</h3>
+    <div class="shop">
+      <article class="item rv d1">
+        <div class="item__top"><span class="item__lbl">Предмет</span><i class="spr" data-sprite="racket"></i></div>
+        <h3>PRO-ракетка</h3>
+        <p>Профессиональная ракетка вместо стандартной. Обычные ракетки и мячи — бесплатно.</p>
+        <div class="price"><i class="coinico"></i>+100 ₽<small>/ час</small></div>
+      </article>
+      <article class="item rv d2">
+        <div class="item__top"><span class="item__lbl">Абонемент</span><i class="spr" data-sprite="clock"></i></div>
+        <h3>5 часов</h3>
+        <p>Для тех, кто играет регулярно. Выходит 360 ₽ за час.</p>
+        <div class="price"><i class="coinico"></i>1 800 ₽</div>
+      </article>
+      <article class="item item--hot rv d3">
+        <div class="item__top"><span class="item__lbl">Абонемент · выгодно</span><i class="spr" data-sprite="trophy"></i></div>
+        <h3>10 часов</h3>
+        <p>Максимальная прокачка: 330 ₽ за час игры.</p>
+        <div class="price"><i class="coinico"></i>3 300 ₽</div>
+      </article>
+      <article class="item rv d1">
+        <div class="item__top"><span class="item__lbl">Событие</span><i class="spr" data-sprite="cake"></i></div>
+        <h3>День рождения</h3>
+        <p>2 часа игры + мини-турнир с сеткой и грамотами для гостей.</p>
+        <div class="price"><i class="coinico"></i>от 1 500 ₽<small>+ аренда</small></div>
+      </article>
+      <article class="item rv d2">
+        <div class="item__top"><span class="item__lbl">Событие</span><i class="spr" data-sprite="people"></i></div>
+        <h3>Корпоративный турнир</h3>
+        <p>Командный формат для коллег: сетка, финал, награждение. Также по записи — робот-подающий и тренер.</p>
+        <div class="price" style="font-size:16px">по запросу</div>
+      </article>
+      <article class="item secret rv d3" id="secretItem">
+        <div class="item__top"><span class="item__lbl">Секретный бонус</span><i class="spr" data-sprite="key"></i></div>
+        <h3>Промокод на скидку</h3>
+        <p>Выдаётся только тем, кто обыграл компьютер в Pong на этой странице.</p>
+        <div class="lock" id="secretLock">[ LOCKED ] <a href="#game">Сыграть ↑</a></div>
+        <div class="promo" id="secretCode" hidden><code>PONG10</code><button type="button" data-act="copycode">Копировать</button></div>
+      </article>
+    </div>
+    <p class="shop__note rv">Цены уточняются. Оплата онлайн при бронировании.</p>
+  </div>
+</section>
+
+<!-- ===== BOSS ===== -->
+<div class="edge" style="--to:#150a12" aria-hidden="true"></div>
+<section class="lvl boss" id="boss" aria-labelledby="h-boss">
+  <div class="boss__bg" aria-hidden="true"></div>
+  <div class="wrap boss__grid">
+    <div>
+      <div class="lvl__head rv" style="margin-bottom:0">
+        <span class="tag tag--boss">Boss level</span>
+        <h2 id="h-boss" data-type>Турнир выходного дня</h2>
+        <p class="lead">Живой соперник сложнее компьютера. Приходите в выходные сразиться с другими игроками Ping Point.</p>
+      </div>
+      <!-- формат, даты и призы турнира уточнить перед публикацией -->
+      <div class="hp rv" id="hp">
+        <div class="hp__lbl"><span>Boss HP</span><b>Сможете добить?</b></div>
+        <div class="hp__bar"><i></i></div>
+      </div>
+      <ul class="fmt rv">
+        <li><i class="spr" data-sprite="people"></i><div><b>Сетка игроков</b>Партии на выбывание до финала — всё на одном столе.</div></li>
+        <li><i class="spr" data-sprite="trophy"></i><div><b>Финал и грамоты</b>Победителя знает весь Ping Point.</div></li>
+        <li><i class="spr" data-sprite="bell"></i><div><b>Анонсы и запись</b>Даты и условия публикуем в Telegram и VK.</div></li>
+      </ul>
+      <div class="hero__cta rv">
+        <a class="btn btn--red" href="https://t.me/PingP32" target="_blank" rel="noopener" data-goal="tg_click">Записаться в Telegram</a>
+        <a class="btn btn--ghost" href="https://vk.com/pingp32" target="_blank" rel="noopener" data-goal="vk_click">VK</a>
+      </div>
+    </div>
+
+    <!-- таблица рекордов: демо-данные, заменить реальными -->
+    <div class="board rv d2" id="scores">
+      <h3>High scores · неделя</h3>
+      <p class="board__sub">Очки за игру в Pong на сайте</p>
+      <table class="lb"><tbody id="lbBody"></tbody></table>
+      <div class="board__me">
+        <label for="lbName">Ваш тег <input id="lbName" maxlength="3" autocomplete="off" spellcheck="false" value="YOU"></label>
+        <a class="tbtn" href="#game">Побить рекорд ↑</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LEVEL 4 ===== -->
+<div class="edge" style="--to:var(--ink2)" aria-hidden="true"></div>
+<section class="lvl lvl--ink2" id="find" aria-labelledby="h-find">
+  <div class="wrap">
+    <div class="lvl__head rv">
+      <span class="tag">Level 4 <small>/ world map</small></span>
+      <h2 id="h-find" data-type>Как нас найти</h2>
+    </div>
+    <div class="find">
+      <div class="rv">
+        <p class="addr">Брянск, ул. Красноармейская, 100<br>ТРЦ «Мельница»<!-- уточнить этаж --></p>
+        <p>Рядом кинотеатр и детский центр «Рай Парк» — удобно совместить с игрой.</p>
+        <ol class="route">
+          <li><i class="spr" data-sprite="car"></i><div><b>Приезжайте</b><span>Парковка торгового центра на 350 мест.</span></div></li>
+          <li><i class="spr" data-sprite="door"></i><div><b>Найдите Ping Point в ТРЦ «Мельница»</b><span>Отдельная комната с теннисным столом.</span></div></li>
+          <li><i class="spr" data-sprite="qr"></i><div><b>Введите код на входе</b><span>Код или QR придёт после оплаты брони.</span></div></li>
+        </ol>
+        <div class="hours">
+          <div>Ежедневно<b>10:00–20:30</b></div>
+          <div>Телефон<b><a href="tel:+79036447653" data-goal="phone_click" style="text-decoration:none">+7 903 644-76-53</a></b></div>
+        </div>
+      </div>
+      <div class="map rv d2">
+        <div class="map__ph">Загружаем карту…</div>
+        <iframe id="ymap" title="Ping Point на Яндекс Картах" data-src="https://yandex.ru/map-widget/v1/?text=Брянск%2C%20Красноармейская%20100&amp;z=16" loading="lazy" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Правила ===== -->
+<div class="edge" style="--to:var(--navy)" aria-hidden="true"></div>
+<section class="lvl lvl--navy" id="rules" aria-labelledby="h-rules">
+  <div class="wrap">
+    <div class="lvl__head rv">
+      <span class="tag">Rules <small>/ fair play</small></span>
+      <h2 id="h-rules" data-type>Правила игры</h2>
+    </div>
+    <ul class="rules">
+      <li class="rv d1"><i class="spr" data-sprite="clock"></i><div><b>Бронь за 1 час</b>Минимум за час до начала.</div></li>
+      <li class="rv d2"><i class="spr" data-sprite="coin"></i><div><b>Отмена за 3 часа</b>Возвращаем 100% оплаты.</div></li>
+      <li class="rv d3"><i class="spr" data-sprite="people"></i><div><b>Дети до 14 лет</b>Только вместе со взрослым.</div></li>
+      <li class="rv d4"><i class="spr" data-sprite="shoe"></i><div><b>Сменная обувь</b>Чистая, не скользящая.</div></li>
+      <li class="rv d4"><i class="spr" data-sprite="ban"></i><div><b>Без еды и алкоголя</b>Вода из кулера — пожалуйста.</div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<div class="edge" style="--to:var(--ink)" aria-hidden="true"></div>
+<section class="lvl lvl--ink" id="faq" aria-labelledby="h-faq">
+  <div class="wrap">
+    <div class="lvl__head rv">
+      <span class="tag">Help <small>/ FAQ</small></span>
+      <h2 id="h-faq" data-type>Частые вопросы</h2>
+    </div>
+    <div class="faq rv">
+      <details><summary>Как попасть в комнату без администратора?</summary><div class="a"><p>После онлайн-оплаты вы получаете код или QR. Он открывает дверь на время вашей брони.</p></div></details>
+      <details><summary>Нужно ли брать свои ракетки и мячи?</summary><div class="a"><p>Нет, ракетки и мячи выдаются бесплатно. Если хотите профессиональную ракетку — это +100 ₽ в час.</p></div></details>
+      <details><summary>Сколько человек могут играть?</summary><div class="a"><p>До 4 человек на стол: можно играть один на один, по очереди или двое на двое.</p></div></details>
+      <details><summary>Можно ли отменить бронь?</summary><div class="a"><p>Да. При отмене не позднее чем за 3 часа до начала мы вернём 100% оплаты.</p></div></details>
+      <details><summary>Можно ли прийти с детьми?</summary><div class="a"><p>Конечно. Дети до 14 лет играют только вместе со взрослым.</p></div></details>
+      <details><summary>Как работает промокод из игры?</summary><div class="a"><p>Обыграйте компьютер в Pong на этой странице (первый до 5 очков), получите код и введите его при онлайн-бронировании. Условия акции уточняйте по телефону или в Telegram.</p></div></details>
+      <details><summary>Где парковаться?</summary><div class="a"><p>У ТРЦ «Мельница» есть парковка на 350 мест.</p></div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTINUE? ===== -->
+<div class="edge" style="--to:var(--ink)" aria-hidden="true"></div>
+<section class="cont" aria-labelledby="h-cont">
+  <div class="wrap">
+    <h2 class="cont__t" id="h-cont">CONTINUE?</h2>
+    <div class="cont__n" id="contN" aria-hidden="true">9</div>
+    <p>Хватит тренироваться на компьютере — живой стол ждёт в ТРЦ «Мельница».</p>
+    <div class="hero__cta">
+      <a class="btn" href="https://pingpongroom.ru/embed/booking?header=0&amp;footer=0" target="_blank" rel="noopener" data-book data-goal="booking_click">
+        <span class="coin"><span class="blink">INSERT COIN</span> ▶ Забронировать</span>
+      </a>
+      <a class="btn btn--ghost" href="https://t.me/PingP32" target="_blank" rel="noopener" data-goal="tg_click">Telegram</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="ftr">
+  <div class="wrap">
+    <div class="ftr__grid">
+      <div>
+        <a class="brand" href="#top"><img src="../img/logo.jpg" alt="Ping Point" width="52" height="52" loading="lazy"><b>PING POINT<span>Брянск</span></b></a>
+        <p style="margin:18px 0 0">Комната настольного тенниса. Бронь и оплата онлайн, вход по коду.</p>
+      </div>
+      <div>
+        <h4>Контакты</h4>
+        <ul>
+          <li><a href="tel:+79036447653" data-goal="phone_click">+7 903 644-76-53</a></li>
+          <li><a href="mailto:pingp-inf@bk.ru" data-goal="email_click">pingp-inf@bk.ru</a></li>
+          <li><a href="https://t.me/PingP32" target="_blank" rel="noopener" data-goal="tg_click">Telegram: @PingP32</a></li>
+          <li><a href="https://vk.com/pingp32" target="_blank" rel="noopener" data-goal="vk_click">VK: pingp32</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Адрес</h4>
+        <ul>
+          <li>Брянск, ул. Красноармейская, 100</li>
+          <li>ТРЦ «Мельница»<!-- уточнить этаж --></li>
+          <li>Ежедневно 10:00–20:30</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Реквизиты</h4>
+        <ul>
+          <li>ИП Исаков Игорь Константинович</li>
+          <li>ИНН 323407837462</li>
+          <li>ОГРНИП 325320000017817</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ftr__legal">
+      <span>© <span id="yr">2026</span> Ping Point</span>
+      <div><a href="#">Политика конфиденциальности</a><a href="#">Пользовательское соглашение</a><a href="#">Публичная оферта</a></div>
+    </div>
+  </div>
+</footer>
+
+<div class="mbar">
+  <a class="btn" href="https://pingpongroom.ru/embed/booking?header=0&amp;footer=0" target="_blank" rel="noopener" data-book data-goal="booking_click">
+    <span class="coin"><span class="blink">INSERT COIN</span> ▶ Бронь</span>
+  </a>
+  <a class="btn btn--ghost" href="tel:+79036447653" data-goal="phone_click" aria-label="Позвонить">☎</a>
+</div>
+
+<div class="modal" id="bookModal" role="dialog" aria-modal="true" aria-labelledby="bookTitle" hidden>
+  <div class="modal__box">
+    <div class="modal__bar">
+      <span id="bookTitle">Бронирование · Ping Point</span>
+      <a href="https://pingpongroom.ru/embed/booking?header=0&amp;footer=0" target="_blank" rel="noopener">Открыть в новой вкладке</a>
+      <button class="x" type="button" data-act="close" aria-label="Закрыть">×</button>
+    </div>
+    <div class="modal__promo" id="modalPromo" hidden>Ваш промокод: <code>PONG10</code> — введите его при оплате.</div>
+    <iframe id="bookFrame" title="Онлайн-бронирование Ping Point"></iframe>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script>
+(function(){
+  'use strict';
+
+  var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  var BOOK_URL = 'https://pingpongroom.ru/embed/booking?header=0&footer=0';
+  // Промокод для победителей. Его нужно завести в системе бронирования pingpongroom.ru.
+  var PROMO = 'PONG10';
+  var $ = function(id){ return document.getElementById(id); };
+
+  function goal(name){ try { if (window.ym) window.ym(104197137, 'reachGoal', name); } catch(e){} }
+
+  var store = {
+    get: function(k, d){ try { var v = localStorage.getItem(k); return v === null ? d : v; } catch(e){ return d; } },
+    set: function(k, v){ try { localStorage.setItem(k, String(v)); } catch(e){} }
+  };
+
+  /* ---------- Тост ---------- */
+  var toastT = 0;
+  function toast(msg){
+    var t = $('toast'); t.textContent = msg; t.hidden = false;
+    clearTimeout(toastT); toastT = setTimeout(function(){ t.hidden = true; }, 2600);
+  }
+
+  /* ---------- Копирование ---------- */
+  function copy(text, msg){
+    function fallback(){
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      var ok = false; try { ok = document.execCommand('copy'); } catch(e){}
+      document.body.removeChild(ta);
+      toast(ok ? msg : 'Скопируйте вручную: ' + text);
+    }
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(function(){ toast(msg); }, fallback);
+    } else fallback();
+  }
+
+  /* ---------- Пиксельные иконки ---------- */
+  var SPR = {
+    racket:['..XXX...','.XXXXX..','.XXXXX..','.XXXXX..','..XXX...','...X....','...X....','...X....'],
+    clock: ['..XXXX..','.X....X.','X..X...X','X..XX..X','X......X','.X....X.','..XXXX..','........'],
+    card:  ['........','XXXXXXXX','X......X','XXXXXXXX','X......X','X.XX...X','XXXXXXXX','........'],
+    qr:    ['XXX.X.XX','X.X..X.X','XXX.XXXX','....X...','X.XX.XXX','.X..X.X.','XX.XXX.X','X.X.X.XX'],
+    table: ['........','........','XXXXXXXX','XXXXXXXX','.X....X.','.X....X.','.X....X.','........'],
+    bulb:  ['..XXXX..','.XXXXXX.','.XXXXXX.','.XXXXXX.','..XXXX..','..X..X..','..XXXX..','...XX...'],
+    window:['XXXXXXXX','X..X...X','X..X...X','XXXXXXXX','X..X...X','X..X...X','XXXXXXXX','........'],
+    bag:   ['........','...XX...','..XXXX..','.XXXXXX.','XXXXXXXX','XXXXXXXX','.XXXXXX.','........'],
+    drop:  ['...X....','...X....','..XXX...','.XXXXX..','.XXXXX..','.XXXXX..','..XXX...','........'],
+    people:['.XX..XX.','.XX..XX.','........','XXXXXXXX','XXXXXXXX','XX.XX.XX','XX.XX.XX','........'],
+    sun:   ['X..X..X.','.X.X.X..','..XXX...','XXXXXXX.','..XXX...','.X.X.X..','X..X..X.','........'],
+    moon:  ['..XXX...','.XX.....','XX......','XX......','XX......','.XX.....','..XXX...','........'],
+    star:  ['...XX...','...XX...','XXXXXXXX','.XXXXXX.','..XXXX..','.XX..XX.','XX....XX','........'],
+    trophy:['XXXXXXXX','XXXXXXXX','.XXXXXX.','..XXXX..','...XX...','...XX...','..XXXX..','.XXXXXX.'],
+    cake:  ['.X.X.X..','.X.X.X..','XXXXXXX.','X.X.X.X.','XXXXXXX.','XXXXXXX.','........','........'],
+    key:   ['.XXX....','X...X...','X...XXXX','X...X.X.','.XXX..X.','........','........','........'],
+    bell:  ['...XX...','..XXXX..','.XXXXXX.','.XXXXXX.','.XXXXXX.','XXXXXXXX','...XX...','........'],
+    car:   ['........','..XXXX..','.X.XX.X.','XXXXXXXX','XXXXXXXX','.XX..XX.','........','........'],
+    door:  ['.XXXXXX.','.X....X.','.X....X.','.X...XX.','.X....X.','.X....X.','.XXXXXX.','XXXXXXXX'],
+    coin:  ['..XXXX..','.XXXXXX.','XXX..XXX','XXX.XXXX','XXX.XXXX','XXX..XXX','.XXXXXX.','..XXXX..'],
+    shoe:  ['........','XXX.....','XXX.....','XXXXX...','XXXXXXX.','XXXXXXXX','XXXXXXXX','........'],
+    ban:   ['..XXXX..','.X....X.','X....XXX','X...X..X','X..X...X','XXX....X','.X....X.','..XXXX..']
+  };
+  Array.prototype.forEach.call(document.querySelectorAll('[data-sprite]'), function(el){
+    var p = SPR[el.getAttribute('data-sprite')]; if (!p) return;
+    var r = '';
+    for (var y = 0; y < p.length; y++) for (var x = 0; x < p[y].length; x++) if (p[y][x] === 'X') r += '<rect x="' + x + '" y="' + y + '" width="1" height="1"/>';
+    el.innerHTML = '<svg viewBox="0 0 8 8" shape-rendering="crispEdges" fill="currentColor" aria-hidden="true">' + r + '</svg>';
+  });
+
+  /* ---------- Цели аналитики ---------- */
+  document.addEventListener('click', function(e){
+    var a = e.target.closest ? e.target.closest('[data-goal]') : null;
+    if (a && !a.hasAttribute('data-book')) goal(a.getAttribute('data-goal'));
+  });
+
+  /* ---------- Модальное окно брони ---------- */
+  var modal = $('bookModal'), frame = $('bookFrame'), lastFocus = null;
+  function openBook(g){
+    goal('booking_click'); if (g && g !== 'booking_click') goal(g);
+    lastFocus = document.activeElement;
+    if (!frame.getAttribute('src')) frame.setAttribute('src', BOOK_URL);
+    $('modalPromo').hidden = store.get('pp_promo', '0') !== '1';
+    modal.hidden = false; document.documentElement.style.overflow = 'hidden';
+    if (game.mode === 'play') pauseGame();
+    modal.querySelector('.x').focus();
+  }
+  function closeBook(){
+    modal.hidden = true; document.documentElement.style.overflow = '';
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  document.addEventListener('click', function(e){
+    var b = e.target.closest ? e.target.closest('[data-book]') : null;
+    if (b) { e.preventDefault(); openBook(b.getAttribute('data-goal')); }
+  });
+  modal.addEventListener('click', function(e){ if (e.target === modal) closeBook(); });
+
+  /* ---------- Появление при прокрутке ---------- */
+  var rvs = document.querySelectorAll('.rv, .hp');
+  if ('IntersectionObserver' in window && !RM) {
+    var io = new IntersectionObserver(function(ents){
+      ents.forEach(function(en){ if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
+    Array.prototype.forEach.call(rvs, function(el){ io.observe(el); });
+  } else {
+    Array.prototype.forEach.call(rvs, function(el){ el.classList.add('in'); });
+  }
+
+  /* ---------- Печатающийся текст ---------- */
+  function typeIt(el, text, speed, withCaret){
+    el.setAttribute('aria-label', text);
+    var i = 0, caret = document.createElement('span'); caret.className = 'caret'; caret.setAttribute('aria-hidden', 'true');
+    var node = document.createTextNode('');
+    el.textContent = ''; el.appendChild(node); if (withCaret) el.appendChild(caret);
+    (function step(){
+      i++; node.nodeValue = text.slice(0, i);
+      if (i < text.length) setTimeout(step, speed + (text[i] === ' ' ? speed : 0));
+      else if (!withCaret) caret.remove();
+    })();
+  }
+  if (!RM) {
+    var typed = $('typed');
+    typed.setAttribute('aria-label', typed.getAttribute('data-text'));
+    typed.textContent = '';
+    setTimeout(function(){ typeIt(typed, typed.getAttribute('data-text'), 34, true); }, 350);
+    var heads = document.querySelectorAll('[data-type]');
+    if ('IntersectionObserver' in window) {
+      Array.prototype.forEach.call(heads, function(h){
+        h.setAttribute('data-full', h.textContent); h.setAttribute('aria-label', h.textContent);
+        h.style.minHeight = h.offsetHeight + 'px';
+        h.textContent = '';
+      });
+      var tio = new IntersectionObserver(function(ents){
+        ents.forEach(function(en){
+          if (!en.isIntersecting) return;
+          tio.unobserve(en.target);
+          var t = en.target.getAttribute('data-full');
+          setTimeout(function(){ typeIt(en.target, t, 45, false); }, 250);
+          setTimeout(function(){ en.target.style.minHeight = ''; }, 250 + t.length * 90 + 200);
+        });
+      }, { threshold: 0.1 });
+      Array.prototype.forEach.call(heads, function(h){ tio.observe(h); });
+    }
+  }
+
+  /* ---------- Пиксельное «проявление» фото комнаты ---------- */
+  var mos = $('mosaic');
+  if (mos && !RM && 'IntersectionObserver' in window) {
+    var cells = '';
+    for (var c = 0; c < 108; c++) cells += '<i style="transition-delay:' + (Math.random() * 0.9).toFixed(2) + 's"></i>';
+    mos.innerHTML = cells;
+    var mio = new IntersectionObserver(function(ents){
+      if (ents[0].isIntersecting) { mos.classList.add('go'); mio.disconnect(); setTimeout(function(){ mos.hidden = true; }, 1400); }
+    }, { threshold: 0.35 });
+    mio.observe(mos);
+  } else if (mos) mos.hidden = true;
+
+  /* ---------- Ленивая карта ---------- */
+  var ymap = $('ymap');
+  function loadMap(){ if (!ymap.getAttribute('src')) ymap.setAttribute('src', ymap.getAttribute('data-src')); }
+  if ('IntersectionObserver' in window) {
+    var mapIO = new IntersectionObserver(function(ents){ if (ents[0].isIntersecting) { loadMap(); mapIO.disconnect(); } }, { rootMargin: '300px' });
+    mapIO.observe(ymap);
+  } else loadMap();
+
+  /* ---------- CONTINUE? 9..0 ---------- */
+  var contN = $('contN');
+  if (!RM && 'IntersectionObserver' in window) {
+    var cn = 9, cT = 0;
+    var cio = new IntersectionObserver(function(ents){
+      if (ents[0].isIntersecting) {
+        if (!cT) cT = setInterval(function(){ cn = cn <= 0 ? 9 : cn - 1; contN.textContent = cn; }, 1000);
+      } else { clearInterval(cT); cT = 0; }
+    });
+    cio.observe(contN);
+  }
+
+  $('yr').textContent = new Date().getFullYear();
+
+  /* =====================================================
+     ИГРА PONG
+     Логика в координатах поля: u — поперёк (вдоль ракетки), v — вдоль (от компьютера к игроку).
+     Горизонтально (десктоп): игрок слева. Вертикально (узкий экран): игрок внизу.
+     ===================================================== */
+  var cv = $('pong'), ctx = cv.getContext('2d'), scr = $('screen');
+  var L = 640, W = 440, PAD = 84, PT = 12, R = 7, PV = 26, WIN = 5;
+  var game = { mode: 'idle', vert: false };
+  var ball = { u: W / 2, v: L / 2, vu: 0, vv: 0, sp: 0 };
+  var pl = { u: W / 2, t: W / 2 }, ai = { u: W / 2, err: 0 };
+  var sc = { p: 0, a: 0, pts: 0, rally: 0 };
+  var keys = { m: 0, p: 0 };
+  var trail = [], parts = [], shake = 0, serveT = 0, last = 0, raf = 0, flash = 0;
+  var hi = parseInt(store.get('pp_hi', '0'), 10) || 0;
+
+  var COL = { bg: '#0c0e20', line: 'rgba(244,235,221,.22)', pl: '#F4EBDD', ai: '#E4483F', ball: '#F5A623', score: 'rgba(244,235,221,.16)' };
+
+  function clamp(x, a, b){ return x < a ? a : x > b ? b : x; }
+  function pad6(n){ n = String(Math.max(0, Math.floor(n))); while (n.length < 6) n = '0' + n; return n; }
+
+  function resize(){
+    var w = scr.clientWidth;
+    game.vert = w < 560;
+    var lw = game.vert ? W : L, lh = game.vert ? L : W;
+    var cssW = w, cssH = Math.round(w * lh / lw);
+    var maxH = Math.max(300, window.innerHeight * 0.52);
+    if (game.vert && cssH > maxH) { cssH = Math.round(maxH); cssW = Math.round(cssH * lw / lh); }
+    cv.style.width = cssW + 'px'; cv.style.height = cssH + 'px';
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    cv.width = Math.round(cssW * dpr); cv.height = Math.round(cssH * dpr);
+    var s = cssW / lw;
+    ctx.setTransform(dpr * s, 0, 0, dpr * s, 0, 0);
+    ctx.imageSmoothingEnabled = false;
+    draw();
+  }
+
+  // Прямоугольник в координатах поля (центр u,v; полуразмеры du,dv)
+  function box(u, v, du, dv, col){
+    ctx.fillStyle = col;
+    if (game.vert) ctx.fillRect(u - du, v - dv, du * 2, dv * 2);
+    else ctx.fillRect(L - v - dv, u - du, dv * 2, du * 2);
+  }
+  function text(str, u, v, size, col){
+    ctx.fillStyle = col; ctx.font = size + 'px "Press Start 2P", "Courier New", monospace';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    if (game.vert) ctx.fillText(str, u, v); else ctx.fillText(str, L - v, u);
+  }
+
+  function draw(){
+    var lw = game.vert ? W : L, lh = game.vert ? L : W;
+    ctx.save();
+    if (shake > 0 && !RM) ctx.translate((Math.random() - 0.5) * shake, (Math.random() - 0.5) * shake);
+    ctx.fillStyle = COL.bg; ctx.fillRect(-20, -20, lw + 40, lh + 40);
+    if (flash > 0 && !RM) { ctx.fillStyle = 'rgba(245,166,35,' + (flash * 0.12).toFixed(3) + ')'; ctx.fillRect(0, 0, lw, lh); }
+    // сетка по центру
+    for (var u = 8; u < W; u += 24) box(u + 5, L / 2, 5, 3, COL.line);
+    // счёт
+    if (game.vert) {
+      text(String(sc.a), W - 40, L / 2 - 56, 34, COL.score);
+      text(String(sc.p), W - 40, L / 2 + 56, 34, COL.score);
+    } else {
+      text(String(sc.p), 70, L / 2 + 90, 44, COL.score);
+      text(String(sc.a), 70, L / 2 - 90, 44, COL.score);
+    }
+    // шлейф мяча
+    if (!RM) for (var i = 0; i < trail.length; i++) {
+      var t = trail[i], k = (i + 1) / (trail.length + 1);
+      box(t.u, t.v, R * k, R * k, 'rgba(245,166,35,' + (k * 0.35).toFixed(3) + ')');
+    }
+    // ракетки
+    box(pl.u, L - PV, PAD / 2, PT / 2, COL.pl);
+    box(ai.u, PV, PAD / 2, PT / 2, COL.ai);
+    // мяч (мигает перед подачей)
+    if (game.mode !== 'idle' && !(serveT > 0 && Math.floor(serveT / 8) % 2 === 1)) {
+      if (!RM) { ctx.shadowColor = COL.ball; ctx.shadowBlur = 14; }
+      box(ball.u, ball.v, R, R, COL.ball);
+      ctx.shadowBlur = 0;
+    }
+    // искры
+    for (var j = 0; j < parts.length; j++) {
+      var p = parts[j]; box(p.u, p.v, 2.5, 2.5, 'rgba(' + p.c + ',' + Math.max(0, p.life / 30).toFixed(3) + ')');
+    }
+    ctx.restore();
+  }
+
+  function speedLvl(){ return Math.max(1, 1 + Math.floor((ball.sp - 5) / 1.4)); }
+  function hud(){
+    $('hudScore').textContent = pad6(sc.pts);
+    $('hudHi').textContent = pad6(Math.max(hi, sc.pts));
+    $('hudSpd').textContent = 'x' + (game.mode === 'idle' ? 1 : speedLvl());
+  }
+
+  function serve(dir){
+    ball.u = W / 2; ball.v = L / 2;
+    ball.sp = Math.min(5.2 + 0.35 * (sc.p + sc.a), 9);
+    var ang = (Math.random() * 2 - 1) * 0.5;
+    ball.vu = ball.sp * Math.sin(ang); ball.vv = dir * ball.sp * Math.cos(ang);
+    serveT = 48; trail.length = 0; ai.err = 0;
+  }
+
+  function burst(u, v, c){
+    if (RM) return;
+    for (var i = 0; i < 10; i++) parts.push({ u: u, v: v, du: (Math.random() - 0.5) * 6, dv: (Math.random() - 0.5) * 6, life: 18 + Math.random() * 14, c: c });
+  }
+
+  function hit(isPlayer){
+    var pd = isPlayer ? pl : ai;
+    var rel = clamp((ball.u - pd.u) / (PAD / 2 + R), -1, 1);
+    var ang = rel * 1.05;
+    ball.sp = Math.min(ball.sp * 1.06, 15);
+    var dir = isPlayer ? -1 : 1;
+    ball.vu = ball.sp * Math.sin(ang); ball.vv = dir * ball.sp * Math.cos(ang);
+    ball.v = isPlayer ? (L - PV - PT / 2 - R) : (PV + PT / 2 + R);
+    sc.rally++;
+    if (isPlayer) {
+      sc.pts += 10 * speedLvl();
+      // промах компьютера: чем больше очков у игрока, тем точнее компьютер
+      ai.err = (Math.random() * 2 - 1) * PAD * (0.8 - 0.04 * sc.p);
+      sfx.hit(); burst(ball.u, ball.v, '244,235,221');
+    } else { sfx.ai(); burst(ball.u, ball.v, '228,72,63'); }
+  }
+
+  function point(byPlayer){
+    if (byPlayer) { sc.p++; sc.pts += 100; flash = 6; } else sc.a++;
+    sc.rally = 0; shake = 9;
+    if (sc.p >= WIN || sc.a >= WIN) { endGame(sc.p >= WIN); return; }
+    byPlayer ? sfx.score() : sfx.miss();
+    serve(byPlayer ? -1 : 1);
+  }
+
+  function update(dt){
+    // игрок
+    if (keys.m || keys.p) pl.t = pl.u + (keys.p - keys.m) * 10 * dt;
+    pl.t = clamp(pl.t, PAD / 2, W - PAD / 2);
+    pl.u += (pl.t - pl.u) * Math.min(1, 0.55 * dt);
+    // компьютер
+    var tgt = ball.vv < 0 ? ball.u + ai.err : W / 2 + (ball.u - W / 2) * 0.3;
+    var aiMax = Math.min(3.4 + 0.3 * (sc.p + sc.a) + 0.1 * sc.rally, 8.5) * dt;
+    ai.u = clamp(ai.u + clamp(tgt - ai.u, -aiMax, aiMax), PAD / 2, W - PAD / 2);
+
+    if (serveT > 0) { serveT -= dt; return; }
+
+    var n = Math.max(1, Math.ceil(Math.max(Math.abs(ball.vu), Math.abs(ball.vv)) * dt / (R * 0.8)));
+    for (var i = 0; i < n; i++) {
+      ball.u += ball.vu * dt / n; ball.v += ball.vv * dt / n;
+      if (ball.u < R) { ball.u = R; ball.vu = Math.abs(ball.vu); sfx.wall(); }
+      else if (ball.u > W - R) { ball.u = W - R; ball.vu = -Math.abs(ball.vu); sfx.wall(); }
+      var pf = L - PV - PT / 2, af = PV + PT / 2;
+      if (ball.vv > 0 && ball.v + R >= pf && ball.v - R <= L - PV + PT / 2 && Math.abs(ball.u - pl.u) <= PAD / 2 + R) hit(true);
+      else if (ball.vv < 0 && ball.v - R <= af && ball.v + R >= PV - PT / 2 && Math.abs(ball.u - ai.u) <= PAD / 2 + R) hit(false);
+      if (ball.v > L + R * 3) { point(false); return; }
+      if (ball.v < -R * 3) { point(true); return; }
+    }
+    if (!RM) { trail.push({ u: ball.u, v: ball.v }); if (trail.length > 8) trail.shift(); }
+  }
+
+  function fx(dt){
+    for (var i = parts.length - 1; i >= 0; i--) {
+      var p = parts[i]; p.u += p.du * dt; p.v += p.dv * dt; p.life -= dt;
+      if (p.life <= 0) parts.splice(i, 1);
+    }
+    if (shake > 0) shake = Math.max(0, shake - 0.6 * dt);
+    if (flash > 0) flash = Math.max(0, flash - 0.4 * dt);
+  }
+
+  function loop(t){
+    raf = 0;
+    var dt = last ? Math.min((t - last) / 16.667, 3) : 1; last = t;
+    if (game.mode === 'play') update(dt);
+    fx(dt); draw(); hud();
+    if (game.mode === 'play' || parts.length || shake > 0 || flash > 0) raf = requestAnimationFrame(loop);
+    else last = 0;
+  }
+  function kick(){ if (!raf) { last = 0; raf = requestAnimationFrame(loop); } }
+
+  /* Экраны поверх игры */
+  var OV = ['ovStart', 'ovPause', 'ovWin', 'ovLose'];
+  function show(id){ OV.forEach(function(o){ $(o).hidden = o !== id; }); }
+
+  function startGame(){
+    audio();
+    sc.p = 0; sc.a = 0; sc.pts = 0; sc.rally = 0;
+    pl.u = pl.t = W / 2; ai.u = W / 2; parts.length = 0;
+    game.mode = 'play'; show(null); scr.classList.add('playing');
+    serve(1); sfx.start(); kick();
+    goal('game_start');
+  }
+  function pauseGame(){
+    if (game.mode !== 'play') return;
+    game.mode = 'pause'; show('ovPause'); scr.classList.remove('playing'); draw();
+  }
+  function resumeGame(){
+    if (game.mode !== 'pause') return;
+    audio(); game.mode = 'play'; show(null); scr.classList.add('playing'); kick();
+  }
+  function endGame(win){
+    game.mode = 'over'; scr.classList.remove('playing');
+    var score = sc.p + ' : ' + sc.a;
+    if (win) {
+      sc.pts += 500 + 100 * (WIN - sc.a);
+      store.set('pp_promo', '1');
+      store.set('pp_wins', (parseInt(store.get('pp_wins', '0'), 10) || 0) + 1);
+      $('winScore').textContent = score;
+      unlockSecret();
+      sfx.win(); goal('game_win');
+    } else {
+      $('loseScore').textContent = score;
+      sfx.lose(); goal('game_lose');
+    }
+    var rec = sc.pts > hi;
+    if (rec) { hi = sc.pts; store.set('pp_hi', hi); renderLB(); }
+    var ptsTxt = 'Очки: ' + sc.pts + (rec ? ' — новый рекорд!' : ' · рекорд: ' + hi);
+    $('winPts').textContent = ptsTxt; $('losePts').textContent = ptsTxt;
+    show(win ? 'ovWin' : 'ovLose');
+    lastWin = win; hud(); kick();
+  }
+  var lastWin = false;
+
+  /* Звук (WebAudio) */
+  var AC = null, soundOn = store.get('pp_snd', '1') === '1';
+  function audio(){
+    if (!soundOn) return;
+    if (!AC) { try { var C = window.AudioContext || window.webkitAudioContext; if (C) AC = new C(); } catch(e){} }
+    if (AC && AC.state === 'suspended') { try { AC.resume(); } catch(e){} }
+  }
+  function beep(f, d, vol, to, delay){
+    if (!soundOn || !AC) return;
+    try {
+      var t = AC.currentTime + (delay || 0), o = AC.createOscillator(), g = AC.createGain();
+      o.type = 'square'; o.frequency.setValueAtTime(f, t);
+      if (to) o.frequency.exponentialRampToValueAtTime(to, t + d);
+      g.gain.setValueAtTime(vol || 0.05, t); g.gain.exponentialRampToValueAtTime(0.0001, t + d);
+      o.connect(g); g.connect(AC.destination); o.start(t); o.stop(t + d + 0.03);
+    } catch(e){}
+  }
+  var sfx = {
+    hit:   function(){ beep(660, 0.06); },
+    ai:    function(){ beep(440, 0.06); },
+    wall:  function(){ beep(250, 0.04, 0.035); },
+    score: function(){ beep(520, 0.09); beep(880, 0.14, 0.05, 0, 0.09); },
+    miss:  function(){ beep(300, 0.3, 0.05, 90); },
+    start: function(){ beep(392, 0.08, 0.04); beep(523, 0.08, 0.04, 0, 0.09); beep(659, 0.12, 0.04, 0, 0.18); },
+    win:   function(){ [523, 659, 784, 1046, 784, 1046].forEach(function(f, i){ beep(f, 0.12, 0.05, 0, i * 0.11); }); },
+    lose:  function(){ [392, 330, 262, 196].forEach(function(f, i){ beep(f, 0.18, 0.05, 0, i * 0.17); }); }
+  };
+  var sndBtn = $('sndBtn');
+  function syncSnd(){ sndBtn.setAttribute('aria-pressed', soundOn ? 'true' : 'false'); sndBtn.textContent = 'Звук: ' + (soundOn ? 'вкл' : 'выкл'); }
+  sndBtn.addEventListener('click', function(){ soundOn = !soundOn; store.set('pp_snd', soundOn ? '1' : '0'); syncSnd(); if (soundOn) { audio(); beep(660, 0.06); } });
+  syncSnd();
+
+  /* Управление */
+  function aim(e){
+    if (game.mode !== 'play') return;
+    var r = cv.getBoundingClientRect();
+    pl.t = game.vert ? (e.clientX - r.left) / r.width * W : (e.clientY - r.top) / r.height * W;
+    keys.m = keys.p = 0;
+  }
+  window.addEventListener('pointermove', function(e){ if (e.pointerType === 'mouse') aim(e); }, { passive: true });
+  scr.addEventListener('pointerdown', aim);
+  scr.addEventListener('pointermove', function(e){ if (e.pointerType !== 'mouse') aim(e); });
+  scr.addEventListener('touchmove', function(e){ if (game.mode === 'play') e.preventDefault(); }, { passive: false });
+
+  function gameInView(){ var r = scr.getBoundingClientRect(); return r.bottom > 0 && r.top < window.innerHeight; }
+  document.addEventListener('keydown', function(e){
+    if (!modal.hidden) { if (e.key === 'Escape') closeBook(); return; }
+    var tag = (e.target && e.target.tagName) || '';
+    if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+    var k = e.key;
+    if (game.mode === 'play') {
+      if (k === 'ArrowUp' || k === 'ArrowLeft' || k === 'w' || k === 'a') { keys.m = 1; e.preventDefault(); }
+      else if (k === 'ArrowDown' || k === 'ArrowRight' || k === 's' || k === 'd') { keys.p = 1; e.preventDefault(); }
+      else if (k === 'p' || k === 'з' || k === 'Escape' || k === ' ') { pauseGame(); e.preventDefault(); }
+    } else if (game.mode === 'pause' && (k === 'p' || k === 'з' || k === ' ')) { resumeGame(); e.preventDefault(); }
+  });
+  document.addEventListener('keyup', function(e){
+    var k = e.key;
+    if (k === 'ArrowUp' || k === 'ArrowLeft' || k === 'w' || k === 'a') keys.m = 0;
+    if (k === 'ArrowDown' || k === 'ArrowRight' || k === 's' || k === 'd') keys.p = 0;
+  });
+
+  // Кнопки игры и промокода
+  document.addEventListener('click', function(e){
+    var b = e.target.closest ? e.target.closest('[data-act]') : null; if (!b) return;
+    var act = b.getAttribute('data-act');
+    if (act === 'start') startGame();
+    else if (act === 'resume') resumeGame();
+    else if (act === 'pause') { game.mode === 'play' ? pauseGame() : resumeGame(); }
+    else if (act === 'close') closeBook();
+    else if (act === 'copycode') { copy(PROMO, 'Промокод ' + PROMO + ' скопирован'); goal('promo_copy'); }
+    else if (act === 'share') share();
+  });
+
+  // Пауза, когда игра не видна
+  document.addEventListener('visibilitychange', function(){ if (document.hidden) pauseGame(); });
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function(ents){ if (!ents[0].isIntersecting) pauseGame(); }, { threshold: 0.25 }).observe(scr);
+  }
+  var rT = 0;
+  window.addEventListener('resize', function(){ clearTimeout(rT); rT = setTimeout(resize, 120); });
+
+  /* Поделиться */
+  function share(){
+    goal('share_click');
+    var url = location.href.split('#')[0];
+    var txt = lastWin
+      ? 'Я обыграл компьютер ' + sc.p + ':' + sc.a + ' в Pong от Ping Point и набрал ' + sc.pts + ' очков! Сможешь лучше?'
+      : 'Мой счёт в Pong от Ping Point — ' + sc.pts + ' очков (рекорд ' + hi + '). Сможешь обыграть компьютер?';
+    if (navigator.share) {
+      navigator.share({ title: 'Ping Point · Pong', text: txt, url: url }).catch(function(){});
+    } else copy(txt + ' ' + url, 'Результат скопирован — вставьте в чат');
+  }
+
+  /* Таблица рекордов: демо-данные + рекорд игрока */
+  var DEMO = [['MAX', 4870], ['ИРА', 4210], ['KOT', 3650], ['LEX', 3120], ['ЮЛЯ', 2740], ['DED', 2100], ['АНЯ', 1580], ['ROM', 990]];
+  var nameIn = $('lbName');
+  nameIn.value = store.get('pp_name', 'YOU');
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function renderLB(){
+    var rows = DEMO.map(function(r){ return { n: r[0], s: r[1], me: false }; });
+    if (hi > 0) rows.push({ n: nameIn.value || 'YOU', s: hi, me: true });
+    rows.sort(function(a, b){ return b.s - a.s; });
+    var html = '', meIdx = -1;
+    rows.forEach(function(r, i){ if (r.me) meIdx = i; });
+    rows.forEach(function(r, i){
+      if (i < 8 || r.me) html += '<tr' + (r.me ? ' class="me"' : '') + '><td>' + (i + 1 < 10 ? '0' : '') + (i + 1) + '</td><td>' + esc(r.n) + '</td><td>' + pad6(r.s) + '</td></tr>';
+    });
+    if (meIdx === -1) html += '<tr class="me"><td>--</td><td>' + esc(nameIn.value || 'YOU') + '</td><td>??????</td></tr>';
+    $('lbBody').innerHTML = html;
+  }
+  nameIn.addEventListener('input', function(){
+    var v = nameIn.value.toUpperCase().replace(/[^A-ZА-ЯЁ0-9]/g, '').slice(0, 3);
+    if (v !== nameIn.value) nameIn.value = v;
+    store.set('pp_name', v || 'YOU'); renderLB();
+  });
+  renderLB();
+
+  /* Секретный бонус в магазине */
+  function unlockSecret(){ $('secretLock').hidden = true; $('secretCode').hidden = false; }
+  if (store.get('pp_promo', '0') === '1') unlockSecret();
+
+  resize(); hud();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ draw(); });
+})();
+</script>
+</body>
+</html>

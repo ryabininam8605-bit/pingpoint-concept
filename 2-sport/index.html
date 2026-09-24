@@ -1,0 +1,1740 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ping Point — настольный теннис в Брянске без очередей | ТРЦ «Мельница»</title>
+<meta name="description" content="Отдельная комната настольного тенниса в Брянске, ТРЦ «Мельница». Стол UNIX Line, до 4 игроков, онлайн-бронь и вход по коду. Ежедневно 10:00–20:30, от 300 ₽/час.">
+<meta name="theme-color" content="#232740">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Ping Point — твоя тренировка по настольному теннису">
+<meta property="og:description" content="Свой стол на час: без очередей и администратора. Брянск, ТРЦ «Мельница», от 300 ₽/час.">
+<meta property="og:image" content="../img/room.jpg">
+<meta property="og:site_name" content="Ping Point">
+<link rel="icon" href="../img/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SportsActivityLocation",
+  "name": "Ping Point",
+  "description": "Отдельная комната для настольного тенниса на 1 стол. Онлайн-бронь, вход по коду, до 4 игроков.",
+  "image": "../img/room.jpg",
+  "logo": "../img/logo.jpg",
+  "telephone": "+7 903 644-76-53",
+  "email": "pingp-inf@bk.ru",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "ул. Красноармейская, 100, ТРЦ «Мельница»",
+    "addressLocality": "Брянск",
+    "addressCountry": "RU"
+  },
+  "openingHoursSpecification": [{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+    "opens": "10:00",
+    "closes": "20:30"
+  }],
+  "priceRange": "300–400 ₽/час",
+  "currenciesAccepted": "RUB",
+  "sameAs": ["https://t.me/PingP32", "https://vk.com/pingp32"]
+}
+</script>
+
+<style>
+:root{
+  --ink:#232740;
+  --ink-2:#4a4f6a;
+  --ink-3:#7c8098;
+  --blue:#1F4E9C;
+  --blue-2:#2d63bd;
+  --blue-soft:#e8eef8;
+  --red:#7C0C0B;
+  --ball:#F5A623;
+  --bg:#F5F6F8;
+  --paper:#ffffff;
+  --line:#dfe2ea;
+  --line-2:#c9cedb;
+  --radius:4px;
+  --wrap:1280px;
+  --gut:clamp(16px,4vw,48px);
+  --f-head:"Inter Tight","Manrope",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --f-body:"Manrope","Inter Tight",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --ease:cubic-bezier(.22,.8,.24,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--f-body);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+img{max-width:100%;display:block}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+h1,h2,h3,h4{font-family:var(--f-head);margin:0;letter-spacing:-.02em;line-height:1.05;font-weight:700}
+p{margin:0}
+.wrap{max-width:var(--wrap);margin:0 auto;padding-inline:var(--gut)}
+.tnum{font-variant-numeric:tabular-nums}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:52px;padding:0 26px;border:1px solid transparent;border-radius:var(--radius);font:600 15px/1 var(--f-head);letter-spacing:.01em;text-decoration:none;transition:background .25s var(--ease),color .25s var(--ease),border-color .25s var(--ease),transform .25s var(--ease)}
+.btn:active{transform:translateY(1px)}
+.btn--primary{background:var(--blue);color:#fff}
+.btn--primary:hover{background:var(--ink)}
+.btn--ghost{border-color:var(--line-2);background:transparent}
+.btn--ghost:hover{border-color:var(--ink)}
+.btn--dark{background:var(--ink);color:#fff}
+.btn--dark:hover{background:var(--red)}
+.btn .arr{transition:transform .25s var(--ease)}
+.btn:hover .arr{transform:translateX(4px)}
+
+/* ---------- header ---------- */
+.hdr{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
+.hdr__in{display:flex;align-items:center;gap:28px;height:68px}
+.hdr__logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.hdr__logo img{height:44px;width:auto}
+.hdr__nav{display:flex;gap:26px;margin-left:auto}
+.hdr__nav a{font:500 14px/1 var(--f-head);text-decoration:none;color:var(--ink-2);position:relative;padding:6px 0}
+.hdr__nav a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--ink);transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease)}
+.hdr__nav a:hover{color:var(--ink)}
+.hdr__nav a:hover::after{transform:scaleX(1)}
+.hdr__tel{font:600 15px/1 var(--f-head);text-decoration:none;white-space:nowrap}
+.hdr .btn{height:42px;padding:0 18px;font-size:14px}
+.burger{display:none;margin-left:auto;width:44px;height:44px;border:1px solid var(--line);background:#fff;border-radius:var(--radius);position:relative}
+.burger span{position:absolute;left:12px;right:12px;height:2px;background:var(--ink);transition:transform .3s var(--ease),opacity .2s}
+.burger span:nth-child(1){top:15px}.burger span:nth-child(2){top:21px}.burger span:nth-child(3){top:27px}
+.burger[aria-expanded="true"] span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+.mnav{display:none}
+
+/* ---------- section scaffolding ---------- */
+.sec{padding-block:clamp(72px,10vw,140px);border-top:1px solid var(--line)}
+.sec--paper{background:var(--paper)}
+.sec__head{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;margin-bottom:clamp(40px,6vw,72px);align-items:end}
+.sec__idx{grid-column:span 3;font:500 13px/1.4 var(--f-head);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);display:flex;gap:12px;align-items:baseline}
+.sec__idx b{color:var(--red);font-weight:700}
+.sec__title{grid-column:span 6;font-size:clamp(34px,4.6vw,64px)}
+.sec__lead{grid-column:span 3;color:var(--ink-2);font-size:15px}
+.kicker{font:600 12px/1 var(--f-head);letter-spacing:.14em;text-transform:uppercase;color:var(--red)}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.is-in{opacity:1;transform:none}
+.reveal[data-d="1"]{transition-delay:.08s}.reveal[data-d="2"]{transition-delay:.16s}.reveal[data-d="3"]{transition-delay:.24s}
+
+/* ---------- hero ---------- */
+.hero{padding-block:clamp(40px,6vw,88px) clamp(56px,7vw,96px);background:
+  linear-gradient(var(--line) 1px,transparent 1px) 0 0/100% 80px,
+  var(--bg);background-blend-mode:normal;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,var(--bg) 0%,rgba(245,246,248,.4) 40%,var(--bg) 100%);pointer-events:none}
+.hero__grid{position:relative;display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:center}
+.hero__txt{grid-column:1/span 5}
+.hero__art{grid-column:6/span 7}
+.hero__meta{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:28px;font:500 13px/1 var(--f-head);color:var(--ink-3)}
+.hero__meta span{display:inline-flex;align-items:center;gap:8px}
+.dot{width:8px;height:8px;border-radius:50%;background:#1aa35a;box-shadow:0 0 0 4px rgba(26,163,90,.15)}
+.hero h1{font-size:clamp(46px,6.4vw,96px);letter-spacing:-.045em;line-height:.94;font-weight:800}
+.hero h1 em{font-style:normal;color:var(--blue)}
+.hero__lead{margin-top:26px;font-size:clamp(16px,1.3vw,19px);color:var(--ink-2);max-width:30em}
+.hero__cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+.stats{position:relative;display:grid;grid-template-columns:repeat(3,1fr);margin-top:clamp(48px,6vw,80px);border-top:2px solid var(--ink)}
+.stat{padding:22px 24px 0 0}
+.stat+.stat{padding-left:24px;border-left:1px solid var(--line-2)}
+.stat__num{font:800 clamp(44px,6vw,88px)/.9 var(--f-head);letter-spacing:-.05em;display:flex;align-items:baseline;gap:6px}
+.stat__num small{font-size:.34em;letter-spacing:-.01em;font-weight:600;color:var(--ink-3)}
+.stat__lbl{margin-top:10px;font-size:14px;color:var(--ink-2)}
+
+/* table svg */
+.tbl{width:100%;height:auto;overflow:visible}
+.tbl .surface{fill:var(--blue)}
+.tbl .edge{fill:none;stroke:#fff;stroke-width:4}
+.tbl .mid{fill:none;stroke:#fff;stroke-width:2}
+.tbl .net{stroke:var(--ink);stroke-width:5;stroke-linecap:round}
+.tbl .netpost{fill:var(--ink)}
+.tbl .draw{stroke-dasharray:var(--len);stroke-dashoffset:var(--len)}
+.tbl.is-on .draw{animation:draw 1.4s var(--ease) forwards}
+.tbl.is-on .draw.d2{animation-delay:.5s}
+.tbl.is-on .draw.d3{animation-delay:.9s}
+.tbl .fadein{opacity:0}
+.tbl.is-on .fadein{animation:fade .8s ease forwards;animation-delay:1.1s}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes fade{to{opacity:1}}
+.tbl .traj{fill:none;stroke:var(--ball);stroke-width:2.5;stroke-linecap:round;opacity:.95}
+.tbl .traj.old{stroke:#fff;opacity:.28;stroke-width:1.5;transition:opacity 1.2s}
+.tbl .bounce{fill:none;stroke:var(--ball);stroke-width:2}
+.tbl .ball{fill:var(--ball)}
+.tbl .ballshadow{fill:rgba(0,0,0,.25)}
+.tbl .lbl{font:600 11px var(--f-head);letter-spacing:.12em;fill:var(--ink-3);text-transform:uppercase}
+.tbl .dim{stroke:var(--ink-3);stroke-width:1}
+.art__cap{display:flex;justify-content:space-between;gap:16px;margin-top:14px;font:500 12px/1.4 var(--f-head);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.art__cap b{color:var(--ink)}
+
+/* ---------- how it works ---------- */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);border-top:2px solid var(--ink)}
+.step{padding:28px 24px 8px 0;position:relative}
+.step+.step{padding-left:24px;border-left:1px solid var(--line)}
+.step__n{font:800 72px/1 var(--f-head);letter-spacing:-.05em;color:var(--blue-soft);-webkit-text-stroke:1.5px var(--blue);color:transparent}
+.step h3{font-size:22px;margin:22px 0 10px}
+.step p{font-size:15px;color:var(--ink-2)}
+
+/* ---------- room ---------- */
+.room{display:grid;grid-template-columns:repeat(12,1fr);gap:24px}
+.room__photo{grid-column:1/span 8;position:relative;margin:0}
+.room__photo img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:var(--radius)}
+.pin{position:absolute;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;background:#fff;color:var(--ink);font:700 14px/34px var(--f-head);text-align:center;box-shadow:0 6px 18px rgba(20,24,40,.25);border:0;padding:0}
+.pin::before{content:"";position:absolute;inset:-6px;border-radius:50%;border:1.5px solid rgba(255,255,255,.8);animation:pulse 2.4s ease-out infinite}
+@keyframes pulse{0%{transform:scale(.8);opacity:1}100%{transform:scale(1.6);opacity:0}}
+.pin.is-act,.pin:hover{background:var(--red);color:#fff}
+.room__side{grid-column:9/span 4;display:flex;flex-direction:column}
+.feat{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink)}
+.feat li{display:grid;grid-template-columns:38px 1fr;gap:12px;padding:16px 0;border-bottom:1px solid var(--line);transition:background .3s}
+.feat li.is-act{background:linear-gradient(90deg,var(--blue-soft),transparent)}
+.feat li b{font:700 14px/1.5 var(--f-head);color:var(--red)}
+.feat h4{font-size:17px;margin-bottom:4px;letter-spacing:-.01em}
+.feat p{font-size:14px;color:var(--ink-2)}
+.room__note{margin-top:auto;padding-top:24px;font-size:13px;color:var(--ink-3)}
+
+/* ---------- prices ---------- */
+.prices{display:grid;grid-template-columns:repeat(12,1fr);gap:24px}
+.ptable{grid-column:1/span 7;width:100%;border-collapse:collapse}
+.ptable th,.ptable td{text-align:left;padding:18px 0;border-bottom:1px solid var(--line)}
+.ptable thead th{font:600 12px/1 var(--f-head);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);border-bottom:2px solid var(--ink);padding-top:0}
+.ptable td:last-child,.ptable th:last-child{text-align:right}
+.ptable td.big{font:700 28px/1 var(--f-head);letter-spacing:-.03em;white-space:nowrap}
+.ptable td.big small{font-size:14px;color:var(--ink-3);font-weight:500;letter-spacing:0}
+.ptable .tag{display:inline-block;margin-left:8px;padding:3px 8px;border-radius:99px;background:var(--blue-soft);color:var(--blue);font:600 11px/1.4 var(--f-head);letter-spacing:.04em;vertical-align:middle}
+.ptable .sub{display:block;font-size:13px;color:var(--ink-3)}
+.prices__aside{grid-column:9/span 4;align-self:start;background:var(--ink);color:#fff;padding:32px;border-radius:var(--radius)}
+.prices__aside h3{font-size:24px;margin-bottom:14px}
+.prices__aside p{color:#c7cadb;font-size:15px}
+.prices__aside ul{margin:18px 0 26px;padding:0;list-style:none}
+.prices__aside li{padding:10px 0;border-top:1px solid rgba(255,255,255,.14);font-size:14px;display:flex;justify-content:space-between;gap:10px}
+.prices__aside li span:last-child{font-weight:700;font-family:var(--f-head);white-space:nowrap}
+.note{margin-top:18px;font-size:13px;color:var(--ink-3)}
+
+/* tariff scroller */
+.scroller{margin-top:clamp(56px,7vw,96px)}
+.scroller__bar{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:22px}
+.scroller__bar h3{font-size:clamp(24px,2.4vw,32px)}
+.scroller__ctrl{display:flex;gap:8px}
+.icon-btn{width:48px;height:48px;border:1px solid var(--line-2);background:#fff;border-radius:var(--radius);display:grid;place-items:center;transition:border-color .2s,background .2s}
+.icon-btn:hover{border-color:var(--ink)}
+.icon-btn:disabled{opacity:.35;cursor:default}
+.track{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:var(--gut);padding:4px var(--gut) 24px;margin-inline:calc(var(--gut) * -1);scrollbar-width:none;cursor:grab}
+.track::-webkit-scrollbar{display:none}
+.track.is-drag{cursor:grabbing;scroll-snap-type:none}
+.track.is-drag *{pointer-events:none}
+.card{flex:0 0 clamp(260px,26vw,320px);scroll-snap-align:start;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:26px;display:flex;flex-direction:column;min-height:360px;transition:border-color .3s,transform .4s var(--ease),box-shadow .4s var(--ease)}
+.card:hover{border-color:var(--ink);transform:translateY(-4px);box-shadow:0 18px 40px -24px rgba(35,39,64,.4)}
+.card__top{display:flex;justify-content:space-between;align-items:center;font:600 12px/1 var(--f-head);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.card__top i{font-style:normal;color:var(--red)}
+.card h4{font-size:24px;margin-top:40px;letter-spacing:-.02em}
+.card__price{font:800 48px/1 var(--f-head);letter-spacing:-.05em;margin-top:14px}
+.card__price small{font-size:15px;font-weight:600;letter-spacing:0;color:var(--ink-3)}
+.card p{margin-top:12px;font-size:14px;color:var(--ink-2)}
+.card .btn{margin-top:auto;height:44px;font-size:14px}
+.card--hi{background:var(--blue);color:#fff;border-color:var(--blue)}
+.card--hi .card__top,.card--hi .card__price small,.card--hi p{color:#cfdcf3}
+.card--hi .card__top i{color:var(--ball)}
+.card--hi .btn{background:#fff;color:var(--ink)}
+.card--dark{background:var(--ink);color:#fff;border-color:var(--ink)}
+.card--dark .card__top,.card--dark .card__price small,.card--dark p{color:#b9bdd0}
+.card--dark .btn{background:#fff;color:var(--ink)}
+.prog{height:2px;background:var(--line);position:relative;margin-top:4px}
+.prog i{position:absolute;left:0;top:0;bottom:0;background:var(--ink);width:20%;transition:width .2s linear}
+
+/* ---------- calculator ---------- */
+.calc{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;background:#fff;border:1px solid var(--line);border-radius:var(--radius)}
+.calc__in{grid-column:1/span 5;padding:clamp(24px,3.5vw,44px);border-right:1px solid var(--line)}
+.calc__out{grid-column:6/span 7;padding:clamp(24px,3.5vw,44px) clamp(24px,3.5vw,44px) clamp(24px,3.5vw,44px) 0}
+.field{margin-bottom:30px}
+.field__lbl{display:flex;justify-content:space-between;align-items:baseline;font:600 13px/1 var(--f-head);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-bottom:14px}
+.field__lbl output{font:800 34px/1 var(--f-head);letter-spacing:-.04em;color:var(--ink);text-transform:none}
+.seg{display:flex;border:1px solid var(--line-2);border-radius:var(--radius);overflow:hidden}
+.seg button{flex:1;height:48px;border:0;background:#fff;font:600 15px/1 var(--f-head);border-left:1px solid var(--line-2);transition:background .2s,color .2s}
+.seg button:first-child{border-left:0}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.seg--col button{font-size:13px;line-height:1.25;padding:6px 4px;height:auto;min-height:56px}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:28px;background:transparent}
+input[type=range]::-webkit-slider-runnable-track{height:2px;background:linear-gradient(90deg,var(--blue) var(--p,50%),var(--line-2) var(--p,50%))}
+input[type=range]::-moz-range-track{height:2px;background:var(--line-2)}
+input[type=range]::-moz-range-progress{height:2px;background:var(--blue)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;border:2px solid var(--blue);margin-top:-10px;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:2px solid var(--blue)}
+.ticks{display:flex;justify-content:space-between;font:500 12px/1 var(--f-head);color:var(--ink-3);margin-top:4px}
+.calc__sum{font-size:14px;color:var(--ink-2);padding-top:18px;border-top:1px solid var(--line)}
+.calc__sum b{color:var(--ink);font-family:var(--f-head)}
+.cmp{display:grid;grid-template-columns:repeat(3,1fr);border-top:2px solid var(--ink)}
+.cmp__col{padding:20px 18px 20px 0}
+.cmp__col+.cmp__col{padding-left:18px;border-left:1px solid var(--line)}
+.cmp__col h4{font:600 12px/1.3 var(--f-head);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.cmp__sum{font:800 clamp(26px,3vw,40px)/1 var(--f-head);letter-spacing:-.04em;margin-top:14px;white-space:nowrap}
+.cmp__det{margin-top:8px;font-size:13px;color:var(--ink-2);min-height:3em}
+.cmp__col.is-best .cmp__sum{color:var(--blue)}
+.cmp__col.is-best h4::after{content:" · лучше";color:var(--blue)}
+.bars{margin-top:8px;display:grid;gap:10px}
+.bar{display:grid;grid-template-columns:110px 1fr;gap:12px;align-items:center;font:500 13px/1 var(--f-head);color:var(--ink-2)}
+.bar__t{height:10px;background:var(--bg);border-radius:2px;overflow:hidden}
+.bar__t i{display:block;height:100%;background:var(--line-2);width:0;transition:width .6s var(--ease)}
+.bar.is-best .bar__t i{background:var(--blue)}
+.verdict{margin-top:28px;padding:24px;border-radius:var(--radius);background:var(--bg);display:grid;grid-template-columns:auto 1fr;gap:6px 22px;align-items:center}
+.verdict__save{grid-row:span 2;font:800 clamp(36px,4vw,54px)/1 var(--f-head);letter-spacing:-.05em;color:var(--red)}
+.verdict__save.zero{color:var(--ink-3)}
+.verdict h4{font-size:19px;letter-spacing:-.01em}
+.verdict p{font-size:14px;color:var(--ink-2)}
+
+/* ---------- training ---------- */
+.train{display:grid;grid-template-columns:repeat(12,1fr);gap:24px}
+.progs{grid-column:1/span 4;display:grid;gap:12px;align-content:start}
+.pbtn{text-align:left;border:1px solid var(--line);background:#fff;border-radius:var(--radius);padding:20px 22px;display:grid;grid-template-columns:1fr auto;gap:6px 12px;transition:border-color .2s,background .2s}
+.pbtn:hover{border-color:var(--ink-3)}
+.pbtn[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 3px 0 0 var(--red)}
+.pbtn b{font:700 19px/1.2 var(--f-head);letter-spacing:-.01em}
+.pbtn span{font:600 13px/1.4 var(--f-head);color:var(--ink-3)}
+.pbtn small{grid-column:1/-1;font-size:13px;color:var(--ink-2);line-height:1.5}
+.pbtn .done{grid-column:1/-1;font:600 12px/1 var(--f-head);letter-spacing:.06em;text-transform:uppercase;color:var(--blue)}
+.trk{margin-top:12px;padding:20px 22px;background:var(--ink);color:#fff;border-radius:var(--radius)}
+.trk__row{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.trk__num{font:800 40px/1 var(--f-head);letter-spacing:-.04em}
+.trk small{color:#b9bdd0;font-size:13px}
+.trk__dots{display:flex;gap:6px;margin-top:14px}
+.trk__dots i{flex:1;height:6px;border-radius:2px;background:rgba(255,255,255,.14)}
+.trk__dots i.on{background:var(--ball)}
+.trk button{margin-top:14px;background:none;border:0;padding:0;color:#b9bdd0;font-size:12px;text-decoration:underline}
+.timer{grid-column:5/span 8;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:clamp(22px,3vw,40px);display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,3vw,40px)}
+.timer__face{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.ring{position:relative;width:min(100%,300px);aspect-ratio:1}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:6}
+.ring .bg{stroke:var(--bg)}
+.ring .fg{stroke:var(--blue);stroke-linecap:round;transition:stroke-dashoffset .3s linear,stroke .3s}
+.ring.is-rest .fg{stroke:var(--ball)}
+.ring__in{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18%}
+.ring__phase{font:600 12px/1.3 var(--f-head);letter-spacing:.1em;text-transform:uppercase;color:var(--red)}
+.ring__time{font:800 clamp(48px,6vw,68px)/1 var(--f-head);letter-spacing:-.04em;margin:10px 0 6px;font-variant-numeric:tabular-nums}
+.ring__name{font-size:14px;color:var(--ink-2);line-height:1.35}
+.timer__ctrl{display:flex;gap:8px;margin-top:22px;flex-wrap:wrap;justify-content:center}
+.timer__ctrl .btn{height:46px;padding:0 20px}
+.timer__total{margin-top:14px;font:500 13px/1 var(--f-head);color:var(--ink-3)}
+.snd{display:inline-flex;align-items:center;gap:8px;margin-top:14px;font-size:13px;color:var(--ink-2);cursor:pointer}
+.snd input{accent-color:var(--blue)}
+.plan{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink);counter-reset:pl;max-height:440px;overflow:auto}
+.plan li{display:grid;grid-template-columns:28px 1fr auto;gap:10px;padding:13px 0;border-bottom:1px solid var(--line);font-size:14px;align-items:start;cursor:pointer;transition:background .2s,opacity .2s}
+.plan li::before{counter-increment:pl;content:counter(pl,decimal-leading-zero);font:600 12px/1.6 var(--f-head);color:var(--ink-3)}
+.plan li b{display:block;font:600 15px/1.35 var(--f-head)}
+.plan li span{color:var(--ink-3);font-size:13px;line-height:1.45;display:block;margin-top:2px}
+.plan li em{font:600 13px/1.6 var(--f-head);font-style:normal;color:var(--ink-2);white-space:nowrap}
+.plan li.is-done{opacity:.45}
+.plan li.is-done::before{content:"✓";color:var(--blue)}
+.plan li.is-cur{background:linear-gradient(90deg,var(--blue-soft),transparent 80%)}
+.plan li.is-cur::before{color:var(--red)}
+.plan li.rest b{color:var(--ink-2);font-weight:500}
+
+/* ---------- league ---------- */
+.league{display:grid;grid-template-columns:repeat(12,1fr);gap:24px}
+.lg-wrap{grid-column:1/span 8;overflow-x:auto}
+.lg{width:100%;border-collapse:collapse;min-width:560px;font-variant-numeric:tabular-nums}
+.lg th{font:600 12px/1 var(--f-head);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);text-align:right;padding:0 0 14px;border-bottom:2px solid var(--ink);white-space:nowrap}
+.lg th:nth-child(1),.lg th:nth-child(2),.lg td:nth-child(1),.lg td:nth-child(2){text-align:left}
+.lg th button{background:none;border:0;padding:0;font:inherit;letter-spacing:inherit;text-transform:inherit;color:inherit;display:inline-flex;gap:6px;align-items:center}
+.lg th button:hover{color:var(--ink)}
+.lg th button::after{content:"↕";opacity:.35;font-size:11px}
+.lg th[aria-sort="descending"] button,.lg th[aria-sort="ascending"] button{color:var(--ink)}
+.lg th[aria-sort="descending"] button::after{content:"↓";opacity:1;color:var(--red)}
+.lg th[aria-sort="ascending"] button::after{content:"↑";opacity:1;color:var(--red)}
+.lg td{padding:15px 0;border-bottom:1px solid var(--line);text-align:right;font-size:15px}
+.lg td:nth-child(1){width:48px;font:700 15px var(--f-head);color:var(--ink-3)}
+.lg tr:nth-child(-n+3) td:nth-child(1){color:var(--red)}
+.lg td:nth-child(2){font-weight:600}
+.lg td .av{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--blue-soft);color:var(--blue);font:700 12px/1 var(--f-head);margin-right:10px;vertical-align:middle}
+.lg td.pts{font:800 20px/1 var(--f-head);letter-spacing:-.02em}
+.lg .form{display:inline-flex;gap:3px}
+.lg .form i{width:8px;height:8px;border-radius:2px;background:var(--line-2)}
+.lg .form i.w{background:var(--blue)}
+.lg tbody tr{transition:background .2s}
+.lg tbody tr:hover{background:#fff}
+.lg tbody tr.flash{animation:flash .6s ease}
+@keyframes flash{from{background:var(--blue-soft)}to{background:transparent}}
+.demo{display:inline-block;margin-top:14px;font-size:12px;color:var(--ink-3)}
+.lg-side{grid-column:9/span 4}
+.lg-side ol{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink)}
+.lg-side li{padding:18px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:40px 1fr;gap:10px}
+.lg-side li b{font:800 22px/1 var(--f-head);color:var(--blue)}
+.lg-side h4{font-size:17px;margin-bottom:4px;letter-spacing:-.01em}
+.lg-side p{font-size:14px;color:var(--ink-2)}
+.lg-side .btn{margin-top:24px;width:100%}
+
+/* ---------- extras ---------- */
+.extras{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.ex{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column}
+.ex__img{aspect-ratio:16/10;overflow:hidden;background:var(--bg);position:relative}
+.ex__img img,.ex__img svg{position:absolute;inset:0}
+.ex__img img{width:100%;height:100%;object-fit:cover;transition:transform 1s var(--ease)}
+.ex:hover .ex__img img{transform:scale(1.04)}
+.ex__img svg{width:100%;height:100%}
+.ex__b{padding:26px;display:flex;flex-direction:column;flex:1}
+.ex__b .kicker{margin-bottom:14px}
+.ex h3{font-size:24px;letter-spacing:-.02em}
+.ex p{margin-top:10px;font-size:15px;color:var(--ink-2)}
+.ex__price{margin-top:auto;padding-top:22px;display:flex;flex-wrap:wrap;gap:4px 12px;justify-content:space-between;align-items:baseline;border-top:1px solid var(--line)}
+.ex__price b{font:800 26px/1 var(--f-head);letter-spacing:-.03em;white-space:nowrap}
+.ex__b > p{margin-bottom:22px}
+.ex__price span{font-size:13px;color:var(--ink-3)}
+.ex__cta{margin-top:18px}
+.ex__cta a{font:600 14px/1 var(--f-head);color:var(--blue);text-decoration:none}
+.ex__cta a:hover{text-decoration:underline}
+
+/* ---------- find ---------- */
+.find{display:grid;grid-template-columns:repeat(12,1fr);gap:24px}
+.find__info{grid-column:1/span 5}
+.addr{font:700 clamp(26px,2.6vw,36px)/1.15 var(--f-head);letter-spacing:-.02em}
+.addr small{display:block;margin-top:10px;font:500 15px/1.5 var(--f-body);color:var(--ink-2);letter-spacing:0}
+.route{list-style:none;margin:32px 0 0;padding:0;border-top:2px solid var(--ink);counter-reset:r}
+.route li{counter-increment:r;display:grid;grid-template-columns:40px 1fr;gap:10px;padding:16px 0;border-bottom:1px solid var(--line);font-size:15px}
+.route li::before{content:counter(r,decimal-leading-zero);font:700 14px/1.6 var(--f-head);color:var(--red)}
+.find__meta{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:28px}
+.find__meta div{font-size:14px;color:var(--ink-2)}
+.find__meta b{display:block;font:700 22px/1.2 var(--f-head);color:var(--ink);letter-spacing:-.02em}
+.map{grid-column:6/span 7;min-height:460px;border-radius:var(--radius);overflow:hidden;background:var(--blue-soft);position:relative;border:1px solid var(--line)}
+.map iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.map__ph{position:absolute;inset:0;display:grid;place-items:center;font:500 14px var(--f-head);color:var(--ink-3)}
+
+/* ---------- rules ---------- */
+.rules{display:grid;grid-template-columns:repeat(5,1fr);border-top:2px solid var(--ink)}
+.rule{padding:26px 20px 10px 0}
+.rule+.rule{padding-left:20px;border-left:1px solid var(--line)}
+.rule__big{font:800 42px/1 var(--f-head);letter-spacing:-.04em;color:var(--blue)}
+.rule__big small{font-size:16px;letter-spacing:0;color:var(--ink-3);font-weight:600}
+.rule p{margin-top:14px;font-size:14px;color:var(--ink-2)}
+.rule h4{font-size:16px;margin-top:14px;letter-spacing:-.01em}
+
+/* ---------- faq ---------- */
+.faq{display:grid;grid-template-columns:repeat(12,1fr);gap:24px}
+.faq__list{grid-column:4/span 9;border-top:2px solid var(--ink)}
+.faq__side{grid-column:1/span 3}
+.faq__side p{font-size:15px;color:var(--ink-2)}
+.faq__side .links{display:grid;gap:8px;margin-top:22px}
+.faq__side .links a{font:600 15px/1.4 var(--f-head);text-decoration:none}
+.faq__side .links a:hover{color:var(--blue)}
+details{border-bottom:1px solid var(--line)}
+summary{list-style:none;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 0;cursor:pointer;font:600 clamp(17px,1.5vw,20px)/1.3 var(--f-head);letter-spacing:-.01em}
+summary::-webkit-details-marker{display:none}
+summary .pm{flex:0 0 28px;height:28px;border:1px solid var(--line-2);border-radius:50%;position:relative;transition:transform .3s var(--ease),background .3s}
+summary .pm::before,summary .pm::after{content:"";position:absolute;left:50%;top:50%;width:10px;height:1.5px;background:var(--ink);transform:translate(-50%,-50%)}
+summary .pm::after{transform:translate(-50%,-50%) rotate(90deg);transition:transform .3s var(--ease)}
+details[open] summary .pm{background:var(--ink);border-color:var(--ink)}
+details[open] summary .pm::before{background:#fff}
+details[open] summary .pm::after{transform:translate(-50%,-50%) rotate(0);background:#fff}
+.faq__a{padding:0 60px 24px 0;color:var(--ink-2);font-size:15px;max-width:52em}
+
+/* ---------- cta band ---------- */
+.band{background:var(--ink);color:#fff;padding-block:clamp(64px,8vw,110px);position:relative;overflow:hidden}
+.band__in{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:end;position:relative}
+.band h2{grid-column:1/span 8;font-size:clamp(40px,6vw,88px);letter-spacing:-.045em;line-height:.95;font-weight:800}
+.band h2 em{font-style:normal;color:var(--ball)}
+.band__side{grid-column:9/span 4}
+.band__side p{color:#b9bdd0;margin-bottom:22px}
+.band__side .btn--primary{background:#fff;color:var(--ink)}
+.band__side .btn--primary:hover{background:var(--ball)}
+.band svg{position:absolute;right:-60px;top:-40px;width:520px;opacity:.08;pointer-events:none}
+
+/* ---------- footer ---------- */
+.ftr{background:#fff;border-top:1px solid var(--line);padding-block:56px 40px;font-size:14px;color:var(--ink-2)}
+.ftr__grid{display:grid;grid-template-columns:repeat(12,1fr);gap:24px}
+.ftr__brand{grid-column:1/span 4}
+.ftr__brand img{height:64px;width:auto}
+.ftr__brand p{margin-top:16px;max-width:26em}
+.ftr__col{grid-column:span 2}
+.ftr__col--w{grid-column:span 4}
+.ftr h5{font:600 12px/1 var(--f-head);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:0 0 16px}
+.ftr ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.ftr a{text-decoration:none}
+.ftr a:hover{color:var(--blue)}
+.ftr__bottom{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;margin-top:48px;padding-top:24px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-3)}
+.ftr__bottom a{text-decoration:underline}
+
+/* ---------- modal ---------- */
+.modal{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:16px;background:rgba(20,23,40,.6);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+.modal.is-open{opacity:1;visibility:visible}
+.modal__box{width:min(960px,100%);height:min(86vh,820px);background:#fff;border-radius:var(--radius);display:flex;flex-direction:column;overflow:hidden;transform:translateY(16px);transition:transform .4s var(--ease)}
+.modal.is-open .modal__box{transform:none}
+.modal__hd{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line)}
+.modal__hd b{font:700 17px/1 var(--f-head)}
+.modal__hd a{font-size:13px;color:var(--ink-3)}
+.modal__x{width:40px;height:40px;border:1px solid var(--line);border-radius:var(--radius);background:#fff;font-size:20px;line-height:1}
+.modal iframe{flex:1;width:100%;border:0}
+
+/* ---------- sticky mobile ---------- */
+.sticky{display:none}
+
+/* ---------- responsive ---------- */
+@media (max-width:1100px){
+  .hdr__nav{gap:18px}
+  .hdr__tel{display:none}
+  .hero__txt{grid-column:1/-1}
+  .hero__art{grid-column:1/-1;max-width:760px}
+  .sec__idx{grid-column:1/-1}
+  .sec__title{grid-column:1/span 8}
+  .sec__lead{grid-column:9/span 4}
+  .room__photo{grid-column:1/-1}
+  .room__side{grid-column:1/-1}
+  .ptable{grid-column:1/-1}
+  .prices__aside{grid-column:1/-1}
+  .calc__in{grid-column:1/-1;border-right:0;border-bottom:1px solid var(--line)}
+  .calc__out{grid-column:1/-1;padding:clamp(24px,3.5vw,44px)}
+  .progs{grid-column:1/-1;grid-template-columns:repeat(3,1fr)}
+  .trk{grid-column:1/-1;margin-top:0}
+  .timer{grid-column:1/-1}
+  .lg-wrap,.lg-side{grid-column:1/-1}
+  .find__info,.map{grid-column:1/-1}
+  .rules{grid-template-columns:repeat(3,1fr)}
+  .rule:nth-child(4){border-left:0;padding-left:0}
+  .faq__side,.faq__list{grid-column:1/-1}
+  .band h2,.band__side{grid-column:1/-1}
+}
+@media (max-width:860px){
+  .hdr__nav,.hdr .btn{display:none}
+  .burger{display:block}
+  .mnav{position:fixed;top:68px;left:0;right:0;bottom:0;z-index:49;background:#fff;padding:24px var(--gut);display:flex;flex-direction:column;gap:4px;transform:translateY(-8px);opacity:0;visibility:hidden;transition:opacity .3s,transform .3s var(--ease),visibility .3s}
+  .mnav.is-open{opacity:1;visibility:visible;transform:none}
+  .mnav a{font:700 28px/1.2 var(--f-head);letter-spacing:-.02em;text-decoration:none;padding:12px 0;border-bottom:1px solid var(--line)}
+  .mnav .mnav__c{margin-top:24px;font:500 16px/1.8 var(--f-body);border:0;padding:0}
+  .sec__title,.sec__lead{grid-column:1/-1}
+  .steps{grid-template-columns:1fr 1fr}
+  .step:nth-child(3){border-left:0;padding-left:0}
+  .step:nth-child(n+3){border-top:1px solid var(--line);margin-top:8px}
+  .timer{grid-template-columns:1fr}
+  .extras{grid-template-columns:1fr}
+  .ex{display:grid;grid-template-columns:1fr 1.3fr}
+  .ex__img{aspect-ratio:auto;min-height:100%}
+  .ftr__brand,.ftr__col--w{grid-column:1/-1}
+  .ftr__col{grid-column:span 6}
+  .sticky{display:block;position:fixed;left:0;right:0;bottom:0;z-index:60;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));background:rgba(255,255,255,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line);transform:translateY(110%);transition:transform .4s var(--ease)}
+  .sticky.is-on{transform:none}
+  .sticky__in{display:flex;gap:8px}
+  .sticky .btn{flex:1;height:50px}
+  .sticky .icon-btn{flex:0 0 50px;height:50px;width:50px}
+  body{padding-bottom:76px}
+}
+@media (max-width:600px){
+  .hero h1{font-size:clamp(42px,12.5vw,60px)}
+  .hero__cta .btn{flex:1 1 100%}
+  .stats{grid-template-columns:repeat(3,1fr)}
+  .stat{padding:16px 10px 0 0}
+  .stat+.stat{padding-left:12px}
+  .stat__num{font-size:38px;flex-direction:column;align-items:flex-start;gap:4px}
+  .stat__num small{font-size:13px}
+  .stat__lbl{font-size:12px;line-height:1.35}
+  .art__cap{flex-direction:column;gap:4px}
+  .steps{grid-template-columns:1fr}
+  .step,.step+.step{padding:22px 0 18px;border-left:0}
+  .step+.step{border-top:1px solid var(--line);margin-top:0}
+  .step__n{font-size:56px}
+  .step h3{margin-top:12px}
+  .ptable td.big{font-size:22px}
+  .ptable th,.ptable td{padding:14px 0}
+  .ptable .tag{display:none}
+  .cmp{grid-template-columns:1fr}
+  .cmp__col,.cmp__col+.cmp__col{padding:16px 0;border-left:0;display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:baseline}
+  .cmp__col+.cmp__col{border-top:1px solid var(--line)}
+  .cmp__sum{margin-top:0;font-size:26px;grid-row:span 2}
+  .cmp__det{min-height:0;grid-column:1}
+  .bar{grid-template-columns:90px 1fr}
+  .verdict{grid-template-columns:1fr}
+  .verdict__save{grid-row:auto}
+  .progs{grid-template-columns:1fr}
+  .ex{display:flex}
+  .ex__img{aspect-ratio:16/10;min-height:0}
+  .rules{grid-template-columns:1fr 1fr}
+  .rule,.rule+.rule{padding:20px 12px 14px 0;border-left:0}
+  .rule:nth-child(even){padding-left:14px;border-left:1px solid var(--line)}
+  .rule:nth-child(n+3){border-top:1px solid var(--line)}
+  .rule__big{font-size:34px}
+  .faq__a{padding-right:0}
+  .map{min-height:360px}
+  .find__meta{grid-template-columns:1fr 1fr}
+  .modal{padding:0}
+  .modal__box{height:100%;border-radius:0}
+  .pin{width:28px;height:28px;margin:-14px 0 0 -14px;line-height:28px;font-size:12px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;transition-delay:0s!important}
+  .reveal{opacity:1;transform:none}
+  .tbl .draw{stroke-dashoffset:0}
+  .tbl .fadein{opacity:1}
+  .pin::before{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="hdr">
+  <div class="wrap hdr__in">
+    <a class="hdr__logo" href="#top" aria-label="Ping Point — на главную"><img src="../img/logo.jpg" alt="Ping Point" width="48" height="44"></a>
+    <nav class="hdr__nav" aria-label="Основная навигация">
+      <a href="#how">Как это работает</a>
+      <a href="#prices">Цены</a>
+      <a href="#calc">Калькулятор</a>
+      <a href="#train">Тренировки</a>
+      <a href="#league">Лига</a>
+      <a href="#find">Как найти</a>
+    </nav>
+    <a class="hdr__tel" href="tel:+79036447653" data-goal="phone_click">+7 903 644-76-53</a>
+    <button class="btn btn--primary" type="button" data-book>Забронировать</button>
+    <button class="burger" type="button" aria-label="Меню" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<nav class="mnav" id="mnav" aria-label="Мобильное меню">
+  <a href="#how">Как это работает</a>
+  <a href="#prices">Цены</a>
+  <a href="#calc">Калькулятор</a>
+  <a href="#train">Тренировки</a>
+  <a href="#league">Лига</a>
+  <a href="#find">Как найти</a>
+  <a href="#faq">Вопросы</a>
+  <div class="mnav__c">
+    <a href="tel:+79036447653" data-goal="phone_click" style="font:600 20px var(--f-head);border:0;padding:0">+7 903 644-76-53</a><br>
+    <a href="https://t.me/PingP32" target="_blank" rel="noopener" data-goal="tg_click" style="font:500 16px var(--f-body);border:0;padding:0">Telegram</a> ·
+    <a href="https://vk.com/pingp32" target="_blank" rel="noopener" data-goal="vk_click" style="font:500 16px var(--f-body);border:0;padding:0">ВКонтакте</a>
+  </div>
+</nav>
+
+<main id="top">
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap hero__grid">
+    <div class="hero__txt">
+      <div class="hero__meta">
+        <span><i class="dot"></i><span id="openState">Ежедневно 10:00–20:30</span></span>
+        <span>Брянск · ТРЦ «Мельница»</span>
+      </div>
+      <h1>Твой стол.<br>Твоя <em>тренировка.</em></h1>
+      <p class="hero__lead">Отдельная комната для настольного тенниса: бронируешь онлайн, получаешь код и заходишь. Без очередей, без администратора, без чужих за соседним столом — только ты, партнёр и стол UNIX Line.</p>
+      <div class="hero__cta">
+        <button class="btn btn--primary" type="button" data-book>Забронировать час <span class="arr">→</span></button>
+        <a class="btn btn--ghost" href="#calc">Посчитать абонемент</a>
+      </div>
+    </div>
+
+    <div class="hero__art">
+      <svg class="tbl" id="tbl" viewBox="0 0 640 400" role="img" aria-label="Стол для настольного тенниса, вид сверху, мяч рисует траектории розыгрыша">
+        <!-- размерные линии -->
+        <g class="fadein">
+          <line class="dim" x1="60" y1="378" x2="580" y2="378"/>
+          <line class="dim" x1="60" y1="372" x2="60" y2="384"/>
+          <line class="dim" x1="580" y1="372" x2="580" y2="384"/>
+          <text class="lbl" x="320" y="396" text-anchor="middle">274 см</text>
+          <line class="dim" x1="605" y1="55" x2="605" y2="345"/>
+          <line class="dim" x1="599" y1="55" x2="611" y2="55"/>
+          <line class="dim" x1="599" y1="345" x2="611" y2="345"/>
+          <text class="lbl" x="622" y="204" text-anchor="middle" transform="rotate(90 622 200)">152,5 см</text>
+          <text class="lbl" x="60" y="30">Сторона A</text>
+          <text class="lbl" x="580" y="30" text-anchor="end">Сторона B</text>
+        </g>
+        <rect x="66" y="63" width="520" height="290" rx="3" fill="rgba(35,39,64,.12)"/>
+        <rect class="surface" x="60" y="55" width="520" height="290" rx="3"/>
+        <!-- разметка -->
+        <rect class="edge draw" x="62" y="57" width="516" height="286" style="--len:1610"/>
+        <line class="mid draw d2" x1="62" y1="200" x2="578" y2="200" style="--len:520"/>
+        <!-- сетка -->
+        <line class="net draw d3" x1="320" y1="40" x2="320" y2="360" style="--len:330"/>
+        <circle class="netpost fadein" cx="320" cy="40" r="5"/>
+        <circle class="netpost fadein" cx="320" cy="360" r="5"/>
+        <g id="trajs"></g>
+        <ellipse class="ballshadow" id="ballSh" cx="-20" cy="-20" rx="7" ry="4"/>
+        <circle class="ball" id="ball" cx="-20" cy="-20" r="7"/>
+      </svg>
+      <div class="art__cap"><span>Розыгрыш <b id="rallyN">01</b> · удар <b id="shotN">—</b></span><span>Стол UNIX Line · до 4 игроков</span></div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="stats">
+      <div class="stat reveal"><div class="stat__num tnum"><span data-count="10.5" data-dec="1">0</span><small>ч</small></div><div class="stat__lbl">открыто каждый день, 10:00–20:30</div></div>
+      <div class="stat reveal" data-d="1"><div class="stat__num tnum"><span data-count="4">0</span><small>игрока</small></div><div class="stat__lbl">максимум за столом — пара на пару</div></div>
+      <div class="stat reveal" data-d="2"><div class="stat__num tnum"><span data-count="300">0</span><small>₽/ч</small></div><div class="stat__lbl">в будни до 16:00, ракетки и мячи бесплатно</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW ============ -->
+<section class="sec sec--paper" id="how">
+  <div class="wrap">
+    <div class="sec__head">
+      <div class="sec__idx"><b>01</b> Как это работает</div>
+      <h2 class="sec__title reveal">Четыре шага от&nbsp;желания до&nbsp;первой подачи</h2>
+      <p class="sec__lead reveal" data-d="1">Никто не встречает и не торопит. Комната ваша ровно на то время, которое вы забронировали.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><div class="step__n">01</div><h3>Выберите время</h3><p>Онлайн-календарь показывает свободные часы. Бронь — минимум за 1 час до начала.</p></div>
+      <div class="step reveal" data-d="1"><div class="step__n">02</div><h3>Оплатите онлайн</h3><p>Картой в пару касаний. Передумали за 3 часа — вернём 100%.</p></div>
+      <div class="step reveal" data-d="2"><div class="step__n">03</div><h3>Получите код</h3><p>Код или QR для входа придёт после оплаты. Администратор не нужен.</p></div>
+      <div class="step reveal" data-d="3"><div class="step__n">04</div><h3>Играйте</h3><p>Ракетки и мячи уже на месте. Вода в кулере, кресла-мешки — для пауз между сетами.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ROOM ============ -->
+<section class="sec" id="room">
+  <div class="wrap">
+    <div class="sec__head">
+      <div class="sec__idx"><b>02</b> Комната</div>
+      <h2 class="sec__title reveal">Один стол. Никаких соседей.</h2>
+      <p class="sec__lead reveal" data-d="1">Реальное фото комнаты. Нажмите на точки, чтобы узнать, что здесь есть.</p>
+    </div>
+    <div class="room">
+      <figure class="room__photo reveal">
+        <img src="../img/room.jpg" alt="Комната Ping Point: теннисный стол UNIX Line, большое окно, кресла-мешки" width="1200" height="900" loading="lazy">
+        <button class="pin" type="button" style="left:44%;top:52%" data-pin="0" aria-label="Стол UNIX Line">1</button>
+        <button class="pin" type="button" style="left:62%;top:17%" data-pin="1" aria-label="Большое окно">2</button>
+        <button class="pin" type="button" style="left:78%;top:40%" data-pin="2" aria-label="Кресла-мешки">3</button>
+        <button class="pin" type="button" style="left:12%;top:72%" data-pin="3" aria-label="Покрытие пола">4</button>
+      </figure>
+      <div class="room__side">
+        <ul class="feat">
+          <li data-feat="0"><b>01</b><div><h4>Стол UNIX Line</h4><p>Ровная игровая поверхность, стабильный отскок. Ракетки и мячи — бесплатно.</p></div></li>
+          <li data-feat="1"><b>02</b><div><h4>Большое окно и свет</h4><p>Дневной свет плюс хорошее освещение: мяч видно в любое время.</p></div></li>
+          <li data-feat="2"><b>03</b><div><h4>Кресла-мешки и кулер</h4><p>Отдохнуть между партиями и восстановить водный баланс.</p></div></li>
+          <li data-feat="3"><b>04</b><div><h4>Место для движения</h4><p>Пространства хватает на игру от стола и работу ногами. Нужна сменная, не скользящая обувь.</p></div></li>
+        </ul>
+        <p class="room__note">Проф. ракетка — +100 ₽/час. Парковка ТЦ на 350 мест.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRICES ============ -->
+<section class="sec sec--paper" id="prices">
+  <div class="wrap">
+    <div class="sec__head">
+      <div class="sec__idx"><b>03</b> Цены</div>
+      <h2 class="sec__title reveal">Платите за&nbsp;стол, а&nbsp;не&nbsp;за&nbsp;человека</h2>
+      <p class="sec__lead reveal" data-d="1">Цена за час аренды всей комнаты — одна и та же для одного игрока и для четверых.</p>
+    </div>
+
+    <div class="prices">
+      <table class="ptable reveal">
+        <thead><tr><th scope="col">Время</th><th scope="col">Час</th></tr></thead>
+        <tbody>
+          <tr><td>Будни, 10:00–16:00<span class="tag">самое тихое время</span><span class="sub">Пн–Пт, дневные часы</span></td><td class="big tnum">300 <small>₽</small></td></tr>
+          <tr><td>Будни, 16:00–20:30<span class="sub">Пн–Пт, после работы</span></td><td class="big tnum">400 <small>₽</small></td></tr>
+          <tr><td>Выходные, весь день<span class="sub">Сб–Вс, 10:00–20:30</span></td><td class="big tnum">400 <small>₽</small></td></tr>
+          <tr><td>Абонемент 5 часов<span class="sub">360 ₽ за час</span></td><td class="big tnum">1 800 <small>₽</small></td></tr>
+          <tr><td>Абонемент 10 часов<span class="tag">выгоднее всего</span><span class="sub">330 ₽ за час</span></td><td class="big tnum">3 300 <small>₽</small></td></tr>
+          <tr><td>Профессиональная ракетка<span class="sub">обычные ракетки и мячи — бесплатно</span></td><td class="big tnum">+100 <small>₽/ч</small></td></tr>
+        </tbody>
+      </table>
+      <aside class="prices__aside reveal" data-d="1">
+        <h3>Сколько выходит на человека</h3>
+        <p>Стол делится на всех. Час в вечерний слот — 400 ₽:</p>
+        <ul>
+          <li><span>Вдвоём</span><span>200 ₽ с человека</span></li>
+          <li><span>Втроём</span><span>≈ 134 ₽ с человека</span></li>
+          <li><span>Вчетвером, пара на пару</span><span>100 ₽ с человека</span></li>
+        </ul>
+        <button class="btn btn--primary" type="button" data-book style="width:100%;background:#fff;color:var(--ink)">Выбрать время <span class="arr">→</span></button>
+      </aside>
+    </div>
+    <p class="note">Цены уточняются. Актуальная стоимость отображается при бронировании.</p>
+
+    <div class="scroller">
+      <div class="scroller__bar">
+        <h3 class="reveal">Форматы игры</h3>
+        <div class="scroller__ctrl">
+          <button class="icon-btn" type="button" id="trPrev" aria-label="Назад"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M11 3 5 9l6 6"/></svg></button>
+          <button class="icon-btn" type="button" id="trNext" aria-label="Вперёд"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m7 3 6 6-6 6"/></svg></button>
+        </div>
+      </div>
+      <div class="track" id="track" tabindex="0" aria-label="Карточки тарифов, прокручиваются горизонтально">
+        <article class="card"><div class="card__top"><span>01 · Разово</span><i>Пн–Пт</i></div><h4>Дневной час</h4><div class="card__price tnum">300 <small>₽/ч</small></div><p>С 10:00 до 16:00. Спокойное время для отработки техники без спешки.</p><button class="btn btn--ghost" type="button" data-book>Забронировать</button></article>
+        <article class="card"><div class="card__top"><span>02 · Разово</span><i>Пн–Пт</i></div><h4>Вечерний час</h4><div class="card__price tnum">400 <small>₽/ч</small></div><p>С 16:00 до 20:30. Сыграть после работы с коллегой или другом.</p><button class="btn btn--ghost" type="button" data-book>Забронировать</button></article>
+        <article class="card"><div class="card__top"><span>03 · Разово</span><i>Сб–Вс</i></div><h4>Выходные</h4><div class="card__price tnum">400 <small>₽/ч</small></div><p>Весь день, 10:00–20:30. Удобно совместить с кино или «Рай Парком» по соседству.</p><button class="btn btn--ghost" type="button" data-book>Забронировать</button></article>
+        <article class="card card--hi"><div class="card__top"><span>04 · Абонемент</span><i>●</i></div><h4>5 часов</h4><div class="card__price tnum">1 800 <small>₽</small></div><p>360 ₽ за час. Для тех, кто играет раз в неделю и хочет держать форму.</p><a class="btn" href="#calc">Посчитать выгоду</a></article>
+        <article class="card card--hi"><div class="card__top"><span>05 · Абонемент</span><i>●●</i></div><h4>10 часов</h4><div class="card__price tnum">3 300 <small>₽</small></div><p>330 ₽ за час. Для регулярных тренировок два раза в неделю и чаще.</p><a class="btn" href="#calc">Посчитать выгоду</a></article>
+        <article class="card"><div class="card__top"><span>06 · Праздник</span><i>2 часа</i></div><h4>День рождения</h4><div class="card__price tnum"><small>от</small> 1 500 <small>₽</small></div><p>Сверх аренды: мини-турнир с сеткой, грамоты победителям. Дети до 14 — со взрослым.</p><a class="btn btn--ghost" href="https://t.me/PingP32" target="_blank" rel="noopener" data-goal="tg_click">Обсудить в Telegram</a></article>
+        <article class="card card--dark"><div class="card__top"><span>07 · Команда</span><i>Турнир</i></div><h4>Корпоративный турнир</h4><div class="card__price" style="font-size:32px;letter-spacing:-.03em">по запросу</div><p>Сетка, судейство по счёту, итоговая таблица. Формат и время подберём под команду.</p><a class="btn" href="tel:+79036447653" data-goal="phone_click">Позвонить</a></article>
+      </div>
+      <div class="prog" aria-hidden="true"><i id="trProg"></i></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CALCULATOR ============ -->
+<section class="sec" id="calc">
+  <div class="wrap">
+    <div class="sec__head">
+      <div class="sec__idx"><b>04</b> Калькулятор</div>
+      <h2 class="sec__title reveal">Разово или абонемент? Посчитайте за&nbsp;10&nbsp;секунд</h2>
+      <p class="sec__lead reveal" data-d="1">Считаем на 4 недели игры. Абонемент выгоден в вечерние часы и в выходные.</p>
+    </div>
+
+    <div class="calc reveal">
+      <div class="calc__in">
+        <div class="field">
+          <div class="field__lbl"><label for="cFreq">Раз в неделю</label><output id="oFreq" class="tnum">2</output></div>
+          <input type="range" id="cFreq" min="1" max="7" step="1" value="2">
+          <div class="ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span></div>
+        </div>
+        <div class="field">
+          <div class="field__lbl"><span>Часов за визит</span><output id="oDur" class="tnum">1</output></div>
+          <div class="seg" role="group" aria-label="Часов за визит" id="cDur">
+            <button type="button" data-v="1" aria-pressed="true">1 ч</button>
+            <button type="button" data-v="1.5" aria-pressed="false">1,5 ч</button>
+            <button type="button" data-v="2" aria-pressed="false">2 ч</button>
+            <button type="button" data-v="3" aria-pressed="false">3 ч</button>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field__lbl"><span>Когда обычно играете</span></div>
+          <div class="seg seg--col" role="group" aria-label="Когда обычно играете" id="cSlot">
+            <button type="button" data-v="300" aria-pressed="false">Будни<br>до 16:00</button>
+            <button type="button" data-v="400" aria-pressed="true">Будни<br>вечер</button>
+            <button type="button" data-v="400w" aria-pressed="false">Выход&shy;ные</button>
+          </div>
+        </div>
+        <p class="calc__sum">За 4 недели: <b class="tnum" id="cHours">8 ч</b> игры по <b class="tnum" id="cRate">400 ₽</b>/ч</p>
+      </div>
+
+      <div class="calc__out">
+        <div class="cmp">
+          <div class="cmp__col" id="colOne"><h4>Разово</h4><div class="cmp__sum tnum" id="sOne">—</div><div class="cmp__det" id="dOne"></div></div>
+          <div class="cmp__col" id="col5"><h4>Абонементы 5 ч</h4><div class="cmp__sum tnum" id="s5">—</div><div class="cmp__det" id="d5"></div></div>
+          <div class="cmp__col" id="col10"><h4>Абонементы 10 ч</h4><div class="cmp__sum tnum" id="s10">—</div><div class="cmp__det" id="d10"></div></div>
+        </div>
+        <div class="bars" aria-hidden="true">
+          <div class="bar" id="bOne"><span>Разово</span><div class="bar__t"><i></i></div></div>
+          <div class="bar" id="b5"><span>5 ч</span><div class="bar__t"><i></i></div></div>
+          <div class="bar" id="b10"><span>10 ч</span><div class="bar__t"><i></i></div></div>
+        </div>
+        <div class="verdict" aria-live="polite">
+          <div class="verdict__save tnum" id="vSave">0 ₽</div>
+          <h4 id="vTitle">—</h4>
+          <p id="vText"></p>
+        </div>
+        <p class="note">Расчёт ориентировочный: условия абонементов (срок действия, время использования) уточняются.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRAINING ============ -->
+<section class="sec sec--paper" id="train">
+  <div class="wrap">
+    <div class="sec__head">
+      <div class="sec__idx"><b>05</b> План тренировки</div>
+      <h2 class="sec__title reveal">Час с&nbsp;пользой: три готовые программы с&nbsp;таймером</h2>
+      <p class="sec__lead reveal" data-d="1">Выберите программу, положите телефон на подоконник и жмите «Старт». Сигнал подскажет, когда менять упражнение.</p>
+    </div>
+
+    <div class="train">
+      <div class="progs" id="progs"></div>
+
+      <div class="timer reveal">
+        <div class="timer__face">
+          <div class="ring" id="ring">
+            <svg viewBox="0 0 200 200" aria-hidden="true"><circle class="bg" cx="100" cy="100" r="92"/><circle class="fg" id="ringFg" cx="100" cy="100" r="92" stroke-dasharray="578.05" stroke-dashoffset="0"/></svg>
+            <div class="ring__in">
+              <div class="ring__phase" id="tPhase">Готов</div>
+              <div class="ring__time" id="tTime" role="timer" aria-live="off">00:00</div>
+              <div class="ring__name" id="tName">—</div>
+            </div>
+          </div>
+          <div class="timer__ctrl">
+            <button class="btn btn--primary" type="button" id="tStart">Старт</button>
+            <button class="icon-btn" type="button" id="tNext" aria-label="Следующее упражнение" title="Следующее упражнение"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m4 3 7 6-7 6M14 3v12"/></svg></button>
+            <button class="icon-btn" type="button" id="tReset" aria-label="Сбросить" title="Сбросить"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9a6 6 0 1 0 2-4.5M3 3v3.5h3.5"/></svg></button>
+          </div>
+          <div class="timer__total tnum" id="tTotal">Всего: 60 мин</div>
+          <label class="snd"><input type="checkbox" id="tSound" checked> Звуковой сигнал</label>
+        </div>
+        <ol class="plan" id="plan" aria-label="Интервалы программы"></ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LEAGUE ============ -->
+<section class="sec" id="league">
+  <div class="wrap">
+    <div class="sec__head">
+      <div class="sec__idx"><b>06</b> Лига Ping Point</div>
+      <h2 class="sec__title reveal">Играй. Набирай очки. Поднимайся в&nbsp;таблице.</h2>
+      <p class="sec__lead reveal" data-d="1">Рейтинг любителей, которые играют у нас регулярно. Нажмите на заголовок столбца, чтобы отсортировать.</p>
+    </div>
+
+    <div class="league">
+      <div class="lg-wrap reveal">
+        <!-- ДЕМО-ДАННЫЕ: таблица заполнена примером для макета, заменить реальными результатами турниров -->
+        <table class="lg" id="lg">
+          <thead>
+            <tr>
+              <th scope="col" data-k="rank" aria-sort="none"><button type="button">#</button></th>
+              <th scope="col" data-k="name" aria-sort="none"><button type="button">Игрок</button></th>
+              <th scope="col" data-k="games" aria-sort="none"><button type="button">Игры</button></th>
+              <th scope="col" data-k="wins" aria-sort="none"><button type="button">Победы</button></th>
+              <th scope="col" data-k="pct" aria-sort="none"><button type="button">% побед</button></th>
+              <th scope="col" data-k="form" aria-sort="none"><button type="button">Форма</button></th>
+              <th scope="col" data-k="pts" aria-sort="descending"><button type="button">Очки</button></th>
+            </tr>
+          </thead>
+          <tbody id="lgBody"></tbody>
+        </table>
+        <span class="demo">Пример таблицы. Реальный рейтинг появится после первых турниров.</span>
+      </div>
+
+      <aside class="lg-side reveal" data-d="1">
+        <ol>
+          <li><b>1</b><div><h4>Запишитесь на турнир выходного дня</h4><p>Небольшой турнир в комнате: сетка, короткие матчи, все играют несколько встреч.</p></div></li>
+          <li><b>2</b><div><h4>Получайте очки за каждую игру</h4><p>Победа — 3 очка, поражение — 1 очко за участие. Засчитываются только турнирные матчи.</p></div></li>
+          <li><b>3</b><div><h4>Попадите в таблицу</h4><p>После первого турнира вы в рейтинге. Форма — результаты последних пяти матчей.</p></div></li>
+        </ol>
+        <a class="btn btn--dark" href="https://t.me/PingP32" target="_blank" rel="noopener" data-goal="league_tg_click">Записаться через Telegram <span class="arr">→</span></a>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EXTRAS ============ -->
+<section class="sec sec--paper" id="extras">
+  <div class="wrap">
+    <div class="sec__head">
+      <div class="sec__idx"><b>07</b> Дополнительно</div>
+      <h2 class="sec__title reveal">Когда хочется расти быстрее</h2>
+      <p class="sec__lead reveal" data-d="1">Всё добавляется к обычной аренде стола. Робота и тренера бронируйте заранее.</p>
+    </div>
+    <div class="extras">
+      <article class="ex reveal">
+        <div class="ex__img" aria-hidden="true">
+          <svg viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice">
+            <rect width="400" height="250" fill="#e8eef8"/>
+            <rect x="40" y="150" width="320" height="18" fill="#1F4E9C"/>
+            <line x1="200" y1="130" x2="200" y2="150" stroke="#232740" stroke-width="3"/>
+            <rect x="300" y="92" width="44" height="58" rx="6" fill="#232740"/>
+            <rect x="312" y="70" width="20" height="26" rx="4" fill="#232740"/>
+            <circle cx="322" cy="78" r="5" fill="#F5A623"/>
+            <path d="M300 104 Q230 40 150 150 Q120 110 70 118" fill="none" stroke="#F5A623" stroke-width="2.5" stroke-dasharray="6 7"/>
+            <circle cx="150" cy="150" r="5" fill="#F5A623"/>
+            <circle cx="70" cy="118" r="7" fill="#F5A623"/>
+          </svg>
+        </div>
+        <div class="ex__b">
+          <span class="kicker">Отработка</span>
+          <h3>Робот-подающий</h3>
+          <p>Подаёт серию мячей с заданной частотой и вращением. Сотня накатов подряд без поиска мяча под столом.</p>
+          <div class="ex__price"><b>Уточняйте</b><span>по предварительной записи</span></div>
+          <div class="ex__cta"><a href="https://t.me/PingP32" target="_blank" rel="noopener" data-goal="robot_tg_click">Узнать о записи →</a></div>
+        </div>
+      </article>
+      <article class="ex reveal" data-d="1">
+        <div class="ex__img"><img src="../img/stock-serve-closeup.jpg" alt="Подача в настольном теннисе крупным планом" loading="lazy" width="1280" height="879"></div>
+        <div class="ex__b">
+          <span class="kicker">Техника</span>
+          <h3>Тренер по записи</h3>
+          <p>Персональное занятие: поставить подачу, выправить накат, разобрать ошибки. Подойдёт и новичкам, и тем, кто застрял на плато.</p>
+          <div class="ex__price"><b>Уточняйте</b><span>по предварительной записи</span></div>
+          <div class="ex__cta"><a href="tel:+79036447653" data-goal="phone_click">Позвонить и записаться →</a></div>
+        </div>
+      </article>
+      <article class="ex reveal" data-d="2">
+        <div class="ex__img"><img src="../img/stock-rackets-white.jpg" alt="Ракетки для настольного тенниса" loading="lazy" width="1200" height="900"></div>
+        <div class="ex__b">
+          <span class="kicker">Инвентарь</span>
+          <h3>Профессиональная ракетка</h3>
+          <p>Для тех, кто хочет почувствовать разницу в контроле и вращении. Обычные ракетки и мячи — бесплатно.</p>
+          <div class="ex__price"><b class="tnum">+100 ₽</b><span>за час</span></div>
+          <div class="ex__cta"><a href="#" data-book>Добавить при бронировании →</a></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FIND ============ -->
+<section class="sec" id="find">
+  <div class="wrap">
+    <div class="sec__head">
+      <div class="sec__idx"><b>08</b> Как найти</div>
+      <h2 class="sec__title reveal">В&nbsp;центре, рядом с&nbsp;кино</h2>
+      <p class="sec__lead reveal" data-d="1">Удобно приехать на машине: у ТЦ большая парковка.</p>
+    </div>
+    <div class="find">
+      <div class="find__info reveal">
+        <p class="addr">ул. Красноармейская, 100<small>ТРЦ «Мельница», Брянск <!-- уточнить этаж --></small></p>
+        <ol class="route">
+          <li>Приезжайте в ТРЦ «Мельница» — парковка ТЦ на 350 мест.</li>
+          <li>Ориентир внутри — кинотеатр и детский центр «Рай Парк»: мы рядом.</li>
+          <li>Найдите дверь с логотипом Ping Point.</li>
+          <li>Введите код или покажите QR из подтверждения брони — дверь откроется.</li>
+        </ol>
+        <div class="find__meta">
+          <div><b class="tnum">10:00–20:30</b>ежедневно</div>
+          <div><b class="tnum">350</b>мест на парковке</div>
+        </div>
+      </div>
+      <div class="map reveal" data-d="1" id="map">
+        <div class="map__ph">Загружаем карту…</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RULES ============ -->
+<section class="sec sec--paper" id="rules">
+  <div class="wrap">
+    <div class="sec__head">
+      <div class="sec__idx"><b>09</b> Правила</div>
+      <h2 class="sec__title reveal">Коротко о&nbsp;главном</h2>
+      <p class="sec__lead reveal" data-d="1">Пять правил, чтобы в комнате было комфортно всем, кто придёт после вас.</p>
+    </div>
+    <div class="rules">
+      <div class="rule reveal"><div class="rule__big tnum">1 <small>час</small></div><h4>Бронь заранее</h4><p>Минимум за 1 час до начала игры.</p></div>
+      <div class="rule reveal" data-d="1"><div class="rule__big tnum">100<small>%</small></div><h4>Возврат</h4><p>При отмене не позднее чем за 3 часа.</p></div>
+      <div class="rule reveal" data-d="2"><div class="rule__big tnum">14<small>+</small></div><h4>Дети</h4><p>До 14 лет — только вместе со взрослым.</p></div>
+      <div class="rule reveal" data-d="3"><div class="rule__big"><svg width="44" height="42" viewBox="0 0 44 42" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" aria-hidden="true"><path d="M4 30V10h10l4 8 10 3c6 2 12 4 12 9v2H4z"/><path d="M4 36h36"/></svg></div><h4>Обувь</h4><p>Сменная или не скользящая спортивная.</p></div>
+      <div class="rule reveal"><div class="rule__big">0</div><h4>Еда и алкоголь</h4><p>Не приносим. Вода — в кулере.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="sec" id="faq">
+  <div class="wrap">
+    <div class="sec__head">
+      <div class="sec__idx"><b>10</b> Вопросы</div>
+      <h2 class="sec__title reveal">Частые вопросы</h2>
+    </div>
+    <div class="faq">
+      <div class="faq__side reveal">
+        <p>Не нашли ответ? Напишите или позвоните — ответим.</p>
+        <div class="links">
+          <a href="tel:+79036447653" data-goal="phone_click">+7 903 644-76-53</a>
+          <a href="https://t.me/PingP32" target="_blank" rel="noopener" data-goal="tg_click">Telegram →</a>
+          <a href="https://vk.com/pingp32" target="_blank" rel="noopener" data-goal="vk_click">ВКонтакте →</a>
+          <a href="mailto:pingp-inf@bk.ru" data-goal="email_click">pingp-inf@bk.ru</a>
+        </div>
+      </div>
+      <div class="faq__list reveal" data-d="1">
+        <details open><summary>Как попасть в комнату, если нет администратора?<span class="pm"></span></summary><div class="faq__a">После онлайн-оплаты вы получаете код или QR-код для входа. Он действует на время вашей брони.</div></details>
+        <details><summary>Сколько человек может играть?<span class="pm"></span></summary><div class="faq__a">До 4 человек за столом — можно играть один на один или пара на пару. Цена за час не зависит от количества игроков.</div></details>
+        <details><summary>Нужно ли приносить свой инвентарь?<span class="pm"></span></summary><div class="faq__a">Нет. Ракетки и мячи выдаются бесплатно. Если хотите профессиональную ракетку — она стоит +100 ₽ за час. Свою ракетку, конечно, тоже можно взять.</div></details>
+        <details><summary>Можно ли отменить или перенести бронь?<span class="pm"></span></summary><div class="faq__a">Да. При отмене не позднее чем за 3 часа до начала мы возвращаем 100% оплаты.</div></details>
+        <details><summary>Можно ли прийти с ребёнком?<span class="pm"></span></summary><div class="faq__a">Да, дети до 14 лет играют вместе со взрослым. Для праздников есть формат «День рождения»: 2 часа, мини-турнир с сеткой и грамотами.</div></details>
+        <details><summary>Какая нужна обувь и одежда?<span class="pm"></span></summary><div class="faq__a">Сменная или не скользящая спортивная обувь, удобная одежда. Раздевалки и душа в комнате нет — приходите сразу готовыми к игре.</div></details>
+        <details><summary>Где припарковаться?<span class="pm"></span></summary><div class="faq__a">У ТРЦ «Мельница» есть парковка на 350 мест.</div></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA BAND ============ -->
+<section class="band">
+  <svg viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="96" fill="none" stroke="#fff" stroke-width="2"/><path d="M20 60c50 20 110 20 160 0M20 140c50-20 110-20 160 0" fill="none" stroke="#fff" stroke-width="2"/></svg>
+  <div class="wrap band__in">
+    <h2 class="reveal">Следующий час —<br>на&nbsp;<em>твоём</em> столе.</h2>
+    <div class="band__side reveal" data-d="1">
+      <p>Выберите свободное время, оплатите онлайн и получите код. Будни до 16:00 — от 300 ₽ за час на всю компанию.</p>
+      <button class="btn btn--primary" type="button" data-book>Забронировать <span class="arr">→</span></button>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="ftr">
+  <div class="wrap">
+    <div class="ftr__grid">
+      <div class="ftr__brand">
+        <img src="../img/logo.jpg" alt="Ping Point" width="70" height="64" loading="lazy">
+        <p>Комната настольного тенниса в Брянске. Онлайн-бронь и вход по коду, ежедневно 10:00–20:30.</p>
+      </div>
+      <div class="ftr__col">
+        <h5>Разделы</h5>
+        <ul><li><a href="#prices">Цены</a></li><li><a href="#calc">Калькулятор</a></li><li><a href="#train">Тренировки</a></li><li><a href="#league">Лига</a></li><li><a href="#faq">Вопросы</a></li></ul>
+      </div>
+      <div class="ftr__col">
+        <h5>Связь</h5>
+        <ul>
+          <li><a href="tel:+79036447653" data-goal="phone_click">+7 903 644-76-53</a></li>
+          <li><a href="mailto:pingp-inf@bk.ru" data-goal="email_click">pingp-inf@bk.ru</a></li>
+          <li><a href="https://t.me/PingP32" target="_blank" rel="noopener" data-goal="tg_click">Telegram</a></li>
+          <li><a href="https://vk.com/pingp32" target="_blank" rel="noopener" data-goal="vk_click">ВКонтакте</a></li>
+        </ul>
+      </div>
+      <div class="ftr__col--w ftr__col">
+        <h5>Адрес</h5>
+        <p>Брянск, ул. Красноармейская, 100,<br>ТРЦ «Мельница» <!-- уточнить этаж --></p>
+        <p style="margin-top:14px">ИП Исаков Игорь Константинович<br>ИНН 323407837462<br>ОГРНИП 325320000017817</p>
+      </div>
+    </div>
+    <div class="ftr__bottom">
+      <span>© <span id="yr">2026</span> Ping Point</span>
+      <span><a href="#">Политика конфиденциальности</a> · <a href="#">Пользовательское соглашение</a> · <a href="#">Правила посещения</a></span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ STICKY MOBILE ============ -->
+<div class="sticky" id="sticky">
+  <div class="sticky__in">
+    <button class="btn btn--primary" type="button" data-book>Забронировать</button>
+    <a class="icon-btn" href="tel:+79036447653" data-goal="phone_click" aria-label="Позвонить"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2"/></svg></a>
+  </div>
+</div>
+
+<!-- ============ BOOKING MODAL ============ -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalT" aria-hidden="true">
+  <div class="modal__box">
+    <div class="modal__hd">
+      <b id="modalT">Бронирование стола</b>
+      <span style="display:flex;gap:14px;align-items:center">
+        <a href="https://pingpongroom.ru/embed/booking?header=0&amp;footer=0" target="_blank" rel="noopener">Открыть в новой вкладке</a>
+        <button class="modal__x" type="button" id="modalX" aria-label="Закрыть">×</button>
+      </span>
+    </div>
+    <iframe id="modalF" title="Онлайн-бронирование Ping Point" loading="lazy"></iframe>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var BOOK_URL = "https://pingpongroom.ru/embed/booking?header=0&footer=0";
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var $ = function(s, r){ return (r || document).querySelector(s); };
+  var $$ = function(s, r){ return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var fmt = function(n){ return Math.round(n).toLocaleString("ru-RU").replace(/ /g, " "); };
+
+  function goal(name){ try { if (window.ym) window.ym(104197137, "reachGoal", name); } catch(e){} }
+
+  /* ---------- аналитика по кликам ---------- */
+  document.addEventListener("click", function(e){
+    var g = e.target.closest("[data-goal]");
+    if (g) goal(g.getAttribute("data-goal"));
+  });
+
+  /* ---------- модальное окно брони ---------- */
+  var modal = $("#modal"), frame = $("#modalF"), lastFocus = null;
+  function openBook(){
+    goal("booking_click");
+    if (window.innerWidth < 360) { window.open(BOOK_URL, "_blank", "noopener"); return; }
+    if (!frame.getAttribute("src")) frame.setAttribute("src", BOOK_URL);
+    lastFocus = document.activeElement;
+    modal.classList.add("is-open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    $("#modalX").focus();
+  }
+  function closeBook(){
+    modal.classList.remove("is-open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+    if (lastFocus) lastFocus.focus();
+  }
+  document.addEventListener("click", function(e){
+    var b = e.target.closest("[data-book]");
+    if (b) { e.preventDefault(); closeMenu(); openBook(); }
+  });
+  $("#modalX").addEventListener("click", closeBook);
+  modal.addEventListener("click", function(e){ if (e.target === modal) closeBook(); });
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape" && modal.classList.contains("is-open")) closeBook(); });
+
+  /* ---------- мобильное меню ---------- */
+  var burger = $(".burger"), mnav = $("#mnav");
+  function closeMenu(){ mnav.classList.remove("is-open"); burger.setAttribute("aria-expanded", "false"); }
+  burger.addEventListener("click", function(){
+    var open = !mnav.classList.contains("is-open");
+    mnav.classList.toggle("is-open", open);
+    burger.setAttribute("aria-expanded", String(open));
+  });
+  $$("#mnav a").forEach(function(a){ a.addEventListener("click", closeMenu); });
+
+  /* ---------- статус «открыто сейчас» ---------- */
+  (function(){
+    var d = new Date(), m = d.getHours() * 60 + d.getMinutes();
+    var el = $("#openState");
+    if (m >= 600 && m < 1230) el.textContent = "Открыто сейчас · до 20:30";
+    else el.textContent = "Откроемся в 10:00 · бронь онлайн";
+  })();
+  $("#yr").textContent = new Date().getFullYear();
+
+  /* ---------- появление блоков ---------- */
+  var io = "IntersectionObserver" in window ? new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting) { en.target.classList.add("is-in"); io.unobserve(en.target); }
+    });
+  }, { threshold: .12, rootMargin: "0px 0px -40px 0px" }) : null;
+  $$(".reveal").forEach(function(el){ io ? io.observe(el) : el.classList.add("is-in"); });
+
+  /* ---------- счётчики ---------- */
+  function runCount(el){
+    var to = parseFloat(el.getAttribute("data-count")), dec = +(el.getAttribute("data-dec") || 0);
+    var show = function(v){ el.textContent = v.toFixed(dec).replace(".", ","); };
+    if (reduce) { show(to); return; }
+    var t0 = null, dur = 1600;
+    function step(t){
+      if (!t0) t0 = t;
+      var p = Math.min((t - t0) / dur, 1), e = 1 - Math.pow(1 - p, 4);
+      show(to * e);
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  var cio = "IntersectionObserver" in window ? new IntersectionObserver(function(en){
+    en.forEach(function(x){ if (x.isIntersecting) { runCount(x.target); cio.unobserve(x.target); } });
+  }, { threshold: .6 }) : null;
+  $$("[data-count]").forEach(function(el){ cio ? cio.observe(el) : runCount(el); });
+
+  /* ---------- стол: разметка и траектории мяча ---------- */
+  (function(){
+    var svg = $("#tbl"), g = $("#trajs"), ball = $("#ball"), sh = $("#ballSh");
+    var NS = "http://www.w3.org/2000/svg";
+    svg.classList.add("is-on");
+    var rallyN = 0;
+    var rand = function(a, b){ return a + Math.random() * (b - a); };
+
+    // точки: удар за торцом стола -> отскок на половине соперника -> удар соперника -> ...
+    function buildRally(){
+      var pts = [], side = Math.random() < .5 ? 0 : 1; // 0 = подаёт A
+      var y = rand(110, 290);
+      var hitX = side === 0 ? 30 : 610;
+      pts.push({ x: hitX, y: y, t: "hit" });
+      // подача: отскок на своей половине, потом на чужой
+      pts.push({ x: side === 0 ? rand(110, 250) : rand(390, 530), y: rand(90, 310), t: "b" });
+      pts.push({ x: side === 0 ? rand(400, 540) : rand(100, 240), y: rand(80, 320), t: "b" });
+      var shots = 3 + Math.floor(Math.random() * 3), cur = 1 - side;
+      for (var i = 0; i < shots; i++){
+        pts.push({ x: cur === 0 ? rand(18, 40) : rand(600, 622), y: rand(70, 330), t: "hit" });
+        pts.push({ x: cur === 0 ? rand(380, 560) : rand(80, 260), y: rand(68, 332), t: "b" });
+        cur = 1 - cur;
+      }
+      // финальный удар уходит за стол
+      pts.push({ x: cur === 0 ? rand(-20, 10) : rand(630, 660), y: rand(40, 360), t: "out" });
+      return pts;
+    }
+    function toSegs(pts){
+      var segs = ["M" + pts[0].x.toFixed(1) + " " + pts[0].y.toFixed(1)];
+      for (var i = 1; i < pts.length; i++){
+        var a = pts[i - 1], b = pts[i];
+        // лёгкий изгиб — вращение мяча
+        var mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+        var nx = -(b.y - a.y), ny = (b.x - a.x), L = Math.hypot(nx, ny) || 1;
+        var k = rand(-.12, .12) * Math.hypot(b.x - a.x, b.y - a.y);
+        segs.push("Q" + (mx + nx / L * k).toFixed(1) + " " + (my + ny / L * k).toFixed(1) + " " + b.x.toFixed(1) + " " + b.y.toFixed(1));
+      }
+      return segs;
+    }
+    function el(tag, attrs){ var n = document.createElementNS(NS, tag); for (var k in attrs) n.setAttribute(k, attrs[k]); return n; }
+
+    var heroVisible = true;
+    if ("IntersectionObserver" in window){
+      new IntersectionObserver(function(en){ heroVisible = en[0].isIntersecting; }).observe(svg);
+    }
+
+    function play(){
+      if (!heroVisible || document.hidden){ setTimeout(play, 600); return; }
+      rallyN++;
+      $("#rallyN").textContent = (rallyN < 10 ? "0" : "") + rallyN;
+      // старые траектории уходят в фон, самые старые удаляются
+      $$(".traj", g).forEach(function(p){
+        if (p.classList.contains("old")) { if (p.getAttribute("data-age") > 1) p.remove(); else p.setAttribute("data-age", 2); }
+        else { p.classList.add("old"); p.setAttribute("data-age", 1); }
+      });
+      $$(".bounce", g).forEach(function(c){ c.remove(); });
+
+      var pts = buildRally(), segs = toSegs(pts);
+      var path = el("path", { d: segs.join(" "), "class": "traj" });
+      g.appendChild(path);
+      var len = path.getTotalLength();
+      path.style.strokeDasharray = len;
+      path.style.strokeDashoffset = len;
+
+      // длина пути до каждой точки — момент отскока или удара
+      var marks = [];
+      var probe = el("path", { d: "" });
+      g.appendChild(probe);
+      for (var i = 1; i < pts.length; i++){
+        probe.setAttribute("d", segs.slice(0, i + 1).join(" "));
+        marks.push({ at: probe.getTotalLength(), p: pts[i] });
+      }
+      probe.remove();
+
+      var speed = .42; // px в мс
+      var dur = len / speed, t0 = null, mi = 0, shot = 0;
+
+      function frame(t){
+        if (!t0) t0 = t;
+        var l = Math.min((t - t0) / dur, 1) * len;
+        path.style.strokeDashoffset = len - l;
+        var p = path.getPointAtLength(l);
+        // высота мяча над столом: дуга между метками
+        var prev = mi > 0 ? marks[mi - 1].at : 0, next = marks[mi] ? marks[mi].at : len;
+        var q = next > prev ? (l - prev) / (next - prev) : 0;
+        var h = Math.sin(Math.PI * q) * 12;
+        ball.setAttribute("cx", p.x); ball.setAttribute("cy", p.y - h);
+        ball.setAttribute("r", 6 + h / 10);
+        sh.setAttribute("cx", p.x + 3); sh.setAttribute("cy", p.y + 3);
+        while (marks[mi] && l >= marks[mi].at){
+          var m = marks[mi].p;
+          if (m.t === "b"){
+            var c = el("circle", { cx: m.x, cy: m.y, r: 4, "class": "bounce" });
+            c.style.transformBox = "fill-box"; c.style.transformOrigin = "center";
+            g.appendChild(c);
+            if (c.animate) c.animate([{ transform: "scale(1)", opacity: 1 }, { transform: "scale(4)", opacity: 0 }], { duration: 700, easing: "ease-out", fill: "forwards" });
+          } else if (m.t === "hit"){ shot++; $("#shotN").textContent = shot; }
+          mi++;
+        }
+        if (l < len) requestAnimationFrame(frame);
+        else setTimeout(play, 900);
+      }
+      $("#shotN").textContent = "подача";
+      requestAnimationFrame(frame);
+    }
+
+    if (reduce){
+      // статичная картинка: одна траектория без движения
+      var pts = buildRally();
+      g.appendChild(el("path", { d: toSegs(pts).join(" "), "class": "traj" }));
+      var last = pts[pts.length - 2];
+      ball.setAttribute("cx", last.x); ball.setAttribute("cy", last.y);
+      return;
+    }
+    // запуск после прорисовки разметки
+    var started = false;
+    function start(){ if (!started){ started = true; setTimeout(play, 1500); } }
+    if (document.readyState === "complete") start(); else window.addEventListener("load", start);
+    setTimeout(start, 2500);
+  })();
+
+  /* ---------- комната: точки на фото ---------- */
+  (function(){
+    var pins = $$(".pin"), feats = $$("[data-feat]");
+    function act(i){
+      pins.forEach(function(p){ p.classList.toggle("is-act", p.getAttribute("data-pin") == i); });
+      feats.forEach(function(f){ f.classList.toggle("is-act", f.getAttribute("data-feat") == i); });
+    }
+    pins.forEach(function(p){
+      p.addEventListener("click", function(){ act(p.getAttribute("data-pin")); });
+      p.addEventListener("mouseenter", function(){ act(p.getAttribute("data-pin")); });
+    });
+    feats.forEach(function(f){ f.addEventListener("mouseenter", function(){ act(f.getAttribute("data-feat")); }); });
+  })();
+
+  /* ---------- горизонтальная прокрутка тарифов ---------- */
+  (function(){
+    var tr = $("#track"), prev = $("#trPrev"), next = $("#trNext"), bar = $("#trProg");
+    function stepW(){ var c = tr.querySelector(".card"); return c ? c.getBoundingClientRect().width + 16 : 300; }
+    function upd(){
+      var max = tr.scrollWidth - tr.clientWidth;
+      var p = max > 0 ? tr.scrollLeft / max : 1;
+      var vis = tr.clientWidth / tr.scrollWidth;
+      bar.style.width = Math.max(vis, .08) * 100 + "%";
+      bar.style.left = p * (1 - Math.max(vis, .08)) * 100 + "%";
+      prev.disabled = tr.scrollLeft < 4;
+      next.disabled = tr.scrollLeft > max - 4;
+    }
+    prev.addEventListener("click", function(){ tr.scrollBy({ left: -stepW(), behavior: reduce ? "auto" : "smooth" }); });
+    next.addEventListener("click", function(){ tr.scrollBy({ left: stepW(), behavior: reduce ? "auto" : "smooth" }); });
+    tr.addEventListener("scroll", upd, { passive: true });
+    window.addEventListener("resize", upd);
+    // перетаскивание мышью на десктопе
+    var down = false, sx = 0, sl = 0, moved = false;
+    tr.addEventListener("pointerdown", function(e){
+      if (e.pointerType !== "mouse") return;
+      down = true; moved = false; sx = e.clientX; sl = tr.scrollLeft;
+    });
+    window.addEventListener("pointermove", function(e){
+      if (!down) return;
+      var dx = e.clientX - sx;
+      if (Math.abs(dx) > 5 && !moved){ moved = true; tr.classList.add("is-drag"); }
+      if (moved) tr.scrollLeft = sl - dx;
+    });
+    window.addEventListener("pointerup", function(){
+      if (!down) return;
+      down = false;
+      if (moved){
+        tr.classList.remove("is-drag");
+        var w = stepW();
+        tr.scrollTo({ left: Math.round(tr.scrollLeft / w) * w, behavior: reduce ? "auto" : "smooth" });
+      }
+    });
+    tr.addEventListener("keydown", function(e){
+      if (e.key === "ArrowRight"){ e.preventDefault(); next.click(); }
+      if (e.key === "ArrowLeft"){ e.preventDefault(); prev.click(); }
+    });
+    upd();
+  })();
+
+  /* ---------- калькулятор абонемента ---------- */
+  (function(){
+    var P5 = 1800, P10 = 3300, WEEKS = 4;
+    var st = { freq: 2, dur: 1, rate: 400 };
+    var freq = $("#cFreq");
+    function segs(id, cb){
+      $$("#" + id + " button").forEach(function(b, _, all){
+        b.addEventListener("click", function(){
+          all.forEach(function(x){ x.setAttribute("aria-pressed", String(x === b)); });
+          cb(b.getAttribute("data-v")); calc();
+        });
+      });
+    }
+    segs("cDur", function(v){ st.dur = parseFloat(v); });
+    segs("cSlot", function(v){ st.rate = parseInt(v, 10); });
+    freq.addEventListener("input", function(){ st.freq = +freq.value; calc(); });
+
+    // лучшая комбинация пакетов размера size с доплатой разово за остаток
+    function packs(H, size, price, rate){
+      var full = Math.floor(H / size), rest = H - full * size;
+      var a = { n: full, rest: rest, cost: full * price + rest * rate };
+      var b = { n: full + 1, rest: 0, cost: (full + 1) * price };
+      return rest > 0 && b.cost < a.cost ? b : a;
+    }
+    function hrs(h){ return String(h).replace(".", ",") + " ч"; }
+    function plural(n, f){ var m10 = n % 10, m100 = n % 100; return f[(m10 === 1 && m100 !== 11) ? 0 : (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20)) ? 1 : 2]; }
+    function det(o, size){
+      if (o.n === 0) return "всё разово";
+      var s = o.n + " " + plural(o.n, ["абонемент", "абонемента", "абонементов"]) + " × " + size + " ч";
+      if (o.rest > 0) s += " + " + hrs(o.rest) + " разово";
+      return s;
+    }
+
+    function calc(){
+      var H = st.freq * st.dur * WEEKS;
+      var p = (freq.value - 1) / 6 * 100;
+      freq.style.setProperty("--p", p + "%");
+      $("#oFreq").textContent = st.freq;
+      $("#oDur").textContent = String(st.dur).replace(".", ",");
+      $("#cHours").textContent = hrs(H);
+      $("#cRate").textContent = st.rate + " ₽";
+
+      var one = H * st.rate;
+      var o5 = packs(H, 5, P5, st.rate), o10 = packs(H, 10, P10, st.rate);
+      // смешанный вариант 10 + 5 + остаток
+      var mix = null;
+      for (var a = 0; a <= Math.ceil(H / 10); a++){
+        for (var b = 0; b <= 2; b++){
+          var rest = Math.max(0, H - a * 10 - b * 5);
+          var c = a * P10 + b * P5 + rest * st.rate;
+          if (!mix || c < mix.cost) mix = { a: a, b: b, rest: rest, cost: c };
+        }
+      }
+      $("#sOne").textContent = fmt(one) + " ₽";
+      $("#dOne").textContent = hrs(H) + " × " + st.rate + " ₽";
+      $("#s5").textContent = fmt(o5.cost) + " ₽";
+      $("#d5").textContent = det(o5, 5);
+      $("#s10").textContent = fmt(o10.cost) + " ₽";
+      $("#d10").textContent = det(o10, 10);
+
+      var vals = [one, o5.cost, o10.cost], best = Math.min.apply(null, vals), mx = Math.max.apply(null, vals);
+      [["colOne", "bOne", one], ["col5", "b5", o5.cost], ["col10", "b10", o10.cost]].forEach(function(r){
+        var isBest = r[2] === best && best < one || (best === one && r[0] === "colOne");
+        $("#" + r[0]).classList.toggle("is-best", isBest);
+        $("#" + r[1]).classList.toggle("is-best", isBest);
+        $("#" + r[1] + " i").style.width = (r[2] / mx * 100) + "%";
+      });
+
+      var save = one - mix.cost;
+      var vs = $("#vSave"), vt = $("#vTitle"), vx = $("#vText");
+      if (save <= 0){
+        vs.textContent = "0 ₽"; vs.classList.add("zero");
+        vt.textContent = "Играйте разово";
+        vx.textContent = st.rate === 300
+          ? "В будни до 16:00 час стоит 300 ₽ — это дешевле любого абонемента. Бронируйте по мере игры."
+          : "При таком объёме абонемент не даёт выгоды. Бронируйте по мере игры.";
+      } else {
+        vs.textContent = "−" + fmt(save) + " ₽"; vs.classList.remove("zero");
+        var parts = [];
+        if (mix.a) parts.push(mix.a + " × 10 ч");
+        if (mix.b) parts.push(mix.b + " × 5 ч");
+        vt.textContent = "Берите " + parts.join(" + ") + (mix.rest ? " и " + hrs(mix.rest) + " разово" : "");
+        var yr = save * 12;
+        vx.textContent = "Экономия " + fmt(save) + " ₽ за 4 недели — примерно " + fmt(yr) + " ₽ за год регулярной игры.";
+      }
+    }
+    calc();
+  })();
+
+  /* ---------- программы тренировок + таймер ---------- */
+  (function(){
+    // интервалы в минутах; r:true — отдых
+    var PROGS = [
+      { id: "warm", name: "Разминка и контроль", tag: "Для любого уровня", desc: "Прогреться, поймать ритм и стабильность ударов.", steps: [
+        { n: "Суставная разминка", d: "Шея, плечи, кисти, корпус, колени", m: 5 },
+        { n: "Боковые шаги у стола", d: "Приставные шаги, работа ног без мяча", m: 3 },
+        { n: "Толчок справа по диагонали", d: "Мягко, на контроль, счёт без ошибок", m: 8 },
+        { n: "Отдых и вода", d: "", m: 2, r: true },
+        { n: "Толчок слева по диагонали", d: "Слева-слева, держим темп", m: 8 },
+        { n: "Восьмёрка", d: "Один игрок по диагонали, второй по прямой", m: 8 },
+        { n: "Отдых", d: "", m: 2, r: true },
+        { n: "Свободная игра без счёта", d: "Разыгрываем длинные розыгрыши", m: 12 },
+        { n: "Партия до 11", d: "Применяем то, что отработали", m: 9 },
+        { n: "Заминка и растяжка", d: "Плечи, предплечья, ноги", m: 3 }
+      ]},
+      { id: "serve", name: "Подача и приём", tag: "Очко начинается с подачи", desc: "Короткие и длинные подачи, приём, третий удар.", steps: [
+        { n: "Разминка и толчки", d: "Прогреть руку и глаза", m: 7 },
+        { n: "Короткая подача с нижним", d: "Мяч должен дважды коснуться половины соперника", m: 8 },
+        { n: "Длинная быстрая подача", d: "В углы, чередуем направление", m: 6 },
+        { n: "Отдых и вода", d: "", m: 2, r: true },
+        { n: "Приём короткой подачи", d: "Подрезка и короткая скидка", m: 8 },
+        { n: "Подача + третий удар", d: "Подал — атакуешь ответ", m: 10 },
+        { n: "Отдых", d: "", m: 2, r: true },
+        { n: "Игра «только со своей подачи»", d: "Очко засчитывается лишь подающему", m: 10 },
+        { n: "Партия до 11", d: "Каждая подача — по плану", m: 5 },
+        { n: "Заминка", d: "Растяжка кисти и плеча", m: 2 }
+      ]},
+      { id: "topspin", name: "Накат и работа ног", tag: "Для прогресса", desc: "Стабильный накат, переходы и перемещения.", steps: [
+        { n: "Разминка с шагами", d: "Бег на месте, выпады, приставные шаги", m: 6 },
+        { n: "Накат справа по диагонали", d: "Работа корпусом, мяч в одну точку", m: 8 },
+        { n: "Накат слева", d: "Короткий замах от локтя", m: 7 },
+        { n: "Отдых и вода", d: "", m: 2, r: true },
+        { n: "Фалькенберг", d: "Слева — справа из левого угла — справа", m: 8 },
+        { n: "Накат по подрезке", d: "Партнёр подрезает, вы поднимаете мяч", m: 8 },
+        { n: "Отдых", d: "", m: 2, r: true },
+        { n: "Два угла", d: "Партнёр направляет мяч поочерёдно в углы", m: 9 },
+        { n: "Партия до 11 с атакой", d: "Очко после наката — двойное", m: 7 },
+        { n: "Заминка", d: "Растяжка ног и спины", m: 3 }
+      ]}
+    ];
+    var KEY = "pp_train_v1";
+    var store = { done: {}, log: [] };
+    try { var raw = localStorage.getItem(KEY); if (raw) store = JSON.parse(raw) || store; } catch(e){}
+    store.done = store.done || {}; store.log = store.log || [];
+    function save(){ try { localStorage.setItem(KEY, JSON.stringify(store)); } catch(e){} }
+
+    var cur = 0, idx = 0, left = 0, running = false, last = 0, tick = null;
+    var progs = $("#progs"), plan = $("#plan");
+    var C = 2 * Math.PI * 92;
+
+    function renderProgs(){
+      progs.innerHTML = "";
+      PROGS.forEach(function(p, i){
+        var total = p.steps.reduce(function(s, x){ return s + x.m; }, 0);
+        var b = document.createElement("button");
+        b.type = "button"; b.className = "pbtn reveal is-in";
+        b.setAttribute("aria-pressed", String(i === cur));
+        var dn = store.done[p.id] || 0;
+        b.innerHTML = "<b>" + p.name + "</b><span>" + total + " мин</span><small>" + p.desc + "</small>" +
+          (dn ? "<span class='done'>Пройдено: " + dn + "</span>" : "");
+        b.addEventListener("click", function(){ if (cur !== i){ cur = i; reset(); renderProgs(); } });
+        progs.appendChild(b);
+      });
+      // трекер
+      var weekAgo = Date.now() - 7 * 864e5;
+      var wk = store.log.filter(function(t){ return t > weekAgo; }).length;
+      var tot = store.log.length;
+      var t = document.createElement("div");
+      t.className = "trk";
+      var dots = ""; for (var k = 0; k < 3; k++) dots += "<i class='" + (k < wk ? "on" : "") + "'></i>";
+      t.innerHTML = "<div class='trk__row'><div><div class='trk__num tnum'>" + wk + "/3</div><small>тренировок за 7 дней · цель — 3</small></div>" +
+        "<div style='text-align:right'><div class='trk__num tnum'>" + tot + "</div><small>всего</small></div></div>" +
+        "<div class='trk__dots'>" + dots + "</div>" +
+        (tot ? "<button type='button' id='trkClr'>Сбросить прогресс</button>" : "<small style='display:block;margin-top:12px'>Прогресс сохраняется в этом браузере.</small>");
+      progs.appendChild(t);
+      var clr = $("#trkClr");
+      if (clr) clr.addEventListener("click", function(){ store = { done: {}, log: [] }; save(); renderProgs(); });
+    }
+
+    function renderPlan(){
+      var p = PROGS[cur];
+      plan.innerHTML = "";
+      p.steps.forEach(function(s, i){
+        var li = document.createElement("li");
+        if (s.r) li.className = "rest";
+        if (i < idx) li.classList.add("is-done");
+        if (i === idx) li.classList.add("is-cur");
+        li.innerHTML = "<div><b>" + s.n + "</b>" + (s.d ? "<span>" + s.d + "</span>" : "") + "</div><em>" + s.m + " мин</em>";
+        li.addEventListener("click", function(){ idx = i; left = s.m * 60000; renderPlan(); draw(); });
+        plan.appendChild(li);
+      });
+      var total = p.steps.reduce(function(a, x){ return a + x.m; }, 0);
+      $("#tTotal").textContent = "Всего: " + total + " мин · упражнение " + (Math.min(idx, p.steps.length - 1) + 1) + " из " + p.steps.length;
+    }
+
+    function mmss(ms){
+      var s = Math.max(0, Math.ceil(ms / 1000)), m = Math.floor(s / 60);
+      return (m < 10 ? "0" : "") + m + ":" + ((s % 60) < 10 ? "0" : "") + (s % 60);
+    }
+    function draw(){
+      var p = PROGS[cur], s = p.steps[idx];
+      var ring = $("#ring"), fg = $("#ringFg");
+      if (!s){
+        $("#tPhase").textContent = "Готово";
+        $("#tTime").textContent = "00:00";
+        $("#tName").textContent = "Тренировка завершена. Отличная работа!";
+        fg.style.strokeDashoffset = 0; ring.classList.remove("is-rest");
+        return;
+      }
+      var full = s.m * 60000;
+      $("#tPhase").textContent = s.r ? "Отдых" : (running ? "Работаем" : (left < full ? "Пауза" : "Упражнение " + (idx + 1)));
+      $("#tTime").textContent = mmss(left);
+      $("#tName").textContent = s.n;
+      ring.classList.toggle("is-rest", !!s.r);
+      fg.style.strokeDashoffset = C * (1 - left / full);
+    }
+
+    // звук
+    var ac = null;
+    function beep(freq, dur, when){
+      if (!$("#tSound").checked) return;
+      try {
+        ac = ac || new (window.AudioContext || window.webkitAudioContext)();
+        if (ac.state === "suspended") ac.resume();
+        var t = ac.currentTime + (when || 0);
+        var o = ac.createOscillator(), g = ac.createGain();
+        o.type = "sine"; o.frequency.value = freq;
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(0.35, t + 0.015);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+        o.connect(g); g.connect(ac.destination);
+        o.start(t); o.stop(t + dur + 0.02);
+      } catch(e){}
+    }
+    function chime(){ beep(880, .18, 0); beep(1320, .3, .2); }
+    function fanfare(){ beep(660, .2, 0); beep(880, .2, .22); beep(1320, .5, .44); }
+
+    var lastSec = -1;
+    function loop(){
+      var now = performance.now(), dt = now - last; last = now;
+      left -= dt;
+      var sec = Math.ceil(left / 1000);
+      if (sec !== lastSec && sec <= 3 && sec > 0) beep(600, .09);
+      lastSec = sec;
+      if (left <= 0){
+        idx++;
+        var p = PROGS[cur];
+        if (idx >= p.steps.length){
+          finish(); return;
+        }
+        left = p.steps[idx].m * 60000;
+        chime(); renderPlan();
+      }
+      draw();
+    }
+    function finish(){
+      running = false; clearInterval(tick);
+      $("#tStart").textContent = "Заново";
+      fanfare();
+      var id = PROGS[cur].id;
+      store.done[id] = (store.done[id] || 0) + 1;
+      store.log.push(Date.now()); if (store.log.length > 200) store.log.shift();
+      save(); renderProgs(); renderPlan(); draw();
+    }
+    function start(){
+      if (idx >= PROGS[cur].steps.length) reset();
+      running = true; last = performance.now();
+      beep(880, .12);
+      tick = setInterval(loop, 200);
+      $("#tStart").textContent = "Пауза";
+      draw();
+    }
+    function pause(){
+      running = false; clearInterval(tick);
+      $("#tStart").textContent = "Продолжить";
+      draw();
+    }
+    function reset(){
+      running = false; clearInterval(tick);
+      idx = 0; left = PROGS[cur].steps[0].m * 60000;
+      $("#tStart").textContent = "Старт";
+      renderPlan(); draw();
+    }
+    $("#tStart").addEventListener("click", function(){ running ? pause() : start(); });
+    $("#tReset").addEventListener("click", reset);
+    $("#tNext").addEventListener("click", function(){
+      var p = PROGS[cur];
+      if (idx >= p.steps.length) return;
+      idx++;
+      if (idx >= p.steps.length){ finish(); return; }
+      left = p.steps[idx].m * 60000;
+      if (running) chime();
+      renderPlan(); draw();
+    });
+
+    renderProgs(); reset();
+  })();
+
+  /* ---------- Лига: таблица рейтинга ---------- */
+  (function(){
+    // ДЕМО-ДАННЫЕ для макета — не реальные игроки
+    var DATA = [
+      { name: "Алексей К.", games: 18, wins: 14, form: "WWLWW" },
+      { name: "Мария С.",   games: 16, wins: 11, form: "WLWWW" },
+      { name: "Дмитрий П.", games: 20, wins: 12, form: "LWWLW" },
+      { name: "Игорь Н.",   games: 12, wins: 8,  form: "WWWLL" },
+      { name: "Ольга В.",   games: 14, wins: 7,  form: "LWLWW" },
+      { name: "Сергей Т.",  games: 15, wins: 6,  form: "LLWLW" },
+      { name: "Анна М.",    games: 9,  wins: 5,  form: "WLWLW" },
+      { name: "Павел Р.",   games: 10, wins: 3,  form: "LLLWL" }
+    ];
+    DATA.forEach(function(p){
+      p.pts = p.wins * 3 + (p.games - p.wins);
+      p.pct = Math.round(p.wins / p.games * 100);
+      p.formN = p.form.split("").slice(-5).filter(function(c){ return c === "W"; }).length;
+    });
+    DATA.slice().sort(function(a, b){ return b.pts - a.pts || b.pct - a.pct; }).forEach(function(p, i){ p.rank = i + 1; });
+
+    var body = $("#lgBody"), ths = $$("#lg th");
+    var sortK = "pts", dir = -1;
+    function initials(n){ return n.split(" ").map(function(s){ return s.charAt(0); }).join(""); }
+    function render(){
+      var rows = DATA.slice().sort(function(a, b){
+        var k = sortK === "form" ? "formN" : sortK;
+        var x = a[k], y = b[k];
+        if (typeof x === "string") return x.localeCompare(y, "ru") * dir;
+        return (x - y) * dir || (a.rank - b.rank);
+      });
+      body.innerHTML = rows.map(function(p){
+        var f = p.form.split("").map(function(c){ return "<i class='" + (c === "W" ? "w" : "") + "' title='" + (c === "W" ? "победа" : "поражение") + "'></i>"; }).join("");
+        return "<tr class='flash'><td>" + (p.rank < 10 ? "0" : "") + p.rank + "</td><td><span class='av'>" + initials(p.name) + "</span>" + p.name + "</td><td>" + p.games + "</td><td>" + p.wins + "</td><td>" + p.pct + "%</td><td><span class='form'>" + f + "</span></td><td class='pts'>" + p.pts + "</td></tr>";
+      }).join("");
+      ths.forEach(function(th){
+        th.setAttribute("aria-sort", th.getAttribute("data-k") === sortK ? (dir < 0 ? "descending" : "ascending") : "none");
+      });
+    }
+    ths.forEach(function(th){
+      th.querySelector("button").addEventListener("click", function(){
+        var k = th.getAttribute("data-k");
+        if (k === sortK) dir = -dir;
+        else { sortK = k; dir = (k === "name" || k === "rank") ? 1 : -1; }
+        render();
+      });
+    });
+    render();
+  })();
+
+  /* ---------- карта: ленивая загрузка ---------- */
+  (function(){
+    var box = $("#map"), done = false;
+    function load(){
+      if (done) return; done = true;
+      var f = document.createElement("iframe");
+      f.src = "https://yandex.ru/map-widget/v1/?text=Брянск%2C%20Красноармейская%20100&z=16";
+      f.title = "Ping Point на карте: Брянск, ул. Красноармейская, 100";
+      f.loading = "lazy";
+      f.setAttribute("allowfullscreen", "");
+      box.appendChild(f);
+    }
+    if ("IntersectionObserver" in window){
+      var o = new IntersectionObserver(function(en){ if (en[0].isIntersecting){ load(); o.disconnect(); } }, { rootMargin: "300px" });
+      o.observe(box);
+    } else load();
+  })();
+
+  /* ---------- закреплённая кнопка на мобильном ---------- */
+  (function(){
+    var s = $("#sticky"), hero = $(".hero__cta");
+    if (!("IntersectionObserver" in window)) { s.classList.add("is-on"); return; }
+    new IntersectionObserver(function(en){ s.classList.toggle("is-on", !en[0].isIntersecting); }).observe(hero);
+  })();
+})();
+</script>
+</body>
+</html>

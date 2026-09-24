@@ -1,0 +1,1570 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ping Point — приватная комната настольного тенниса и корпоративы в Брянске</title>
+<meta name="description" content="Ping Point — закрытая комната на один стол в ТРЦ «Мельница», Брянск. Вход по коду, без администратора и зрителей. Корпоративные турниры, членство на 5 и 10 часов, подарочные сертификаты. Ежедневно 10:00–20:30.">
+<meta name="theme-color" content="#232740">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Ping Point — приватная комната настольного тенниса в Брянске">
+<meta property="og:description" content="Отдельный зал с профессиональным столом UNIX Line. Бронь и оплата онлайн, вход по коду. Корпоративы до 24 человек с ротацией по четыре.">
+<meta property="og:image" content="../img/room.jpg">
+<meta property="og:site_name" content="Ping Point">
+<link rel="icon" href="../img/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SportsActivityLocation",
+  "name": "Ping Point — комната настольного тенниса",
+  "description": "Приватная комната на один стол для настольного тенниса. Бронь и оплата онлайн, вход по коду.",
+  "image": "../img/room.jpg",
+  "logo": "../img/logo.jpg",
+  "telephone": "+7 903 644-76-53",
+  "email": "pingp-inf@bk.ru",
+  "url": "https://pingpongroom.ru/",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "ул. Красноармейская, 100, ТРЦ «Мельница»",
+    "addressLocality": "Брянск",
+    "addressCountry": "RU"
+  },
+  "openingHoursSpecification": [{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+    "opens": "10:00",
+    "closes": "20:30"
+  }],
+  "priceRange": "300–400 ₽/час",
+  "currenciesAccepted": "RUB",
+  "makesOffer": [
+    {"@type": "Offer", "name": "Аренда стола, будни 10:00–16:00", "price": "300", "priceCurrency": "RUB", "unitText": "час"},
+    {"@type": "Offer", "name": "Аренда стола, будни 16:00–20:30 и выходные", "price": "400", "priceCurrency": "RUB", "unitText": "час"}
+  ],
+  "sameAs": ["https://vk.com/pingp32", "https://t.me/PingP32"]
+}
+</script>
+<style>
+:root{
+  --navy:#232740; --navy-2:#1a1d31; --navy-3:#2d3252;
+  --bord:#7C0C0B; --bord-2:#9b1b18;
+  --ivory:#F5EFE3; --ivory-2:#EAE1CF; --paper:#FBF8F1;
+  --ink:#1d1f2e; --muted:#5e6071; --muted-inv:#b9bbcb;
+  --line:rgba(35,39,64,.16); --line-inv:rgba(245,239,227,.18);
+  --brass:#A98A5B;
+  --serif:'Cormorant Garamond','Playfair Display',Georgia,'Times New Roman',serif;
+  --fig:'Playfair Display',Georgia,'Times New Roman',serif;
+  --sans:'Manrope',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+  --gut:clamp(20px,5vw,72px);
+  --maxw:1320px;
+  --ease:cubic-bezier(.2,.7,.1,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ivory);color:var(--ink);font:400 16px/1.65 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--bord);outline-offset:3px}
+[hidden]{display:none!important}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+#page{position:relative}
+.wrap{max-width:var(--maxw);margin:0 auto;padding-inline:var(--gut)}
+
+/* ---------- typography ---------- */
+.kicker{font:600 11px/1.4 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--bord)}
+.inv .kicker{color:#d9b98a}
+h1,h2,h3{font-family:var(--serif);font-weight:600;letter-spacing:-.01em;margin:0}
+h2{font-size:clamp(40px,6.2vw,88px);line-height:.98}
+h2 em,h1 em{font-style:italic;font-weight:500;color:var(--bord)}
+.inv h2 em{color:#d9b98a}
+h3{font-size:clamp(24px,2.4vw,32px);line-height:1.1}
+p{margin:0 0 1em}
+.lead{font-size:clamp(17px,1.5vw,20px);line-height:1.6;color:var(--muted)}
+.inv .lead{color:var(--muted-inv)}
+.num{font-family:var(--fig);font-variant-numeric:lining-nums}
+.hero-meta b.num,.num,.sched td.t,.ptable b,.card .hours,.card .price b,.totals b,.fld output,.step .n{font-family:var(--fig)!important;font-variant-numeric:lining-nums}
+.card .hours small,.ptable b i{font-family:var(--sans)!important}
+
+/* section head, editorial */
+.sec{position:relative;padding-block:clamp(80px,11vw,160px)}
+.sec-head{display:grid;grid-template-columns:120px 1fr;gap:0 32px;border-top:1px solid var(--line);padding-top:22px;margin-bottom:clamp(40px,6vw,80px)}
+.inv .sec-head{border-color:var(--line-inv)}
+.sec-no{font:italic 500 22px/1 var(--serif);color:var(--bord);padding-top:4px}
+.inv .sec-no{color:#d9b98a}
+.sec-head .kicker{margin-bottom:18px;display:block}
+.inv{background:var(--navy);color:var(--ivory)}
+@media (max-width:700px){.sec-head{grid-template-columns:1fr}.sec-no{margin-bottom:14px}}
+.paper{background:var(--paper)}
+
+/* line mask reveal */
+.ml{display:block;overflow:hidden;padding-bottom:.06em;margin-bottom:-.06em}
+.ml>span{display:block;transform:translateY(105%);transition:transform 1.1s var(--ease)}
+.is-in .ml>span{transform:none}
+.ml:nth-child(2)>span{transition-delay:.09s}.ml:nth-child(3)>span{transition-delay:.18s}.ml:nth-child(4)>span{transition-delay:.27s}
+.rv{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.rv.is-in{opacity:1;transform:none}
+.rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}
+
+/* ---------- buttons ---------- */
+.btn{--bg:var(--bord);--fg:#fff;position:relative;display:inline-flex;align-items:center;gap:12px;padding:17px 28px;border:1px solid var(--bg);background:var(--bg);color:var(--fg);text-decoration:none;font:600 14px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;border-radius:0;transition:background .3s,color .3s,border-color .3s,transform .35s var(--ease);will-change:transform}
+.btn:hover{--bg:var(--bord-2)}
+.btn .arr{display:inline-block;transition:transform .3s var(--ease)}
+.btn:hover .arr{transform:translateX(4px)}
+.btn-ghost{--bg:transparent;--fg:currentColor;border-color:currentColor}
+.btn-ghost:hover{--bg:transparent;border-color:var(--bord);color:var(--bord)}
+.inv .btn-ghost:hover,.hero .btn-ghost:hover{color:#e9cf9f;border-color:#e9cf9f}
+.btn-navy{--bg:var(--navy)}
+.btn-navy:hover{--bg:var(--navy-3)}
+.btn-sm{padding:12px 18px;font-size:12px}
+.link{color:var(--bord);text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:1px}
+.inv .link{color:#e9cf9f}
+
+/* ---------- header ---------- */
+.hdr{position:fixed;inset:0 0 auto 0;z-index:40;padding-top:env(safe-area-inset-top,0px);transition:background .4s,box-shadow .4s,color .4s;color:var(--ivory)}
+.hdr.solid{background:rgba(245,239,227,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:var(--ink);box-shadow:0 1px 0 var(--line)}
+.hdr-in{display:flex;align-items:center;gap:28px;height:76px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand-plate{background:#fff;padding:4px;line-height:0;box-shadow:0 0 0 1px rgba(0,0,0,.06)}
+.brand-plate img{width:40px;height:38px;object-fit:contain}
+.brand-t{font:600 20px/1 var(--serif);letter-spacing:.02em}
+.brand-t small{display:block;font:500 10px/1.3 var(--sans);letter-spacing:.2em;text-transform:uppercase;opacity:.7;margin-top:4px}
+.nav{display:flex;gap:26px;margin-left:auto}
+.nav a{text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.03em;position:relative;padding:6px 0}
+.nav a::after{content:"";position:absolute;left:0;right:100%;bottom:0;height:1px;background:currentColor;transition:right .35s var(--ease)}
+.nav a:hover::after{right:0}
+.hdr-tel{text-decoration:none;font-weight:600;font-size:14px;white-space:nowrap}
+.hdr .btn{padding:13px 20px;font-size:12px}
+@media (max-width:1100px){.nav{display:none}.hdr-tel{margin-left:auto}}
+@media (max-width:640px){.hdr-tel,.hdr .btn{display:none}.brand-t small{display:none}.hdr-in{height:64px}}
+
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:flex-end;color:var(--ivory);overflow:hidden;background:var(--navy-2)}
+.hero-bg{position:absolute;inset:-8% 0 -8% 0;will-change:transform}
+.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:50% 45%;animation:kb 26s ease-in-out infinite alternate;transform-origin:62% 40%}
+@keyframes kb{from{transform:scale(1.04) translate3d(0,0,0)}to{transform:scale(1.2) translate3d(-2%,1.5%,0)}}
+.hero::after{content:"";position:absolute;inset:0;background:
+  linear-gradient(90deg,rgba(26,29,49,.94) 0%,rgba(26,29,49,.78) 38%,rgba(26,29,49,.25) 75%,rgba(26,29,49,.35) 100%),
+  linear-gradient(0deg,rgba(26,29,49,.9) 0%,rgba(26,29,49,0) 45%)}
+.hero-in{position:relative;z-index:2;width:100%;padding-top:140px;padding-bottom:clamp(36px,5vw,64px)}
+.hero .kicker{color:#e3c496;display:flex;align-items:center;gap:14px}
+.hero .kicker::before{content:"";width:40px;height:1px;background:currentColor}
+.hero h1{font-size:clamp(50px,9.2vw,142px);line-height:.9;margin:26px 0 30px;max-width:11ch}
+.hero h1 em{color:#e3c496}
+.hero-sub{max-width:520px;font-size:clamp(16px,1.4vw,19px);color:#d3d4df;margin-bottom:36px}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px}
+.hero-meta{margin-top:clamp(48px,7vw,96px);display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line-inv)}
+.hero-meta div{padding:18px 20px 0 0}
+.hero-meta b{display:block;font:500 clamp(22px,2.2vw,30px)/1.1 var(--serif);color:var(--ivory)}
+.hero-meta span{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#a9abbd}
+.hero-cap{position:absolute;right:var(--gut);top:120px;z-index:2;writing-mode:vertical-rl;font:italic 500 14px/1 var(--serif);letter-spacing:.06em;color:rgba(245,239,227,.7)}
+@media (max-width:760px){.hero-meta{grid-template-columns:1fr 1fr}.hero-cap{display:none}.hero::after{background:linear-gradient(0deg,rgba(26,29,49,.97) 0%,rgba(26,29,49,.82) 55%,rgba(26,29,49,.45) 100%)}}
+
+/* ---------- toc ---------- */
+.toc{background:var(--paper);border-bottom:1px solid var(--line)}
+.toc-in{display:grid;grid-template-columns:200px 1fr;gap:32px;padding-block:34px;align-items:start}
+.toc-t{font:italic 500 26px/1.1 var(--serif)}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:10px 28px;counter-reset:t}
+.toc li{counter-increment:t}
+.toc a{display:flex;gap:12px;text-decoration:none;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px;transition:color .3s}
+.toc a::before{content:"0" counter(t);font:italic 500 16px/1.3 var(--serif);color:var(--bord);min-width:22px}
+.toc a:hover{color:var(--bord)}
+@media (max-width:980px){.toc-in{grid-template-columns:1fr}.toc ol{grid-template-columns:1fr 1fr}}
+@media (max-width:480px){.toc ol{grid-template-columns:1fr}}
+
+/* ---------- privacy ---------- */
+.priv{display:grid;grid-template-columns:5fr 7fr;gap:clamp(32px,6vw,96px);align-items:start}
+.priv-fig{position:relative;margin:0}
+.priv-fig .frame{overflow:hidden;aspect-ratio:4/5}
+.priv-fig img{width:100%;height:100%;object-fit:cover;transform:scale(1.08);transition:transform 1.6s var(--ease)}
+.priv-fig.is-in img{transform:scale(1)}
+figcaption{font-size:12px;color:var(--muted);margin-top:12px;display:flex;gap:10px;letter-spacing:.02em}
+figcaption::before{content:"";width:24px;height:1px;background:currentColor;margin-top:9px;flex:none}
+.inv figcaption{color:var(--muted-inv)}
+.dropcap::first-letter{float:left;font:600 5.2em/.8 var(--serif);color:var(--bord);margin:.08em .1em 0 0}
+.pull{font:italic 500 clamp(28px,3.2vw,44px)/1.15 var(--serif);color:var(--navy);margin:44px 0;padding-left:28px;border-left:2px solid var(--bord)}
+.feat{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}
+.feat li{padding:24px 24px 24px 0;border-bottom:1px solid var(--line)}
+.feat li:nth-child(odd){border-right:1px solid var(--line)}
+.feat li:nth-child(even){padding-left:24px}
+.feat b{display:block;font:600 22px/1.2 var(--serif);margin-bottom:6px}
+.feat span{font-size:14px;color:var(--muted)}
+@media (max-width:900px){.priv{grid-template-columns:1fr}.priv-fig .frame{aspect-ratio:4/3}}
+@media (max-width:560px){.feat{grid-template-columns:1fr}.feat li:nth-child(odd){border-right:0}.feat li:nth-child(even){padding-left:0}}
+
+/* ---------- how ---------- */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;counter-reset:s}
+.step{padding:0 28px 0 0;position:relative}
+.step+.step{padding-left:28px;border-left:1px solid var(--line-inv)}
+.step .n{font:500 clamp(60px,7vw,96px)/1 var(--serif);color:transparent;-webkit-text-stroke:1px #d9b98a;display:block;margin-bottom:24px}
+.step h3{margin-bottom:10px}
+.step p{color:var(--muted-inv);font-size:15px}
+.how-note{margin-top:56px;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between;border-top:1px solid var(--line-inv);padding-top:28px}
+.how-note p{margin:0;color:var(--muted-inv);max-width:640px}
+@media (max-width:900px){.steps{grid-template-columns:1fr 1fr;gap:48px 0}.step:nth-child(3){padding-left:0;border-left:0}}
+@media (max-width:560px){.steps{grid-template-columns:1fr;gap:36px}.step+.step{padding-left:0;border-left:0;border-top:1px solid var(--line-inv);padding-top:28px}}
+
+/* ---------- room ---------- */
+.room-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:20px;align-items:start}
+.room-main{grid-column:1/9;margin:0}
+.room-main .frame{overflow:hidden;aspect-ratio:4/3}
+.room-main img,.room-side img{width:100%;height:100%;object-fit:cover}
+.room-side{grid-column:9/13;display:grid;gap:20px;margin:0}
+.room-side .frame{overflow:hidden;aspect-ratio:4/3}
+.spec{margin-top:clamp(40px,6vw,72px);display:grid;grid-template-columns:4fr 8fr;gap:clamp(24px,5vw,80px)}
+.spec dl{margin:0;display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}
+.spec dl>div{display:flex;justify-content:space-between;gap:16px;padding:16px 0;border-bottom:1px solid var(--line)}
+.spec dl>div:nth-child(odd){padding-right:24px;border-right:1px solid var(--line)}
+.spec dl>div:nth-child(even){padding-left:24px}
+.spec dt{color:var(--muted);font-size:14px}
+.spec dd{margin:0;font-weight:600;font-size:14px;text-align:right}
+@media (max-width:900px){.room-main,.room-side{grid-column:1/-1}.room-side{grid-template-columns:1fr 1fr}.spec{grid-template-columns:1fr}}
+@media (max-width:560px){.spec dl{grid-template-columns:1fr}.spec dl>div:nth-child(odd){border-right:0;padding-right:0}.spec dl>div:nth-child(even){padding-left:0}}
+
+/* ---------- corporate calc ---------- */
+.corp-top{display:grid;grid-template-columns:7fr 5fr;gap:clamp(32px,6vw,96px);align-items:end;margin-bottom:clamp(40px,6vw,72px)}
+.corp-top figure{margin:0}
+.corp-top .frame{overflow:hidden;aspect-ratio:3/2}
+.corp-top img{width:100%;height:100%;object-fit:cover;filter:saturate(.75) contrast(1.02)}
+.calc{display:grid;grid-template-columns:5fr 7fr;border:1px solid var(--line);background:var(--paper)}
+.calc-in{padding:clamp(24px,3.4vw,44px);border-right:1px solid var(--line)}
+.calc-out{padding:clamp(24px,3.4vw,44px);min-width:0}
+.fld{margin-bottom:26px}
+.fld>label,.fld>.lbl{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.fld output{font:600 34px/1 var(--serif);color:var(--navy);letter-spacing:0;text-transform:none}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:24px;background:transparent;cursor:pointer}
+input[type=range]::-webkit-slider-runnable-track{height:1px;background:linear-gradient(90deg,var(--bord) var(--p,0%),rgba(35,39,64,.25) var(--p,0%))}
+input[type=range]::-moz-range-track{height:1px;background:rgba(35,39,64,.25)}
+input[type=range]::-moz-range-progress{height:1px;background:var(--bord)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--ivory);border:1.5px solid var(--bord);margin-top:-9px;transition:transform .2s}
+input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--ivory);border:1.5px solid var(--bord)}
+input[type=range]:active::-webkit-slider-thumb{transform:scale(1.2)}
+.ticks{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:2px}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line)}
+.seg label{position:relative;cursor:pointer}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg span{display:block;padding:12px 8px;text-align:center;font-size:13px;font-weight:500;line-height:1.25;transition:background .25s,color .25s;height:100%}
+.seg label+label span{border-left:1px solid var(--line)}
+.seg input:checked+span{background:var(--navy);color:var(--ivory)}
+.seg input:focus-visible+span{outline:2px solid var(--bord);outline-offset:-2px}
+.seg-2{grid-template-columns:1fr 1fr}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+select,.inp,textarea{width:100%;background:transparent;border:0;border-bottom:1px solid rgba(35,39,64,.35);padding:10px 0;border-radius:0;font-size:16px;outline:none;transition:border-color .25s}
+select{cursor:pointer;appearance:none;-webkit-appearance:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6' fill='none' stroke='%23232740'/%3E%3C/svg%3E") no-repeat right 4px center;padding-right:22px}
+select:focus,.inp:focus,textarea:focus{border-color:var(--bord)}
+textarea{resize:vertical;min-height:70px;line-height:1.5}
+.hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+.totals{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:24px}
+.totals div{padding:16px 12px 16px 0}
+.totals div+div{padding-left:14px;border-left:1px solid var(--line)}
+.totals span{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.totals b{font:600 clamp(24px,2.3vw,32px)/1.05 var(--serif);color:var(--navy);white-space:nowrap}
+.totals b.acc{color:var(--bord)}
+.calc-summary{font-size:14px;color:var(--muted);margin-bottom:20px}
+.calc-summary strong{color:var(--ink)}
+.warn{background:rgba(124,12,11,.07);border-left:2px solid var(--bord);padding:12px 16px;font-size:14px;margin-bottom:20px}
+.warn button{background:none;border:0;padding:0;color:var(--bord);font-weight:700;text-decoration:underline;cursor:pointer}
+.sched{max-height:440px;overflow:auto;border-top:1px solid var(--navy);scrollbar-width:thin}
+.sched table{width:100%;border-collapse:collapse;font-size:14px}
+.sched th{position:sticky;top:0;background:var(--paper);text-align:left;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;padding:10px 8px 10px 0;border-bottom:1px solid var(--line)}
+.sched td{padding:9px 8px 9px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.sched td.t{font:600 17px/1.2 var(--serif);white-space:nowrap;color:var(--navy);width:64px}
+.sched td.st{color:var(--muted);font-size:12px;white-space:nowrap;width:110px}
+.sched tr.stage td{background:var(--ivory-2);font:italic 600 16px/1.2 var(--serif);color:var(--bord);padding:9px 10px}
+.sched tr.svc td{color:var(--muted);font-style:italic}
+.vs{color:var(--bord);font-family:var(--serif);font-style:italic;padding:0 6px}
+.calc-act{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px;align-items:center}
+@media (max-width:1000px){.calc{grid-template-columns:1fr}.calc-in{border-right:0;border-bottom:1px solid var(--line)}.corp-top{grid-template-columns:1fr}}
+@media (max-width:560px){.totals{grid-template-columns:1fr 1fr}.totals div:nth-child(3){padding-left:0;border-left:0}.totals div:nth-child(n+3){border-top:1px solid var(--line)}.sched td.st,.sched th:nth-child(2){display:none}}
+
+/* ---------- KP form ---------- */
+.kp{display:grid;grid-template-columns:5fr 7fr;gap:clamp(32px,6vw,96px)}
+.kp-aside ul{list-style:none;padding:0;margin:32px 0 0;border-top:1px solid var(--line-inv)}
+.kp-aside li{padding:14px 0;border-bottom:1px solid var(--line-inv);display:flex;gap:14px;color:var(--muted-inv);font-size:15px}
+.kp-aside li b{font:italic 500 18px/1.3 var(--serif);color:#d9b98a;min-width:24px}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:26px 28px}
+.form .full{grid-column:1/-1}
+.inv .inp,.inv select,.inv textarea{border-bottom-color:rgba(245,239,227,.35);color:var(--ivory)}
+.inv select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6' fill='none' stroke='%23F5EFE3'/%3E%3C/svg%3E")}
+.inv select option{color:var(--ink)}
+.inv .inp:focus,.inv select:focus,.inv textarea:focus{border-color:#e3c496}
+.inv .inp::placeholder,.inv textarea::placeholder{color:rgba(245,239,227,.4)}
+.inv input[type=date]{color-scheme:dark}
+.f-lbl{display:block;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-inv);margin-bottom:4px}
+.err{display:block;min-height:18px;font-size:12px;color:#ff9f8f;margin-top:6px}
+.has-err .inp,.has-err select{border-bottom-color:#ff8a78}
+.check{display:flex;gap:12px;align-items:flex-start;font-size:13px;color:var(--muted-inv);cursor:pointer;line-height:1.5}
+.check input{appearance:none;-webkit-appearance:none;flex:none;width:18px;height:18px;border:1px solid rgba(245,239,227,.5);margin:1px 0 0;display:grid;place-items:center;cursor:pointer}
+.check input:checked{background:var(--bord);border-color:var(--bord)}
+.check input:checked::after{content:"";width:9px;height:5px;border:solid #fff;border-width:0 0 1.5px 1.5px;transform:rotate(-45deg) translate(1px,-1px)}
+.done{border:1px solid var(--line-inv);padding:clamp(24px,3vw,40px);background:rgba(255,255,255,.03)}
+.done h3{color:#e3c496;margin-bottom:12px}
+.done pre{white-space:pre-wrap;font:14px/1.6 var(--sans);background:rgba(0,0,0,.18);padding:18px;margin:20px 0;color:var(--ivory);border-left:2px solid var(--bord)}
+.done .row{display:flex;flex-wrap:wrap;gap:12px}
+.toast{position:fixed;left:50%;bottom:96px;transform:translate(-50%,20px);background:var(--navy);color:var(--ivory);padding:12px 20px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;z-index:90;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+@media (max-width:900px){.kp{grid-template-columns:1fr}}
+@media (max-width:560px){.form{grid-template-columns:1fr}}
+
+/* ---------- membership & certificate ---------- */
+.mem{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:clamp(64px,9vw,120px)}
+.card{position:relative;border:1px solid var(--line);padding:clamp(28px,3.4vw,48px);background:var(--paper);transition:transform .5s var(--ease),box-shadow .5s var(--ease)}
+.card:hover{transform:translateY(-4px);box-shadow:0 24px 50px -30px rgba(35,39,64,.45)}
+.card.dark{background:var(--navy);color:var(--ivory);border-color:var(--navy)}
+.card .tier{font:italic 500 18px/1 var(--serif);color:var(--bord)}
+.card.dark .tier{color:#d9b98a}
+.card .hours{font:600 clamp(80px,10vw,140px)/.85 var(--serif);margin:18px 0 20px;display:flex;align-items:baseline;gap:12px}
+.card .hours small{font:500 20px/1 var(--sans);letter-spacing:.02em}
+.card .price{display:flex;align-items:baseline;gap:16px;border-top:1px solid var(--line);padding-top:18px;margin-top:22px;flex-wrap:wrap}
+.card.dark .price{border-color:var(--line-inv)}
+.card .price b{font:600 38px/1 var(--serif)}
+.card .price span{font-size:14px;color:var(--muted)}
+.card.dark .price span{color:var(--muted-inv)}
+.card ul{margin:18px 0 28px;padding:0;list-style:none;font-size:15px}
+.card li{padding:6px 0 6px 22px;position:relative}
+.card li::before{content:"";position:absolute;left:0;top:15px;width:10px;height:1px;background:var(--bord)}
+.card.dark li::before{background:#d9b98a}
+.badge{position:absolute;top:24px;right:24px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;border:1px solid currentColor;padding:6px 10px;color:#d9b98a}
+.cert{display:grid;grid-template-columns:4fr 8fr;gap:clamp(32px,5vw,72px);align-items:start}
+.cert-prev{position:relative;background:var(--navy);padding:clamp(14px,2vw,28px);box-shadow:0 40px 80px -50px rgba(35,39,64,.8)}
+.cert-prev canvas{width:100%;height:auto;display:block;aspect-ratio:8/5;background:var(--ivory)}
+.nom{grid-template-columns:repeat(3,1fr)}
+.cert-act{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
+@media (max-width:980px){.cert{grid-template-columns:1fr}.cert-prev{order:-1}}
+@media (max-width:700px){.mem{grid-template-columns:1fr}}
+
+/* ---------- prices ---------- */
+.prices{display:grid;grid-template-columns:7fr 5fr;gap:clamp(32px,6vw,96px)}
+.ptable{width:100%;border-collapse:collapse}
+.ptable th{text-align:left;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600;padding:0 0 14px;border-bottom:1px solid var(--navy)}
+.ptable th:last-child,.ptable td:last-child{text-align:right}
+.ptable td{padding:22px 0;border-bottom:1px solid var(--line);vertical-align:baseline}
+.ptable td:first-child{font:600 clamp(22px,2.2vw,28px)/1.2 var(--serif)}
+.ptable td small{display:block;font:400 14px/1.5 var(--sans);color:var(--muted);margin-top:4px}
+.ptable td b{font:600 clamp(36px,4vw,54px)/1 var(--serif);color:var(--navy)}
+.ptable td b i{font:500 15px var(--sans);font-style:normal;color:var(--muted);margin-left:4px}
+.extras{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.extras li{display:flex;justify-content:space-between;gap:16px;padding:16px 0;border-bottom:1px solid var(--line);font-size:15px}
+.extras li span:last-child{font-weight:600;text-align:right;white-space:nowrap}
+.note{font-size:13px;color:var(--muted);margin-top:18px}
+@media (max-width:900px){.prices{grid-template-columns:1fr}}
+
+/* ---------- find ---------- */
+.find{display:grid;grid-template-columns:5fr 7fr;gap:clamp(32px,5vw,80px);align-items:stretch}
+.find ol{list-style:none;margin:0 0 32px;padding:0;counter-reset:f}
+.find ol li{counter-increment:f;display:grid;grid-template-columns:48px 1fr;padding:18px 0;border-bottom:1px solid var(--line)}
+.find ol li::before{content:counter(f,upper-roman);font:italic 600 22px/1.2 var(--serif);color:var(--bord)}
+.find ol li b{display:block;font-weight:600;margin-bottom:2px}
+.find ol li span{color:var(--muted);font-size:15px}
+.map{position:relative;min-height:440px;background:var(--ivory-2);border:1px solid var(--line)}
+.map iframe{position:absolute;inset:0;width:100%;height:100%;border:0;filter:grayscale(.35) sepia(.08)}
+.contacts{display:grid;gap:6px;font-size:15px}
+.contacts a{text-decoration:none;font-weight:600}
+.contacts a:hover{color:var(--bord)}
+@media (max-width:900px){.find{grid-template-columns:1fr}.map{min-height:360px}}
+
+/* ---------- rules & faq ---------- */
+.rf{display:grid;grid-template-columns:5fr 7fr;gap:clamp(32px,6vw,96px)}
+.rules{list-style:none;margin:0;padding:0}
+.rules li{display:grid;grid-template-columns:44px 1fr;gap:4px;padding:16px 0;border-bottom:1px solid var(--line);font-size:15px}
+.rules li i{font:italic 600 20px/1.3 var(--serif);color:var(--bord)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq details:first-child{border-top:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:20px;padding:22px 0;font:600 clamp(20px,1.9vw,25px)/1.25 var(--serif)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";flex:none;width:14px;height:14px;margin-top:8px;background:linear-gradient(var(--bord),var(--bord)) center/100% 1.5px no-repeat,linear-gradient(var(--bord),var(--bord)) center/1.5px 100% no-repeat;transition:transform .35s var(--ease)}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{color:var(--muted);padding-bottom:22px;margin:0;max-width:640px}
+@media (max-width:900px){.rf{grid-template-columns:1fr}}
+
+/* ---------- final cta & footer ---------- */
+.final{text-align:center;padding-block:clamp(80px,11vw,150px)}
+.final h2{max-width:14ch;margin:20px auto 36px;font-size:clamp(44px,7vw,104px)}
+.final .hero-cta{justify-content:center}
+.ftr{background:var(--navy-2);color:var(--muted-inv);font-size:14px;padding-block:64px calc(40px + env(safe-area-inset-bottom,0px))}
+.ftr-grid{display:grid;grid-template-columns:4fr 3fr 3fr 3fr;gap:40px}
+.ftr h4{font:600 11px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:#d9b98a;margin:0 0 16px}
+.ftr a{text-decoration:none}
+.ftr a:hover{color:var(--ivory)}
+.ftr ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.ftr .brand-t{color:var(--ivory)}
+.ftr-bottom{margin-top:48px;padding-top:24px;border-top:1px solid var(--line-inv);display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-between;font-size:12px}
+@media (max-width:900px){.ftr-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.ftr-grid{grid-template-columns:1fr}}
+
+/* ---------- trajectory ---------- */
+#trail{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:30;overflow:visible}
+@media (max-width:760px){#trail{opacity:.45}}
+#trail .ghost{fill:none;stroke:var(--brass);stroke-width:1;stroke-dasharray:1 7;opacity:.45;stroke-linecap:round}
+#trail .draw{fill:none;stroke:var(--brass);stroke-width:1.3;opacity:.9}
+#trail .mark{fill:none;stroke:var(--brass);stroke-width:1;opacity:.7}
+#trail .ball{fill:#FBF8F1;stroke:var(--bord);stroke-width:1.5}
+@media (max-width:700px){#trail .draw{stroke-width:1;opacity:.55}#trail .ghost{opacity:.25}}
+
+/* ---------- modal & sticky ---------- */
+.modal{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:16px;background:rgba(26,29,49,.72);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+.modal.open{opacity:1;visibility:visible}
+.modal-box{position:relative;width:min(960px,100%);height:min(86vh,820px);background:var(--paper);display:flex;flex-direction:column;transform:translateY(20px);transition:transform .4s var(--ease)}
+.modal.open .modal-box{transform:none}
+.modal-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 20px;border-bottom:1px solid var(--line)}
+.modal-bar b{font:600 22px/1 var(--serif)}
+.modal-bar .x{background:none;border:1px solid var(--line);width:40px;height:40px;cursor:pointer;font-size:20px;line-height:1}
+.modal iframe{flex:1;width:100%;border:0;background:#fff}
+.modal-foot{padding:10px 20px;font-size:12px;color:var(--muted);border-top:1px solid var(--line)}
+.sticky{display:none}
+@media (max-width:760px){
+  .sticky{display:flex;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:50;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));background:rgba(245,239,227,.96);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-top:1px solid var(--line);transform:translateY(110%);transition:transform .4s var(--ease)}
+  .sticky.on{transform:none}
+  .sticky .btn{flex:1;justify-content:center;padding:16px 12px}
+  .sticky .btn-ghost{flex:0 0 56px;padding:0;color:var(--navy)}
+  .ftr{padding-bottom:calc(110px + env(safe-area-inset-bottom,0px))}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .hero-bg img{animation:none;transform:scale(1.04)}
+  .ml>span,.rv{transform:none!important;opacity:1!important;transition:none!important}
+  .priv-fig img{transform:none;transition:none}
+  .card,.btn{transition:none}
+}
+</style>
+</head>
+<body>
+<div id="page">
+
+<svg id="trail" aria-hidden="true" focusable="false">
+  <path class="ghost" d=""/>
+  <path class="draw" d=""/>
+  <g class="marks"></g>
+  <circle class="ball" r="6" cx="-20" cy="-20"/>
+</svg>
+
+<!-- ============ HEADER ============ -->
+<header class="hdr" id="hdr">
+  <div class="wrap hdr-in">
+    <a class="brand" href="#top" aria-label="Ping Point — на главную">
+      <span class="brand-plate"><img src="../img/logo.jpg" alt="Логотип Ping Point" width="40" height="38"></span>
+      <span class="brand-t">Ping Point<small>Брянск · ТРЦ «Мельница»</small></span>
+    </a>
+    <nav class="nav" aria-label="Основная навигация">
+      <a href="#privacy">Приватность</a>
+      <a href="#corporate">Корпоратив</a>
+      <a href="#membership">Членство</a>
+      <a href="#prices">Цены</a>
+      <a href="#find">Как найти</a>
+      <a href="#faq">Вопросы</a>
+    </nav>
+    <a class="hdr-tel" href="tel:+79036447653" data-goal="phone_click">+7 903 644-76-53</a>
+    <a class="btn magnetic" href="https://pingpongroom.ru/embed/booking?header=0&amp;footer=0" data-book data-goal="booking_click">Забронировать</a>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="hero" data-bounce>
+  <div class="hero-bg" id="heroBg"><img src="../img/room.jpg" alt="Комната Ping Point: стол UNIX Line, большое окно и кресла-мешки" width="1200" height="900" fetchpriority="high"></div>
+  <div class="hero-cap">Комната Ping Point · фото без постановки</div>
+  <div class="wrap hero-in">
+    <div class="kicker rv">Приватная комната настольного тенниса · Брянск</div>
+    <h1 class="reveal-lines">
+      <span class="ml"><span>Один стол.</span></span>
+      <span class="ml"><span>Одна компания.</span></span>
+      <span class="ml"><span><em>Никаких зрителей.</em></span></span>
+    </h1>
+    <p class="hero-sub rv d2">Закрытый зал с профессиональным столом в ТРЦ «Мельница». Без администратора и публики: бронируете онлайн, получаете личный код и заходите. Для партии после работы, неформальной встречи или турнира всего отдела.</p>
+    <div class="hero-cta rv d3">
+      <a class="btn magnetic" href="https://pingpongroom.ru/embed/booking?header=0&amp;footer=0" data-book data-goal="booking_click">Забронировать время <span class="arr">→</span></a>
+      <a class="btn btn-ghost magnetic" href="#corporate" data-goal="corp_cta_click">Рассчитать корпоратив</a>
+    </div>
+    <div class="hero-meta rv d3">
+      <div><b class="num">10:00–20:30</b><span>ежедневно</span></div>
+      <div><b>до 4 гостей</b><span>одновременно в комнате</span></div>
+      <div><b class="num">от 300 ₽</b><span>за час аренды</span></div>
+      <div><b>по коду</b><span>вход без администратора</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TOC ============ -->
+<nav class="toc" aria-label="Содержание">
+  <div class="wrap toc-in">
+    <div class="toc-t">В этом выпуске</div>
+    <ol>
+      <li><a href="#privacy">Приватность</a></li>
+      <li><a href="#how">Как это работает</a></li>
+      <li><a href="#room">Комната</a></li>
+      <li><a href="#corporate">Корпоратив: расчёт</a></li>
+      <li><a href="#kp">Запросить КП</a></li>
+      <li><a href="#membership">Членство и сертификат</a></li>
+      <li><a href="#prices">Цены</a></li>
+      <li><a href="#find">Как найти</a></li>
+    </ol>
+  </div>
+</nav>
+
+<!-- ============ 01 PRIVACY ============ -->
+<section class="sec" id="privacy" data-bounce>
+  <div class="wrap">
+    <header class="sec-head">
+      <div class="sec-no">№ 01</div>
+      <div>
+        <span class="kicker">Приватность</span>
+        <h2 class="reveal-lines"><span class="ml"><span>Комната, где</span></span><span class="ml"><span><em>никто не смотрит</em></span></span></h2>
+      </div>
+    </header>
+    <div class="priv">
+      <figure class="priv-fig rv">
+        <div class="frame"><img src="../img/stock-serve-closeup.jpg" alt="Подача в настольном теннисе крупным планом" loading="lazy" width="1280" height="879"></div>
+        <figcaption>Подача. Иллюстративное фото</figcaption>
+      </figure>
+      <div>
+        <p class="lead dropcap rv">В Ping Point нет соседних столов, очереди у стойки и случайных наблюдателей. Комната на один стол бронируется целиком — на это время она только ваша. Удобно, когда хочется поиграть в своё удовольствие, не стесняясь промахов, или поговорить с партнёром без лишних ушей.</p>
+        <blockquote class="pull rv d1">«Лучшие переговоры идут не за переговорным столом, а за теннисным».</blockquote>
+        <ul class="feat rv d2">
+          <li><b>Закрытая комната</b><span>Один стол — одна компания до 4 человек. Никто не подсядет и не займёт соседний стол.</span></li>
+          <li><b>Вход по коду</b><span>После оплаты приходит код или QR. Он действует на время вашей брони.</span></li>
+          <li><b>Без администратора</b><span>Никаких стоек, анкет и ожидания. Пришли в своё время — и сразу к столу.</span></li>
+          <li><b>Пауза для разговора</b><span>Кресла-мешки и кулер с водой: удобно обсудить дело между партиями.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 HOW ============ -->
+<section class="sec inv" id="how" data-bounce>
+  <div class="wrap">
+    <header class="sec-head">
+      <div class="sec-no">№ 02</div>
+      <div>
+        <span class="kicker">Как это работает</span>
+        <h2 class="reveal-lines"><span class="ml"><span>Четыре шага</span></span><span class="ml"><span><em>до первой подачи</em></span></span></h2>
+      </div>
+    </header>
+    <div class="steps">
+      <div class="step rv"><span class="n">I</span><h3>Выберите время</h3><p>Свободные слоты видны в онлайн-календаре. Бронь — минимум за час до начала.</p></div>
+      <div class="step rv d1"><span class="n">II</span><h3>Оплатите онлайн</h3><p>Оплата картой при бронировании. Отмена за 3 часа — возврат 100%.</p></div>
+      <div class="step rv d2"><span class="n">III</span><h3>Получите код</h3><p>Код или QR для входа приходит сразу после оплаты. Администратор не нужен.</p></div>
+      <div class="step rv d3"><span class="n">IV</span><h3>Играйте</h3><p>Ракетки и мячи уже на месте и бесплатны. Профессиональная ракетка — +100 ₽/час.</p></div>
+    </div>
+    <div class="how-note rv">
+      <p>Комната работает ежедневно с 10:00 до 20:30. Если остались вопросы — напишите в Telegram, ответим в рабочее время.</p>
+      <div class="hero-cta">
+        <a class="btn magnetic" href="https://pingpongroom.ru/embed/booking?header=0&amp;footer=0" data-book data-goal="booking_click">Открыть календарь <span class="arr">→</span></a>
+        <a class="btn btn-ghost magnetic" href="https://t.me/PingP32" target="_blank" rel="noopener" data-goal="tg_click">Telegram</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 ROOM ============ -->
+<section class="sec" id="room" data-bounce>
+  <div class="wrap">
+    <header class="sec-head">
+      <div class="sec-no">№ 03</div>
+      <div>
+        <span class="kicker">Комната</span>
+        <h2 class="reveal-lines"><span class="ml"><span>Свет, окно</span></span><span class="ml"><span><em>и стол UNIX Line</em></span></span></h2>
+      </div>
+    </header>
+    <div class="room-grid">
+      <figure class="room-main rv">
+        <div class="frame"><img src="../img/room.jpg" alt="Комната Ping Point: теннисный стол UNIX Line у большого окна, кресла-мешки" loading="lazy" width="1200" height="900"></div>
+        <figcaption>Комната Ping Point, ТРЦ «Мельница». Реальное фото</figcaption>
+      </figure>
+      <div class="room-side">
+        <figure class="rv d1" style="margin:0">
+          <div class="frame"><img src="../img/stock-rackets-white.jpg" alt="Ракетки для настольного тенниса" loading="lazy" width="1200" height="900"></div>
+          <figcaption>Ракетки и мячи — бесплатно</figcaption>
+        </figure>
+        <figure class="rv d2" style="margin:0">
+          <div class="frame"><img src="../img/stock-table-balls-bokeh.jpg" alt="Мячи для настольного тенниса на столе" loading="lazy" width="1680" height="945"></div>
+          <figcaption>Иллюстративное фото</figcaption>
+        </figure>
+      </div>
+    </div>
+    <div class="spec">
+      <div class="rv">
+        <h3>Спецификация</h3>
+        <p class="hint" style="font-size:14px;margin-top:12px">Всё, что нужно для спокойной игры и отдыха между партиями. Ничего лишнего.</p>
+      </div>
+      <dl class="rv d1">
+        <div><dt>Стол</dt><dd>UNIX Line</dd></div>
+        <div><dt>Вместимость</dt><dd>до 4 человек</dd></div>
+        <div><dt>Освещение</dt><dd>хорошее, ровное</dd></div>
+        <div><dt>Дневной свет</dt><dd>большое окно</dd></div>
+        <div><dt>Отдых</dt><dd>кресла-мешки</dd></div>
+        <div><dt>Вода</dt><dd>кулер</dd></div>
+        <div><dt>Ракетки и мячи</dt><dd>бесплатно</dd></div>
+        <div><dt>Проф. ракетка</dt><dd>+100 ₽/час</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 04 CORPORATE ============ -->
+<section class="sec paper" id="corporate" data-bounce>
+  <div class="wrap">
+    <header class="sec-head">
+      <div class="sec-no">№ 04</div>
+      <div>
+        <span class="kicker">Корпоратив</span>
+        <h2 class="reveal-lines"><span class="ml"><span>Турнир отдела</span></span><span class="ml"><span><em>за один вечер</em></span></span></h2>
+      </div>
+    </header>
+    <div class="corp-top">
+      <p class="lead rv">Настольный теннис объединяет лучше тимбилдинга по сценарию: играют и новички, и руководители, а счёт быстро снимает официальность. В комнате одновременно до четырёх человек — участники меняются по четвёркам, остальные ждут своего слота рядом, в ТРЦ. Рассчитайте формат, бюджет и расписание матчей — и запросите коммерческое предложение.</p>
+      <figure class="rv d1">
+        <div class="frame"><img src="../img/stock-two-players.jpg" alt="Двое играют в настольный теннис" loading="lazy" width="1500" height="999"></div>
+        <figcaption>Иллюстративное фото</figcaption>
+      </figure>
+    </div>
+
+    <div class="calc rv" id="calc">
+      <div class="calc-in">
+        <div class="fld">
+          <label for="cPeople">Участников <output id="oPeople" class="num">8</output></label>
+          <input type="range" id="cPeople" min="4" max="24" step="1" value="8">
+          <div class="ticks"><span>4</span><span>12</span><span>24</span></div>
+        </div>
+        <div class="fld">
+          <span class="lbl">Формат</span>
+          <div class="seg" role="radiogroup" aria-label="Формат турнира">
+            <label><input type="radio" name="cFormat" value="friendly" checked><span>Дружеский турнир</span></label>
+            <label><input type="radio" name="cFormat" value="team"><span>Командный (пары)</span></label>
+            <label><input type="radio" name="cFormat" value="rr"><span>«Круговая»</span></label>
+          </div>
+          <p class="hint" id="fmtHint"></p>
+        </div>
+        <div class="fld">
+          <label for="cHours">Длительность <output id="oHours" class="num">2 ч</output></label>
+          <input type="range" id="cHours" min="1" max="6" step="1" value="2">
+          <div class="ticks"><span>1 ч</span><span>6 ч</span></div>
+        </div>
+        <div class="row2 fld">
+          <div>
+            <span class="lbl" style="display:block;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px">День</span>
+            <select id="cDay" aria-label="День недели">
+              <option value="wd">Будни</option>
+              <option value="we">Выходные</option>
+            </select>
+          </div>
+          <div>
+            <span class="lbl" style="display:block;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px">Начало</span>
+            <select id="cStart" aria-label="Время начала"></select>
+          </div>
+        </div>
+        <div class="fld">
+          <label for="cPro">Проф. ракетки</label>
+          <select id="cPro">
+            <option value="0">Не нужны — бесплатные ракетки</option>
+            <option value="2">2 шт. (+200 ₽/час)</option>
+            <option value="4">4 шт. (+400 ₽/час)</option>
+          </select>
+        </div>
+        <div class="fld" style="margin-bottom:0">
+          <label for="cNames">Имена участников <span style="text-transform:none;letter-spacing:0;font-weight:400">необязательно</span></label>
+          <textarea id="cNames" rows="2" placeholder="Анна, Сергей, Ольга…"></textarea>
+          <p class="hint">Через запятую или с новой строки — попадут в расписание.</p>
+        </div>
+      </div>
+      <div class="calc-out" aria-live="polite">
+        <div class="totals">
+          <div><span>Время</span><b id="rTime" class="num">—</b></div>
+          <div><span>Матчей</span><b id="rMatches" class="num">—</b></div>
+          <div><span>Стоимость</span><b id="rCost" class="num">—</b></div>
+          <div><span>На человека</span><b id="rPer" class="num acc">—</b></div>
+        </div>
+        <p class="calc-summary" id="rSummary"></p>
+        <div id="rWarn"></div>
+        <div class="sched" tabindex="0" aria-label="Расписание матчей">
+          <table>
+            <thead><tr><th scope="col">Время</th><th scope="col">Стадия</th><th scope="col">Матч</th></tr></thead>
+            <tbody id="rSched"></tbody>
+          </table>
+        </div>
+        <div class="calc-act">
+          <a class="btn magnetic" href="#kp" id="toKp" data-goal="calc_to_kp">Запросить КП с этим расчётом <span class="arr">→</span></a>
+          <button class="btn btn-ghost btn-sm" type="button" id="copySched">Скопировать расписание</button>
+        </div>
+        <p class="note">Расчёт ориентировочный, по предлагаемой сетке цен (цены уточняются). Счёт матчей ведёте сами — таблицу удобно распечатать или скопировать в чат команды.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 KP ============ -->
+<section class="sec inv" id="kp" data-bounce>
+  <div class="wrap">
+    <header class="sec-head">
+      <div class="sec-no">№ 05</div>
+      <div>
+        <span class="kicker">Для компаний</span>
+        <h2 class="reveal-lines"><span class="ml"><span>Запросить</span></span><span class="ml"><span><em>коммерческое предложение</em></span></span></h2>
+      </div>
+    </header>
+    <div class="kp">
+      <aside class="kp-aside rv">
+        <p class="lead">Оставьте параметры — подготовим предложение под вашу дату: время, формат турнира, расписание матчей и итоговую стоимость.</p>
+        <ul>
+          <li><b>i.</b>Турнир «под ключ»: сетка, тайминг, ротация по четвёркам</li>
+          <li><b>ii.</b>Удобные часы: будни с 10:00 или вечер после работы</li>
+          <li><b>iii.</b>Парковка ТРЦ на 350 мест — гости приезжают без проблем</li>
+          <li><b>iv.</b><span>Связь: <a class="link" href="tel:+79036447653" data-goal="phone_click">+7 903 644-76-53</a>, <a class="link" href="mailto:pingp-inf@bk.ru" data-goal="email_click">pingp-inf@bk.ru</a></span></li>
+        </ul>
+      </aside>
+      <div class="rv d1">
+        <form class="form" id="kpForm" novalidate>
+          <div class="full" data-f="company">
+            <label class="f-lbl" for="fCompany">Компания *</label>
+            <input class="inp" id="fCompany" name="company" autocomplete="organization" placeholder="ООО «Пример»">
+            <span class="err" aria-live="polite"></span>
+          </div>
+          <div data-f="name">
+            <label class="f-lbl" for="fName">Контактное лицо *</label>
+            <input class="inp" id="fName" name="name" autocomplete="name" placeholder="Имя и фамилия">
+            <span class="err" aria-live="polite"></span>
+          </div>
+          <div data-f="contact">
+            <label class="f-lbl" for="fContact">Телефон или e-mail *</label>
+            <input class="inp" id="fContact" name="contact" autocomplete="tel" placeholder="+7 900 000-00-00">
+            <span class="err" aria-live="polite"></span>
+          </div>
+          <div data-f="date">
+            <label class="f-lbl" for="fDate">Желаемая дата *</label>
+            <input class="inp" id="fDate" name="date" type="date">
+            <span class="err" aria-live="polite"></span>
+          </div>
+          <div data-f="people">
+            <label class="f-lbl" for="fPeople">Число участников *</label>
+            <input class="inp" id="fPeople" name="people" type="number" min="2" max="24" inputmode="numeric" placeholder="от 2 до 24">
+            <span class="err" aria-live="polite"></span>
+          </div>
+          <div class="full" data-f="comment">
+            <label class="f-lbl" for="fComment">Пожелания</label>
+            <textarea class="inp" id="fComment" name="comment" rows="3" placeholder="Формат, время, награждение…"></textarea>
+          </div>
+          <div class="full" data-f="consent">
+            <label class="check"><input type="checkbox" id="fConsent" name="consent"><span>Согласен на обработку персональных данных в соответствии с <a class="link" href="#">политикой конфиденциальности</a></span></label>
+            <span class="err" aria-live="polite"></span>
+          </div>
+          <div class="full"><button class="btn magnetic" type="submit">Сформировать заявку <span class="arr">→</span></button></div>
+        </form>
+        <div class="done" id="kpDone" hidden tabindex="-1">
+          <h3>Заявка сформирована</h3>
+          <p style="color:var(--muted-inv);margin:0">Спасибо! Мы свяжемся с вами в рабочее время. Чтобы ответ пришёл быстрее, отправьте заявку в Telegram — текст скопируется автоматически.</p>
+          <pre id="kpText"></pre>
+          <div class="row">
+            <button class="btn btn-ghost btn-sm" type="button" id="kpCopy">Скопировать заявку</button>
+            <a class="btn btn-sm" href="https://t.me/PingP32" target="_blank" rel="noopener" id="kpTg" data-goal="tg_click">Отправить в Telegram</a>
+            <button class="btn btn-ghost btn-sm" type="button" id="kpNew">Изменить данные</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 06 MEMBERSHIP ============ -->
+<section class="sec" id="membership" data-bounce>
+  <div class="wrap">
+    <header class="sec-head">
+      <div class="sec-no">№ 06</div>
+      <div>
+        <span class="kicker">Членство</span>
+        <h2 class="reveal-lines"><span class="ml"><span>Свой стол</span></span><span class="ml"><span><em>по выгодной цене</em></span></span></h2>
+      </div>
+    </header>
+    <div class="mem">
+      <article class="card rv">
+        <span class="tier">Членство «Сет»</span>
+        <div class="hours num">5 <small>часов</small></div>
+        <p style="color:var(--muted);margin:0">Для тех, кто играет пару раз в месяц.</p>
+        <ul>
+          <li>Любое время работы комнаты</li>
+          <li>360 ₽ за час вместо 400 ₽</li>
+          <li>Можно играть компанией до 4 человек</li>
+        </ul>
+        <div class="price"><b class="num">1 800 ₽</b><span>экономия до 200 ₽</span></div>
+        <div style="margin-top:24px"><a class="btn btn-navy magnetic" href="https://t.me/PingP32" target="_blank" rel="noopener" data-goal="membership5_click">Оформить членство <span class="arr">→</span></a></div>
+      </article>
+      <article class="card dark rv d1">
+        <span class="badge">Выгоднее</span>
+        <span class="tier">Членство «Матч»</span>
+        <div class="hours num">10 <small>часов</small></div>
+        <p style="color:var(--muted-inv);margin:0">Для постоянной игры и регулярных встреч.</p>
+        <ul>
+          <li>Любое время работы комнаты</li>
+          <li>330 ₽ за час вместо 400 ₽</li>
+          <li>Удобно для еженедельной игры с коллегами</li>
+        </ul>
+        <div class="price"><b class="num">3 300 ₽</b><span>экономия до 700 ₽</span></div>
+        <div style="margin-top:24px"><a class="btn magnetic" href="https://t.me/PingP32" target="_blank" rel="noopener" data-goal="membership10_click">Оформить членство <span class="arr">→</span></a></div>
+      </article>
+    </div>
+
+    <div class="cert" id="certificate">
+      <div>
+        <span class="kicker rv">Подарочный сертификат</span>
+        <h3 class="rv" style="font-size:clamp(34px,4vw,56px);margin:14px 0 18px">Подарите <em style="color:var(--bord)">час без свидетелей</em></h3>
+        <p class="rv" style="color:var(--muted)">Соберите сертификат — превью обновляется сразу. Скачайте PNG, чтобы распечатать или отправить в мессенджер, а оплатить — написав нам в Telegram.</p>
+        <form id="certForm" class="rv d1" onsubmit="return false">
+          <div class="fld">
+            <label for="gTo">Кому</label>
+            <input class="inp" id="gTo" maxlength="32" placeholder="Имя получателя" value="Андрею">
+          </div>
+          <div class="fld">
+            <span class="lbl">Номинал</span>
+            <div class="seg nom" role="radiogroup" aria-label="Номинал сертификата">
+              <label><input type="radio" name="gNom" value="1"><span>1 час<br><small>400 ₽</small></span></label>
+              <label><input type="radio" name="gNom" value="2" checked><span>2 часа<br><small>800 ₽</small></span></label>
+              <label><input type="radio" name="gNom" value="5"><span>5 часов<br><small>1 800 ₽</small></span></label>
+            </div>
+          </div>
+          <div class="fld">
+            <label for="gFrom">От кого</label>
+            <input class="inp" id="gFrom" maxlength="40" placeholder="Ваше имя или компания" value="коллег из отдела продаж">
+          </div>
+          <div class="cert-act">
+            <button class="btn magnetic" type="button" id="gDownload" data-goal="cert_download">Скачать PNG <span class="arr">↓</span></button>
+            <a class="btn btn-ghost" href="https://t.me/PingP32" target="_blank" rel="noopener" data-goal="tg_click">Купить в Telegram</a>
+          </div>
+        </form>
+      </div>
+      <div class="cert-prev rv d1">
+        <canvas id="gCanvas" width="1600" height="1000" aria-label="Превью подарочного сертификата" role="img"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 07 PRICES ============ -->
+<section class="sec paper" id="prices" data-bounce>
+  <div class="wrap">
+    <header class="sec-head">
+      <div class="sec-no">№ 07</div>
+      <div>
+        <span class="kicker">Цены</span>
+        <h2 class="reveal-lines"><span class="ml"><span>Прозрачно:</span></span><span class="ml"><span><em>час — за стол</em></span></span></h2>
+      </div>
+    </header>
+    <div class="prices">
+      <div class="rv">
+        <table class="ptable">
+          <thead><tr><th scope="col">Когда</th><th scope="col">Стоимость часа</th></tr></thead>
+          <tbody>
+            <tr><td>Будни, днём<small>10:00–16:00</small></td><td><b class="num">300<i>₽</i></b></td></tr>
+            <tr><td>Будни, вечером<small>16:00–20:30</small></td><td><b class="num">400<i>₽</i></b></td></tr>
+            <tr><td>Выходные<small>10:00–20:30</small></td><td><b class="num">400<i>₽</i></b></td></tr>
+          </tbody>
+        </table>
+        <p class="note">Цена — за весь стол, а не за человека: в комнате до 4 гостей. Цены уточняются.</p>
+      </div>
+      <div class="rv d1">
+        <h3 style="margin-bottom:18px">Дополнительно</h3>
+        <ul class="extras">
+          <li><span>Ракетки и мячи</span><span>бесплатно</span></li>
+          <li><span>Профессиональная ракетка</span><span>+100 ₽/час</span></li>
+          <li><span>Членство 5 / 10 часов</span><span>1 800 / 3 300 ₽</span></li>
+          <li><span>«День рождения»: 2 часа + мини-турнир с сеткой и грамотами</span><span>от 1 500 ₽ + аренда</span></li>
+          <li><span>Корпоративный турнир</span><span>по запросу</span></li>
+          <li><span>Робот-подающий</span><span>по запросу</span></li>
+          <li><span>Тренер</span><span>по записи</span></li>
+        </ul>
+        <div style="margin-top:28px"><a class="btn magnetic" href="https://pingpongroom.ru/embed/booking?header=0&amp;footer=0" data-book data-goal="booking_click">Забронировать <span class="arr">→</span></a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 08 FIND ============ -->
+<section class="sec" id="find" data-bounce>
+  <div class="wrap">
+    <header class="sec-head">
+      <div class="sec-no">№ 08</div>
+      <div>
+        <span class="kicker">Как найти</span>
+        <h2 class="reveal-lines"><span class="ml"><span>ТРЦ «Мельница»,</span></span><span class="ml"><span><em>Красноармейская, 100</em></span></span></h2>
+      </div>
+    </header>
+    <div class="find">
+      <div class="rv">
+        <ol>
+          <li><div><b>Приезжайте в ТРЦ «Мельница»</b><span>Брянск, ул. Красноармейская, 100. Парковка торгового центра — 350 мест.</span></div></li>
+          <li><div><b>Найдите комнату Ping Point</b><span>Внутри ТРЦ «Мельница». <!-- уточнить этаж --> Рядом кинотеатр и детский центр «Рай Парк».</span></div></li>
+          <li><div><b>Введите код из брони</b><span>Дверь откроется по коду или QR — на время вашего слота.</span></div></li>
+        </ol>
+        <div class="contacts">
+          <a href="tel:+79036447653" data-goal="phone_click">+7 903 644-76-53</a>
+          <a href="mailto:pingp-inf@bk.ru" data-goal="email_click">pingp-inf@bk.ru</a>
+          <a href="https://t.me/PingP32" target="_blank" rel="noopener" data-goal="tg_click">Telegram · @PingP32</a>
+          <a href="https://vk.com/pingp32" target="_blank" rel="noopener" data-goal="vk_click">ВКонтакте · pingp32</a>
+        </div>
+      </div>
+      <div class="map rv d1">
+        <iframe src="https://yandex.ru/map-widget/v1/?text=Брянск%2C%20Красноармейская%20100&amp;z=16" loading="lazy" title="Ping Point на Яндекс Картах" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 09 RULES & FAQ ============ -->
+<section class="sec paper" id="faq" data-bounce>
+  <div class="wrap">
+    <header class="sec-head">
+      <div class="sec-no">№ 09</div>
+      <div>
+        <span class="kicker">Правила и вопросы</span>
+        <h2 class="reveal-lines"><span class="ml"><span>Коротко</span></span><span class="ml"><span><em>о главном</em></span></span></h2>
+      </div>
+    </header>
+    <div class="rf">
+      <div class="rv">
+        <h3 style="margin-bottom:18px">Правила комнаты</h3>
+        <ul class="rules">
+          <li><i>1</i><span>Бронь — минимум за 1 час до начала.</span></li>
+          <li><i>2</i><span>Отмена за 3 часа — возврат 100%.</span></li>
+          <li><i>3</i><span>Дети до 14 лет — только со взрослым.</span></li>
+          <li><i>4</i><span>Сменная или не скользящая обувь.</span></li>
+          <li><i>5</i><span>Без еды и алкоголя.</span></li>
+        </ul>
+      </div>
+      <div class="faq rv d1">
+        <details><summary>Как попасть в комнату без администратора?</summary><p>После бронирования и онлайн-оплаты вы получаете код или QR для входа. Приходите к началу своего времени и открываете дверь сами.</p></details>
+        <details><summary>Сколько человек может играть?</summary><p>До 4 человек на стол. Для корпоративов на большее число гостей участники играют по очереди, четвёрками — расписание можно рассчитать в калькуляторе выше.</p></details>
+        <details><summary>Нужно ли брать свои ракетки?</summary><p>Нет, ракетки и мячи есть на месте и выдаются бесплатно. Профессиональную ракетку можно взять за 100 ₽ в час.</p></details>
+        <details><summary>Можно ли отменить или перенести бронь?</summary><p>При отмене не позднее чем за 3 часа до начала возвращаем 100% оплаты. Забронировать можно минимум за час до игры.</p></details>
+        <details><summary>Можно прийти с ребёнком?</summary><p>Да, дети до 14 лет играют вместе со взрослым. Рядом в ТРЦ — детский центр «Рай Парк» и кинотеатр.</p></details>
+        <details><summary>Как купить членство или сертификат?</summary><p>Напишите нам в <a class="link" href="https://t.me/PingP32" target="_blank" rel="noopener" data-goal="tg_click">Telegram</a> или позвоните по номеру <a class="link" href="tel:+79036447653" data-goal="phone_click">+7 903 644-76-53</a>. Сертификат можно заранее оформить в генераторе на этой странице.</p></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section class="final inv" data-bounce>
+  <div class="wrap">
+    <span class="kicker rv">Ping Point · Брянск</span>
+    <h2 class="reveal-lines"><span class="ml"><span>Ваш стол</span></span><span class="ml"><span><em>уже накрыт сеткой</em></span></span></h2>
+    <div class="hero-cta rv d1">
+      <a class="btn magnetic" href="https://pingpongroom.ru/embed/booking?header=0&amp;footer=0" data-book data-goal="booking_click">Забронировать время <span class="arr">→</span></a>
+      <a class="btn btn-ghost magnetic" href="tel:+79036447653" data-goal="phone_click">+7 903 644-76-53</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="ftr">
+  <div class="wrap">
+    <div class="ftr-grid">
+      <div>
+        <a class="brand" href="#top"><span class="brand-plate"><img src="../img/logo.jpg" alt="Ping Point" width="40" height="38" loading="lazy"></span><span class="brand-t">Ping Point<small>приватная комната</small></span></a>
+        <p style="margin-top:18px;max-width:300px">Комната настольного тенниса на один стол. Бронь и оплата онлайн, вход по коду.</p>
+      </div>
+      <div>
+        <h4>Адрес</h4>
+        <p>Брянск, ул. Красноармейская, 100<br>ТРЦ «Мельница» <!-- уточнить этаж --><br>Ежедневно 10:00–20:30</p>
+      </div>
+      <div>
+        <h4>Связь</h4>
+        <ul>
+          <li><a href="tel:+79036447653" data-goal="phone_click">+7 903 644-76-53</a></li>
+          <li><a href="mailto:pingp-inf@bk.ru" data-goal="email_click">pingp-inf@bk.ru</a></li>
+          <li><a href="https://t.me/PingP32" target="_blank" rel="noopener" data-goal="tg_click">Telegram</a></li>
+          <li><a href="https://vk.com/pingp32" target="_blank" rel="noopener" data-goal="vk_click">ВКонтакте</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Документы</h4>
+        <ul>
+          <li><a href="#">Политика конфиденциальности</a></li>
+          <li><a href="#">Согласие на обработку данных</a></li>
+          <li><a href="#">Публичная оферта</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ftr-bottom">
+      <span>ИП Исаков Игорь Константинович · ИНН 323407837462 · ОГРНИП 325320000017817</span>
+      <span>© <span id="year">2026</span> Ping Point</span>
+    </div>
+  </div>
+</footer>
+</div>
+
+<!-- sticky mobile -->
+<div class="sticky" id="sticky">
+  <a class="btn" href="https://pingpongroom.ru/embed/booking?header=0&amp;footer=0" data-book data-goal="booking_click">Забронировать</a>
+  <a class="btn btn-ghost" href="tel:+79036447653" data-goal="phone_click" aria-label="Позвонить"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2z"/></svg></a>
+</div>
+
+<!-- booking modal -->
+<div class="modal" id="bookModal" role="dialog" aria-modal="true" aria-labelledby="bookTitle" aria-hidden="true">
+  <div class="modal-box">
+    <div class="modal-bar">
+      <b id="bookTitle">Бронирование</b>
+      <div style="display:flex;gap:10px;align-items:center">
+        <a class="link" href="https://pingpongroom.ru/embed/booking?header=0&amp;footer=0" target="_blank" rel="noopener" style="font-size:13px">Открыть в новой вкладке</a>
+        <button class="x" type="button" data-close aria-label="Закрыть">×</button>
+      </div>
+    </div>
+    <iframe id="bookFrame" title="Онлайн-бронирование Ping Point" src="about:blank"></iframe>
+    <div class="modal-foot">Бронь минимум за 1 час · отмена за 3 часа — возврат 100%</div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+'use strict';
+
+var BOOK_URL = 'https://pingpongroom.ru/embed/booking?header=0&footer=0';
+var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+function $(s, r){ return (r || document).querySelector(s); }
+function $$(s, r){ return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
+
+/* ---------- analytics ---------- */
+function goal(name){ window.ym && ym(104197137,'reachGoal',name); }
+document.addEventListener('click', function(e){
+  var el = e.target.closest('[data-goal]');
+  if (el) goal(el.getAttribute('data-goal'));
+});
+
+/* ---------- toast ---------- */
+var toastT;
+function toast(msg){
+  var t = $('#toast'); t.textContent = msg; t.classList.add('on');
+  clearTimeout(toastT); toastT = setTimeout(function(){ t.classList.remove('on'); }, 2600);
+}
+
+/* ---------- clipboard ---------- */
+function copyText(text){
+  if (navigator.clipboard && window.isSecureContext) {
+    return navigator.clipboard.writeText(text).then(function(){ return true; }, function(){ return fallbackCopy(text); });
+  }
+  return Promise.resolve(fallbackCopy(text));
+}
+function fallbackCopy(text){
+  var ta = document.createElement('textarea');
+  ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  var ok = false; try { ok = document.execCommand('copy'); } catch (err) { ok = false; }
+  document.body.removeChild(ta); return ok;
+}
+
+/* ---------- header & sticky ---------- */
+var hdr = $('#hdr'), sticky = $('#sticky'), hero = $('#hero');
+function onScrollUi(){
+  var y = window.scrollY;
+  hdr.classList.toggle('solid', y > hero.offsetHeight - 90);
+  sticky.classList.toggle('on', y > window.innerHeight * 0.6);
+}
+
+/* ---------- booking modal ---------- */
+var modal = $('#bookModal'), frame = $('#bookFrame'), lastFocus = null;
+function openBook(){
+  lastFocus = document.activeElement;
+  if (frame.getAttribute('src') === 'about:blank') frame.setAttribute('src', BOOK_URL);
+  modal.classList.add('open'); modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  $('.x', modal).focus();
+}
+function closeBook(){
+  modal.classList.remove('open'); modal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+  if (lastFocus) lastFocus.focus();
+}
+$$('[data-book]').forEach(function(a){
+  a.addEventListener('click', function(e){
+    if (e.ctrlKey || e.metaKey || e.shiftKey) return;
+    e.preventDefault(); openBook();
+  });
+});
+modal.addEventListener('click', function(e){ if (e.target === modal || e.target.closest('[data-close]')) closeBook(); });
+document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && modal.classList.contains('open')) closeBook(); });
+
+/* ---------- reveal ---------- */
+var revealEls = $$('.rv, .reveal-lines, .priv-fig');
+if (reduced || !('IntersectionObserver' in window)) {
+  revealEls.forEach(function(el){ el.classList.add('is-in'); });
+} else {
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); }
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
+  revealEls.forEach(function(el){ io.observe(el); });
+  // hero appears immediately
+  requestAnimationFrame(function(){ $$('.rv, .reveal-lines', hero).forEach(function(el){ el.classList.add('is-in'); io.unobserve(el); }); });
+}
+
+/* ---------- magnetic buttons ---------- */
+if (finePointer && !reduced) {
+  $$('.magnetic').forEach(function(btn){
+    btn.addEventListener('pointermove', function(e){
+      var r = btn.getBoundingClientRect();
+      var dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height / 2);
+      btn.style.transform = 'translate(' + (dx * 0.22).toFixed(1) + 'px,' + (dy * 0.32).toFixed(1) + 'px)';
+    });
+    btn.addEventListener('pointerleave', function(){ btn.style.transform = ''; });
+  });
+}
+
+/* ---------- ball trajectory ---------- */
+var page = $('#page'), trail = $('#trail');
+var ghost = $('.ghost', trail), draw = $('.draw', trail), ball = $('.ball', trail), marks = $('.marks', trail);
+var samples = null, totalLen = 0;
+function buildTrail(){
+  var W = page.offsetWidth, H = page.offsetHeight;
+  trail.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  var secs = $$('[data-bounce]');
+  var gutter = W < 700 ? 8 : Math.max(18, W * 0.028);
+  var pts = [{ x: W * 0.62, y: hero.offsetHeight * 0.34 }];
+  secs.forEach(function(s, i){
+    if (i === 0) return;
+    var y = s.getBoundingClientRect().top + window.scrollY + 56;
+    pts.push({ x: (i % 2) ? W - gutter : gutter, y: y });
+  });
+  var last = secs[secs.length - 1];
+  pts.push({ x: W * 0.5, y: last.getBoundingClientRect().top + window.scrollY + last.offsetHeight - 40 });
+  var d = 'M' + pts[0].x.toFixed(1) + ' ' + pts[0].y.toFixed(1);
+  var mk = '';
+  for (var i = 1; i < pts.length; i++) {
+    var a = pts[i - 1], b = pts[i], dy = b.y - a.y;
+    d += ' C' + a.x.toFixed(1) + ' ' + (a.y + dy * 0.55).toFixed(1) + ' ' + b.x.toFixed(1) + ' ' + (b.y - dy * 0.55).toFixed(1) + ' ' + b.x.toFixed(1) + ' ' + b.y.toFixed(1);
+    mk += '<circle class="mark" cx="' + b.x.toFixed(1) + '" cy="' + b.y.toFixed(1) + '" r="3.5"/>';
+  }
+  ghost.setAttribute('d', d); draw.setAttribute('d', d); marks.innerHTML = mk;
+  totalLen = draw.getTotalLength();
+  draw.style.strokeDasharray = totalLen + ' ' + totalLen;
+  var N = 500; samples = [];
+  for (var k = 0; k <= N; k++) {
+    var l = totalLen * k / N, p = draw.getPointAtLength(l);
+    samples.push({ l: l, x: p.x, y: p.y });
+  }
+  updateTrail();
+}
+function updateTrail(){
+  if (!samples) return;
+  if (reduced) { draw.style.strokeDashoffset = 0; ball.setAttribute('cx', -20); return; }
+  var target = window.scrollY + window.innerHeight * 0.58;
+  var lo = 0, hi = samples.length - 1;
+  if (target <= samples[0].y) { lo = 0; hi = 0; }
+  else if (target >= samples[hi].y) { lo = hi; }
+  else {
+    while (hi - lo > 1) { var m = (lo + hi) >> 1; if (samples[m].y < target) lo = m; else hi = m; }
+  }
+  var s0 = samples[lo], s1 = samples[hi], t = 0;
+  if (hi !== lo && s1.y !== s0.y) t = (target - s0.y) / (s1.y - s0.y);
+  var len = s0.l + (s1.l - s0.l) * t, x = s0.x + (s1.x - s0.x) * t, y = s0.y + (s1.y - s0.y) * t;
+  draw.style.strokeDashoffset = (totalLen - len).toFixed(1);
+  ball.setAttribute('cx', x.toFixed(1)); ball.setAttribute('cy', y.toFixed(1));
+}
+var rebuildT;
+function scheduleRebuild(){ clearTimeout(rebuildT); rebuildT = setTimeout(buildTrail, 150); }
+window.addEventListener('resize', scheduleRebuild);
+window.addEventListener('load', buildTrail);
+if ('ResizeObserver' in window) new ResizeObserver(scheduleRebuild).observe(page);
+$$('details').forEach(function(d){ d.addEventListener('toggle', scheduleRebuild); });
+
+/* ---------- hero parallax + scroll loop ---------- */
+var heroBg = $('#heroBg'), ticking = false;
+function onScroll(){
+  if (ticking) return; ticking = true;
+  requestAnimationFrame(function(){
+    ticking = false;
+    var y = window.scrollY;
+    if (!reduced && y < hero.offsetHeight * 1.2) heroBg.style.transform = 'translate3d(0,' + (y * 0.32).toFixed(1) + 'px,0)';
+    onScrollUi(); updateTrail();
+  });
+}
+window.addEventListener('scroll', onScroll, { passive: true });
+onScrollUi();
+
+/* ---------- helpers ---------- */
+function plural(n, one, few, many){
+  var n10 = n % 10, n100 = n % 100;
+  if (n10 === 1 && n100 !== 11) return one;
+  if (n10 >= 2 && n10 <= 4 && (n100 < 10 || n100 >= 20)) return few;
+  return many;
+}
+function rub(n){ return Math.round(n).toLocaleString('ru-RU') + ' ₽'; }
+function hm(min){ var h = Math.floor(min / 60), m = min % 60; return (h < 10 ? '0' : '') + h + ':' + (m < 10 ? '0' : '') + m; }
+function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]; }); }
+
+/* ---------- corporate calculator ---------- */
+var OPEN = 10 * 60, CLOSE = 20 * 60 + 30, PEAK = 16 * 60;
+var cPeople = $('#cPeople'), cHours = $('#cHours'), cDay = $('#cDay'), cStart = $('#cStart'), cPro = $('#cPro'), cNames = $('#cNames');
+for (var t = OPEN; t <= CLOSE - 60; t += 30) {
+  var o = document.createElement('option'); o.value = t; o.textContent = hm(t);
+  if (t === 17 * 60) o.selected = true;
+  cStart.appendChild(o);
+}
+var FMT_HINT = {
+  friendly: 'Олимпийская система на выбывание, одиночные матчи, плюс матч за 3-е место.',
+  team: 'Участники делятся на пары, парные матчи — сразу четыре человека за столом. До 5 пар — круговая, больше — олимпийка.',
+  rr: 'Группы по 3–4 человека играют каждый с каждым, затем победители групп — в плей-офф.'
+};
+var LETTERS = ['А','Б','В','Г','Д','Е','Ж'];
+
+function roundRobin(list){
+  var a = list.slice(); if (a.length % 2) a.push(null);
+  var n = a.length, rounds = [];
+  for (var r = 0; r < n - 1; r++) {
+    var ms = [];
+    for (var i = 0; i < n / 2; i++) { var x = a[i], y = a[n - 1 - i]; if (x && y) ms.push([x, y]); }
+    rounds.push(ms);
+    a.splice(1, 0, a.pop());
+  }
+  return rounds;
+}
+function roundName(entering){
+  if (entering <= 2) return 'Финал';
+  if (entering <= 4) return 'Полуфинал';
+  if (entering <= 8) return '1/4 финала';
+  if (entering <= 16) return '1/8 финала';
+  return '1/16 финала';
+}
+/* returns list of {stage, a, b} with match ids */
+function olympic(entrants, prefix, withThird){
+  var n = entrants.length, out = [];
+  if (n < 2) return out;
+  var P = 1; while (P < n) P *= 2;
+  var byes = P - n, cur = entrants.slice(0, byes), rest = entrants.slice(byes), id = 0;
+  var r1 = [];
+  for (var i = 0; i < rest.length; i += 2) {
+    id++; out.push({ stage: byes ? 'Отборочный тур' : roundName(P), a: rest[i], b: rest[i + 1], id: prefix + id });
+    r1.push('Поб. ' + prefix + id);
+  }
+  var merged = [];
+  while (cur.length || r1.length) { if (cur.length) merged.push(cur.shift()); if (r1.length) merged.push(r1.shift()); }
+  cur = merged;
+  var entering = P / 2, semiLosers = [];
+  while (cur.length > 1) {
+    var next = [], isSemi = cur.length === 4;
+    for (var j = 0; j < cur.length; j += 2) {
+      id++;
+      if (isSemi && withThird) semiLosers.push('Проигр. ' + prefix + id);
+      out.push({ stage: roundName(entering), a: cur[j], b: cur[j + 1], id: prefix + id, final: cur.length === 2 });
+      next.push('Поб. ' + prefix + id);
+    }
+    if (isSemi && withThird) {
+      id++; out.push({ stage: 'Матч за 3-е место', a: semiLosers[0], b: semiLosers[1], id: prefix + id });
+    }
+    cur = next; entering /= 2;
+  }
+  // move 3rd place before final
+  var fIdx = -1, tIdx = -1;
+  out.forEach(function(m, k){ if (m.final) fIdx = k; if (m.stage === 'Матч за 3-е место') tIdx = k; });
+  if (fIdx > -1 && tIdx > fIdx) { var th = out.splice(tIdx, 1)[0]; out.splice(fIdx, 0, th); }
+  return out;
+}
+
+function players(n){
+  var names = cNames.value.split(/[,;\n]+/).map(function(s){ return s.trim(); }).filter(Boolean);
+  var arr = [];
+  for (var i = 0; i < n; i++) arr.push(names[i] ? names[i].slice(0, 24) : 'Игрок ' + (i + 1));
+  return arr;
+}
+
+function buildMatches(fmt, n){
+  var pl = players(n), matches = [], note = '';
+  if (fmt === 'friendly') {
+    matches = olympic(pl, 'М', n >= 4);
+    note = 'Одиночные матчи на выбывание. ';
+  } else if (fmt === 'team') {
+    var teams = [], T = Math.floor(n / 2);
+    for (var i = 0; i < T; i++) teams.push(pl[2 * i] + ' + ' + pl[2 * i + 1]);
+    if (n % 2) note = pl[n - 1] + ' — запасной игрок и судья. ';
+    if (T <= 5) {
+      roundRobin(teams).forEach(function(r, ri){ r.forEach(function(m){ matches.push({ stage: 'Тур ' + (ri + 1), a: m[0], b: m[1] }); }); });
+      note += T + ' ' + plural(T, 'пара', 'пары', 'пар') + ', круговая система. ';
+    } else {
+      matches = olympic(teams, 'П', true);
+      note += T + ' пар, олимпийская система. ';
+    }
+  } else {
+    var g = n <= 5 ? 1 : Math.round(n / 4), groups = [];
+    for (var k = 0; k < g; k++) groups.push([]);
+    pl.forEach(function(p, idx){ groups[idx % g].push(p); });
+    groups.forEach(function(gr, gi){
+      roundRobin(gr).forEach(function(r){ r.forEach(function(m){ matches.push({ stage: g > 1 ? 'Группа ' + LETTERS[gi] : 'Круговая', a: m[0], b: m[1], group: gi }); }); });
+    });
+    if (g > 1) {
+      var winners = groups.map(function(_, gi){ return '1-й гр. ' + LETTERS[gi]; });
+      matches = matches.concat(olympic(winners, 'Ф', false));
+    }
+    note = g > 1 ? g + ' ' + plural(g, 'группа', 'группы', 'групп') + ' по 3–4 человека, каждая заходит в комнату своим слотом. ' : 'Все играют каждый с каждым. ';
+  }
+  return { matches: matches, note: note };
+}
+
+function matchRule(len){
+  if (len >= 24) return 'до двух побед, партии до 11';
+  if (len >= 13) return 'одна партия до 11 очков';
+  if (len >= 8) return 'одна партия до 11, без баланса';
+  return 'короткая партия до 7 очков';
+}
+
+var lastCalc = null;
+function calc(){
+  var n = +cPeople.value, H = +cHours.value, fmt = $('input[name=cFormat]:checked').value;
+  var start = +cStart.value, day = cDay.value, pro = +cPro.value;
+  $('#oPeople').textContent = n;
+  $('#oHours').textContent = H + ' ч';
+  cPeople.style.setProperty('--p', ((n - 4) / 20 * 100) + '%');
+  cHours.style.setProperty('--p', ((H - 1) / 5 * 100) + '%');
+  $('#fmtHint').textContent = FMT_HINT[fmt];
+
+  var res = buildMatches(fmt, n), M = res.matches.length;
+  var OPENING = 10, AWARD = 10, MIN_MATCH = 6;
+  var avail = H * 60 - OPENING - AWARD;
+  var len = Math.min(30, Math.floor(avail / M));
+  var short = len < MIN_MATCH;
+  if (short) len = MIN_MATCH;
+  var needH = Math.ceil((M * MIN_MATCH + OPENING + AWARD) / 60);
+  var end = start + H * 60;
+  var overClose = end > CLOSE;
+
+  // cost by 30-min slots
+  var cost = 0;
+  for (var s = start; s < end; s += 30) cost += (day === 'we' || s >= PEAK) ? 200 : 150;
+  var proCost = pro * 100 * H;
+  var total = cost + proCost;
+
+  $('#rTime').textContent = hm(start) + '–' + hm(end);
+  $('#rMatches').textContent = M;
+  $('#rCost').textContent = rub(total);
+  $('#rPer').textContent = rub(total / n);
+  $('#rSummary').innerHTML = esc(res.note) + 'Матч — около <strong>' + len + ' мин</strong> (' + matchRule(len) + '). Аренда ' + rub(cost) + (proCost ? ', проф. ракетки ' + rub(proCost) : '') + '.';
+
+  var warn = '';
+  if (short) warn += '<div class="warn">Для ' + M + ' ' + plural(M, 'матча', 'матчей', 'матчей') + ' времени мало — расписание выходит за рамки аренды. Рекомендуем от ' + needH + ' ч. ' + (needH <= 6 ? '<button type="button" data-seth="' + needH + '">Установить ' + needH + ' ч</button>' : 'Или выберите формат «Дружеский турнир».') + '</div>';
+  if (overClose) warn += '<div class="warn">Комната работает до 20:30 — сдвиньте начало на ' + hm(Math.max(OPEN, CLOSE - H * 60)) + ' или раньше.</div>';
+  $('#rWarn').innerHTML = warn;
+
+  // schedule
+  var rows = [], lines = [], clock = start, prevStage = '';
+  rows.push('<tr class="svc"><td class="t">' + hm(clock) + '</td><td class="st">Сбор</td><td>Разминка, жеребьёвка, правила</td></tr>');
+  lines.push(hm(clock) + ' — Сбор, разминка, жеребьёвка');
+  clock += OPENING;
+  res.matches.forEach(function(m, i){
+    if (m.stage !== prevStage) {
+      rows.push('<tr class="stage"><td colspan="3">' + esc(m.stage) + '</td></tr>');
+      lines.push('— ' + m.stage + ' —');
+      prevStage = m.stage;
+    }
+    rows.push('<tr><td class="t">' + hm(clock) + '</td><td class="st">Матч ' + (i + 1) + '</td><td>' + esc(m.a) + '<span class="vs">vs</span>' + esc(m.b) + '</td></tr>');
+    lines.push(hm(clock) + '  ' + (i + 1) + '. ' + m.a + ' — ' + m.b);
+    clock += len;
+  });
+  rows.push('<tr class="svc"><td class="t">' + hm(clock) + '</td><td class="st">Финиш</td><td>Награждение, общее фото</td></tr>');
+  lines.push(hm(clock) + ' — Награждение');
+  $('#rSched').innerHTML = rows.join('');
+
+  var fmtName = { friendly: 'Дружеский турнир', team: 'Командный (пары)', rr: 'Круговая' }[fmt];
+  lastCalc = {
+    n: n, fmtName: fmtName,
+    text: 'Корпоратив Ping Point: ' + n + ' ' + plural(n, 'участник', 'участника', 'участников') + ', ' + fmtName.toLowerCase() + ', ' + H + ' ч (' + hm(start) + '–' + hm(end) + ', ' + (day === 'we' ? 'выходные' : 'будни') + '). ' + M + ' ' + plural(M, 'матч', 'матча', 'матчей') + ' по ~' + len + ' мин. Ориентировочно ' + rub(total) + ' (' + rub(total / n) + ' на человека).',
+    schedule: lines.join('\n')
+  };
+}
+['input', 'change'].forEach(function(ev){ $('#calc').addEventListener(ev, calc); });
+$('#rWarn').addEventListener('click', function(e){
+  var b = e.target.closest('[data-seth]'); if (!b) return;
+  cHours.value = b.getAttribute('data-seth'); calc();
+});
+$('#copySched').addEventListener('click', function(){
+  copyText(lastCalc.text + '\n\n' + lastCalc.schedule).then(function(ok){ toast(ok ? 'Расписание скопировано' : 'Не удалось скопировать'); });
+  goal('calc_copy');
+});
+$('#toKp').addEventListener('click', function(){
+  $('#fPeople').value = lastCalc.n;
+  $('#fComment').value = lastCalc.text;
+});
+calc();
+
+/* ---------- KP form ---------- */
+var form = $('#kpForm'), done = $('#kpDone'), kpText = '';
+var dateInp = $('#fDate');
+var today = new Date(); today.setHours(0, 0, 0, 0);
+function iso(d){ return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+dateInp.min = iso(today);
+function setErr(key, msg){
+  var box = $('[data-f="' + key + '"]', form);
+  box.classList.toggle('has-err', !!msg);
+  $('.err', box).textContent = msg || '';
+  return !msg;
+}
+function validate(){
+  var ok = true, first = null;
+  function chk(key, msg, el){ if (!setErr(key, msg) && ok) { ok = false; first = el; } }
+  var company = $('#fCompany').value.trim(), name = $('#fName').value.trim(), contact = $('#fContact').value.trim();
+  var people = $('#fPeople').value.trim(), date = dateInp.value;
+  chk('company', company.length < 2 ? 'Укажите название компании' : '', $('#fCompany'));
+  chk('name', name.length < 2 ? 'Как к вам обращаться?' : '', $('#fName'));
+  var digits = contact.replace(/\D/g, '');
+  var isMail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(contact);
+  var isPhone = /^[+\d\s()\-]+$/.test(contact) && digits.length >= 10 && digits.length <= 12;
+  chk('contact', !contact ? 'Нужен телефон или e-mail' : (!isMail && !isPhone ? 'Проверьте формат телефона или e-mail' : ''), $('#fContact'));
+  var dErr = '';
+  if (!date) dErr = 'Выберите дату';
+  else { var d = new Date(date + 'T00:00:00'); if (isNaN(d) || d < today) dErr = 'Дата не может быть в прошлом'; }
+  chk('date', dErr, dateInp);
+  var p = parseInt(people, 10);
+  chk('people', !people ? 'Сколько будет участников?' : (isNaN(p) || p < 2 || p > 24 ? 'От 2 до 24 человек' : ''), $('#fPeople'));
+  chk('consent', $('#fConsent').checked ? '' : 'Нужно согласие на обработку данных', $('#fConsent'));
+  if (first) first.focus();
+  return ok;
+}
+form.addEventListener('submit', function(e){
+  e.preventDefault();
+  if (!validate()) return;
+  var d = new Date(dateInp.value + 'T00:00:00');
+  var ds = d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric', weekday: 'long' });
+  var p = parseInt($('#fPeople').value, 10);
+  kpText = 'Запрос КП — Ping Point\n' +
+    'Компания: ' + $('#fCompany').value.trim() + '\n' +
+    'Контакт: ' + $('#fName').value.trim() + ', ' + $('#fContact').value.trim() + '\n' +
+    'Дата: ' + ds + '\n' +
+    'Участников: ' + p + '\n' +
+    ($('#fComment').value.trim() ? 'Пожелания: ' + $('#fComment').value.trim() + '\n' : '');
+  $('#kpText').textContent = kpText;
+  form.hidden = true; done.hidden = false; done.focus();
+  goal('kp_submit');
+});
+$$('input, textarea', form).forEach(function(el){
+  el.addEventListener('input', function(){ var box = el.closest('[data-f]'); if (box && box.classList.contains('has-err')) setErr(box.getAttribute('data-f'), ''); });
+});
+$('#kpCopy').addEventListener('click', function(){
+  copyText(kpText).then(function(ok){ toast(ok ? 'Заявка скопирована' : 'Не удалось скопировать — выделите текст вручную'); });
+  goal('kp_copy');
+});
+$('#kpTg').addEventListener('click', function(){
+  copyText(kpText).then(function(ok){ if (ok) toast('Текст заявки скопирован — вставьте его в чат'); });
+});
+$('#kpNew').addEventListener('click', function(){ done.hidden = true; form.hidden = false; $('#fCompany').focus(); });
+
+/* ---------- certificate generator ---------- */
+var cv = $('#gCanvas'), cx = cv.getContext('2d');
+var gTo = $('#gTo'), gFrom = $('#gFrom');
+var certNo = 'PP-' + String(new Date().getFullYear()).slice(2) + String(new Date().getMonth() + 1).padStart(2, '0') + '-' + String(Math.floor(1000 + Math.random() * 9000));
+var NOM = { 1: { w: '1 час', p: '400 ₽' }, 2: { w: '2 часа', p: '800 ₽' }, 5: { w: '5 часов', p: '1 800 ₽' } };
+var SERIF = '"Cormorant Garamond", "Playfair Display", Georgia, serif', SANS = 'Manrope, "Segoe UI", Arial, sans-serif';
+
+function spaced(text, x, y, spacing, align){
+  var w = 0, i;
+  for (i = 0; i < text.length; i++) w += cx.measureText(text[i]).width + (i < text.length - 1 ? spacing : 0);
+  var sx = align === 'center' ? x - w / 2 : (align === 'right' ? x - w : x);
+  var prev = cx.textAlign; cx.textAlign = 'left';
+  for (i = 0; i < text.length; i++) { cx.fillText(text[i], sx, y); sx += cx.measureText(text[i]).width + spacing; }
+  cx.textAlign = prev;
+}
+function fitFont(text, maxW, size, weight, family){
+  do { cx.font = weight + ' ' + size + 'px ' + family; size -= 2; } while (cx.measureText(text).width > maxW && size > 20);
+}
+function emblem(x, y, s){
+  cx.save(); cx.translate(x, y); cx.scale(s, s);
+  // handle
+  cx.save(); cx.rotate(-0.72);
+  cx.fillStyle = '#d9b98a';
+  cx.beginPath(); cx.ellipse(0, -18, 46, 54, 0, 0, Math.PI * 2); cx.fill();
+  cx.fillRect(-9, 28, 18, 58);
+  cx.strokeStyle = '#232740'; cx.lineWidth = 3;
+  cx.beginPath(); cx.ellipse(0, -18, 38, 46, 0, Math.PI * 0.1, Math.PI * 0.65); cx.stroke();
+  cx.restore();
+  // ball
+  cx.fillStyle = '#7C0C0B'; cx.beginPath(); cx.arc(-52, -40, 20, 0, Math.PI * 2); cx.fill();
+  cx.strokeStyle = '#F5EFE3'; cx.lineWidth = 3; cx.beginPath(); cx.arc(-52, -40, 20, 0, Math.PI * 2); cx.stroke();
+  cx.restore();
+}
+function drawCert(){
+  var W = cv.width, H = cv.height;
+  var nom = $('input[name=gNom]:checked').value, N = NOM[nom];
+  var to = gTo.value.trim() || 'Имя получателя', from = gFrom.value.trim() || 'от друзей';
+
+  // paper
+  cx.fillStyle = '#F5EFE3'; cx.fillRect(0, 0, W, H);
+  var g = cx.createRadialGradient(W * 0.3, H * 0.2, 50, W * 0.5, H * 0.5, W * 0.8);
+  g.addColorStop(0, 'rgba(255,255,255,.55)'); g.addColorStop(1, 'rgba(169,138,91,.12)');
+  cx.fillStyle = g; cx.fillRect(0, 0, W, H);
+
+  // right navy band
+  var bx = W * 0.66;
+  cx.fillStyle = '#232740'; cx.fillRect(bx, 0, W - bx, H);
+  // frames
+  cx.strokeStyle = '#232740'; cx.lineWidth = 2; cx.strokeRect(36, 36, W - 72, H - 72);
+  cx.strokeStyle = 'rgba(124,12,11,.8)'; cx.lineWidth = 1; cx.strokeRect(50, 50, bx - 50 - 26, H - 100);
+  cx.strokeStyle = 'rgba(217,185,138,.6)'; cx.strokeRect(bx + 26, 50, W - bx - 76, H - 100);
+
+  // trajectory arc on paper
+  cx.save(); cx.strokeStyle = 'rgba(169,138,91,.55)'; cx.setLineDash([2, 9]); cx.lineWidth = 2;
+  cx.beginPath(); cx.moveTo(90, H - 150); cx.bezierCurveTo(W * 0.25, H * 0.15, W * 0.5, H * 0.1, bx - 20, H * 0.38); cx.stroke();
+  cx.restore();
+
+  var L = 110;
+  cx.fillStyle = '#7C0C0B'; cx.font = '700 22px ' + SANS; spaced('PING POINT · БРЯНСК', L, 140, 6, 'left');
+  cx.fillStyle = '#232740'; cx.font = 'italic 500 58px ' + SERIF; cx.textAlign = 'left';
+  cx.fillText('Подарочный', L, 250);
+  cx.font = '600 120px ' + SERIF; cx.fillText('сертификат', L - 4, 358);
+  cx.fillStyle = '#7C0C0B'; cx.fillRect(L, 400, 80, 2);
+
+  cx.fillStyle = '#5e6071'; cx.font = '600 20px ' + SANS; spaced('ДЛЯ', L, 480, 5, 'left');
+  cx.fillStyle = '#1d1f2e'; fitFont(to, bx - L - 90, 76, '600', SERIF); cx.fillText(to, L, 560);
+  cx.strokeStyle = 'rgba(35,39,64,.25)'; cx.lineWidth = 1; cx.beginPath(); cx.moveTo(L, 590); cx.lineTo(bx - 90, 590); cx.stroke();
+
+  cx.fillStyle = '#5e6071'; cx.font = '600 20px ' + SANS; spaced('ОТ', L, 660, 5, 'left');
+  cx.fillStyle = '#1d1f2e'; fitFont(from, bx - L - 90, 46, 'italic 500', SERIF); cx.fillText(from, L, 716);
+  cx.beginPath(); cx.moveTo(L, 742); cx.lineTo(bx - 90, 742); cx.stroke();
+
+  cx.fillStyle = '#5e6071';
+  var l1 = 'Приватная комната настольного тенниса · ул. Красноармейская, 100, ТРЦ «Мельница»';
+  fitFont(l1, bx - L - 70, 19, '500', SANS); var fs = cx.font; cx.fillText(l1, L, 832);
+  cx.font = fs; cx.fillText('Бронь: t.me/PingP32 · +7 903 644-76-53 · ежедневно 10:00–20:30', L, 864);
+  cx.fillStyle = '#7C0C0B'; cx.font = '700 18px ' + SANS; spaced('№ ' + certNo, L, 910, 3, 'left');
+
+  // navy side
+  var cxm = bx + (W - bx) / 2;
+  emblem(cxm + 30, 210, 1.05);
+  cx.fillStyle = '#d9b98a'; cx.font = '700 20px ' + SANS; spaced('НОМИНАЛ', cxm, 390, 6, 'center');
+  cx.fillStyle = '#F5EFE3'; cx.textAlign = 'center';
+  cx.font = '600 230px "Playfair Display", Georgia, serif'; cx.fillText(String(nom), cxm, 600);
+  cx.font = 'italic 500 54px ' + SERIF; cx.fillText(N.w.replace(/^\d+\s/, '') + ' игры', cxm, 672);
+  cx.strokeStyle = 'rgba(217,185,138,.5)'; cx.beginPath(); cx.moveTo(cxm - 90, 720); cx.lineTo(cxm + 90, 720); cx.stroke();
+  cx.fillStyle = '#d9b98a'; cx.font = '500 30px "Playfair Display", Georgia, serif'; cx.fillText(N.p, cxm, 780);
+  cx.fillStyle = 'rgba(245,239,227,.65)'; cx.font = '500 17px ' + SANS;
+  cx.fillText('стол целиком · до 4 гостей', cxm, 880);
+  cx.textAlign = 'left';
+}
+['input', 'change'].forEach(function(ev){ $('#certForm').addEventListener(ev, drawCert); });
+drawCert();
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ drawCert(); scheduleRebuild(); });
+
+$('#gDownload').addEventListener('click', function(){
+  drawCert();
+  var name = 'pingpoint-sertifikat-' + $('input[name=gNom]:checked').value + 'h.png';
+  try {
+    cv.toBlob(function(blob){
+      if (!blob) { toast('Не удалось создать файл'); return; }
+      var url = URL.createObjectURL(blob), a = document.createElement('a');
+      a.href = url; a.download = name; document.body.appendChild(a); a.click();
+      setTimeout(function(){ URL.revokeObjectURL(url); a.remove(); }, 1500);
+      toast('Сертификат сохранён');
+    }, 'image/png');
+  } catch (err) { toast('Браузер не разрешил сохранение'); }
+});
+
+$('#year').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
