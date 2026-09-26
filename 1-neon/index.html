@@ -5,13 +5,13 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Ping Point — настольный теннис в Брянске | Свой стол для компании, бронь онлайн</title>
-<meta name="description" content="Отдельная комната для настольного тенниса в ТРЦ «Мельница», Брянск. До 4 человек, ракетки и мячи бесплатно. Бронь и оплата онлайн, код на вход. Ежедневно 10:00–20:30, от 300 ₽/час.">
+<meta name="description" content="Отдельная комната для настольного тенниса в ТРЦ «Мельница», Брянск. До 4 человек, ракетки и мячи бесплатно. Бронь и оплата онлайн, код на вход. Ежедневно 10:00–20:30: 400 ₽/час до 13:00, 500 ₽/час после. Найди партнёра для игры.">
 <meta name="theme-color" content="#0a0b16">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ru_RU">
 <meta property="og:site_name" content="Ping Point">
 <meta property="og:title" content="Ping Point — свой стол для настольного тенниса в Брянске">
-<meta property="og:description" content="Комната на одну компанию: до 4 человек, бронь онлайн, код на вход. ТРЦ «Мельница», 10:00–20:30.">
+<meta property="og:description" content="Комната на одну компанию: до 4 человек, бронь онлайн, код на вход. ТРЦ «Мельница», 4 этаж, офис 422. 10:00–20:30.">
 <meta property="og:image" content="../img/room.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="900">
@@ -19,6 +19,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- данные сообщества, бронирования и согласий; Яндекс Метрика подключается только после согласия на cookie -->
+<script src="community.js"></script>
 
 <script type="application/ld+json">
 {
@@ -32,7 +34,7 @@
   "email": "pingp-inf@bk.ru",
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": "ул. Красноармейская, 100, ТРЦ «Мельница»",
+    "streetAddress": "ул. Красноармейская, 100, ТРЦ «Мельница», 4 этаж, офис 422",
     "addressLocality": "Брянск",
     "addressCountry": "RU"
   },
@@ -42,13 +44,14 @@
     "opens": "10:00",
     "closes": "20:30"
   }],
-  "priceRange": "300–400 ₽/час",
+  "priceRange": "400–500 ₽/час",
   "currenciesAccepted": "RUB",
   "sameAs": ["https://t.me/PingP32", "https://vk.com/pingp32"],
   "makesOffer": [
-    {"@type": "Offer", "name": "Аренда стола, будни 10:00–16:00, за час", "price": "300", "priceCurrency": "RUB"},
-    {"@type": "Offer", "name": "Аренда стола, будни 16:00–20:30, за час", "price": "400", "priceCurrency": "RUB"},
-    {"@type": "Offer", "name": "Аренда стола, выходные, за час", "price": "400", "priceCurrency": "RUB"}
+    {"@type": "Offer", "name": "Аренда стола 10:00–13:00, за час (будни и выходные)", "price": "400", "priceCurrency": "RUB"},
+    {"@type": "Offer", "name": "Аренда стола 13:00–20:30, за час (будни и выходные)", "price": "500", "priceCurrency": "RUB"},
+    {"@type": "Offer", "name": "Абонемент 5 часов", "price": "2200", "priceCurrency": "RUB"},
+    {"@type": "Offer", "name": "Абонемент 10 часов", "price": "4200", "priceCurrency": "RUB"}
   ]
 }
 </script>
@@ -377,7 +380,7 @@ section{position:relative}
 
 /* ---------- footer ---------- */
 .ftr{padding:70px 0 40px;border-top:1px solid var(--line);margin-top:clamp(80px,10vw,130px);background:#05060c}
-.ftr-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1.2fr;gap:36px}
+.ftr-grid{display:grid;grid-template-columns:1.3fr .9fr 1fr 1.1fr 1.2fr;gap:32px}
 .ftr h4{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:0 0 16px}
 .ftr ul{list-style:none;margin:0;padding:0;display:grid;gap:9px;font-size:15px}
 .ftr a{text-decoration:none;color:#c6c8e2}
@@ -390,21 +393,73 @@ section{position:relative}
 /* ---------- sticky mobile cta ---------- */
 .m-cta{display:none}
 
-/* ---------- modal ---------- */
-.modal{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:24px;background:rgba(3,4,10,.78);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);opacity:0;visibility:hidden;transition:opacity .3s,visibility 0s .3s}
-.modal.open{opacity:1;visibility:visible;transition:opacity .3s}
-.modal-box{position:relative;width:min(760px,100%);height:min(820px,calc(100vh - 48px));border-radius:26px;overflow:hidden;background:#0f1124;box-shadow:0 0 0 1.5px var(--neon),0 0 80px -10px rgba(255,46,99,.55);display:flex;flex-direction:column;transform:translateY(20px) scale(.98);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
-.modal.open .modal-box{transform:none}
-.modal-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 20px 16px 26px;border-bottom:1px solid var(--line)}
-.modal-head b{font-family:var(--display);font-size:18px;display:block}
-.modal-head span{font-size:13.5px;color:var(--muted)}
-.modal-x{flex-shrink:0;width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.07);cursor:pointer;font-size:24px;line-height:1}
-.modal-x:hover{background:var(--neon)}
-.modal-body{position:relative;flex:1;background:#fff}
-.modal-body iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-.modal-load{position:absolute;inset:0;display:grid;place-items:center;color:#232740;font-weight:700;font-size:15px}
-.modal-foot{padding:12px 26px;font-size:13px;color:var(--muted);border-top:1px solid var(--line)}
-.modal-foot a{color:var(--ball-hot)}
+/* ---------- partners ---------- */
+.p-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:26px 40px;align-items:end;margin-bottom:30px}
+.p-side{display:flex;flex-direction:column;align-items:stretch;gap:12px;min-width:300px}
+.p-live{display:flex;align-items:center;gap:16px;padding:12px 18px 12px 14px;border-radius:20px;background:rgba(255,255,255,.03);box-shadow:inset 0 0 0 1px var(--line)}
+.p-stack{display:flex;flex-shrink:0}
+.p-stack img{width:36px;height:36px;border-radius:50%;border:2px solid var(--bg);margin-left:-10px;background:#0b0c18}
+.p-stack img:first-child{margin-left:0}
+.p-live b{font-family:var(--display);font-size:22px;line-height:1.1;display:flex;align-items:center;gap:9px}
+.p-live b i{width:8px;height:8px;border-radius:50%;background:#3dffa8;box-shadow:0 0 10px #3dffa8;animation:blink 1.8s ease-in-out infinite}
+.p-live div>span{font-size:13px;color:var(--muted)}
+.p-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0 0 26px;counter-reset:ps;list-style:none;padding:0}
+.p-steps li{counter-increment:ps;display:flex;gap:12px;align-items:center;padding:14px 16px;border-radius:16px;background:rgba(255,255,255,.025);box-shadow:inset 0 0 0 1px var(--line);font-size:14.5px;color:#c6c8e2;line-height:1.4}
+.p-steps li::before{content:counter(ps);flex-shrink:0;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:13px;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--violet),0 0 12px -2px rgba(143,155,255,.6)}
+.p-bar{display:grid;grid-template-columns:minmax(0,1.5fr) repeat(3,minmax(0,1fr));gap:10px;margin-bottom:12px}
+.p-search{position:relative;display:block}
+.p-search svg{position:absolute;left:16px;top:50%;width:18px;height:18px;transform:translateY(-50%);color:var(--dim);pointer-events:none}
+.p-search input{width:100%;padding:14px 16px 14px 44px;border-radius:14px;border:0;background:rgba(255,255,255,.04);box-shadow:inset 0 0 0 1px var(--line);color:var(--ink);font:600 15px var(--text);-webkit-appearance:none;appearance:none}
+.p-search input::placeholder{color:#5f648a}
+.p-search input:focus,.p-bar select:focus{outline:none;box-shadow:inset 0 0 0 1.5px var(--violet),0 0 0 4px rgba(143,155,255,.14)}
+.p-bar .select select{font-size:15px;padding:14px 40px 14px 16px}
+.p-bar2{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.p-time{display:flex;gap:8px;flex-wrap:wrap}
+.p-time button{border:0;padding:9px 15px;border-radius:999px;background:rgba(255,255,255,.035);box-shadow:inset 0 0 0 1px var(--line);font-weight:700;font-size:13.5px;color:var(--muted);cursor:pointer;transition:background .2s,color .2s}
+.p-time button:hover{color:var(--ink)}
+.p-time button[aria-pressed=true]{background:var(--ink);color:var(--bg);box-shadow:none}
+.p-found{font-size:14px;color:var(--muted)}
+.p-feed{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.pcard{position:relative;display:flex;flex-direction:column;gap:14px;min-width:0;padding:22px 22px 18px;border-radius:var(--radius);background:linear-gradient(170deg,#161a33,#0c0d1a);box-shadow:inset 0 0 0 1px var(--line);transition:transform .3s ease,box-shadow .3s ease;animation:pcin .5s cubic-bezier(.2,.7,.2,1) both;animation-delay:var(--i,0s)}
+@keyframes pcin{from{opacity:0;transform:translateY(16px)}}
+.pcard:hover{transform:translateY(-4px);box-shadow:inset 0 0 0 1px rgba(143,155,255,.45),0 24px 50px -26px rgba(143,155,255,.6)}
+.pcard.mine{box-shadow:inset 0 0 0 1.5px rgba(255,185,56,.6),0 0 40px -18px rgba(255,185,56,.6)}
+.pc-top{display:flex;gap:14px;align-items:center;min-width:0}
+.pc-who{min-width:0;display:grid;gap:5px}
+.pc-who b{font-family:var(--display);font-size:17px;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pc-who b small{font-family:var(--text);font-weight:600;font-size:14px;color:var(--muted)}
+.pc-fmt{display:flex;justify-content:space-between;gap:10px;align-items:baseline;font-size:11.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--ball-hot)}
+.pc-fmt em{font-style:normal;letter-spacing:.04em;text-transform:none;font-weight:700;font-size:12.5px;color:var(--muted);white-space:nowrap}
+.pc-text{margin:0;font-size:15px;line-height:1.55;color:#d6d8f0;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+.pc-week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.pc-week span{text-align:center;font-size:11px;font-weight:800;padding:5px 0;border-radius:7px;background:rgba(255,255,255,.03);color:#4a4e6d}
+.pc-week span.on{background:rgba(255,46,99,.15);color:#fff;box-shadow:inset 0 0 0 1px rgba(255,46,99,.6)}
+.pc-times{display:flex;flex-wrap:wrap;gap:6px}
+.pc-times span{font-size:12.5px;font-weight:700;padding:5px 10px;border-radius:99px;background:rgba(143,155,255,.1);color:#c9ceff;box-shadow:inset 0 0 0 1px rgba(143,155,255,.3)}
+.pc-times span.hid{background:none;box-shadow:inset 0 0 0 1px var(--line);color:var(--dim)}
+.pc-meta{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-top:auto;padding-top:12px;border-top:1px dashed rgba(255,255,255,.1);font-size:12.5px;color:var(--dim)}
+.pc-act{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pc-act .btn{flex:1 1 auto}
+.pc-state{flex:1 1 100%;font-size:13.5px;font-weight:700;color:#3dffa8}
+.pc-state.wait{color:var(--ball-hot)}
+.pc-state.no{color:var(--dim)}
+.p-empty{grid-column:1/-1;padding:34px 20px;border-radius:var(--radius);text-align:center;color:var(--muted);background:rgba(255,255,255,.02);box-shadow:inset 0 0 0 1px var(--line)}
+.p-empty b{display:block;font-family:var(--display);color:var(--ink);font-size:18px;margin-bottom:6px}
+.p-more{display:flex;justify-content:center;margin-top:22px}
+.p-more:has(button[hidden]){display:none}
+.p-rule{display:flex;gap:12px;align-items:flex-start;margin:22px 0 0;font-size:13.5px;color:var(--muted);line-height:1.55;max-width:880px}
+.p-rule svg{flex-shrink:0;width:22px;height:22px;color:#3dffa8}
+.p-rule a{color:var(--ball-hot)}
+@media (min-width:641px){.p-feed:not(.all) .pcard:nth-child(n+7){display:none}}
+.rs-post{display:flex;gap:14px;align-items:center;padding:14px;border-radius:16px;background:rgba(255,255,255,.03);box-shadow:inset 0 0 0 1px var(--line);margin-bottom:18px}
+.rs-post b{display:block;font-size:16px}
+.rs-post span{font-size:13px;color:var(--muted)}
+.rs-ok{text-align:center;padding:10px 0 4px}
+.rs-ok b{display:block;font-family:var(--display);font-size:20px;margin:10px 0 6px}
+.rs-ok p{color:var(--muted);margin:0 0 20px;font-size:15px}
+/* цены */
+.price-sum.eq{font-size:48px}
+.addr-floor{color:var(--ball-hot);font-weight:700}
 
 /* ---------- responsive ---------- */
 @media (max-width:1320px) and (min-width:1100px){.hdr-phone{display:none}}
@@ -420,6 +475,12 @@ section{position:relative}
   .final-img{justify-self:start;max-width:100%;aspect-ratio:16/10}
   .extras{grid-template-columns:repeat(2,1fr)}
   .ftr-grid{grid-template-columns:1fr 1fr}
+  .p-head{grid-template-columns:minmax(0,1fr)}
+  .p-side{flex-direction:row;flex-wrap:wrap;align-items:center;min-width:0}
+  .p-side .btn{flex:0 1 auto}
+  .p-feed{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .p-bar{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .p-search{grid-column:1/-1}
 }
 @media (max-width:860px){
   .steps,.prices,.reviews,.flips{grid-template-columns:minmax(0,1fr)}
@@ -464,8 +525,25 @@ section{position:relative}
   .ftr-grid{grid-template-columns:1fr}
   .final{border-radius:26px}
   .final-cta .btn{flex:1 1 100%}
-  .modal{padding:0}
-  .modal-box{width:100%;height:100%;border-radius:0;box-shadow:none}
+  #partners .wrap{display:flex;flex-direction:column}
+  .p-side{flex-direction:column;align-items:stretch}
+  .p-live{padding:10px 14px 10px 12px}
+  .p-steps{order:6;margin:22px 0 0;grid-template-columns:minmax(0,1fr);gap:8px}
+  .p-rule{order:7}
+  .p-steps li{padding:11px 14px;font-size:14px}
+  .p-bar{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .p-bar .select:last-child{grid-column:1/-1}
+  .p-bar .select select{font-size:14px;padding:13px 32px 13px 14px}
+  .p-bar .select::after{right:14px}
+  .p-time{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:calc(-1*var(--pad));padding-inline:var(--pad);width:calc(100% + 2*var(--pad))}
+  .p-time::-webkit-scrollbar{display:none}
+  .p-time button{flex-shrink:0}
+  .p-feed{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:calc(-1*var(--pad));padding:4px var(--pad) 14px;scroll-padding-inline:var(--pad);scrollbar-width:none;overscroll-behavior-x:contain}
+  .p-feed::-webkit-scrollbar{display:none}
+  .pcard{flex:0 0 min(84vw,340px);scroll-snap-align:start;padding:20px 18px 16px}
+  .pcard:hover{transform:none}
+  .p-empty{flex:1 0 100%}
+  .p-more{display:none}
   .m-cta{display:flex;position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:60;gap:10px;transition:transform .35s,opacity .35s}
   .m-cta .btn{flex:1;padding:17px 20px}
   .m-cta a.m-tel{flex:0 0 56px;width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:rgba(20,22,44,.92);backdrop-filter:blur(10px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
@@ -500,15 +578,16 @@ section{position:relative}
       <span><b>PING <span>POINT</span></b><small>Брянск · ТРЦ «Мельница»</small></span>
     </a>
     <nav class="nav" aria-label="Разделы">
+      <a href="#slots">Время</a>
+      <a href="#partners">Партнёры</a>
       <a href="#calc">Калькулятор</a>
-      <a href="#slots">Свободное время</a>
-      <a href="#room">Комната</a>
       <a href="#prices">Цены</a>
       <a href="#find">Как найти</a>
     </nav>
     <a class="hdr-phone" href="tel:+79036447653" data-goal="phone_click">+7 903 644-76-53</a>
     <a class="icon-btn first" href="tel:+79036447653" data-goal="phone_click" aria-label="Позвонить"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></a>
     <a class="icon-btn" href="https://t.me/PingP32" target="_blank" rel="noopener" data-goal="tg_click" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.3 18.7 19.4c-.2 1.1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.3-5 9.2-8.3c.4-.4-.1-.6-.6-.2L6.2 13 1.3 11.5c-1.1-.3-1.1-1.1.2-1.6l19-7.3c.9-.3 1.7.2 1.4 1.7z"/></svg></a>
+    <a class="cab-btn" id="cabBtn" href="cabinet.html" aria-label="Личный кабинет"><span class="cab-name">Кабинет</span></a>
     <button class="btn btn-main btn-sm" type="button" data-book data-goal="booking_click">Забронировать</button>
   </div>
 </header>
@@ -529,7 +608,7 @@ section{position:relative}
         <a class="btn btn-ghost" href="#calc">Посчитать на компанию</a>
       </div>
       <ul class="hero-stats">
-        <li><b class="hot">от 75 ₽</b><span>с человека в час, вчетвером</span></li>
+        <li><b class="hot">от <span data-pp="am/4">100</span> ₽</b><span>с человека в час, вчетвером</span></li>
         <li><b>до 4</b><span>игроков на столе</span></li>
         <li><b>0 ₽</b><span>ракетки и мячи</span></li>
       </ul>
@@ -540,8 +619,8 @@ section{position:relative}
 
 <div class="ticker" aria-hidden="true">
   <div class="ticker-track">
-    <span>Без администратора</span><span>Свой стол на час</span><span>До 4 игроков</span><span>Код на вход</span><span>Кресла-мешки</span><span>10:00–20:30 каждый день</span><span>Рядом кино</span>
-    <span>Без администратора</span><span>Свой стол на час</span><span>До 4 игроков</span><span>Код на вход</span><span>Кресла-мешки</span><span>10:00–20:30 каждый день</span><span>Рядом кино</span>
+    <span>Без администратора</span><span>Свой стол на час</span><span>До 4 игроков</span><span>Найди партнёра</span><span>Код на вход</span><span>Кресла-мешки</span><span>10:00–20:30 каждый день</span>
+    <span>Без администратора</span><span>Свой стол на час</span><span>До 4 игроков</span><span>Найди партнёра</span><span>Код на вход</span><span>Кресла-мешки</span><span>10:00–20:30 каждый день</span>
   </div>
 </div>
 
@@ -577,7 +656,7 @@ section{position:relative}
 </section>
 
 <!-- ========== SLOTS ========== -->
-<!-- Демо-сетка: занятость генерируется в браузере псевдослучайно по дате. Реальная занятость — в форме бронирования. -->
+<!-- Занятость берётся из броней (community.js): реальные брони с сайта и из админки + демо-история. -->
 <section class="sec" id="slots" aria-labelledby="slots-title" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head row rv">
@@ -606,6 +685,47 @@ section{position:relative}
   </div>
 </section>
 
+<!-- ========== PARTNERS ========== -->
+<!-- Лента «Найди партнёра»: данные из community.js. Восемь объявлений при первом запуске — ДЕМО-ДАННЫЕ, аватары нарисованы в SVG. -->
+<section class="sec" id="partners" aria-labelledby="partners-title" style="padding-top:0">
+  <div class="wrap">
+    <div class="p-head rv">
+      <div>
+        <div class="eyebrow">Найди партнёра</div>
+        <h2 class="h2" id="partners-title">Не с кем играть? <span class="neon">Найдём соперника</span></h2>
+        <p class="sec-lead">Разместите объявление — брянские игроки откликнутся. Или выберите того, кто ищет пару прямо сейчас: по уровню, формату и времени.</p>
+      </div>
+      <div class="p-side">
+        <div class="p-live"><span class="p-stack" id="pStack" aria-hidden="true"></span><div><b><i></i><span id="pCount">8</span></b><span id="pCountL">активных объявлений</span></div></div>
+        <button class="btn btn-main" id="pNew" type="button">Разместить объявление</button>
+      </div>
+    </div>
+    <ol class="p-steps rv" aria-label="Как это работает">
+      <li>Разместите объявление: уровень, формат, удобные дни и время</li>
+      <li>Получайте отклики и выбирайте, с кем играть</li>
+      <li>Примите отклик — откроются контакты. Бронируйте стол вместе</li>
+    </ol>
+    <div class="p-bar rv" role="search">
+      <label class="p-search"><span class="sr">Поиск по объявлениям</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" id="pQ" placeholder="Поиск: спарринг, вечер, имя…" autocomplete="off"></label>
+      <div class="select"><label class="sr" for="pLevel">Уровень</label><select id="pLevel"><option value="">Любой уровень</option></select></div>
+      <div class="select"><label class="sr" for="pFormat">Формат</label><select id="pFormat"><option value="">Любой формат</option></select></div>
+      <div class="select"><label class="sr" for="pSort">Сортировка</label><select id="pSort"><option value="new">Сначала новые</option><option value="popular">Больше откликов</option></select></div>
+    </div>
+    <div class="p-bar2 rv">
+      <div class="p-time" role="group" aria-label="Время игры">
+        <button type="button" data-t="" aria-pressed="true">Любое время</button>
+        <button type="button" data-t="am" aria-pressed="false">Утро до 13:00</button>
+        <button type="button" data-t="pm" aria-pressed="false">После 13:00</button>
+        <button type="button" data-t="we" aria-pressed="false">Выходные</button>
+      </div>
+      <span class="p-found" id="pFound" aria-live="polite"></span>
+    </div>
+    <div class="p-feed" id="pFeed" aria-label="Объявления игроков"></div>
+    <div class="p-more"><button class="btn btn-ghost" id="pMore" type="button" hidden>Показать ещё</button></div>
+    <p class="p-rule"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg><span>Раздел для игроков 18+, с 14 лет — с согласия родителей. Общаемся вежливо, объявления проверяются. Телефон и Telegram видны только после того, как автор принял отклик. <a href="docs/pravila-soobshchestva.html" data-doc="community_rules">Правила сообщества</a></span></p>
+  </div>
+</section>
+
 <!-- ========== SCENARIOS ========== -->
 <section class="sec" id="scenarios" aria-labelledby="sc-title" style="padding-top:0">
   <div class="wrap">
@@ -629,9 +749,9 @@ section{position:relative}
             <ul>
               <li>Комната только ваша — никто не смотрит, как вы мажете по мячу.</li>
               <li>Кресла-мешки у большого окна, чтобы выдохнуть между партиями.</li>
-              <li>Ставка на проигравшего: с него попкорн в кинотеатре по соседству.</li>
+              <li>Ставка на проигравшего: с него кофе после игры.</li>
             </ul>
-            <div class="flip-price"><b>600 ₽</b><span>2 часа в будни днём<br>по 300 ₽ с каждого</span></div>
+            <div class="flip-price"><b><span data-pp="am*2">800</span> ₽</b><span>2 часа до <span data-pp="border">13:00</span><br>по <span data-pp="am">400</span> ₽ с каждого</span></div>
             <div class="row">
               <button class="btn btn-main btn-sm" type="button" data-book data-book-title="Свидание" data-goal="booking_click scenario_click">Забронировать</button>
               <button class="flip-btn" type="button" aria-expanded="true">Назад</button>
@@ -656,7 +776,7 @@ section{position:relative}
               <li>Ракетки и мячи бесплатно, приносить ничего не нужно.</li>
               <li>Кулер с водой на месте — пить хочется уже после первого гейма.</li>
             </ul>
-            <div class="flip-price"><b>100 ₽</b><span>с человека за час вечером<br>вчетвером (400 ₽ на всех)</span></div>
+            <div class="flip-price"><b><span data-pp="pm/4">125</span> ₽</b><span>с человека за час вечером<br>вчетвером (<span data-pp="pm">500</span> ₽ на всех)</span></div>
             <div class="row">
               <button class="btn btn-main btn-sm" type="button" data-book data-book-title="С друзьями" data-goal="booking_click scenario_click">Забронировать</button>
               <button class="flip-btn" type="button" aria-expanded="true">Назад</button>
@@ -669,21 +789,21 @@ section{position:relative}
         <div class="flip-in">
           <div class="face face-front">
             <img src="../img/stock-table-balls-bokeh.jpg" alt="Ракетки и мячи на теннисном столе в вечернем свете" loading="lazy" width="1680" height="945" style="object-position:40% 50%">
-            <span class="flip-tag">Час до сеанса</span>
-            <h3>Пока ждём кино</h3>
-            <p>Пришли в ТРЦ заранее? Не сидите в телефонах — разомнитесь перед фильмом.</p>
+            <span class="flip-tag">Час в обед</span>
+            <h3>Обеденный перерыв</h3>
+            <p>Работаете рядом или в офисной галерее «Мельницы»? Час пинг-понга вместо ленты новостей — и обратно к задачам бодрым.</p>
             <button class="flip-btn" type="button" aria-expanded="false">Перевернуть <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-3-6.7L21 8M21 3v5h-5"/></svg></button>
           </div>
           <div class="face face-back">
-            <h3>Пока ждём кино</h3>
+            <h3>Обеденный перерыв</h3>
             <ul>
-              <li>Кинотеатр в том же ТРЦ «Мельница» — от стола до зала пара минут.</li>
+              <li>Офисная галерея на том же 4 этаже — до стола пара минут.</li>
               <li>Бронируйте ровно на час: хватит на три-четыре партии.</li>
               <li>Парковка ТЦ на 350 мест — машину искать не придётся.</li>
             </ul>
-            <div class="flip-price"><b>300–400 ₽</b><span>за час на всю компанию<br>в зависимости от времени</span></div>
+            <div class="flip-price"><b><span data-pp="am">400</span> ₽</b><span>за час на всю компанию<br>до <span data-pp="border">13:00</span></span></div>
             <div class="row">
-              <button class="btn btn-main btn-sm" type="button" data-book data-book-title="Пока ждём кино" data-goal="booking_click scenario_click">Забронировать</button>
+              <button class="btn btn-main btn-sm" type="button" data-book data-book-title="Обеденный перерыв" data-goal="booking_click scenario_click">Забронировать</button>
               <button class="flip-btn" type="button" aria-expanded="true">Назад</button>
             </div>
           </div>
@@ -699,15 +819,15 @@ section{position:relative}
     <div class="sec-head rv">
       <div class="eyebrow">Калькулятор компании</div>
       <h2 class="h2" id="calc-title">Сколько выйдет <span class="hot">с&nbsp;человека?</span></h2>
-      <p class="sec-lead">Платите за стол, а не за каждого. Чем больше компания — тем дешевле. Спойлер: дешевле кино.</p>
+      <p class="sec-lead">Платите за стол, а не за каждого. Чем больше компания — тем дешевле. Спойлер: дешевле разового похода в фитнес-клуб.</p>
     </div>
     <div class="calc rv">
       <form class="calc-form" id="calcForm" onsubmit="return false">
         <div>
-          <span class="fld-label" id="lbl-day">День</span>
+          <span class="fld-label" id="lbl-day">Тариф <span style="text-transform:none;letter-spacing:0;font-weight:600">(в будни и выходные одинаково)</span></span>
           <div class="seg" role="radiogroup" aria-labelledby="lbl-day">
-            <input type="radio" name="day" id="d-wd" value="wd" checked><label for="d-wd">Будни<small>пн–пт</small></label>
-            <input type="radio" name="day" id="d-we" value="we"><label for="d-we">Выходные<small>сб–вс</small></label>
+            <input type="radio" name="tariff" id="t-am" value="am"><label for="t-am">До <span data-pp="border">13:00</span><small><span data-pp="am">400</span> ₽/час</small></label>
+            <input type="radio" name="tariff" id="t-pm" value="pm" checked><label for="t-pm">После <span data-pp="border">13:00</span><small><span data-pp="pm">500</span> ₽/час</small></label>
           </div>
         </div>
         <div class="calc-row">
@@ -744,23 +864,23 @@ section{position:relative}
       </form>
       <div class="calc-out" aria-live="polite">
         <div class="out-cap">С каждого примерно</div>
-        <div class="out-per" id="oPer">~200<small>₽</small></div>
-        <p class="out-sub" id="oSub">Итого <b>800 ₽</b> за стол · 16:00–18:00</p>
+        <div class="out-per" id="oPer">~250<small>₽</small></div>
+        <p class="out-sub" id="oSub">Итого <b>1 000 ₽</b> за стол · 16:00–18:00</p>
         <div class="bars">
           <div>
             <div class="bar-l"><span>Ping Point, с человека</span><b id="oBarUsV">200 ₽</b></div>
             <div class="bar bar-us"><i id="oBarUs" style="width:40%"></i></div>
           </div>
           <div>
-            <!-- ориентир цены билета в кино — уточнить -->
-            <div class="bar-l"><span>Билет в кино вечером*</span><b id="oBarKinoV">~450 ₽</b></div>
+            <!-- ориентир цены разового посещения фитнес-клуба в Брянске — уточнить -->
+            <div class="bar-l"><span>Разовое посещение фитнес-клуба*</span><b id="oBarKinoV">~500 ₽</b></div>
             <div class="bar bar-kino"><i id="oBarKino" style="width:90%"></i></div>
           </div>
         </div>
-        <div class="out-verdict" id="oVerdict">Дешевле кино на <b>250 ₽</b> с каждого — и это два часа движения, а не сидения.</div>
+        <div class="out-verdict" id="oVerdict">Дешевле фитнес-клуба на <b>375 ₽</b> с каждого — и вместо тренажёров живая игра.</div>
         <div class="out-foot">
           <button class="btn btn-main" type="button" data-book id="calcBook" data-goal="booking_click calc_booking_click">Забронировать это время</button>
-          <div class="out-note">* Средний ориентир, для сравнения. Цены Ping Point: будни 10:00–16:00 — 300 ₽/ч, будни после 16:00 и выходные — 400 ₽/ч. Цены уточняются.</div>
+          <div class="out-note">* Средний ориентир, для сравнения. Цены Ping Point: до <span data-pp="border">13:00</span> — <span data-pp="am">400</span> ₽/ч, после — <span data-pp="pm">500</span> ₽/ч, в будни и выходные одинаково. Считаем по получасам.</div>
         </div>
       </div>
     </div>
@@ -804,33 +924,33 @@ section{position:relative}
     </div>
     <div class="prices">
       <article class="price rv">
-        <div class="price-when">Будни днём</div>
-        <div class="price-time">пн–пт · 10:00–16:00</div>
-        <div class="price-sum">300 <small>₽/час</small></div>
-        <div class="price-pp">от 75 ₽ с человека</div>
+        <div class="price-when">Утро</div>
+        <div class="price-time">каждый день · 10:00–<span data-pp="border">13:00</span></div>
+        <div class="price-sum"><span data-pp="am">400</span> <small>₽/час</small></div>
+        <div class="price-pp">от <span data-pp="am/4">100</span> ₽ с человека</div>
       </article>
       <article class="price hl rv" style="--d:.1s">
-        <span class="price-badge">Вечер</span>
-        <div class="price-when">Будни вечером</div>
-        <div class="price-time">пн–пт · 16:00–20:30</div>
-        <div class="price-sum">400 <small>₽/час</small></div>
-        <div class="price-pp">от 100 ₽ с человека</div>
+        <span class="price-badge">День и вечер</span>
+        <div class="price-when">После <span data-pp="border">13:00</span></div>
+        <div class="price-time">каждый день · <span data-pp="border">13:00</span>–20:30</div>
+        <div class="price-sum"><span data-pp="pm">500</span> <small>₽/час</small></div>
+        <div class="price-pp">от <span data-pp="pm/4">125</span> ₽ с человека</div>
       </article>
       <article class="price rv" style="--d:.2s">
         <div class="price-when">Выходные</div>
-        <div class="price-time">сб–вс · 10:00–20:30</div>
-        <div class="price-sum">400 <small>₽/час</small></div>
-        <div class="price-pp">от 100 ₽ с человека</div>
+        <div class="price-time">сб–вс · та же сетка, что в будни</div>
+        <div class="price-sum eq">0 ₽ <small>наценки</small></div>
+        <div class="price-pp"><span data-pp="am">400</span> ₽ утром и <span data-pp="pm">500</span> ₽ после <span data-pp="border">13:00</span></div>
       </article>
     </div>
     <div class="extras">
-      <div class="extra rv"><em>Абонемент</em><b>5 ч — 1 800 ₽</b><span>Час выходит 360 ₽ в любое время.</span></div>
-      <div class="extra rv" style="--d:.08s"><em>Абонемент</em><b>10 ч — 3 300 ₽</b><span>Час по 330 ₽ — для тех, кто вошёл во вкус.</span></div>
+      <div class="extra rv"><em>Абонемент</em><b>5 ч — 2 200 ₽</b><span>Час по 440 ₽ в любое время — после 13:00 выгоднее на 60 ₽. Действует не меньше 3 месяцев.</span></div>
+      <div class="extra rv" style="--d:.08s"><em>Абонемент</em><b>10 ч — 4 200 ₽</b><span>Час по 420 ₽ — после 13:00 экономия 80 ₽ с каждого часа. Действует не меньше 3 месяцев.</span></div>
       <div class="extra rv" style="--d:.16s"><em>Праздник</em><b>День рождения</b><span>2 часа + мини-турнир с сеткой и грамотами — от 1 500 ₽ сверх аренды.</span></div>
       <div class="extra rv" style="--d:.24s"><em>Для команды</em><b>Корпоративный турнир</b><span>Сетка, судейство и награждение. Стоимость — по запросу.</span></div>
     </div>
     <div class="soon rv">Скоро: <span>робот-подающий</span><span>тренер по записи</span></div>
-    <p class="price-note rv">Профессиональная ракетка — +100 ₽/час. Цены уточняются.</p>
+    <p class="price-note rv">Цена — за час аренды комнаты, считаем по получасам. Профессиональная ракетка — +<span data-pp="racket">100</span> ₽/час. Подробно — в <a href="docs/oferta.html#tarify" data-doc="offer" style="color:var(--ball-hot)">тарифах оферты</a>.</p>
   </div>
 </section>
 
@@ -846,13 +966,13 @@ section{position:relative}
       <!-- заглушка -->
       <article class="rev rv">
         <div class="rev-stars" aria-label="5 из 5">★★★★★</div>
-        <p>Пошли вдвоём перед сеансом, в итоге чуть не опоздали на фильм — не могли остановиться на счёте 10:10. Комната уютная, никого вокруг.</p>
+        <p>Пришли вдвоём после работы «на часик», в итоге продлили — не могли остановиться на счёте 10:10. Комната уютная, никого вокруг.</p>
         <div class="rev-who"><span class="rev-ava">А</span><div><b>Анна</b><span>свидание, будни</span></div></div>
       </article>
       <!-- заглушка -->
       <article class="rev rv" style="--d:.1s">
         <div class="rev-stars" aria-label="5 из 5">★★★★★</div>
-        <p>Собрались вчетвером после пар, вышло по сотке с человека. Играли на вылет, проигравшие отдыхали на мешках. Уже забронировали ещё раз.</p>
+        <p>Собрались вчетвером после пар, вышло по 125 ₽ с человека. Играли на вылет, проигравшие отдыхали на мешках. Уже забронировали ещё раз.</p>
         <div class="rev-who"><span class="rev-ava">Д</span><div><b>Дмитрий</b><span>компания из 4 человек</span></div></div>
       </article>
       <!-- заглушка -->
@@ -870,12 +990,13 @@ section{position:relative}
   <div class="wrap find">
     <div class="rv">
       <div class="eyebrow">Как найти</div>
-      <h2 class="h2" id="find-title">ТРЦ «Мельница»,<br>Красноармейская, 100</h2>
-      <p class="sec-lead" style="margin-bottom:34px">Брянск, в одном здании с кинотеатром и детским центром «Рай Парк».</p>
+      <h2 class="h2" id="find-title">ТРЦ «Мельница»,<br>4 этаж, офис 422</h2>
+      <p class="sec-lead" style="margin-bottom:34px">Брянск, ул. Красноармейская, 100 — офисная галерея на 4 этаже, у ТЦ парковка на 350 мест.</p>
       <ol class="route">
-        <li><b>Приезжайте в ТРЦ «Мельница»</b><span>ул. Красноармейская, 100. Парковка ТЦ — 350 мест.</span></li>
-        <li><b>Поднимитесь к Ping Point</b><span>Комната находится в ТРЦ «Мельница» <!-- уточнить этаж -->— точный этаж и ориентиры придут вместе с кодом.</span></li>
-        <li><b>Введите код на двери</b><span>Код или QR приходит после оплаты. Заходите — стол ваш.</span></li>
+        <li><b>Войдите в ТРЦ «Мельница»</b><span>ул. Красноармейская, 100. Парковка ТЦ — 350 мест.</span></li>
+        <li><b>Поднимитесь на 4 этаж</b><span>На лифте или по лестнице.</span></li>
+        <li><b>Пройдите в офисную галерею</b><span>Комната — в центре офисной галереи.</span></li>
+        <li><b>Офис 422 — введите код на двери</b><span>Код или QR приходит после оплаты. Заходите — стол ваш.</span></li>
       </ol>
       <div class="contacts">
         <a href="tel:+79036447653" data-goal="phone_click"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>+7 903 644-76-53</a>
@@ -898,7 +1019,7 @@ section{position:relative}
       <h2 class="h2">Коротко и по делу</h2>
       <ul class="rules">
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div><b>Бронь минимум за 1 час</b><span>Чтобы код успел прийти.</span></div></li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"/></svg><div><b>Отмена за 3 часа — возврат 100%</b><span>Планы поменялись — деньги вернутся.</span></div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"/></svg><div><b>Отмена за 3 часа — возврат 100%</b><span>Позже — за вычетом расходов. Перенос — бесплатно один раз.</span></div></li>
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="6" r="3"/><circle cx="17" cy="9" r="2"/><path d="M4 21v-5a5 5 0 0 1 10 0v5M14 21v-3a3 3 0 0 1 6 0v3"/></svg><div><b>Дети до 14 лет — со взрослым</b><span>Взрослый остаётся в комнате.</span></div></li>
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 18h18v-3l-6-2-3-6H6L3 12z"/></svg><div><b>Сменная обувь</b><span>Или любая не скользящая.</span></div></li>
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="m5.6 5.6 12.8 12.8"/></svg><div><b>Без еды и алкоголя</b><span>Воду из кулера — можно.</span></div></li>
@@ -909,7 +1030,15 @@ section{position:relative}
       <h2 class="h2" id="faq-title">Частые вопросы</h2>
       <details>
         <summary>Как попасть внутрь, если там нет администратора?<i></i></summary>
-        <div class="ans"><p>После оплаты брони вы получаете код или QR. Вводите его у двери в назначенное время — комната открыта. Всё остальное уже внутри.</p></div>
+        <div class="ans"><p>После оплаты брони вы получаете код или QR. Поднимитесь на 4 этаж ТРЦ «Мельница», офис 422 в центре офисной галереи, и введите код у двери в назначенное время — комната открыта. Всё остальное уже внутри.</p></div>
+      </details>
+      <details>
+        <summary>Сколько стоит час?<i></i></summary>
+        <div class="ans"><p><span data-pp="am">400</span> ₽ за час до <span data-pp="border">13:00</span> и <span data-pp="pm">500</span> ₽ после — одинаково в будни и выходные. Цена за всю комнату, до 4 человек. Считаем по получасам: полтора часа с 12:30 — это полчаса по утреннему тарифу и час по дневному.</p></div>
+      </details>
+      <details>
+        <summary>Не с кем играть — что делать?<i></i></summary>
+        <div class="ans"><p>Загляните в раздел <a href="#partners" style="color:var(--ball-hot)">«Найди партнёра»</a>: там объявления игроков разного уровня. Откликнитесь или разместите своё — после принятия отклика откроются контакты, и стол можно забронировать вместе.</p></div>
       </details>
       <details>
         <summary>Сколько человек можно привести?<i></i></summary>
@@ -925,7 +1054,7 @@ section{position:relative}
       </details>
       <details>
         <summary>Как отменить или перенести бронь?<i></i></summary>
-        <div class="ans"><p>При отмене не позднее чем за 3 часа до начала возвращаем 100% оплаты. По переносу — напишите в <a href="https://t.me/PingP32" target="_blank" rel="noopener" data-goal="tg_click" style="color:var(--ball-hot)">Telegram</a> или позвоните.</p></div>
+        <div class="ans"><p>В личном кабинете. Отмена не позднее чем за 3 часа до начала — возврат 100%. Позже — возврат за вычетом фактических расходов, сумму сообщим с расчётом. Перенести бронь можно бесплатно один раз, не позднее чем за 3 часа: если новое время дороже — доплата, дешевле — вернём разницу. Подробно — в <a href="docs/oferta.html" data-doc="offer" style="color:var(--ball-hot)">оферте</a>, вопросы — в <a href="https://t.me/PingP32" target="_blank" rel="noopener" data-goal="tg_click" style="color:var(--ball-hot)">Telegram</a> или по телефону.</p></div>
       </details>
       <details>
         <summary>Можно прийти с ребёнком?<i></i></summary>
@@ -964,15 +1093,17 @@ section{position:relative}
     <div class="ftr-grid">
       <div>
         <a class="brand" href="#top"><span class="brand-logo"><img src="../img/logo.jpg" alt="" width="46" height="46"></span><span><b>PING <span>POINT</span></b><small>настольный теннис</small></span></a>
-        <p class="ftr-about">Комната для настольного тенниса на одну компанию. Брянск, ул. Красноармейская, 100, ТРЦ «Мельница» <!-- уточнить этаж -->.</p>
+        <p class="ftr-about">Комната для настольного тенниса на одну компанию. Брянск, ул. Красноармейская, 100, ТРЦ «Мельница», 4 этаж, офис 422 (центр офисной галереи).</p>
       </div>
       <div>
         <h4>Разделы</h4>
         <ul>
-          <li><a href="#calc">Калькулятор</a></li>
           <li><a href="#slots">Свободное время</a></li>
+          <li><a href="#partners">Найди партнёра</a></li>
+          <li><a href="#calc">Калькулятор</a></li>
           <li><a href="#prices">Цены</a></li>
           <li><a href="#faq">Вопросы и правила</a></li>
+          <li><a href="cabinet.html">Личный кабинет</a></li>
         </ul>
       </div>
       <div>
@@ -988,10 +1119,22 @@ section{position:relative}
         <h4>Реквизиты</h4>
         <div class="ftr-req">ИП Исаков Игорь Константинович<br>ИНН 323407837462<br>ОГРНИП 325320000017817<br>Ежедневно 10:00–20:30</div>
       </div>
+      <div>
+        <h4>Документы</h4>
+        <ul class="ftr-docs" id="ftrDocs">
+          <li><a href="docs/politika.html" data-doc="policy">Политика обработки ПД</a></li>
+          <li><a href="docs/soglasie-pd.html" data-doc="consent_pd">Согласие на обработку ПД</a></li>
+          <li><a href="docs/soglasie-rasprostranenie.html" data-doc="consent_public">Согласие на распространение ПД</a></li>
+          <li><a href="docs/pravila-soobshchestva.html" data-doc="community_rules">Правила сообщества</a></li>
+          <li><a href="docs/oferta.html" data-doc="offer">Публичная оферта</a></li>
+          <li><a href="docs/cookies.html" data-doc="cookies">Политика cookie</a></li>
+          <li><a href="#" data-cookie-settings>Настройки cookie</a></li>
+        </ul>
+      </div>
     </div>
     <div class="ftr-bottom">
       <span>© <span id="year">2026</span> Ping Point, Брянск</span>
-      <span><a href="#">Политика конфиденциальности</a> · <a href="#">Договор-оферта</a></span>
+      <span><a href="docs/politika.html" data-doc="policy">Политика обработки ПД</a> · <a href="docs/oferta.html" data-doc="offer">Публичная оферта</a> · <a href="#" data-cookie-settings>Настройки cookie</a></span>
     </div>
   </div>
 </footer>
@@ -1002,25 +1145,9 @@ section{position:relative}
   <a class="m-tel" href="tel:+79036447653" data-goal="phone_click" aria-label="Позвонить"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></a>
 </div>
 
-<!-- booking modal -->
-<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
-  <div class="modal-box">
-    <div class="modal-head">
-      <div><b id="modalTitle">Бронирование</b><span id="modalSub">Выберите время и оплатите онлайн</span></div>
-      <button class="modal-x" type="button" id="modalClose" aria-label="Закрыть">×</button>
-    </div>
-    <div class="modal-body">
-      <div class="modal-load">Загружаем форму брони…</div>
-      <iframe id="bookFrame" title="Форма бронирования Ping Point" loading="lazy"></iframe>
-    </div>
-    <div class="modal-foot">Форма не открылась? <a href="https://pingpongroom.ru/embed/booking?header=0&amp;footer=0" target="_blank" rel="noopener" data-goal="booking_newtab_click">Откройте бронь в новой вкладке</a> или позвоните: <a href="tel:+79036447653" data-goal="phone_click">+7 903 644-76-53</a></div>
-  </div>
-</div>
-
 <script>
 (function(){
 'use strict';
-var BOOK_URL='https://pingpongroom.ru/embed/booking?header=0&footer=0';
 var REDUCE=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 function $(s,c){return (c||document).querySelector(s)}
 function $$(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s))}
@@ -1028,6 +1155,7 @@ function fmt(n){return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g,' 
 function hhmm(m){var h=Math.floor(m/60),mm=m%60;return (h<10?'0':'')+h+':'+(mm<10?'0':'')+mm}
 
 /* ---------- analytics ---------- */
+// window.ym появляется только после согласия на аналитические cookie (см. community.js → loadMetrika)
 function goal(name){try{window.ym&&ym(104197137,'reachGoal',name)}catch(e){}}
 document.addEventListener('click',function(e){
   var el=e.target.closest('[data-goal]');
@@ -1040,37 +1168,7 @@ function onScroll(){hdr.classList.toggle('solid',window.scrollY>30)}
 window.addEventListener('scroll',onScroll,{passive:true});onScroll();
 $('#year').textContent=new Date().getFullYear();
 
-/* ---------- booking modal ---------- */
-var modal=$('#modal'),frame=$('#bookFrame'),lastFocus=null;
-function openBooking(title,sub){
-  $('#modalTitle').textContent=title||'Бронирование';
-  $('#modalSub').textContent=sub||'Выберите время и оплатите онлайн';
-  if(!frame.getAttribute('src'))frame.setAttribute('src',BOOK_URL);
-  lastFocus=document.activeElement;
-  modal.classList.add('open');modal.setAttribute('aria-hidden','false');
-  document.documentElement.style.overflow='hidden';
-  setTimeout(function(){$('#modalClose').focus()},50);
-}
-function closeBooking(){
-  modal.classList.remove('open');modal.setAttribute('aria-hidden','true');
-  document.documentElement.style.overflow='';
-  if(lastFocus&&lastFocus.focus)lastFocus.focus();
-}
-document.addEventListener('click',function(e){
-  var b=e.target.closest('[data-book]');
-  if(b){e.preventDefault();openBooking(b.getAttribute('data-book-title')?'Бронь: '+b.getAttribute('data-book-title'):null,b.getAttribute('data-book-sub'))}
-});
-$('#modalClose').addEventListener('click',closeBooking);
-modal.addEventListener('click',function(e){if(e.target===modal)closeBooking()});
-document.addEventListener('keydown',function(e){
-  if(!modal.classList.contains('open'))return;
-  if(e.key==='Escape')closeBooking();
-  if(e.key==='Tab'){
-    var f=$$('button,a[href],iframe',modal);var first=f[0],last=f[f.length-1];
-    if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}
-    else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}
-  }
-});
+/* ---------- бронь: своё окно из booking.js (кнопки с data-book) ---------- */
 
 /* ---------- reveal on scroll ---------- */
 var rvs=$$('.rv');
@@ -1106,108 +1204,127 @@ $$('.flip').forEach(function(card){
   });
 });
 
-/* ---------- pricing ---------- */
-var OPEN=600,CLOSE=1230; // минуты: 10:00 и 20:30
-function rateAt(min,weekend){return weekend?400:(min<960?300:400)}
-function priceFor(start,hours,weekend){
-  var t=0;for(var m=start;m<start+hours*60;m+=30){t+=rateAt(m,weekend)/2}return t;
+/* ---------- pricing: сетка из настроек (меняется в админке) ---------- */
+function S(){return BookingAPI.settings()}
+function rateAt(min){var s=S();return min<s.border?s.priceAm:s.pricePm}
+function priceFor(start,hours){
+  var t=0;for(var m=start;m<start+hours*60;m+=30){t+=rateAt(m)/2}return t;
+}
+/* подстановка цен в текст: data-pp="am", "pm", "am/4", "pm*2", "border", "racket" */
+function applyPrices(){
+  var s=S();
+  $$('[data-pp]').forEach(function(el){
+    var m=/^(am|pm|border|racket)(?:([*\/])(\d+))?$/.exec(el.getAttribute('data-pp'));if(!m)return;
+    if(m[1]==='border'){el.textContent=hhmm(s.border);return}
+    var v=m[1]==='am'?s.priceAm:m[1]==='pm'?s.pricePm:s.racket;
+    if(m[2]==='*')v*=+m[3];if(m[2]==='/')v=v/ +m[3];
+    el.textContent=fmt(Math.round(v));
+  });
 }
 
 /* ---------- calculator ---------- */
-var KINO=450; // ориентир цены билета в кино
+var KINO=500; // ориентир цены разового посещения фитнес-клуба
 var cStart=$('#cStart'),hOut=$('#hOut'),rOut=$('#rOut');
-var st={weekend:false,start:960,hours:2,ppl:4,pro:0};
-(function(){
-  var d=new Date().getDay();st.weekend=(d===0||d===6);
-  $(st.weekend?'#d-we':'#d-wd').checked=true;
-  for(var m=OPEN;m<=CLOSE-60;m+=30){var o=document.createElement('option');o.value=m;o.textContent=hhmm(m);cStart.appendChild(o)}
-  cStart.value=String(st.start);
-})();
-function maxHours(){return Math.min(4,(CLOSE-st.start)/60)}
+var st={start:960,hours:2,ppl:4,pro:0};
+function fillStart(){
+  var s=S(),keep=st.start;cStart.innerHTML='';
+  for(var m=s.open;m<=s.close-60;m+=30){var o=document.createElement('option');o.value=m;o.textContent=hhmm(m)+(m<s.border?' · утро':'');cStart.appendChild(o)}
+  if(keep<s.open||keep>s.close-60)keep=Math.max(s.open,Math.min(s.close-60,keep));
+  st.start=keep;cStart.value=String(st.start);
+}
+fillStart();
+function maxHours(){return Math.min(4,(S().close-st.start)/60)}
 function hoursLabel(h){var s=String(h).replace('.',',');return s+' ч'}
 function calc(){
+  var s=S();
   if(st.hours>maxHours())st.hours=maxHours();
   if(st.pro>st.ppl)st.pro=st.ppl;
   hOut.textContent=hoursLabel(st.hours);rOut.textContent=st.pro;
   $('#hMinus').disabled=st.hours<=1;$('#hPlus').disabled=st.hours>=maxHours();
   $('#rMinus').disabled=st.pro<=0;$('#rPlus').disabled=st.pro>=st.ppl;
-  var rent=priceFor(st.start,st.hours,st.weekend);
-  var extra=st.pro*100*st.hours;
+  $(st.start<s.border?'#t-am':'#t-pm').checked=true;
+  var rent=priceFor(st.start,st.hours);
+  var extra=st.pro*s.racket*st.hours;
   var total=rent+extra;
   var per=Math.ceil(total/st.ppl/10)*10;
   var perExact=total/st.ppl;
+  var end=st.start+st.hours*60,mix=st.start<s.border&&end>s.border;
   $('#oPer').innerHTML='~'+fmt(per)+'<small>₽</small>';
-  $('#oSub').innerHTML='Итого <b>'+fmt(total)+' ₽</b> за стол · '+hhmm(st.start)+'–'+hhmm(st.start+st.hours*60)+(extra?' · в т.ч. проф. ракетки '+fmt(extra)+' ₽':'');
-  var kinoTotal=KINO; // билет на одного
-  var maxv=Math.max(perExact,kinoTotal)*1.1;
+  $('#oSub').innerHTML='Итого <b>'+fmt(total)+' ₽</b> за стол · '+hhmm(st.start)+'–'+hhmm(end)+
+    (mix?' · до '+hhmm(s.border)+' по '+s.priceAm+' ₽, после — по '+s.pricePm+' ₽':'')+
+    (extra?' · в т.ч. проф. ракетки '+fmt(extra)+' ₽':'');
+  var maxv=Math.max(perExact,KINO)*1.1;
   $('#oBarUs').style.width=Math.max(4,perExact/maxv*100)+'%';
-  $('#oBarKino').style.width=(kinoTotal/maxv*100)+'%';
+  $('#oBarKino').style.width=(KINO/maxv*100)+'%';
   $('#oBarUsV').textContent=fmt(perExact)+' ₽';
   $('#oBarKinoV').textContent='~'+fmt(KINO)+' ₽';
   var diff=KINO-perExact,v=$('#oVerdict');
   if(diff>=20){
-    v.innerHTML='Дешевле билета в кино на <b>'+fmt(diff)+' ₽</b> с каждого — и это '+hoursLabel(st.hours).replace(' ч','')+' '+(st.hours===1?'час':'ч')+' движения, а не сидения.';
+    v.innerHTML='Дешевле разового фитнеса на <b>'+fmt(diff)+' ₽</b> с каждого — и это '+hoursLabel(st.hours)+' живой игры вместо тренажёров.';
   }else if(diff>-20){
-    v.innerHTML='Примерно как <b>билет в кино</b> — только '+hoursLabel(st.hours)+' азарта вместо сидения в кресле.';
+    v.innerHTML='Примерно как <b>разовый фитнес</b> — только '+hoursLabel(st.hours)+' азарта вместо беговой дорожки.';
   }else{
     v.innerHTML='Совет: позовите ещё друзей — вчетвером выйдет <b>~'+fmt(Math.ceil(total/4/10)*10)+' ₽</b> с человека.';
   }
   if(st.ppl<4&&diff>=20){v.innerHTML+=' Вчетвером — ещё дешевле.'}
-  var day=st.weekend?'выходной':'будний день';
-  $('#calcBook').setAttribute('data-book-title',hhmm(st.start)+'–'+hhmm(st.start+st.hours*60));
-  $('#calcBook').setAttribute('data-book-sub',day+', '+st.ppl+' чел. · ориентир '+fmt(total)+' ₽');
+  if(st.start<s.border&&!mix&&st.ppl>1){v.innerHTML+=' Утренний тариф — самый выгодный.'}
+  var b=$('#calcBook');
+  b.setAttribute('data-book-title',hhmm(st.start)+'–'+hhmm(end));
+  b.setAttribute('data-book-start',st.start);
+  b.setAttribute('data-book-dur',st.hours*60);
+  b.setAttribute('data-book-players',st.ppl);
+  b.setAttribute('data-book-rackets',st.pro);
 }
-$$('input[name=day]').forEach(function(r){r.addEventListener('change',function(){st.weekend=this.value==='we';calc()})});
+$$('input[name=tariff]').forEach(function(r){r.addEventListener('change',function(){
+  var s=S();
+  if(this.value==='am'&&st.start>=s.border)st.start=Math.max(s.open,Math.min(s.border-60,600));
+  if(this.value==='pm'&&st.start<s.border)st.start=Math.max(s.border,Math.min(s.close-120,1020));
+  cStart.value=String(st.start);calc();
+})});
 $$('input[name=ppl]').forEach(function(r){r.addEventListener('change',function(){st.ppl=+this.value;calc()})});
 cStart.addEventListener('change',function(){st.start=+this.value;calc()});
 $('#hMinus').addEventListener('click',function(){st.hours=Math.max(1,st.hours-.5);calc()});
 $('#hPlus').addEventListener('click',function(){st.hours=Math.min(maxHours(),st.hours+.5);calc()});
 $('#rMinus').addEventListener('click',function(){st.pro=Math.max(0,st.pro-1);calc()});
 $('#rPlus').addEventListener('click',function(){st.pro=Math.min(st.ppl,st.pro+1);calc()});
-calc();
+applyPrices();calc();
 
-/* ---------- slots (demo) ---------- */
-function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+/* ---------- slots: занятость из броней ---------- */
 var grid=$('#slotGrid'),curDay=0;
 function renderSlots(offset){
   curDay=offset;
-  var now=new Date();
+  var s=S(),now=new Date();
   var d=new Date(now.getFullYear(),now.getMonth(),now.getDate()+offset);
-  var seed=d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate();
-  var rnd=mulberry(seed);rnd();rnd();
+  var ds=PP.ymd(d),slots=BookingAPI.availabilitySync(ds);
   var weekend=d.getDay()===0||d.getDay()===6;
   var dateStr=d.toLocaleDateString('ru-RU',{day:'numeric',month:'long',weekday:'long'});
-  $('#slotsDate').innerHTML=(offset?'Завтра':'Сегодня')+'<small>'+dateStr+(weekend?' · выходной, 400 ₽/ч':'')+'</small>';
+  $('#slotsDate').innerHTML=(offset?'Завтра':'Сегодня')+'<small>'+dateStr+(weekend?' · выходной, цены как в будни':'')+'</small>';
   grid.innerHTML='';
-  var free=0,prevBusy=false,total=0;
-  for(var m=OPEN;m<CLOSE;m+=30){
-    total++;
-    var p=(m>=960?.34:.22)+(weekend?.12:0);
-    var busy=prevBusy?rnd()<.55:rnd()<p;prevBusy=busy;
-    var start=new Date(d.getTime());start.setHours(0,m,0,0);
-    var past=(start.getTime()-now.getTime())<3600000;
-    var rate=rateAt(m,weekend);
+  var free=0,total=0;
+  slots.forEach(function(x){
+    var m=x.start;total++;
+    var cls=x.state==='past'?'past':(x.state==='free'?'free':'busy');
     var b=document.createElement('button');
     b.type='button';b.setAttribute('role','listitem');
-    var cls=past?'past':(busy?'busy':'free');
     b.className='slot '+cls;
-    b.innerHTML='<b>'+hhmm(m)+'</b><span>'+(cls==='free'?rate+' ₽/ч':(cls==='busy'?'занято':'—'))+'</span>';
+    b.innerHTML='<b>'+hhmm(m)+'</b><span>'+(cls==='free'?x.rate+' ₽/ч':(x.state==='blocked'?'закрыто':cls==='busy'?'занято':'—'))+'</span>';
     if(cls==='free'){
       free++;
-      b.setAttribute('aria-label','Свободно в '+hhmm(m)+', '+rate+' рублей в час. Забронировать');
+      b.setAttribute('aria-label','Свободно в '+hhmm(m)+', '+x.rate+' рублей в час. Забронировать');
       b.setAttribute('data-book','');
+      b.setAttribute('data-book-date',ds);
+      b.setAttribute('data-book-start',m);
       b.setAttribute('data-book-title',(offset?'завтра':'сегодня')+', '+hhmm(m));
-      b.setAttribute('data-book-sub','Выберите '+hhmm(m)+' в форме ниже · '+rate+' ₽/час');
       b.setAttribute('data-goal','booking_click slot_click');
     }else{
       b.disabled=true;
-      b.setAttribute('aria-label',hhmm(m)+(busy&&!past?' — занято':' — недоступно'));
+      b.setAttribute('aria-label',hhmm(m)+(cls==='busy'?' — занято':' — недоступно'));
     }
     grid.appendChild(b);
-  }
+  });
   if(!free){
     var e=document.createElement('div');e.className='slots-empty';
-    e.innerHTML=offset?'На завтра всё разобрали. Загляните в полную форму брони — там все дни.':'На сегодня свободных окон уже нет. <button type="button" class="btn btn-ghost btn-sm" id="goTomorrow" style="margin-left:8px">Смотреть завтра</button>';
+    e.innerHTML=offset?'На завтра всё разобрали. В окне брони видны все дни на две недели вперёд.':'На сегодня свободных окон уже нет. <button type="button" class="btn btn-ghost btn-sm" id="goTomorrow" style="margin-left:8px">Смотреть завтра</button>';
     grid.insertBefore(e,grid.firstChild);
     var gt=$('#goTomorrow');if(gt)gt.addEventListener('click',function(){selectTab(1)});
   }
@@ -1219,7 +1336,9 @@ function selectTab(n){
 }
 $$('.tabs [role=tab]').forEach(function(t){t.addEventListener('click',function(){selectTab(+t.getAttribute('data-day'))})});
 renderSlots(0);
-setInterval(function(){renderSlots(curDay)},5*60*1000);
+setInterval(function(){renderSlots(curDay)},60*1000);
+/* изменения из админки (цены, блокировки) и новые брони — сразу на странице */
+window.addEventListener('pp:change',function(){renderSlots(curDay);fillStart();applyPrices();calc()});
 
 /* ---------- hero rally canvas ---------- */
 (function(){
@@ -1391,6 +1510,181 @@ setInterval(function(){renderSlots(curDay)},5*60*1000);
   start();
 })();
 
+})();
+</script>
+<script src="booking.js"></script>
+<script>
+/* ---------- «Найди партнёра»: лента, фильтры, отклики, жалобы ---------- */
+(function(){
+'use strict';
+var P=window.PP,UI=window.PPUI,esc=P.esc;
+function $(s,c){return (c||document).querySelector(s)}
+var feed=$('#pFeed'),more=$('#pMore'),found=$('#pFound');
+var f={level:'',format:'',time:'',q:'',sort:'new'},showAll=false,PAGE=6;
+P.LEVELS.forEach(function(l){$('#pLevel').insertAdjacentHTML('beforeend','<option value="'+l[0]+'">'+l[1]+'</option>')});
+P.FORMATS.forEach(function(x){$('#pFormat').insertAdjacentHTML('beforeend','<option value="'+x[0]+'">'+x[1]+'</option>')});
+var TL={morning:'Утро · 10–13',day:'День · 13–17',evening:'Вечер · 17–20:30'};
+var ICO_FLAG='<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="vertical-align:-2px;margin-right:4px"><path d="M5 21V4h11l-2 4 2 4H5"/></svg>';
+
+function card(p,i){
+  var a=p.author,cnt=p.responsesCount;
+  var h='<article class="pcard'+(p.isMine?' mine':'')+'" style="--i:'+Math.min(i,8)*0.05+'s" aria-label="Объявление: '+esc(a.name)+'">';
+  h+='<div class="pc-fmt"><span>'+esc(P.label(P.FORMATS,p.format))+'</span>'+(p.partnerLevel&&p.partnerLevel!=='any'?'<em>ищет: '+esc(P.label(P.LEVELS,p.partnerLevel).toLowerCase())+'</em>':'')+'</div>';
+  h+='<div class="pc-top">'+UI.ava(a,64)+'<div class="pc-who"><b>'+esc(a.name)+(a.age?' <small>'+a.age+' '+P.plural(a.age,'год','года','лет')+'</small>':'')+'</b>'+(a.level?UI.levelPill(a.level):'<span class="pp-lv" style="--c:var(--dim)">Уровень скрыт</span>')+'</div></div>';
+  h+='<p class="pc-text">'+esc(p.text)+'</p>';
+  if(p.prefsHidden){
+    h+='<div class="pc-times"><span class="hid">Дни и время — в тексте объявления</span></div>';
+  }else{
+    h+='<div class="pc-week" role="img" aria-label="Удобные дни: '+p.days.map(function(d){return P.DAY_LONG[d]}).join(', ')+'">'+P.DAY_SHORT.map(function(d,k){return '<span'+(p.days.indexOf(k)>=0?' class="on"':'')+'>'+d+'</span>'}).join('')+'</div>';
+    var t=p.times.map(function(x){return '<span>'+TL[x]+'</span>'});
+    if(p.timeFrom!=null)t.push('<span>с '+P.hhmm(p.timeFrom)+'</span>');
+    h+='<div class="pc-times">'+t.join('')+'</div>';
+  }
+  h+='<div class="pc-meta"><span>'+esc(P.ago(p.createdAt))+' · '+cnt+' '+P.plural(cnt,'отклик','отклика','откликов')+'</span>'+
+    (p.isMine?'':(p.reported?'<span>Жалоба отправлена</span>':'<button class="pp-link danger" type="button" data-report="'+p.id+'">'+ICO_FLAG+'Пожаловаться</button>'))+'</div>';
+  h+='<div class="pc-act">';
+  if(p.isMine){
+    h+='<span class="pc-state wait">Ваше объявление'+(p.newResponses?' · новых откликов: '+p.newResponses:'')+'</span><a class="btn btn-ghost btn-sm" href="cabinet.html#posts">Открыть в кабинете</a>';
+  }else if(p.myResponse){
+    var r=p.myResponse;
+    if(r.status==='accepted'){
+      var w=r.whenAt;
+      h+='<span class="pc-state">Отклик принят — контакты в кабинете</span><button class="btn btn-main calm btn-sm" type="button" data-book data-book-players="2" data-book-response="'+r.id+'" data-book-title="вдвоём — '+esc(a.name)+' и вы"'+(w?' data-book-date="'+w.date+'" data-book-start="'+w.start+'"':'')+' data-goal="booking_click">Забронировать стол вместе</button><a class="btn btn-ghost btn-sm" href="cabinet.html#mine">Контакты</a>';
+    }else if(r.status==='declined'){
+      h+='<span class="pc-state no">Автор выбрал другого партнёра</span>';
+    }else{
+      h+='<span class="pc-state wait">Отклик отправлен — ждём ответа автора</span>';
+    }
+  }else{
+    h+='<button class="btn btn-main calm btn-sm" type="button" data-respond="'+p.id+'">Откликнуться</button>';
+  }
+  return h+'</div></article>';
+}
+
+var seq=0;
+async function render(){
+  var my=++seq,list;
+  try{list=await CommunityAPI.listPosts(f)}catch(e){return}
+  if(my!==seq)return;
+  var filtered=f.level||f.format||f.time||f.q;
+  feed.classList.toggle('all',showAll);
+  if(!list.length){
+    feed.innerHTML='<div class="p-empty"><b>'+(filtered?'Никого не нашли':'Пока пусто')+'</b>'+(filtered?'Попробуйте другие фильтры или разместите своё объявление — вас найдут.':'Станьте первым — разместите объявление.')+'<div style="margin-top:16px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">'+(filtered?'<button class="btn btn-ghost btn-sm" type="button" data-reset>Сбросить фильтры</button>':'')+'<button class="btn btn-main calm btn-sm" type="button" data-new>Разместить объявление</button></div></div>';
+  }else feed.innerHTML=list.map(card).join('');
+  more.hidden=showAll||list.length<=PAGE;
+  found.textContent=filtered?'Найдено: '+list.length:'';
+  // счётчик и аватары в шапке раздела
+  var all=filtered?await CommunityAPI.listPosts({}):list;
+  $('#pCount').textContent=all.length;
+  $('#pCountL').textContent=P.plural(all.length,'активное объявление','активных объявления','активных объявлений');
+  $('#pStack').innerHTML=all.slice(0,5).map(function(p){return '<img src="'+esc(p.photo)+'" alt="">'}).join('');
+}
+var qt;
+$('#pQ').addEventListener('input',function(){clearTimeout(qt);var v=this.value;qt=setTimeout(function(){f.q=v;render()},200)});
+$('#pLevel').addEventListener('change',function(){f.level=this.value;render()});
+$('#pFormat').addEventListener('change',function(){f.format=this.value;render()});
+$('#pSort').addEventListener('change',function(){f.sort=this.value;render()});
+Array.prototype.forEach.call(document.querySelectorAll('.p-time button'),function(b){
+  b.addEventListener('click',function(){
+    f.time=b.getAttribute('data-t');
+    Array.prototype.forEach.call(document.querySelectorAll('.p-time button'),function(x){x.setAttribute('aria-pressed',String(x===b))});
+    render();
+  });
+});
+more.addEventListener('click',function(){showAll=true;render();var c=feed.children[PAGE];if(c){var btn=c.querySelector('button,a');if(btn)btn.focus()}});
+
+function resetFilters(){
+  f={level:'',format:'',time:'',q:'',sort:f.sort};
+  $('#pQ').value='';$('#pLevel').value='';$('#pFormat').value='';
+  Array.prototype.forEach.call(document.querySelectorAll('.p-time button'),function(x){x.setAttribute('aria-pressed',String(x.getAttribute('data-t')===''))});
+  render();
+}
+
+/* Разместить объявление: вход/регистрация → форма в кабинете */
+async function newPost(){
+  var me=CommunityAPI.meSync();
+  if(!me){
+    me=await UI.openAuth({title:'Разместить объявление',reason:'Объявления размещают игроки с кабинетом — так откликнувшиеся понимают, с кем будут играть. Вход по телефону, без паролей.',context:'registration'});
+    if(!me)return;
+  }
+  location.href='cabinet.html#new';
+}
+$('#pNew').addEventListener('click',newPost);
+
+/* Отклик */
+async function respond(id){
+  var me=CommunityAPI.meSync();
+  if(!me){
+    me=await UI.openAuth({title:'Вход, чтобы откликнуться',reason:'Откликаться могут игроки с кабинетом: автор увидит ваше имя и уровень. Регистрация по телефону — меньше минуты.',context:'reply'});
+    if(!me)return;
+    me=CommunityAPI.meSync();
+  }
+  if(!me)return;
+  if(me.deletion){UI.toast('Профиль ожидает удаления — восстановите его в кабинете',{kind:'err'});return}
+  if(!me.docsOk){UI.checkDocUpdates();return}
+  var p=await CommunityAPI.getPost(id);
+  if(!p||p.status!=='open'){UI.toast('Объявление уже закрыто',{kind:'err'});render();return}
+  if(p.isMine){UI.toast('Это ваше объявление — откликнуться на него нельзя',{kind:'err'});return}
+  if(p.myResponse){UI.toast('Вы уже откликнулись на это объявление',{kind:'err'});render();return}
+  var s=BookingAPI.settings(),slots=p.prefsHidden?[]:P.nextSlots(p,6);
+  var box=document.createElement('div');
+  var a=p.author;
+  box.innerHTML='<div class="rs-post">'+UI.ava(a,52)+'<div><b>'+esc(a.name)+(a.age?', '+a.age:'')+'</b><span>'+esc(P.label(P.FORMATS,p.format))+(a.level?' · '+esc(P.label(P.LEVELS,a.level)):'')+'</span></div></div>'+
+    '<form novalidate><div class="pp-e" role="alert"></div>'+
+    '<div class="pp-f"><div class="pp-row"><label class="pp-l" for="rsMsg">Сообщение автору</label><span class="pp-cnt" id="rsCnt">0 / 300</span></div><textarea class="pp-i" id="rsMsg" maxlength="300" rows="4" placeholder="Привет! Играю на уровне любителя, могу в четверг вечером. Стол пополам?" autofocus></textarea></div>'+
+    '<fieldset class="pp-f pp-fs"><legend class="pp-l">Когда удобно сыграть</legend><div class="pp-chips">'+
+      slots.map(function(x,k){return '<label class="pp-chip"><input type="radio" name="rsWhen" value="'+k+'"><span>'+esc(x.label)+' <small>'+x.rate+' ₽/ч</small></span></label>'}).join('')+
+      '<label class="pp-chip"><input type="radio" name="rsWhen" value="own"><span>Своё время</span></label></div>'+
+      '<input class="pp-i" id="rsOwn" maxlength="80" placeholder="Например: в субботу после 15:00" hidden aria-label="Своё время"></fieldset>'+
+    '<p class="pp-h" style="margin:0 0 14px">Автор увидит ваше имя, фото и уровень. Контакты откроются обоим, когда он примет отклик. Стол на двоих: '+s.priceAm+' ₽/ч до '+P.hhmm(s.border)+' и '+s.pricePm+' ₽/ч после — пополам выходит '+s.priceAm/2+'–'+s.pricePm/2+' ₽ с каждого.</p>'+
+    '<p class="pp-h pp-miss" id="rsMiss" aria-live="polite"></p>'+
+    '<button class="btn btn-main calm" type="submit" style="width:100%">Отправить отклик</button></form>';
+  var sh=UI.sheet({title:'Отклик на объявление',sub:'Коротко о себе и когда удобно',body:box,width:560});
+  var msg=box.querySelector('#rsMsg'),own=box.querySelector('#rsOwn'),btn=box.querySelector('[type=submit]'),miss=box.querySelector('#rsMiss');
+  function when(){var r=box.querySelector('input[name=rsWhen]:checked');return r?r.value:null}
+  function upd(){
+    box.querySelector('#rsCnt').textContent=msg.value.length+' / 300';
+    own.hidden=when()!=='own';
+    var need=[];if(msg.value.trim().length<2)need.push('сообщение');if(!when()||(when()==='own'&&own.value.trim().length<3))need.push('удобное время');
+    btn.disabled=!!need.length;miss.textContent=need.length?'Осталось: '+need.join(' и ')+'.':'';
+  }
+  msg.addEventListener('input',upd);own.addEventListener('input',upd);
+  Array.prototype.forEach.call(box.querySelectorAll('input[name=rsWhen]'),function(r){r.addEventListener('change',function(){upd();if(when()==='own')own.focus()})});
+  upd();
+  box.querySelector('form').addEventListener('submit',async function(e){
+    e.preventDefault();upd();if(btn.disabled)return;
+    var w=when(),slot=w==='own'?null:slots[+w];
+    btn.classList.add('loading');
+    try{
+      await CommunityAPI.respond(p.id,{message:msg.value,when:slot?slot.label:own.value,whenAt:slot?{date:slot.date,start:slot.start}:null});
+      box.innerHTML='<div class="rs-ok"><div class="bk-ok"><div class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17 19 7"/></svg></div></div><b>Отклик отправлен</b><p>'+esc(a.name)+' получит уведомление. Когда отклик примут, контакты появятся в кабинете и здесь, на карточке.</p><div class="pp-sheet-foot"><a class="btn btn-main calm" href="cabinet.html#mine">Мои отклики</a><button class="btn btn-ghost" type="button" data-close>Вернуться к ленте</button></div></div>';
+      box.querySelector('[data-close]').addEventListener('click',function(){sh.close()});
+      box.querySelector('a').focus();
+    }catch(x){btn.classList.remove('loading');box.querySelector('.pp-e').textContent=x.message}
+  });
+}
+
+/* Жалоба */
+async function report(id,btn){
+  btn.disabled=true;
+  try{await CommunityAPI.report(id,'Жалоба из ленты');UI.toast('Спасибо! Модератор проверит объявление',{kind:'ok'})}
+  catch(x){btn.disabled=false;UI.toast(x.message,{kind:'err'})}
+}
+
+feed.addEventListener('click',function(e){
+  var t=e.target.closest('[data-respond],[data-report],[data-reset],[data-new]');if(!t)return;
+  if(t.hasAttribute('data-respond'))respond(t.getAttribute('data-respond'));
+  else if(t.hasAttribute('data-report'))report(t.getAttribute('data-report'),t);
+  else if(t.hasAttribute('data-reset'))resetFilters();
+  else newPost();
+});
+window.addEventListener('pp:change',render);
+render();
+
+/* кабинет в шапке, cookie-баннер, обновлённые документы */
+UI.bindCabButton($('#cabBtn'));
+UI.cookieBanner();
+setTimeout(function(){UI.checkDocUpdates()},800);
 })();
 </script>
 </body>

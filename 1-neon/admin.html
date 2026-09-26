@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Ping Point — панель администратора</title>
+<meta name="theme-color" content="#0a0b16">
+<link rel="icon" href="../img/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="community.js"></script>
+<style>
+:root{
+  --bg:#07080f;
+  --bg-2:#0d0f1e;
+  --navy:#232740;
+  --navy-2:#1a1d33;
+  --line:rgba(160,170,255,.14);
+  --ink:#f2f3ff;
+  --muted:#9ea3c7;
+  --dim:#6d7299;
+  --neon:#ff2e63;
+  --neon-soft:rgba(255,46,99,.35);
+  --ball:#F5A623;
+  --ball-hot:#ffb938;
+  --violet:#8f9bff;
+  --green:#3dffa8;
+  --orange:#ff7a45;
+  --side:252px;
+  --display:"Unbounded","Montserrat","Arial Black",system-ui,sans-serif;
+  --text:"Manrope","Segoe UI",Roboto,Arial,system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--text);font-size:15px;line-height:1.5;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+button{font:inherit;color:inherit}
+[hidden]{display:none!important}
+:focus-visible{outline:2px solid var(--ball-hot);outline-offset:2px;border-radius:6px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- кнопки ---------- */
+.btn{--c:var(--neon);position:relative;display:inline-flex;align-items:center;justify-content:center;gap:.55em;padding:14px 24px;border-radius:999px;border:0;cursor:pointer;text-decoration:none;font-family:var(--display);font-weight:700;font-size:14px;letter-spacing:.02em;line-height:1.1;transition:transform .2s ease,background .2s ease,box-shadow .2s ease,color .2s;white-space:nowrap}
+.btn-main{background:var(--neon);color:#fff;box-shadow:0 8px 26px -10px rgba(255,46,99,.9)}
+.btn-main:hover{background:#ff4a78;transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px rgba(242,243,255,.24)}
+.btn-ghost:hover{box-shadow:inset 0 0 0 1.5px var(--ball-hot),0 0 20px -6px rgba(255,170,40,.5);color:var(--ball-hot)}
+.btn-danger{background:rgba(255,46,99,.1);color:#ffc2d1;box-shadow:inset 0 0 0 1.5px rgba(255,46,99,.55)}
+.btn-danger:hover{background:var(--neon);color:#fff}
+.btn-ok{background:rgba(61,255,168,.08);color:#c9ffe6;box-shadow:inset 0 0 0 1.5px rgba(61,255,168,.45)}
+.btn-ok:hover{background:rgba(61,255,168,.18)}
+.btn-sm{padding:10px 16px;font-size:12.5px}
+.btn-xs{padding:7px 12px;font-size:12.5px;font-family:var(--text);font-weight:800;letter-spacing:0}
+.eyebrow{display:inline-flex;align-items:center;gap:12px;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--neon);margin-bottom:10px}
+.eyebrow::before{content:"";width:24px;height:2px;background:var(--neon);box-shadow:0 0 10px var(--neon)}
+.linkbtn{border:0;background:none;padding:0;cursor:pointer;color:var(--ball-hot);font-weight:800;text-decoration:underline;text-decoration-color:rgba(255,185,56,.35);text-underline-offset:3px;text-align:left}
+.linkbtn:hover{color:#ffd27a}
+.linkbtn.mono{font-family:ui-monospace,Consolas,monospace;font-weight:700;font-size:12.5px}
+
+/* ---------- вход ---------- */
+.login{min-height:100vh;min-height:100dvh;display:grid;place-items:center;padding:24px 16px;background:radial-gradient(50% 50% at 80% 20%,rgba(255,46,99,.14),transparent 70%),radial-gradient(50% 60% at 10% 90%,rgba(143,155,255,.12),transparent 70%),var(--bg)}
+.login-box{width:min(430px,100%);padding:30px 28px;border-radius:26px;background:radial-gradient(90% 50% at 100% 0%,rgba(255,46,99,.12),transparent 60%),#0f1124;box-shadow:0 0 0 1.5px rgba(255,46,99,.6),0 0 70px -16px rgba(255,46,99,.5)}
+.login-box h1{font-family:var(--display);font-size:22px;margin:22px 0 6px}
+.login-box > p{margin:0 0 18px;color:var(--muted)}
+.login-box .btn{width:100%}
+.login-foot{display:flex;justify-content:space-between;gap:12px;margin-top:18px;font-size:13.5px;color:var(--dim)}
+.login-foot a{color:var(--muted)}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand-logo{width:42px;height:42px;border-radius:13px;background:#fff;padding:4px;flex-shrink:0;box-shadow:0 0 0 1px rgba(255,255,255,.2),0 0 22px -4px rgba(255,46,99,.7)}
+.brand-logo img{width:100%;height:100%;object-fit:contain}
+.brand b{font-family:var(--display);font-weight:900;font-size:16px;letter-spacing:.02em;line-height:1}
+.brand b span{color:var(--neon)}
+.brand small{display:block;font-size:10.5px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:4px}
+
+/* ---------- каркас ---------- */
+.app{display:grid;grid-template-columns:var(--side) minmax(0,1fr);min-height:100vh}
+.side{position:sticky;top:0;height:100vh;height:100dvh;overflow:auto;display:flex;flex-direction:column;gap:20px;padding:20px 14px 18px;background:#090a14;border-right:1px solid var(--line);z-index:60}
+.side .brand{padding:0 6px}
+.nav{display:grid;gap:3px}
+.nav a{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:12px;text-decoration:none;color:var(--muted);font-weight:700;font-size:14.5px;transition:background .2s,color .2s}
+.nav a svg{width:18px;height:18px;flex-shrink:0}
+.nav a:hover{background:rgba(255,255,255,.045);color:var(--ink)}
+.nav a[aria-current=page]{background:rgba(255,46,99,.12);color:#fff;box-shadow:inset 3px 0 0 var(--neon)}
+.nav a[aria-current=page] svg{color:var(--neon);filter:drop-shadow(0 0 6px rgba(255,46,99,.7))}
+.nav .pp-badge{margin-left:auto;box-shadow:none}
+.nav .pp-badge.amber{background:var(--ball-hot);color:#1a1200}
+.side-foot{margin-top:auto;font-size:12.5px;color:var(--dim);line-height:1.55;padding:0 6px}
+.side-foot h2{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin:0 0 8px}
+.side-foot ul{list-style:none;padding:0;margin:0 0 14px;display:grid;gap:4px}
+.side-foot a{color:#aeb2d4;text-decoration:none}
+.side-foot a:hover{color:var(--ball-hot)}
+.side-foot .req{margin:0 0 10px}
+.demo-note{padding:9px 11px;border-radius:10px;background:rgba(245,166,35,.07);box-shadow:inset 0 0 0 1px rgba(245,166,35,.25);color:#e6cfa0;margin:0 0 14px}
+.main{min-width:0;display:flex;flex-direction:column}
+.top{position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:12px;min-height:62px;padding:10px clamp(16px,3vw,32px);background:rgba(7,8,15,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.top h1{font-family:var(--display);font-size:19px;font-weight:700;margin:0;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.top h1:focus{outline:none}
+.top-date{color:var(--dim);font-size:13.5px;white-space:nowrap}
+.top-r{margin-left:auto;display:flex;align-items:center;gap:10px}
+.demo-pill{display:inline-flex;align-items:center;gap:7px;padding:5px 11px;border-radius:99px;font-size:12px;font-weight:800;color:#ffe2b0;background:rgba(245,166,35,.08);box-shadow:inset 0 0 0 1px rgba(245,166,35,.35);white-space:nowrap;cursor:help}
+.demo-pill::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ball-hot);box-shadow:0 0 8px var(--ball-hot)}
+.burger{display:none;width:42px;height:42px;border-radius:12px;border:0;cursor:pointer;background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px var(--line);place-items:center;flex-shrink:0}
+.burger svg{width:22px;height:22px}
+.scrim{position:fixed;inset:0;z-index:55;background:rgba(3,4,10,.7);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+.view{padding:clamp(16px,2.6vw,30px);display:grid;gap:20px;min-width:0;align-content:start}
+.view:focus{outline:none}
+.view-in{display:contents}
+.kpis.k7{grid-template-columns:repeat(auto-fill,minmax(148px,1fr))}
+.t{min-width:var(--minw,0)}
+.t .dt{min-width:170px}
+
+/* ---------- панели и карточки ---------- */
+.panel{min-width:0;padding:18px 20px 20px;border-radius:20px;background:linear-gradient(160deg,rgba(35,39,64,.5),rgba(13,15,30,.85));box-shadow:inset 0 0 0 1px var(--line)}
+.panel-h{display:flex;align-items:center;justify-content:space-between;gap:10px 14px;flex-wrap:wrap;margin-bottom:14px}
+.panel-h h2{font-family:var(--display);font-size:15.5px;font-weight:700;margin:0;line-height:1.3}
+.panel-h .acts{margin-left:auto}
+.note{font-size:13px;color:var(--dim);margin:12px 0 0;line-height:1.5}
+.note.top0{margin:0 0 14px}
+.note b{color:var(--muted)}
+.law{padding:11px 14px;border-radius:12px;background:rgba(143,155,255,.06);box-shadow:inset 0 0 0 1px rgba(143,155,255,.25);color:#c8ccf2;font-size:13px;line-height:1.5;margin:0 0 14px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:start}
+.stack{display:grid;gap:20px;min-width:0}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(178px,1fr));gap:12px}
+.kpi{display:block;min-width:0;padding:14px 16px;border-radius:16px;background:rgba(255,255,255,.03);box-shadow:inset 0 0 0 1px var(--line);text-decoration:none;color:inherit}
+.kpi > span{display:block;font-size:11.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--dim)}
+.kpi > b{display:block;font-family:var(--display);font-size:22px;font-weight:700;margin:6px 0 2px;font-variant-numeric:tabular-nums;line-height:1.15;overflow-wrap:anywhere}
+.kpi > small{display:block;color:var(--muted);font-size:12.5px;line-height:1.4}
+a.kpi:hover,button.kpi:hover{box-shadow:inset 0 0 0 1px var(--ball-hot)}
+button.kpi{border:0;text-align:left;cursor:pointer;font:inherit;width:100%}
+.kpi.warn{box-shadow:inset 0 0 0 1.5px rgba(255,185,56,.6)}
+.kpi.warn > b{color:var(--ball-hot)}
+.kpi.alert{box-shadow:inset 0 0 0 1.5px var(--neon),0 0 24px -10px var(--neon)}
+.kpi.alert > b{color:var(--neon);text-shadow:0 0 14px rgba(255,46,99,.5)}
+.kpi.good > b{color:var(--green)}
+.box{padding:14px 16px;border-radius:14px;background:rgba(255,255,255,.03);box-shadow:inset 0 0 0 1px var(--line)}
+.box.warn{background:rgba(245,166,35,.07);box-shadow:inset 0 0 0 1px rgba(245,166,35,.35);color:#ffe2b0}
+.box.alert{background:rgba(255,46,99,.08);box-shadow:inset 0 0 0 1px rgba(255,46,99,.45);color:#ffd0dc}
+.acts{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.empty{padding:18px;text-align:center;color:var(--dim);font-size:14px}
+.list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.list li{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.03);box-shadow:inset 0 0 0 1px var(--line);font-size:14px}
+.list li .grow{flex:1 1 180px;min-width:0}
+.list small{color:var(--muted)}
+.tabnum{font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+.dim{color:var(--dim)}
+.nw{white-space:nowrap}
+
+/* ---------- фильтры ---------- */
+.bar{display:flex;flex-wrap:wrap;gap:10px 12px;align-items:flex-end;margin-bottom:14px}
+.fld{display:grid;gap:5px;min-width:0}
+.fld > label,.fld > .lbl{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.fld.grow{flex:1 1 220px}
+.in{height:40px;width:100%;padding:0 12px;border-radius:11px;border:0;background:rgba(255,255,255,.045);box-shadow:inset 0 0 0 1px var(--line);color:var(--ink);font:600 14px/1 var(--text);transition:box-shadow .2s,background .2s}
+.in::placeholder{color:#5f648a;font-weight:500}
+.in:focus{outline:none;background:rgba(255,255,255,.065);box-shadow:inset 0 0 0 1.5px var(--violet),0 0 0 3px rgba(143,155,255,.14)}
+select.in{appearance:none;-webkit-appearance:none;cursor:pointer;padding-right:34px;background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 17px) 50%,calc(100% - 12px) 50%;background-size:5px 5px;background-repeat:no-repeat}
+select.in option,select.pp-i option{background:#12152a;color:var(--ink)}
+input[type=date].in,input[type=date].pp-i{color-scheme:dark;min-width:0}
+input[type=search].in{-webkit-appearance:none}
+.seg{display:inline-flex;flex-wrap:wrap;gap:4px;padding:4px;border-radius:14px;background:rgba(255,255,255,.04);box-shadow:inset 0 0 0 1px var(--line)}
+.seg button{border:0;background:none;padding:8px 13px;border-radius:10px;font-weight:700;font-size:13.5px;cursor:pointer;color:var(--muted);transition:background .2s,color .2s}
+.seg button:hover{color:var(--ink)}
+.seg button[aria-pressed=true],.seg button[aria-selected=true]{background:var(--ink);color:var(--bg)}
+.seg .pp-badge{margin-left:6px;box-shadow:none;vertical-align:1px}
+
+/* ---------- таблицы ---------- */
+.tw{overflow:auto;max-height:min(68vh,720px);border-radius:14px;box-shadow:inset 0 0 0 1px var(--line);background:rgba(7,8,15,.35);overscroll-behavior:contain}
+.tw.free{max-height:none}
+table.t{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px;font-variant-numeric:tabular-nums}
+.t caption{text-align:left}
+.t th{position:sticky;top:0;z-index:2;background:#15182e;text-align:left;font-size:11px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);padding:10px 12px;white-space:nowrap;border-bottom:1px solid rgba(160,170,255,.22)}
+.t td{padding:9px 12px;border-bottom:1px solid rgba(160,170,255,.07);vertical-align:middle;line-height:1.4}
+.t tbody tr:nth-child(even) td{background:rgba(255,255,255,.02)}
+.t tbody tr[data-open]{cursor:pointer}
+.t tbody tr[data-open]:hover td{background:rgba(143,155,255,.08)}
+.t tbody tr:last-child td{border-bottom:0}
+.t .num{text-align:right;white-space:nowrap}
+.t td.nw,.t th.nw{white-space:nowrap}
+.t td small{display:block;color:var(--dim);font-size:12px}
+.t tr.overdue td{background:rgba(255,46,99,.08)!important}
+.t tr.overdue td:first-child{box-shadow:inset 3px 0 0 var(--neon)}
+.t tr.done td{color:var(--dim)}
+.clamp{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;max-width:420px}
+.who{display:flex;align-items:center;gap:10px;min-width:0}
+.who img{width:30px;height:30px;border-radius:30%;flex-shrink:0;object-fit:cover}
+.st{--c:#9ea3c7;display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:800;line-height:1.35;white-space:nowrap;color:var(--c);background:color-mix(in srgb,var(--c) 11%,transparent);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--c) 42%,transparent)}
+.st::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--c);flex-shrink:0}
+.tag{display:inline-block;padding:2px 8px;border-radius:7px;font-size:11.5px;font-weight:800;background:rgba(255,255,255,.06);color:var(--muted);white-space:nowrap}
+.hash{font-family:ui-monospace,Consolas,monospace;font-size:12px;color:#c6c8e2}
+.more{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-top:12px;color:var(--dim);font-size:13px}
+.more .acts{margin-left:auto}
+.cond{display:inline-flex;flex-wrap:wrap;gap:4px}
+.cond i{font-style:normal;padding:1px 7px;border-radius:6px;font-size:11.5px;font-weight:700;background:rgba(61,255,168,.08);color:#b9f5dc}
+.cond i.no{background:rgba(255,46,99,.08);color:#ffb3c6;text-decoration:line-through;text-decoration-color:rgba(255,46,99,.6)}
+
+/* ---------- графики ---------- */
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--muted)}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.lg-past{background:var(--violet)}
+.lg-today{background:var(--neon);box-shadow:0 0 8px var(--neon)}
+.lg-fut{background:rgba(143,155,255,.16);box-shadow:inset 0 0 0 1.5px rgba(143,155,255,.7)}
+.lg-we{background:none;box-shadow:inset 0 -2px 0 var(--ball-hot);border-radius:0!important}
+.chart-wrap{overflow-x:auto;overscroll-behavior-x:contain}
+.chart{display:block;width:100%;min-width:640px;height:auto}
+.chart .grid line{stroke:rgba(160,170,255,.1);stroke-width:1}
+.chart .grid text,.chart .axis text{fill:var(--dim);font:600 10.5px var(--text)}
+.chart .axis .we{fill:var(--ball-hot)}
+.chart .axis .td{fill:#fff;font-weight:800}
+.chart .b path{transition:opacity .15s}
+.chart .b.past path{fill:var(--violet);opacity:.78}
+.chart .b.today path{fill:var(--neon);filter:drop-shadow(0 0 6px rgba(255,46,99,.7))}
+.chart .b.fut path{fill:rgba(143,155,255,.16);stroke:rgba(143,155,255,.75);stroke-width:1.2;stroke-dasharray:3 2}
+.chart .b .hit{fill:transparent}
+.chart .b .v{fill:var(--ink);font:800 11px var(--text);opacity:0;transition:opacity .15s;pointer-events:none}
+.chart .b:hover .v,.chart .b:focus .v,.chart .b.today .v{opacity:1}
+.chart .b:hover .hit,.chart .b:focus .hit{fill:rgba(255,255,255,.05)}
+.chart .b:focus{outline:none}
+.chart .b:focus-visible .hit{stroke:var(--ball-hot);stroke-width:1.5}
+.chart .we-mark{fill:var(--ball-hot)}
+.heat-wrap{overflow-x:auto;overscroll-behavior-x:contain}
+.heat{display:grid;grid-template-columns:34px repeat(var(--n),minmax(32px,1fr));gap:3px;min-width:460px}
+.heat .hr{display:contents}
+.heat .hh,.heat .hd{font-size:11px;font-weight:700;color:var(--dim);display:grid;place-items:center}
+.heat .hd{justify-content:start}
+.heat .hd.we{color:var(--ball-hot)}
+.heat .hc{--a:.1;height:32px;border-radius:6px;display:grid;place-items:center;font-size:11px;font-weight:800;font-variant-numeric:tabular-nums;color:rgba(242,243,255,.55);background:rgba(255,46,99,var(--a))}
+.heat .hc.hi{color:#fff}
+.heat .hc:hover,.heat .hc:focus{outline:2px solid var(--ball-hot);outline-offset:-1px}
+.heat-lg{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--dim)}
+.heat-lg i{display:block;width:120px;height:10px;border-radius:5px;background:linear-gradient(90deg,rgba(255,46,99,.05),rgba(255,46,99,.95))}
+.mbar{display:grid;grid-template-columns:120px 1fr auto;gap:10px;align-items:center;font-size:13.5px}
+.mbar + .mbar{margin-top:8px}
+.mbar span:first-child{color:var(--muted)}
+.mbar i{display:block;height:8px;border-radius:4px;background:var(--violet);min-width:2px}
+.mbar b{font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* ---------- модалки ---------- */
+.kv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 20px;margin:0 0 6px}
+.kv > div{min-width:0}
+.kv dt{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.kv dd{margin:3px 0 0;font-weight:700;overflow-wrap:anywhere}
+.kv dd small{display:block;font-weight:600;color:var(--muted);font-size:13px}
+.kv .wide{grid-column:1/-1}
+.code{font-family:var(--display);letter-spacing:.2em;color:var(--ball-hot);font-size:18px}
+.sub-h{font-family:var(--display);font-size:13.5px;font-weight:700;margin:22px 0 10px;color:var(--ink)}
+.sub-h:first-child{margin-top:0}
+.hist{list-style:none;padding:0;margin:0 0 0 6px;border-left:2px solid var(--line)}
+.hist li{position:relative;padding:0 0 12px 18px;font-size:13.5px}
+.hist li:last-child{padding-bottom:0}
+.hist li::before{content:"";position:absolute;left:-7px;top:5px;width:12px;height:12px;border-radius:50%;background:#0f1124;box-shadow:inset 0 0 0 2.5px var(--c,var(--violet))}
+.hist time{color:var(--dim);font-size:12.5px;margin-right:8px;font-variant-numeric:tabular-nums}
+.hist p{margin:3px 0 0;color:var(--muted)}
+.frow{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0 12px}
+.sheet-top{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:16px}
+.sheet-top:focus{outline:none}
+.mini{border-collapse:collapse;width:100%;font-size:13px;font-variant-numeric:tabular-nums}
+.mini th{text-align:left;font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--dim);padding:6px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+.mini td{padding:7px 8px;border-bottom:1px solid rgba(160,170,255,.07)}
+.mini-w{overflow-x:auto}
+.radios{display:flex;flex-wrap:wrap;gap:8px}
+.ua{font-family:ui-monospace,Consolas,monospace;font-size:12px;color:var(--muted);overflow-wrap:anywhere}
+.rules{list-style:none;margin:0 0 12px;padding:0;display:grid;gap:8px}
+.rules li{display:flex;gap:8px;align-items:center}
+.rules li .in{flex:1 1 auto}
+.ib{flex-shrink:0;width:36px;height:36px;border-radius:10px;border:0;cursor:pointer;background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px var(--line);color:var(--muted);font-size:15px;line-height:1}
+.ib:hover{color:var(--ink);box-shadow:inset 0 0 0 1px var(--ball-hot)}
+.ib:disabled{opacity:.3;cursor:default}
+.ib.del:hover{color:var(--neon);box-shadow:inset 0 0 0 1px var(--neon)}
+.sw{position:relative;width:46px;height:26px;border-radius:99px;border:0;cursor:pointer;background:rgba(255,255,255,.1);box-shadow:inset 0 0 0 1px var(--line);transition:background .2s;flex-shrink:0}
+.sw::after{content:"";position:absolute;left:3px;top:3px;width:20px;height:20px;border-radius:50%;background:var(--muted);transition:transform .2s,background .2s}
+.sw[aria-checked=true]{background:rgba(61,255,168,.25);box-shadow:inset 0 0 0 1px rgba(61,255,168,.6)}
+.sw[aria-checked=true]::after{transform:translateX(20px);background:var(--green)}
+.set-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px 14px;align-items:end}
+.set-sec{margin:0 0 18px}
+.set-sec h3{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+.preview{font-size:13.5px;color:var(--muted);margin:10px 0 0}
+.preview b{color:var(--ink)}
+
+/* ---------- адаптив ---------- */
+@media (max-width:1180px){
+  .grid2{grid-template-columns:1fr}
+}
+@media (max-width:860px){
+  .app{grid-template-columns:1fr}
+  .side{position:fixed;left:0;top:0;bottom:0;height:auto;width:min(300px,86vw);transform:translateX(-105%);visibility:hidden;transition:transform .28s cubic-bezier(.2,.8,.2,1),visibility 0s linear .28s;box-shadow:20px 0 60px -20px rgba(0,0,0,.9);padding-top:calc(20px + env(safe-area-inset-top))}
+  .side.open{transform:none;visibility:visible;transition:transform .28s cubic-bezier(.2,.8,.2,1)}
+  .burger{display:grid}
+  .top{padding-top:calc(10px + env(safe-area-inset-top))}
+  .top-date{display:none}
+}
+@media (max-width:640px){
+  body{font-size:14.5px}
+  .top h1{font-size:16px}
+  .top-r .btn-ghost{display:none}
+  .panel{padding:14px 14px 16px;border-radius:16px}
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .kpi{padding:12px}
+  .kpi > b{font-size:18px}
+  .bar .fld{flex:1 1 140px}
+  .bar .fld.grow{flex-basis:100%}
+  .seg{width:100%}
+  .seg button{flex:1 1 auto}
+  .kv{grid-template-columns:1fr}
+  .mbar{grid-template-columns:96px 1fr auto}
+  .tw{max-height:none;background:none;box-shadow:none;border-radius:0;overflow:visible}
+  .t.cards thead{display:none}
+  .t.cards{min-width:0}
+  .t.cards .dt{min-width:0}
+  .t.cards,.t.cards tbody,.t.cards tr,.t.cards td{display:block;width:100%}
+  .t.cards tr{padding:10px 12px;margin-bottom:8px;border-radius:14px;background:rgba(255,255,255,.03);box-shadow:inset 0 0 0 1px var(--line)}
+  .t.cards tbody tr:nth-child(even) td,.t.cards tbody tr td{background:none}
+  .t.cards tr.overdue{box-shadow:inset 0 0 0 1.5px var(--neon)}
+  .t.cards tr.overdue td{background:none!important;box-shadow:none!important}
+  .t.cards td{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:4px 0;border:0;text-align:right}
+  .t.cards td::before{content:attr(data-l);flex-shrink:0;max-width:42%;text-align:left;color:var(--dim);font-size:12px;font-weight:700;padding-top:1px}
+  .t.cards td[data-l=""]::before{display:none}
+  .t.cards td[data-l=""]{justify-content:flex-start;text-align:left}
+  .t.cards td > .c{min-width:0;overflow-wrap:anywhere}
+  .t.cards td.num{white-space:normal}
+  .t.cards .clamp{max-width:none;text-align:left}
+  .t.cards .who{justify-content:flex-end}
+  .t.cards td.empty{justify-content:center}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition:none!important;animation:none!important}
+}
+</style>
+</head>
+<body>
+<noscript><p style="padding:24px">Для работы панели администратора нужен JavaScript.</p></noscript>
+
+<!-- Вход -->
+<main class="login" id="login" hidden>
+  <form class="login-box" id="loginForm" novalidate aria-labelledby="loginTitle">
+    <a class="brand" href="index.html" aria-label="Ping Point — на сайт">
+      <span class="brand-logo"><img src="../img/logo.jpg" alt="" width="42" height="42"></span>
+      <span><b>PING<span>POINT</span></b><small>Настольный теннис · Брянск</small></span>
+    </a>
+    <h1 id="loginTitle">Панель администратора</h1>
+    <p>Брони, оплаты, клиенты, сообщество и журнал согласий.</p>
+    <div class="pp-demo"><span>Демо-доступ: логин <b>admin</b>, пароль <b>pingpoint</b>. В боевой версии — учётные записи на сервере.</span></div>
+    <div class="pp-e" role="alert" id="loginErr"></div>
+    <div class="pp-f"><label class="pp-l" for="lgLogin">Логин</label><input class="pp-i" id="lgLogin" name="login" autocomplete="username" required autocapitalize="off" spellcheck="false"></div>
+    <div class="pp-f"><label class="pp-l" for="lgPass">Пароль</label><input class="pp-i" id="lgPass" name="password" type="password" autocomplete="current-password" required></div>
+    <button class="btn btn-main" type="submit">Войти</button>
+    <div class="login-foot"><a href="index.html">← На сайт</a><span>Данные демонстрационные</span></div>
+  </form>
+</main>
+
+<!-- Панель -->
+<div class="app" id="app" hidden>
+  <aside class="side" id="side" aria-label="Меню панели">
+    <a class="brand" href="#dashboard">
+      <span class="brand-logo"><img src="../img/logo.jpg" alt="" width="42" height="42"></span>
+      <span><b>PING<span>POINT</span></b><small>Администратор</small></span>
+    </a>
+    <nav class="nav" id="nav" aria-label="Разделы"></nav>
+    <div class="side-foot">
+      <p class="demo-note">Данные демонстрационные — хранятся только в этом браузере.</p>
+      <h2>Документы</h2>
+      <ul id="docsList"></ul>
+      <p class="req">ИП Исаков Игорь Константинович<br>ИНН 323407837462<br>ОГРНИП 325320000017817</p>
+      <div class="acts"><a class="btn btn-ghost btn-xs" href="index.html">На сайт</a><button class="btn btn-ghost btn-xs" type="button" data-logout>Выйти</button></div>
+    </div>
+  </aside>
+  <div class="scrim" id="scrim" hidden></div>
+  <div class="main" id="main">
+    <header class="top">
+      <button class="burger" id="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="side"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+      <h1 id="pageTitle" tabindex="-1">Сводка</h1>
+      <span class="top-date" id="topDate"></span>
+      <div class="top-r">
+        <span class="demo-pill" tabindex="0" title="Все брони, оплаты и клиенты — демонстрационные. В боевой версии данные приходят с сервера.">Демо-данные</span>
+        <a class="btn btn-ghost btn-xs" href="index.html">На сайт</a>
+        <button class="btn btn-ghost btn-xs" type="button" data-logout>Выйти</button>
+      </div>
+    </header>
+    <main class="view" id="view" tabindex="-1"></main>
+  </div>
+</div>
+
+<script>
+(function () {
+'use strict';
+const A = window.AdminAPI, P = window.PP, UI = window.PPUI, BK = window.BookingAPI;
+const esc = P.esc, money = P.money, hhmm = P.hhmm;
+const $ = (s, c) => (c || document).querySelector(s);
+const $$ = (s, c) => Array.prototype.slice.call((c || document).querySelectorAll(s));
+const pad = n => (n < 10 ? '0' : '') + n;
+let nidN = 0; const nid = p => 'x' + (++nidN) + (p || '');
+
+/* ---------- форматирование ---------- */
+const dShort = ds => { if (!ds) return '—'; const d = P.parseYmd(ds); return pad(d.getDate()) + '.' + pad(d.getMonth() + 1) + '.' + d.getFullYear(); };
+const dtFmt = ts => { if (ts == null || ts === '') return '—'; const d = new Date(ts); if (isNaN(d)) return '—'; return pad(d.getDate()) + '.' + pad(d.getMonth() + 1) + '.' + d.getFullYear() + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes()); };
+const durLabel = m => (m % 60 ? String(m / 60).replace('.', ',') : m / 60) + ' ч';
+const plural = P.plural;
+const shiftDay = n => P.ymd(P.addDays(P.parseYmd(P.today()), n));
+const STATUS_COLOR = { pending: '#ffb938', paid: '#3dffa8', cancelled: '#8a8fb3', refunded: '#8f9bff', refund_partial: '#ff7a45', noshow: '#ff2e63', expired: '#6d7299' };
+const PAY_COLOR = { pending: '#ffb938', succeeded: '#3dffa8', failed: '#ff2e63', canceled: '#6d7299', refunded: '#8f9bff', partially_refunded: '#ff7a45' };
+const BY = { client: 'клиент', admin: 'администратор', system: 'система', payment: 'платёжная система' };
+const SOURCE = { site: 'Сайт', admin: 'Админка' };
+const RESP_STATUS = { pending: ['Ожидает', '#ffb938'], accepted: ['Принят', '#3dffa8'], declined: ['Отклонён', '#8a8fb3'] };
+const pill = (text, color) => '<span class="st" style="--c:' + color + '">' + esc(text) + '</span>';
+const bPill = s => pill(P.BOOKING_STATUS[s] || s, STATUS_COLOR[s] || '#9ea3c7');
+const payPill = s => pill(P.PAYMENT_STATUS[s] || s, PAY_COLOR[s] || '#9ea3c7');
+const DURS = [60, 90, 120, 150, 180, 210, 240];
+const settings = () => BK.settings();
+
+/* ---------- общие помощники интерфейса ---------- */
+function handleErr(e) {
+  if (e && e.code === 'AUTH') { showLogin(); UI.toast('Сессия администратора завершена — войдите снова', { kind: 'err' }); return; }
+  UI.toast((e && e.message) || 'Не получилось выполнить действие', { kind: 'err' });
+}
+async function act(btn, fn, okMsg) {
+  if (btn) { btn.classList.add('loading'); btn.disabled = true; }
+  try { const v = await fn(); if (okMsg) UI.toast(typeof okMsg === 'function' ? okMsg(v) : okMsg, { kind: 'ok' }); return { ok: true, v: v }; }
+  catch (e) { handleErr(e); return { ok: false, e: e }; }
+  finally { if (btn && document.contains(btn)) { btn.classList.remove('loading'); btn.disabled = false; } }
+}
+/* Подтверждение опасного действия — отдельное окно поверх текущего (без confirm()) */
+function confirmSheet(o) {
+  return new Promise(resolve => {
+    let done = null;
+    const id = nid('cf');
+    const box = document.createElement('div');
+    box.innerHTML = '<div class="pp-h" style="font-size:14.5px;color:var(--muted);margin:0 0 16px;line-height:1.55">' + o.text + '</div>' +
+      (o.field ? '<div class="pp-f"><label class="pp-l" for="' + id + '">' + esc(o.field.label) + '</label><textarea class="pp-i" id="' + id + '" rows="3" maxlength="200" placeholder="' + esc(o.field.placeholder || '') + '"' + (o.field.autofocus ? ' autofocus' : '') + '></textarea></div>' : '') +
+      '<div class="pp-sheet-foot"><button class="btn ' + (o.danger ? 'btn-danger' : 'btn-main') + '" type="button" data-ok>' + esc(o.ok || 'Подтвердить') + '</button><button class="btn btn-ghost" type="button" data-no' + (o.field && o.field.autofocus ? '' : ' autofocus') + '>Отмена</button></div>';
+    const sh = UI.sheet({ title: o.title, sub: o.sub, body: box, width: 480, onClose: () => resolve(done) });
+    $('[data-ok]', box).addEventListener('click', () => { done = { value: o.field ? $('#' + id, box).value.trim() : '' }; sh.close('ok'); });
+    $('[data-no]', box).addEventListener('click', () => sh.close('no'));
+  });
+}
+function csv(rows) {
+  const cell = c => {
+    let s = c == null ? '' : String(c);
+    if (/^[=+\-@]/.test(s)) s = "'" + s; // чтобы Excel не принял значение за формулу
+    return /[";\r\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+  };
+  return '\ufeff' + rows.map(r => r.map(cell).join(';')).join('\r\n');
+}
+const csvPhone = p => p ? P.fmtPhone(p).replace(/^\+/, '') : '';
+function td(label, html, cls) { return '<td data-l="' + esc(label) + '"' + (cls ? ' class="' + cls + '"' : '') + '><div class="c">' + html + '</div></td>'; }
+function table(cols, body, o) {
+  o = o || {};
+  return '<div class="tw' + (o.free ? ' free' : '') + '"><table class="t cards"' + (o.minw ? ' style="--minw:' + o.minw + 'px"' : '') + '>' + (o.cap ? '<caption class="sr">' + esc(o.cap) + '</caption>' : '') +
+    '<thead><tr>' + cols.map(c => '<th scope="col"' + (c.num ? ' class="num"' : '') + '>' + c.h + '</th>').join('') + '</tr></thead><tbody>' +
+    (body || '<tr><td colspan="' + cols.length + '" class="empty" data-l="">' + esc(o.empty || 'Ничего не найдено') + '</td></tr>') + '</tbody></table></div>';
+}
+function moreBar(total, shown, word) {
+  if (!total) return '';
+  return '<div class="more"><span>Показано ' + shown + ' из ' + total + ' ' + word + '</span>' +
+    (shown < total ? '<div class="acts"><button class="btn btn-ghost btn-xs" type="button" data-more>Показать ещё ' + Math.min(50, total - shown) + '</button><button class="pp-link" type="button" data-all>Показать все</button></div>' : '') + '</div>';
+}
+function bindMore(root, st, redraw) {
+  const m = $('[data-more]', root), a = $('[data-all]', root);
+  if (m) m.addEventListener('click', () => { st.limit += 50; redraw(true); });
+  if (a) a.addEventListener('click', () => { st.limit = 1e9; redraw(true); });
+}
+function timeOpts(from, to, sel, marks) {
+  let h = '';
+  for (let m = from; m <= to; m += 30) h += '<option value="' + m + '"' + (m === sel ? ' selected' : '') + '>' + hhmm(m) + (marks && marks[m] ? ' — ' + marks[m] : '') + '</option>';
+  return h;
+}
+function durOpts(sel) { return DURS.map(d => '<option value="' + d + '"' + (d === sel ? ' selected' : '') + '>' + durLabel(d) + '</option>').join(''); }
+/* Занятые получасы на дату (своя бронь не считается занятой) */
+function slotMarks(date, own) {
+  const m = {};
+  try {
+    BK.availabilitySync(date).forEach(s => {
+      if (s.state !== 'busy' && s.state !== 'blocked') return;
+      if (own && own.date === date && s.start >= own.start && s.start < own.start + own.dur) return;
+      m[s.start] = s.state === 'busy' ? 'занято' : 'закрыто';
+    });
+  } catch (e) {}
+  return m;
+}
+const condText = e => {
+  const c = e.conditions; if (!c) return '<span class="dim">—</span>';
+  const map = e.docId === 'consent_public' ? [['photo', 'фото'], ['age', 'возраст'], ['prefs', 'уровень']] : e.docId === 'cookies' ? [['analytics', 'аналитика'], ['ads', 'реклама']] : Object.keys(c).map(k => [k, k]);
+  return '<span class="cond">' + map.map(x => '<i' + (c[x[0]] ? '' : ' class="no"') + ' title="' + esc(x[1] + (c[x[0]] ? ': разрешено' : ': не разрешено')) + '">' + esc(x[1]) + '</i>').join('') + '</span>';
+};
+const condPlain = e => { const c = e.conditions; if (!c) return ''; const map = e.docId === 'consent_public' ? [['photo', 'фото'], ['age', 'возраст'], ['prefs', 'уровень']] : e.docId === 'cookies' ? [['analytics', 'аналитика'], ['ads', 'реклама']] : Object.keys(c).map(k => [k, k]); return map.map(x => x[1] + ': ' + (c[x[0]] ? 'да' : 'нет')).join(', '); };
+
+/* ---------- разделы ---------- */
+const ICONS = {
+  dashboard: '<path d="M4 4h7v9H4zM13 4h7v5h-7zM13 11h7v9h-7zM4 15h7v5H4z"/>',
+  bookings: '<rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',
+  payments: '<rect x="2.5" y="5.5" width="19" height="13" rx="2.5"/><path d="M2.5 10h19M6.5 15h4"/>',
+  clients: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/>',
+  community: '<path d="M4 5h16v11H9l-5 4z"/><path d="M8 9.5h8M8 12.5h5"/>',
+  consents: '<path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/>',
+  settings: '<path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2.2"/><circle cx="10" cy="17" r="2.2"/>'
+};
+const ROUTES = [
+  ['dashboard', 'Сводка', renderDashboard],
+  ['bookings', 'Бронирования', renderBookings],
+  ['payments', 'Оплаты', renderPayments],
+  ['clients', 'Клиенты', renderClients],
+  ['community', 'Сообщество', renderCommunity],
+  ['consents', 'Согласия (152-ФЗ)', renderConsents],
+  ['settings', 'Настройки', renderSettings]
+];
+const view = $('#view'), appEl = $('#app'), loginEl = $('#login'), side = $('#side'), scrim = $('#scrim'), burger = $('#burger'), mainEl = $('#main'), titleEl = $('#pageTitle');
+$('#nav').innerHTML = ROUTES.map(r => '<a href="#' + r[0] + '" data-route="' + r[0] + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ICONS[r[0]] + '</svg><span>' + r[1] + '</span><span class="pp-badge" hidden></span></a>').join('');
+$('#docsList').innerHTML = UI.docsFooterHTML();
+$('#topDate').textContent = P.dateLong(P.today());
+
+let cur = null, gen = 0, curRefresh = null;
+function route(focus) {
+  if (!A.isLogged()) { showLogin(); return; }
+  const h = (location.hash || '').slice(1);
+  const r = ROUTES.find(x => x[0] === h) || ROUTES[0];
+  cur = r[0]; const myGen = ++gen;
+  $$('#nav a').forEach(a => { if (a.dataset.route === cur) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+  titleEl.textContent = r[1];
+  document.title = r[1] + ' — Ping Point, администратор';
+  closeNav();
+  view.innerHTML = '';
+  window.scrollTo(0, 0);
+  // свежий корневой элемент на каждый заход — обработчики прошлого раздела не накапливаются
+  const root = document.createElement('div'); root.className = 'view-in';
+  view.appendChild(root);
+  curRefresh = r[2](root, () => myGen === gen);
+  if (focus) titleEl.focus({ preventScroll: true });
+  updateBadges();
+}
+let refTimer = 0;
+function scheduleRefresh() {
+  clearTimeout(refTimer);
+  refTimer = setTimeout(() => {
+    if (!A.isLogged()) { showLogin(); return; }
+    if (appEl.hidden) { showApp(); return; }
+    if (curRefresh) curRefresh();
+    updateBadges();
+  }, 60);
+}
+window.addEventListener('pp:change', scheduleRefresh);
+window.addEventListener('hashchange', () => route(true));
+
+async function updateBadges() {
+  try {
+    const d = await A.dashboard(), cs = await A.consentStats();
+    const set = (k, n, amber) => { const b = $('#nav a[data-route=' + k + '] .pp-badge'); if (!b) return; b.hidden = !n; b.textContent = n; b.classList.toggle('amber', !!amber); };
+    set('bookings', d.bookings.pending + d.partialPending.length, true);
+    set('community', d.newReports);
+    set('consents', cs.requestsOverdue || cs.requestsOpen, !cs.requestsOverdue);
+    const lbl = (k, t) => { const a = $('#nav a[data-route=' + k + ']'); if (a) a.setAttribute('aria-label', t); };
+    lbl('bookings', 'Бронирования' + (d.bookings.pending ? ', ожидают оплаты: ' + d.bookings.pending : '') + (d.partialPending.length ? ', ждут расчёта возврата: ' + d.partialPending.length : ''));
+    lbl('community', 'Сообщество' + (d.newReports ? ', новых жалоб: ' + d.newReports : ''));
+    lbl('consents', 'Согласия' + (cs.requestsOpen ? ', открытых запросов: ' + cs.requestsOpen : '') + (cs.requestsOverdue ? ', просрочено: ' + cs.requestsOverdue : ''));
+  } catch (e) {}
+}
+
+/* ---------- вход / выход ---------- */
+function showLogin() {
+  appEl.hidden = true; loginEl.hidden = false; closeNav();
+  document.title = 'Вход — Ping Point, администратор';
+  setTimeout(() => { const i = $('#lgLogin'); if (i && !loginEl.hidden) i.focus(); }, 30);
+}
+function showApp() { loginEl.hidden = true; appEl.hidden = false; route(false); }
+$('#loginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = $('#loginForm [type=submit]'), err = $('#loginErr');
+  err.textContent = '';
+  btn.classList.add('loading'); btn.disabled = true;
+  try { await A.login($('#lgLogin').value, $('#lgPass').value); $('#lgPass').value = ''; showApp(); titleEl.focus({ preventScroll: true }); }
+  catch (x) { err.textContent = x.message; $('#lgPass').setAttribute('aria-invalid', 'true'); $('#lgPass').focus(); }
+  btn.classList.remove('loading'); btn.disabled = false;
+});
+$('#lgPass').addEventListener('input', e => e.target.removeAttribute('aria-invalid'));
+$$('[data-logout]').forEach(b => b.addEventListener('click', async () => { await A.logout(); location.hash = ''; showLogin(); }));
+
+/* ---------- мобильное меню ---------- */
+const mq = window.matchMedia('(max-width: 860px)');
+function openNav() {
+  side.classList.add('open'); scrim.hidden = false;
+  burger.setAttribute('aria-expanded', 'true'); burger.setAttribute('aria-label', 'Закрыть меню');
+  mainEl.inert = true;
+  const a = $('#nav a[aria-current]') || $('#nav a'); setTimeout(() => a && a.focus(), 30);
+}
+function closeNav(focusBurger) {
+  if (!side.classList.contains('open')) { mainEl.inert = false; return; }
+  side.classList.remove('open'); scrim.hidden = true;
+  burger.setAttribute('aria-expanded', 'false'); burger.setAttribute('aria-label', 'Открыть меню');
+  mainEl.inert = false;
+  if (focusBurger) burger.focus();
+}
+burger.addEventListener('click', () => side.classList.contains('open') ? closeNav(true) : openNav());
+scrim.addEventListener('click', () => closeNav(true));
+document.addEventListener('keydown', e => {
+  if (!side.classList.contains('open') || !mq.matches) return;
+  if (e.key === 'Escape') { e.preventDefault(); closeNav(true); }
+  if (e.key === 'Tab') {
+    const f = $$('a[href],button:not([disabled])', side).filter(x => x.offsetParent !== null);
+    if (!f.length) return;
+    if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus(); }
+    else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus(); }
+  }
+});
+(mq.addEventListener ? mq.addEventListener.bind(mq, 'change') : mq.addListener.bind(mq))(() => closeNav());
+$('#nav').addEventListener('click', e => { const a = e.target.closest('a'); if (a && a.getAttribute('href') === location.hash) closeNav(); });
+
+/* =====================================================================
+   1. Сводка
+   ===================================================================== */
+function renderDashboard(v, alive) {
+  const s = settings();
+  v.innerHTML =
+    '<div class="kpis" data-kpi></div>' +
+    '<section class="panel" aria-labelledby="hToday"><div class="panel-h"><h2 id="hToday">Сегодня · ' + esc(P.dateLong(P.today())) + '</h2><div class="acts"><button class="btn btn-ghost btn-xs" type="button" data-new>+ Бронь вручную</button></div></div><div data-today></div></section>' +
+      '<div class="grid2">' +
+        '<section class="panel" aria-labelledby="hPart"><div class="panel-h"><h2 id="hPart">Ждут расчёта возврата</h2></div><p class="note top0">Клиент отменил позже чем за ' + s.cancelHours + ' ч до начала. По оферте возвращается оплата за вычетом фактических расходов — сумму вводит администратор.</p><div data-partial></div></section>' +
+        '<section class="panel" aria-labelledby="hBlk"><div class="panel-h"><h2 id="hBlk">Блокировки на сегодня</h2><div class="acts"><button class="btn btn-ghost btn-xs" type="button" data-block>Заблокировать время</button></div></div><div data-blocks></div></section>' +
+    '</div>' +
+    '<section class="panel" aria-labelledby="hLoad"><div class="panel-h"><h2 id="hLoad">Загрузка по дням</h2><div class="legend" aria-hidden="true"><span><i class="lg-past"></i>прошедшие</span><span><i class="lg-today"></i>сегодня</span><span><i class="lg-fut"></i>уже забронировано</span><span><i class="lg-we"></i>выходные</span></div></div><div class="chart-wrap" data-chart></div><p class="note">Доля часов работы (' + hhmm(s.open) + '–' + hhmm(s.close) + '), занятых оплаченными бронями, включая неявки. Наведите на столбик или перейдите к нему клавишей Tab — появится значение.</p></section>' +
+    '<section class="panel" aria-labelledby="hHeat"><div class="panel-h"><h2 id="hHeat">Когда играют: день недели × час</h2><div class="heat-lg" aria-hidden="true">0%<i></i>100%</div></div><div class="heat-wrap" data-heat></div><p class="note">Средняя загрузка каждого часа за последние 60 дней, %. Помогает выбрать время для акций и технических работ.</p></section>';
+  $('[data-new]', v).addEventListener('click', () => openManual());
+  $('[data-block]', v).addEventListener('click', () => openBlock({ date: P.today() }));
+  v.addEventListener('click', e => {
+    const go = e.target.closest('[data-go]');
+    if (go) { const g = go.dataset.go; if (g === 'pending') { Object.assign(BS, { preset: 'all', status: 'pending', q: '', limit: 30, asc: true }); location.hash = '#bookings'; } else location.hash = '#' + g; return; }
+    const b = e.target.closest('[data-bk]'); if (b) { openBooking(b.dataset.bk); return; }
+    const pay = e.target.closest('[data-pay]'); if (pay) { payOnSite(pay.dataset.pay, pay); return; }
+    const ns = e.target.closest('[data-noshow]'); if (ns) { noShow(ns.dataset.noshow); return; }
+    const tr = e.target.closest('tr[data-open]'); if (tr && !e.target.closest('button,a')) openBooking(tr.dataset.open);
+  });
+  async function refresh() {
+    let d; try { d = await A.dashboard(); } catch (e) { handleErr(e); return; }
+    if (!alive()) return;
+    const k = (label, val, sub, cls, go) => (go ? '<button type="button" class="kpi ' + (cls || '') + '" data-go="' + go + '">' : '<div class="kpi ' + (cls || '') + '">') + '<span>' + label + '</span><b>' + val + '</b>' + (sub ? '<small>' + sub + '</small>' : '') + (go ? '</button>' : '</div>');
+    $('[data-kpi]', v).innerHTML =
+      k('Выручка · сегодня', money(d.revenue.today), d.bookings.today + ' ' + plural(d.bookings.today, 'бронь', 'брони', 'броней')) +
+      k('Выручка · 7 дней', money(d.revenue.week), d.bookings.week + ' ' + plural(d.bookings.week, 'бронь', 'брони', 'броней')) +
+      k('Выручка · 30 дней', money(d.revenue.month), d.bookings.month + ' ' + plural(d.bookings.month, 'бронь', 'брони', 'броней')) +
+      k('Средний чек', money(d.avgCheck), 'за 30 дней') +
+      k('Загрузка · 30 дней', d.loadMonth + '%', 'часов работы занято') +
+      k('Повторные клиенты', d.repeatShare + '%', 'из ' + d.clientsTotal + ' ' + plural(d.clientsTotal, 'клиента', 'клиентов', 'клиентов')) +
+      k('Впереди оплачено', d.bookings.upcoming, plural(d.bookings.upcoming, 'бронь', 'брони', 'броней') + ' · возвратов за 30 дн.: ' + d.bookings.refundsMonth, '', 'bookings') +
+      k('Ожидают оплаты', d.bookings.pending, d.bookings.pending ? 'открыть список' : 'всё оплачено', d.bookings.pending ? 'warn' : '', 'pending') +
+      k('Новые жалобы', d.newReports, d.newReports ? 'разобрать в «Сообществе»' : 'жалоб нет', d.newReports ? 'alert' : 'good', 'community');
+    // Сегодня
+    const rows = d.todayList.map(b => {
+      const started = b.startTs <= Date.now();
+      const acts = '<div class="acts">' + (b.status === 'pending' ? '<button class="btn btn-ok btn-xs" type="button" data-pay="' + b.id + '">Оплата на месте</button>' : '') + (b.status === 'paid' && started ? '<button class="btn btn-danger btn-xs" type="button" data-noshow="' + b.id + '">Не пришёл</button>' : '') + '<button class="btn btn-ghost btn-xs" type="button" data-bk="' + b.id + '">Карточка</button></div>';
+      return '<tr data-open="' + b.id + '">' + td('Время', '<b>' + b.timeLabel + '</b>', 'nw') + td('Клиент', esc(b.name)) + td('Телефон', '<a href="tel:+' + esc(b.phone) + '">' + esc(b.phoneFmt) + '</a>', 'nw') + td('Игроки', b.players + (b.rackets ? ' <small>ракеток: ' + b.rackets + '</small>' : ''), 'num') + td('Сумма', money(b.amount), 'num') + td('Статус', bPill(b.status)) + td('', acts) + '</tr>';
+    }).join('');
+    $('[data-today]', v).innerHTML = table([{ h: 'Время' }, { h: 'Клиент' }, { h: 'Телефон' }, { h: 'Игроки', num: 1 }, { h: 'Сумма', num: 1 }, { h: 'Статус' }, { h: '<span class="sr">Действия</span>' }], rows, { free: 1, cap: 'Брони на сегодня', empty: 'На сегодня броней нет' });
+    $('[data-partial]', v).innerHTML = d.partialPending.length ? '<ul class="list">' + d.partialPending.map(b => '<li><span class="grow"><b>' + esc(b.number) + '</b> · ' + esc(b.name) + '<br><small>' + esc(b.dateLabel) + ', ' + b.timeLabel + ' · оплачено ' + money(b.amount) + '</small></span><button class="btn btn-main btn-xs" type="button" data-bk="' + b.id + '">Рассчитать возврат</button></li>').join('') + '</ul>' : '<p class="empty">Нет отмен, ожидающих расчёта</p>';
+    $('[data-blocks]', v).innerHTML = d.blocksToday.length ? '<ul class="list">' + d.blocksToday.map(k => '<li><b class="tabnum">' + hhmm(k.start) + '–' + hhmm(k.end) + '</b><span class="grow">' + esc(k.reason) + '</span></li>').join('') + '</ul>' : '<p class="empty">Сегодня комната работает без блокировок</p>';
+    $('[data-chart]', v).innerHTML = loadChart(d.loadDays);
+    $('[data-heat]', v).innerHTML = heatmap(d.heat, d.heatHours);
+  }
+  refresh();
+  return refresh;
+}
+function barPath(x, y, w, h, r) {
+  r = Math.min(r, h, w / 2);
+  return 'M' + x + ',' + (y + h) + 'V' + (y + r) + 'Q' + x + ',' + y + ' ' + (x + r) + ',' + y + 'H' + (x + w - r) + 'Q' + (x + w) + ',' + y + ' ' + (x + w) + ',' + (y + r) + 'V' + (y + h) + 'Z';
+}
+function loadChart(days) {
+  const L = 34, W = 30, bw = 20, H = 170, T = 22, n = days.length, VW = L + n * W + 4, VH = T + H + 44;
+  const y = p => T + H - Math.min(p, 100) / 100 * H;
+  let s = '<svg class="chart" viewBox="0 0 ' + VW + ' ' + VH + '" role="group" aria-label="Загрузка стола по дням, в процентах">';
+  s += '<g class="grid" aria-hidden="true">' + [0, 25, 50, 75, 100].map(p => '<line x1="' + L + '" x2="' + (VW - 2) + '" y1="' + y(p) + '" y2="' + y(p) + '"/><text x="' + (L - 6) + '" y="' + (y(p) + 3.5) + '" text-anchor="end">' + p + '%</text>').join('') + '</g>';
+  days.forEach((d, i) => {
+    const x = L + i * W + (W - bw) / 2, cx = x + bw / 2;
+    const cls = d.today ? 'today' : d.future ? 'fut' : 'past';
+    const h = Math.max(2, Math.min(d.pct, 100) / 100 * H);
+    const parts = d.label.split(' ');
+    const lab = P.dateLong(d.date) + ': ' + d.pct + '%' + (d.today ? ' (сегодня)' : d.future ? ' (уже забронировано)' : '');
+    s += '<g class="b ' + cls + '" tabindex="0" role="img" aria-label="' + esc(lab) + '"><title>' + esc(lab) + '</title>' +
+      '<rect class="hit" x="' + (L + i * W + 1) + '" y="' + T + '" width="' + (W - 2) + '" height="' + H + '" rx="4"/>' +
+      '<path d="' + barPath(x, T + H - h, bw, h, 4) + '"/>' +
+      '<text class="v" x="' + cx + '" y="' + (T + H - h - 6) + '" text-anchor="middle">' + d.pct + '%</text></g>';
+    s += '<g class="axis" aria-hidden="true"><text x="' + cx + '" y="' + (T + H + 15) + '" text-anchor="middle" class="' + (d.today ? 'td' : d.weekend ? 'we' : '') + '">' + esc(parts[0]) + '</text><text x="' + cx + '" y="' + (T + H + 29) + '" text-anchor="middle" class="' + (d.today ? 'td' : d.weekend ? 'we' : '') + '">' + esc(parts[1] || '') + '</text>' +
+      (d.weekend ? '<rect class="we-mark" x="' + (x + 3) + '" y="' + (T + H + 35) + '" width="' + (bw - 6) + '" height="2" rx="1"/>' : '') + '</g>';
+  });
+  return s + '</svg>';
+}
+function heatmap(heat, hours) {
+  let h = '<div class="heat" style="--n:' + hours.length + '" role="table" aria-label="Средняя загрузка по дням недели и часам, %"><div class="hr" role="row"><span class="hh" role="columnheader"><span class="sr">День</span></span>' + hours.map(x => '<span class="hh" role="columnheader">' + pad(x) + '</span>').join('') + '</div>';
+  P.DAY_SHORT.forEach((dn, di) => {
+    h += '<div class="hr" role="row"><span class="hd' + (di >= 5 ? ' we' : '') + '" role="rowheader">' + dn + '</span>';
+    (heat[di] || []).forEach((p, hi) => {
+      const t = P.DAY_LONG[di] + ', ' + pad(hours[hi]) + ':00–' + pad(hours[hi] + 1) + ':00 — ' + p + '%';
+      h += '<span class="hc' + (p >= 45 ? ' hi' : '') + '" role="cell" tabindex="0" title="' + esc(t) + '" aria-label="' + esc(t) + '" style="--a:' + (0.05 + Math.min(p, 100) / 100 * 0.9).toFixed(3) + '">' + p + '</span>';
+    });
+    h += '</div>';
+  });
+  return h + '</div>';
+}
+
+/* =====================================================================
+   2. Бронирования
+   ===================================================================== */
+const BS = { preset: 'upcoming', date: '', from: '', to: '', status: '', q: '', asc: true, limit: 30 };
+function bookingFilter() {
+  const t = P.today();
+  switch (BS.preset) {
+    case 'today': return { date: t };
+    case 'upcoming': return { from: t };
+    case 'past30': return { from: shiftDay(-30), to: t };
+    case 'day': return { date: BS.date || t };
+    case 'range': return { from: BS.from || undefined, to: BS.to || undefined };
+    default: return {};
+  }
+}
+function renderBookings(v, alive) {
+  const I = { p: nid(), d: nid(), f: nid(), t: nid(), s: nid(), q: nid(), o: nid() };
+  if (!BS.date) BS.date = P.today();
+  v.innerHTML =
+    '<section class="panel" aria-labelledby="hBk"><div class="panel-h"><h2 id="hBk">Все брони</h2><div class="acts"><button class="btn btn-main btn-sm" type="button" data-new>+ Бронь вручную</button><button class="btn btn-ghost btn-sm" type="button" data-block>Заблокировать время</button></div></div>' +
+    '<form class="bar" role="search" onsubmit="return false">' +
+      '<div class="fld"><label for="' + I.p + '">Период</label><select class="in" id="' + I.p + '"><option value="upcoming">Ближайшие</option><option value="today">Сегодня</option><option value="past30">Прошлые 30 дней</option><option value="day">Выбрать дату</option><option value="range">Выбрать период</option><option value="all">Все брони</option></select></div>' +
+      '<div class="fld" data-day><label for="' + I.d + '">Дата</label><input class="in" type="date" id="' + I.d + '"></div>' +
+      '<div class="fld" data-range><label for="' + I.f + '">С</label><input class="in" type="date" id="' + I.f + '"></div>' +
+      '<div class="fld" data-range><label for="' + I.t + '">По</label><input class="in" type="date" id="' + I.t + '"></div>' +
+      '<div class="fld"><label for="' + I.s + '">Статус</label><select class="in" id="' + I.s + '"><option value="">Все статусы</option>' + ['pending', 'paid', 'cancelled', 'refunded', 'refund_partial', 'noshow', 'expired'].map(k => '<option value="' + k + '">' + esc(P.BOOKING_STATUS[k]) + '</option>').join('') + '</select></div>' +
+      '<div class="fld"><label for="' + I.o + '">Порядок</label><select class="in" id="' + I.o + '"><option value="1">Сначала ранние</option><option value="0">Сначала поздние</option></select></div>' +
+      '<div class="fld grow"><label for="' + I.q + '">Поиск</label><input class="in" type="search" id="' + I.q + '" placeholder="Имя, телефон или номер PP-…" autocomplete="off"></div>' +
+    '</form><p class="sr" aria-live="polite" data-live></p><div data-list></div></section>' +
+    '<section class="panel" aria-labelledby="hBl"><div class="panel-h"><h2 id="hBl">Блокировки времени</h2><div class="acts"><button class="btn btn-ghost btn-xs" type="button" data-block>+ Заблокировать</button></div></div><p class="note top0">Технические работы, турниры, закрытые мероприятия. Заблокированное время недоступно для брони на сайте.</p><div data-blocks></div></section>';
+  const el = k => $('#' + I[k], v);
+  el('p').value = BS.preset; el('d').value = BS.date; el('f').value = BS.from; el('t').value = BS.to; el('s').value = BS.status; el('q').value = BS.q; el('o').value = BS.asc ? '1' : '0';
+  const syncVis = () => { $$('[data-day]', v).forEach(x => { x.hidden = BS.preset !== 'day'; }); $$('[data-range]', v).forEach(x => { x.hidden = BS.preset !== 'range'; }); };
+  syncVis();
+  el('p').addEventListener('change', () => { BS.preset = el('p').value; BS.asc = BS.preset === 'upcoming' || BS.preset === 'today' || BS.preset === 'day'; el('o').value = BS.asc ? '1' : '0'; BS.limit = 30; syncVis(); refresh(); });
+  el('d').addEventListener('change', () => { BS.date = el('d').value; BS.limit = 30; refresh(); });
+  el('f').addEventListener('change', () => { BS.from = el('f').value; BS.limit = 30; refresh(); });
+  el('t').addEventListener('change', () => { BS.to = el('t').value; BS.limit = 30; refresh(); });
+  el('s').addEventListener('change', () => { BS.status = el('s').value; BS.limit = 30; refresh(); });
+  el('o').addEventListener('change', () => { BS.asc = el('o').value === '1'; refresh(); });
+  let qt = 0; el('q').addEventListener('input', () => { clearTimeout(qt); qt = setTimeout(() => { BS.q = el('q').value; BS.limit = 30; refresh(); }, 220); });
+  $$('[data-new]', v).forEach(b => b.addEventListener('click', () => openManual()));
+  $$('[data-block]', v).forEach(b => b.addEventListener('click', () => openBlock()));
+  $('[data-list]', v).addEventListener('click', e => {
+    const b = e.target.closest('[data-bk]'); if (b) { openBooking(b.dataset.bk); return; }
+    const tr = e.target.closest('tr[data-open]'); if (tr && !e.target.closest('button,a')) openBooking(tr.dataset.open);
+  });
+  $('[data-blocks]', v).addEventListener('click', async e => {
+    const b = e.target.closest('[data-delblock]'); if (!b) return;
+    const r = await confirmSheet({ title: 'Снять блокировку?', text: esc(b.dataset.label) + '<br>Время снова станет доступно для брони на сайте.', ok: 'Снять блокировку', danger: true });
+    if (r) act(null, () => A.deleteBlock(b.dataset.delblock), 'Блокировка снята');
+  });
+  async function refresh(keep) {
+    const f = Object.assign(bookingFilter(), { status: BS.status || undefined, q: BS.q || undefined, asc: BS.asc });
+    let list, blocks;
+    try { list = await A.listBookings(f); blocks = await A.listBlocks(); } catch (e) { handleErr(e); return; }
+    if (!alive()) return;
+    const shown = list.slice(0, BS.limit);
+    const rows = shown.map(b => '<tr data-open="' + b.id + '">' +
+      td('№', '<button class="linkbtn" type="button" data-bk="' + b.id + '">' + esc(b.number) + '</button>', 'nw') +
+      td('Дата', dShort(b.date) + '<small>' + esc(b.dateLabel) + '</small>', 'nw') +
+      td('Время', b.timeLabel, 'nw') +
+      td('Клиент', esc(b.name)) +
+      td('Телефон', esc(b.phoneFmt), 'nw') +
+      td('Игроки', b.players + (b.rackets ? '<small>ракеток: ' + b.rackets + '</small>' : ''), 'num') +
+      td('Сумма', money(b.amount) + (b.refundAmount ? '<small>возвр. ' + money(b.refundAmount) + '</small>' : b.discount ? '<small>скидка ' + money(b.discount) + '</small>' : ''), 'num') +
+      td('Промокод', b.promo ? '<span class="tag">' + esc(b.promo) + '</span>' : '<span class="dim">—</span>') +
+      td('Статус', bPill(b.status)) +
+      td('Источник', SOURCE[b.source] || esc(b.source)) + '</tr>').join('');
+    const box = $('[data-list]', v);
+    const sc = keep ? ($('.tw', box) || {}).scrollTop : 0;
+    box.innerHTML = table([{ h: '№' }, { h: 'Дата' }, { h: 'Время' }, { h: 'Клиент' }, { h: 'Телефон' }, { h: 'Игроки', num: 1 }, { h: 'Сумма', num: 1 }, { h: 'Промокод' }, { h: 'Статус' }, { h: 'Источник' }], rows, { cap: 'Список броней', empty: 'Броней по этим условиям нет' }) +
+      moreBar(list.length, shown.length, plural(list.length, 'брони', 'броней', 'броней'));
+    if (sc) $('.tw', box).scrollTop = sc;
+    bindMore(box, BS, refresh);
+    $('[data-live]', v).textContent = 'Найдено ' + list.length + ' ' + plural(list.length, 'бронь', 'брони', 'броней');
+    $('[data-blocks]', v).innerHTML = table([{ h: 'Дата' }, { h: 'Время' }, { h: 'Причина' }, { h: 'Создана' }, { h: '<span class="sr">Действия</span>' }],
+      blocks.map(k => '<tr>' + td('Дата', dShort(k.date) + '<small>' + esc(P.dateLabel(k.date)) + '</small>', 'nw') + td('Время', hhmm(k.start) + '–' + hhmm(k.end), 'nw') + td('Причина', esc(k.reason)) + td('Создана', dtFmt(k.createdAt), 'nw') +
+        td('', '<button class="btn btn-danger btn-xs" type="button" data-delblock="' + k.id + '" data-label="' + esc(P.dateLong(k.date) + ', ' + hhmm(k.start) + '–' + hhmm(k.end) + ' — ' + k.reason) + '">Снять</button>') + '</tr>').join(''),
+      { free: 1, cap: 'Блокировки времени', empty: 'Блокировок нет' });
+  }
+  refresh();
+  return () => refresh(true);
+}
+
+/* ---------- карточка брони ---------- */
+function openBooking(id) {
+  const box = document.createElement('div');
+  const sh = UI.sheet({ title: 'Бронь', body: box, width: 760 });
+  let moving = false;
+  async function draw(focusTop) {
+    let b; try { b = await A.getBooking(id); } catch (e) { handleErr(e); sh.close(); return; }
+    const s = settings(), now = Date.now();
+    sh.setTitle('Бронь ' + b.number, P.dateLong(b.date) + ' · ' + b.timeLabel);
+    const started = b.startTs <= now;
+    const I = { d: nid(), s: nid(), l: nid(), a: nid(), n: nid() };
+    const acts = [];
+    if (b.status === 'pending') { acts.push('<button class="btn btn-ok btn-sm" type="button" data-a="cash">Оплата на месте: наличные</button>'); acts.push('<button class="btn btn-ok btn-sm" type="button" data-a="terminal">Оплата на месте: карта</button>'); }
+    if (b.status === 'paid' || b.status === 'pending') acts.push('<button class="btn btn-ghost btn-sm" type="button" data-a="move">Перенести</button>');
+    if (b.status === 'paid' && started) acts.push('<button class="btn btn-ghost btn-sm" type="button" data-a="noshow">Не пришёл</button>');
+    if (b.status === 'paid') acts.push('<button class="btn btn-danger btn-sm" type="button" data-a="cancelRefund">Отменить с возвратом 100%</button>');
+    if (b.status === 'paid' || b.status === 'pending') acts.push('<button class="btn btn-danger btn-sm" type="button" data-a="cancelNo">' + (b.status === 'pending' ? 'Отменить бронь' : 'Отменить без возврата') + '</button>');
+    if (b.status === 'paid' || b.status === 'noshow' || b.status === 'refund_partial') acts.push('<button class="btn btn-danger btn-sm" type="button" data-a="fault">Возврат 100% (вина Исполнителя)</button>');
+    const needPartial = b.status === 'refund_partial' && b.refundAmount == null;
+    const refunded = (b.payments || []).reduce((a, p) => a + (p.refunded || (p.status === 'refunded' ? p.amount : 0)), 0);
+    box.innerHTML =
+      '<div class="sheet-top" tabindex="-1" data-top>' + bPill(b.status) + '<span class="tag">' + (SOURCE[b.source] || esc(b.source)) + '</span>' + (b.rescheduled ? '<span class="tag">перенос клиентом использован</span>' : '') + '<span class="dim" style="font-size:13px">создана ' + dtFmt(b.createdAt) + '</span></div>' +
+      (b.status === 'pending' && b.expiresAt ? '<p class="box warn" style="margin:0 0 16px;font-size:13.5px">Слот удерживается до ' + dtFmt(b.expiresAt).slice(11) + '. Если не оплатить — бронь снимется автоматически.</p>' : '') +
+      (needPartial ? partialForm(b, I) : '') +
+      '<dl class="kv">' +
+        '<div><dt>Клиент</dt><dd>' + esc(b.name) + '<small><a href="tel:+' + esc(b.phone) + '">' + esc(b.phoneFmt) + '</a> · <button class="linkbtn" type="button" data-client="' + esc(b.phone) + '">карточка клиента</button></small></dd></div>' +
+        '<div><dt>Время</dt><dd>' + esc(P.dateLong(b.date)) + '<small>' + b.timeLabel + ' · ' + durLabel(b.dur) + '</small></dd></div>' +
+        '<div><dt>Игроки</dt><dd>' + b.players + '<small>проф. ракеток: ' + (b.rackets || 0) + '</small></dd></div>' +
+        '<div><dt>Сумма</dt><dd>' + money(b.amount) + '<small>' + (b.discount ? 'скидка ' + money(b.discount) + (b.promo ? ' по промокоду <b>' + esc(b.promo) + '</b>' : '') : 'без скидки') + '</small></dd></div>' +
+        '<div><dt>Код доступа</dt><dd>' + (b.code ? '<span class="code">' + esc(b.code) + '</span>' : '<span class="dim">—</span>') + '</dd></div>' +
+        '<div><dt>Возвращено</dt><dd>' + (refunded ? money(refunded) : (b.status === 'refund_partial' && b.refundAmount == null ? '<span style="color:var(--orange)">ждёт расчёта</span>' : '<span class="dim">—</span>')) + '</dd></div>' +
+        (b.note ? '<div class="wide"><dt>Заметка</dt><dd style="font-weight:600">' + esc(b.note) + '</dd></div>' : '') +
+      '</dl>' +
+      (acts.length ? '<h3 class="sub-h">Действия</h3><div class="acts" data-acts>' + acts.join('') + '</div>' +
+        (b.status === 'paid' && b.cancelLate ? '<p class="pp-h" style="margin:10px 0 0">До начала меньше ' + s.cancelHours + ' ч: по оферте клиенту положен возврат за вычетом расходов. Полный возврат — по решению администратора.</p>' : '') : '') +
+      '<div class="box" data-move style="margin-top:14px"' + (moving ? '' : ' hidden') + '>' +
+        '<div class="frow"><div class="pp-f"><label class="pp-l" for="' + I.d + '">Дата</label><input class="pp-i" type="date" id="' + I.d + '" value="' + b.date + '"></div>' +
+        '<div class="pp-f"><label class="pp-l" for="' + I.s + '">Начало</label><select class="pp-i" id="' + I.s + '"></select></div>' +
+        '<div class="pp-f"><label class="pp-l" for="' + I.l + '">Длительность</label><select class="pp-i" id="' + I.l + '">' + durOpts(b.dur) + '</select></div></div>' +
+        '<p class="pp-h" style="margin:0 0 12px">Сумма брони не пересчитывается. Клиенту стоит сообщить новое время — код доступа остаётся прежним.</p>' +
+        '<div class="pp-e" role="alert" data-move-err></div>' +
+        '<div class="acts"><button class="btn btn-main btn-sm" type="button" data-move-save>Сохранить перенос</button><button class="btn btn-ghost btn-sm" type="button" data-move-cancel>Отмена</button></div></div>' +
+      '<h3 class="sub-h">Платежи</h3>' +
+      ((b.payments || []).length ? '<div class="mini-w"><table class="mini"><thead><tr><th>Платёж</th><th>Способ</th><th>Сумма</th><th>Статус</th><th>Оплачен</th><th>Возвращено</th></tr></thead><tbody>' +
+        b.payments.map(p => '<tr><td class="hash">' + esc(p.id) + (p.kind === 'surcharge' ? ' <span class="tag">доплата</span>' : '') + '</td><td>' + esc(P.PAY_METHOD[p.method] || p.method) + (p.cardMask ? ' ' + esc(p.cardMask) : '') + '</td><td class="nw">' + money(p.amount) + '</td><td>' + payPill(p.status) + '</td><td class="nw">' + dtFmt(p.paidAt) + '</td><td class="nw">' + (p.refunded || p.status === 'refunded' ? money(p.refunded || p.amount) + '<br><small class="dim">' + dtFmt(p.refundedAt) + '</small>' : '—') + '</td></tr>').join('') +
+        '</tbody></table></div>' : '<p class="pp-h">Платежей нет.</p>') +
+      '<h3 class="sub-h">История</h3><ol class="hist">' + (b.history || []).slice().reverse().map(h => '<li style="--c:' + (STATUS_COLOR[h.s] || '#8f9bff') + '"><time>' + dtFmt(h.at) + '</time><b>' + esc(P.BOOKING_STATUS[h.s] || h.s) + '</b> <span class="dim">· ' + esc(BY[h.by] || h.by || '') + '</span>' + (h.note ? '<p>' + esc(h.note) + '</p>' : '') + '</li>').join('') + '</ol>';
+
+    const fillStarts = () => { const d = $('#' + I.d, box).value || b.date; const cur = Number($('#' + I.s, box).value || b.start); $('#' + I.s, box).innerHTML = timeOpts(s.open, s.close - 60, cur, slotMarks(d, b)); };
+    fillStarts();
+    $('#' + I.d, box).addEventListener('change', fillStarts);
+    $('[data-client]', box).addEventListener('click', e => openClient(e.currentTarget.dataset.client));
+    const moveBox = $('[data-move]', box);
+    $('[data-move-cancel]', box).addEventListener('click', () => { moving = false; moveBox.hidden = true; const m = $('[data-a=move]', box); if (m) m.focus(); });
+    $('[data-move-save]', box).addEventListener('click', async e => {
+      const err = $('[data-move-err]', box); err.textContent = '';
+      const btn = e.currentTarget; btn.classList.add('loading'); btn.disabled = true;
+      try { const r = await A.moveBooking(id, { date: $('#' + I.d, box).value, start: Number($('#' + I.s, box).value), dur: Number($('#' + I.l, box).value) }); moving = false; UI.toast('Бронь перенесена: ' + r.dateLabel + ', ' + r.timeLabel, { kind: 'ok' }); draw(true); }
+      catch (x) { if (x.code === 'AUTH') handleErr(x); else err.textContent = x.message; btn.classList.remove('loading'); btn.disabled = false; }
+    });
+    if (needPartial) bindPartial(b, I);
+    $$('[data-a]', box).forEach(btn => btn.addEventListener('click', async () => {
+      const a = btn.dataset.a;
+      let r;
+      if (a === 'cash' || a === 'terminal') r = await act(btn, () => A.confirmManualPayment(id, a), 'Оплата принята: ' + P.PAY_METHOD[a]);
+      else if (a === 'move') { moving = true; moveBox.hidden = false; $('#' + I.d, box).focus(); return; }
+      else if (a === 'noshow') { if (!(await confirmSheet({ title: 'Отметить неявку?', text: esc(b.name) + ', ' + b.timeLabel + '.<br>По оферте при неявке услуга оплачивается полностью, деньги не возвращаются.', ok: 'Да, не пришёл', danger: true }))) return; r = await act(btn, () => A.markNoShow(id), 'Отмечено: клиент не пришёл'); }
+      else if (a === 'cancelRefund') { if (!(await confirmSheet({ title: 'Отменить с возвратом 100%?', text: 'Бронь ' + esc(b.number) + ' будет отменена, клиенту вернётся <b>' + money(b.amount) + '</b> тем же способом, которым он платил. Слот освободится.', ok: 'Отменить и вернуть', danger: true }))) return; r = await act(btn, () => A.cancelBooking(id, true), 'Бронь отменена, оформлен возврат 100%'); }
+      else if (a === 'cancelNo') { if (!(await confirmSheet({ title: b.status === 'pending' ? 'Отменить бронь?' : 'Отменить без возврата?', text: b.status === 'pending' ? 'Бронь не оплачена — слот просто освободится.' : 'Бронь ' + esc(b.number) + ' будет отменена, <b>деньги клиенту не вернутся</b>. Используйте, только если это согласовано с клиентом.', ok: 'Отменить бронь', danger: true }))) return; r = await act(btn, () => A.cancelBooking(id, false), 'Бронь отменена'); }
+      else if (a === 'fault') { const c = await confirmSheet({ title: 'Возврат 100% по вине Исполнителя', text: 'Комната была недоступна, не сработал код или неисправен стол. По оферте клиенту возвращается вся оплаченная сумма.', ok: 'Оформить возврат', danger: true, field: { label: 'Что случилось', placeholder: 'Например: не сработал замок, проблема не решена за 15 минут', autofocus: true } }); if (!c) return; r = await act(btn, () => A.refundFault(id, c.value), 'Оформлен возврат 100%'); }
+      if (r && r.ok) draw(true);
+    }));
+    if (focusTop) { const t = $('[data-top]', box); if (t) t.focus(); }
+    if (moving) moveBox.hidden = false;
+  }
+  function partialForm(b, I) {
+    return '<div class="box warn" style="margin:0 0 18px"><h3 class="sub-h" style="margin-top:0">Рассчитать частичный возврат</h3>' +
+      '<p style="margin:0 0 12px;font-size:13.5px;line-height:1.55">Клиент отменил менее чем за ' + settings().cancelHours + ' ч до начала. По оферте (раздел 6) возвращается оплаченная сумма <b>за вычетом фактически понесённых расходов</b> (ст. 32 Закона «О защите прав потребителей», ст. 782 ГК РФ). Размер расходов сообщите клиенту с расчётом.</p>' +
+      '<div class="frow"><div class="pp-f"><label class="pp-l" for="' + I.a + '">Сумма возврата, ₽ <small>из ' + money(b.amount) + '</small></label><input class="pp-i" type="number" inputmode="numeric" min="0" max="' + b.amount + '" step="1" id="' + I.a + '" value="' + b.amount + '"></div>' +
+      '<div class="pp-f"><span class="pp-l">Удерживается</span><div class="pp-i" style="box-shadow:none;background:none;padding-left:0" data-keep aria-live="polite">' + money(0) + '</div></div></div>' +
+      '<div class="pp-f"><label class="pp-l" for="' + I.n + '">Расчёт расходов <small>видно в истории брони</small></label><textarea class="pp-i" id="' + I.n + '" rows="2" maxlength="200" style="min-height:64px" placeholder="Например: комиссия эквайринга 3%"></textarea></div>' +
+      '<div class="pp-e" role="alert" data-part-err></div><button class="btn btn-main btn-sm" type="button" data-part>Вернуть ' + money(b.amount) + '</button></div>';
+  }
+  function bindPartial(b, I) {
+    const inp = $('#' + I.a, box), keep = $('[data-keep]', box), btn = $('[data-part]', box), err = $('[data-part-err]', box);
+    const upd = () => { const v = Math.round(Number(inp.value)); const ok = inp.value !== '' && v >= 0 && v <= b.amount; inp.setAttribute('aria-invalid', ok ? 'false' : 'true'); keep.textContent = ok ? money(b.amount - v) : '—'; btn.textContent = ok ? 'Вернуть ' + money(v) : 'Проверьте сумму'; btn.disabled = !ok; };
+    inp.addEventListener('input', upd); upd();
+    btn.addEventListener('click', async () => {
+      err.textContent = '';
+      const v = Math.round(Number(inp.value));
+      const c = await confirmSheet({ title: 'Подтвердите возврат', text: 'Клиенту вернётся <b>' + money(v) + '</b>, удерживается ' + money(b.amount - v) + '. Изменить сумму после этого нельзя.', ok: 'Вернуть ' + money(v), danger: false });
+      if (!c) return;
+      btn.classList.add('loading'); btn.disabled = true;
+      try { await A.setPartialRefund(id, v, $('#' + I.n, box).value.trim()); UI.toast('Возврат ' + money(v) + ' оформлен', { kind: 'ok' }); draw(true); }
+      catch (x) { if (x.code === 'AUTH') handleErr(x); else err.textContent = x.message; btn.classList.remove('loading'); btn.disabled = false; }
+    });
+  }
+  draw(false);
+}
+async function payOnSite(id) {
+  const box = document.createElement('div');
+  box.innerHTML = '<p class="pp-h" style="font-size:14.5px;color:var(--muted);margin:0 0 16px">Как клиент оплатил?</p><div class="pp-sheet-foot"><button class="btn btn-ok" type="button" data-m="cash">Наличные</button><button class="btn btn-ok" type="button" data-m="terminal">Карта на терминале</button></div>';
+  const sh = UI.sheet({ title: 'Оплата на месте', body: box, width: 440 });
+  $$('[data-m]', box).forEach(b => b.addEventListener('click', async () => { const r = await act(b, () => A.confirmManualPayment(id, b.dataset.m), 'Оплата принята: ' + P.PAY_METHOD[b.dataset.m]); if (r.ok) sh.close(); }));
+}
+async function noShow(id) {
+  if (!(await confirmSheet({ title: 'Отметить неявку?', text: 'По оферте при неявке услуга оплачивается полностью, деньги не возвращаются.', ok: 'Да, не пришёл', danger: true }))) return;
+  act(null, () => A.markNoShow(id), 'Отмечено: клиент не пришёл');
+}
+
+/* ---------- бронь вручную ---------- */
+function openManual(pre) {
+  pre = pre || {};
+  const s = settings();
+  const I = { d: nid(), s: nid(), l: nid(), p: nid(), r: nid(), n: nid(), ph: nid(), pr: nid(), a: nid(), no: nid(), pay: nid() };
+  const box = document.createElement('form'); box.noValidate = true;
+  box.innerHTML =
+    '<div class="frow"><div class="pp-f"><label class="pp-l" for="' + I.d + '">Дата</label><input class="pp-i" type="date" id="' + I.d + '" value="' + (pre.date || P.today()) + '" required></div>' +
+    '<div class="pp-f"><label class="pp-l" for="' + I.s + '">Начало</label><select class="pp-i" id="' + I.s + '"></select></div>' +
+    '<div class="pp-f"><label class="pp-l" for="' + I.l + '">Длительность</label><select class="pp-i" id="' + I.l + '">' + durOpts(60) + '</select></div></div>' +
+    '<div class="frow"><div class="pp-f"><label class="pp-l" for="' + I.p + '">Игроков</label><select class="pp-i" id="' + I.p + '">' + [1, 2, 3, 4].map(n => '<option' + (n === 2 ? ' selected' : '') + '>' + n + '</option>').join('') + '</select></div>' +
+    '<div class="pp-f"><label class="pp-l" for="' + I.r + '">Проф. ракеток <small>' + money(s.racket) + '/ч</small></label><select class="pp-i" id="' + I.r + '">' + [0, 1, 2, 3, 4].map(n => '<option>' + n + '</option>').join('') + '</select></div></div>' +
+    '<div class="frow"><div class="pp-f"><label class="pp-l" for="' + I.n + '">Имя клиента</label><input class="pp-i" id="' + I.n + '" maxlength="60" autocomplete="off" value="' + esc(pre.name || '') + '" required></div>' +
+    '<div class="pp-f"><label class="pp-l" for="' + I.ph + '">Телефон</label><input class="pp-i" id="' + I.ph + '" type="tel" inputmode="tel" autocomplete="off" placeholder="+7 (900) 000-00-00" required></div></div>' +
+    '<div class="frow"><div class="pp-f"><label class="pp-l" for="' + I.pr + '">Промокод <small>необязательно</small></label><input class="pp-i" id="' + I.pr + '" autocomplete="off" style="text-transform:uppercase"></div>' +
+    '<div class="pp-f"><label class="pp-l" for="' + I.a + '">Сумма, ₽ <small>пусто — по тарифу</small></label><input class="pp-i" id="' + I.a + '" type="number" min="0" step="1" inputmode="numeric"></div></div>' +
+    '<p class="pp-h" data-quote aria-live="polite" style="margin:-6px 0 16px"></p>' +
+    '<fieldset class="pp-f pp-fs"><legend class="pp-l">Оплата</legend><div class="pp-chips">' +
+      [['cash', 'Наличные'], ['terminal', 'Карта на терминале'], ['unpaid', 'Не оплачено']].map((x, i) => '<label class="pp-chip"><input type="radio" name="' + I.pay + '" value="' + x[0] + '"' + (i === 0 ? ' checked' : '') + '><span>' + x[1] + '</span></label>').join('') +
+    '</div></fieldset>' +
+    '<div class="pp-f"><label class="pp-l" for="' + I.no + '">Заметка <small>звонок, касса, пожелания</small></label><textarea class="pp-i" id="' + I.no + '" rows="2" maxlength="200" style="min-height:64px"></textarea></div>' +
+    '<div class="pp-e" role="alert" data-err></div>' +
+    '<div class="pp-sheet-foot"><button class="btn btn-main" type="submit">Создать бронь</button><button class="btn btn-ghost" type="button" data-cancel>Отмена</button></div>';
+  const sh = UI.sheet({ title: 'Бронь вручную', sub: 'Звонок или касса — правило «за 1 час до начала» не действует', body: box, width: 620 });
+  const el = k => $('#' + I[k], box);
+  UI.bindPhoneMask(el('ph'));
+  if (pre.phone) el('ph').value = UI.maskPhone(pre.phone);
+  const fillStarts = () => { const cur = Number(el('s').value || (pre.start != null ? pre.start : Math.max(s.open, Math.min(s.close - 60, Math.ceil((new Date().getHours() * 60 + new Date().getMinutes()) / 30) * 30)))); el('s').innerHTML = timeOpts(s.open, s.close - 60, cur, slotMarks(el('d').value)); };
+  const quote = () => {
+    const rk = Math.min(Number(el('r').value), Number(el('p').value));
+    let q, promoErr = '';
+    try { q = BK.quote({ start: Number(el('s').value), dur: Number(el('l').value), rackets: rk }, el('pr').value.trim() || null); }
+    catch (e) { promoErr = e.message; q = BK.quote({ start: Number(el('s').value), dur: Number(el('l').value), rackets: rk }, null); }
+    el('a').placeholder = String(q.total);
+    const st = Number(el('s').value), du = Number(el('l').value), mk = slotMarks(el('d').value);
+    let clash = ''; for (let m = st; m < st + du; m += 30) if (mk[m]) { clash = 'С ' + hhmm(m) + ' время ' + mk[m] + ' — выберите другое начало или длительность.'; break; }
+    if (!clash && st + du > s.close) clash = 'Комната закрывается в ' + hhmm(s.close) + '.';
+    $('[data-quote]', box).innerHTML = 'По тарифу: <b>' + money(q.total) + '</b> · аренда ' + money(q.rent) + (q.rackets ? ' + ракетки ' + money(q.rackets) : '') + (q.discount ? ' − скидка ' + money(q.discount) : '') + (promoErr ? '<br><span style="color:#ffc2d1">' + esc(promoErr) + '</span>' : '') + (clash ? '<br><span style="color:#ffc2d1">' + esc(clash) + '</span>' : '');
+  };
+  fillStarts(); quote();
+  el('d').addEventListener('change', () => { fillStarts(); quote(); });
+  ['s', 'l', 'p', 'r'].forEach(k => el(k).addEventListener('change', quote));
+  el('pr').addEventListener('input', quote);
+  $('[data-cancel]', box).addEventListener('click', () => sh.close());
+  box.addEventListener('submit', async e => {
+    e.preventDefault();
+    const err = $('[data-err]', box), btn = $('[type=submit]', box); err.textContent = '';
+    btn.classList.add('loading'); btn.disabled = true;
+    try {
+      const b = await A.createManualBooking({ date: el('d').value, start: Number(el('s').value), dur: Number(el('l').value), players: Number(el('p').value), rackets: Math.min(Number(el('r').value), Number(el('p').value)), name: el('n').value, phone: el('ph').value, promo: el('pr').value.trim(), amount: el('a').value, pay: ($('input[name="' + I.pay + '"]:checked', box) || {}).value || 'unpaid', note: el('no').value.trim() });
+      sh.close();
+      UI.toast('Бронь ' + b.number + ' создана: ' + b.dateLabel + ', ' + b.timeLabel, { kind: 'ok', action: 'Открыть', onAction: () => openBooking(b.id) });
+    } catch (x) {
+      if (x.code === 'AUTH') { handleErr(x); return; }
+      err.textContent = x.message;
+      const f = x.code === 'PHONE' ? el('ph') : x.code === 'NAME' ? el('n') : x.code === 'PROMO' ? el('pr') : x.code === 'BUSY' || x.code === 'VALID' ? el('s') : null;
+      if (f) f.focus();
+      btn.classList.remove('loading'); btn.disabled = false;
+    }
+  });
+}
+
+/* ---------- блокировка времени ---------- */
+function openBlock(pre) {
+  pre = pre || {};
+  const s = settings();
+  const I = { d: nid(), s: nid(), e: nid(), r: nid(), c: nid() };
+  const REASONS = ['Технические работы', 'Турнир', 'Закрытое мероприятие', 'Уборка / санобработка'];
+  const box = document.createElement('form'); box.noValidate = true;
+  box.innerHTML =
+    '<div class="frow"><div class="pp-f"><label class="pp-l" for="' + I.d + '">Дата</label><input class="pp-i" type="date" id="' + I.d + '" value="' + (pre.date || P.today()) + '"></div>' +
+    '<div class="pp-f"><label class="pp-l" for="' + I.s + '">С</label><select class="pp-i" id="' + I.s + '">' + timeOpts(s.open, s.close - 30, s.open) + '</select></div>' +
+    '<div class="pp-f"><label class="pp-l" for="' + I.e + '">До</label><select class="pp-i" id="' + I.e + '">' + timeOpts(s.open + 30, s.close, s.open + 120) + '</select></div></div>' +
+    '<fieldset class="pp-f pp-fs"><legend class="pp-l">Причина</legend><div class="pp-chips">' + REASONS.map((r, i) => '<label class="pp-chip"><input type="radio" name="' + I.r + '" value="' + esc(r) + '"' + (i === 0 ? ' checked' : '') + '><span>' + esc(r) + '</span></label>').join('') + '</div></fieldset>' +
+    '<div class="pp-f"><label class="pp-l" for="' + I.c + '">Уточнение <small>необязательно, видно только в админке</small></label><input class="pp-i" id="' + I.c + '" maxlength="50" placeholder="Например: замена сетки"></div>' +
+    '<div class="pp-e" role="alert" data-err></div><div data-clash></div>' +
+    '<div class="pp-sheet-foot" data-foot><button class="btn btn-main" type="submit">Заблокировать</button><button class="btn btn-ghost" type="button" data-cancel>Отмена</button></div>';
+  const sh = UI.sheet({ title: 'Заблокировать время', sub: 'Время станет недоступно для брони на сайте', body: box, width: 600 });
+  const el = k => $('#' + I[k], box);
+  $('[data-cancel]', box).addEventListener('click', () => sh.close());
+  box.addEventListener('submit', async e => {
+    e.preventDefault();
+    const err = $('[data-err]', box), btn = $('[type=submit]', box); err.textContent = '';
+    const reason = (($('input[name="' + I.r + '"]:checked', box) || {}).value || 'Закрыто') + (el('c').value.trim() ? ': ' + el('c').value.trim() : '');
+    btn.classList.add('loading'); btn.disabled = true;
+    try {
+      const r = await A.createBlock({ date: el('d').value, start: Number(el('s').value), end: Number(el('e').value), reason: reason });
+      if (!r.clashes.length) { sh.close(); UI.toast('Время заблокировано: ' + P.dateLabel(r.block.date) + ', ' + hhmm(r.block.start) + '–' + hhmm(r.block.end), { kind: 'ok' }); return; }
+      $$('.frow,.pp-fs,.pp-f', box).forEach(x => { x.hidden = true; });
+      $('[data-clash]', box).innerHTML = '<div class="box alert" style="margin-bottom:16px" tabindex="-1" data-ct><b>Время заблокировано, но в этом интервале есть ' + r.clashes.length + ' ' + plural(r.clashes.length, 'бронь', 'брони', 'броней') + '.</b><p style="margin:6px 0 12px;font-size:13.5px">Блокировка не отменяет их автоматически. Свяжитесь с клиентами и перенесите или отмените брони с возвратом.</p><ul class="list">' +
+        r.clashes.map(b => '<li><span class="grow"><b>' + esc(b.number) + '</b> · ' + esc(b.timeLabel) + ' · ' + esc(b.name) + '<br><small>' + esc(b.phoneFmt) + ' · ' + esc(b.statusLabel) + '</small></span><button class="btn btn-ghost btn-xs" type="button" data-bk="' + b.id + '">Открыть</button></li>').join('') + '</ul></div>';
+      $('[data-foot]', box).innerHTML = '<button class="btn btn-main" type="button" data-done>Готово</button>';
+      $('[data-done]', box).addEventListener('click', () => sh.close());
+      $$('[data-bk]', box).forEach(b => b.addEventListener('click', () => openBooking(b.dataset.bk)));
+      $('[data-ct]', box).focus();
+    } catch (x) { if (x.code === 'AUTH') { handleErr(x); return; } err.textContent = x.message; btn.classList.remove('loading'); btn.disabled = false; }
+  });
+}
+
+/* =====================================================================
+   3. Оплаты
+   ===================================================================== */
+const PS = { preset: '30', from: '', to: '', status: '', method: '', limit: 30 };
+function payRange() {
+  const t = P.today();
+  if (PS.preset === 'today') return { from: t, to: t };
+  if (PS.preset === '7') return { from: shiftDay(-6), to: t };
+  if (PS.preset === '30') return { from: shiftDay(-29), to: t };
+  if (PS.preset === 'custom') return { from: PS.from || undefined, to: PS.to || undefined };
+  return {};
+}
+function renderPayments(v, alive) {
+  const I = { f: nid(), t: nid(), s: nid(), m: nid() };
+  v.innerHTML =
+    '<section class="panel" aria-labelledby="hPay"><div class="panel-h"><h2 id="hPay">Платежи</h2><div class="acts"><button class="btn btn-ghost btn-sm" type="button" data-csv>Выгрузить CSV</button></div></div>' +
+    '<div class="bar"><div class="fld"><span class="lbl" id="' + I.f + 'l">Быстрый период</span><div class="seg" role="group" aria-labelledby="' + I.f + 'l">' + [['today', 'Сегодня'], ['7', '7 дней'], ['30', '30 дней'], ['all', 'Всё время']].map(x => '<button type="button" data-p="' + x[0] + '">' + x[1] + '</button>').join('') + '</div></div>' +
+      '<div class="fld"><label for="' + I.f + '">С</label><input class="in" type="date" id="' + I.f + '"></div><div class="fld"><label for="' + I.t + '">По</label><input class="in" type="date" id="' + I.t + '"></div>' +
+      '<div class="fld"><label for="' + I.s + '">Статус</label><select class="in" id="' + I.s + '"><option value="">Все</option>' + Object.keys(P.PAYMENT_STATUS).map(k => '<option value="' + k + '">' + esc(P.PAYMENT_STATUS[k]) + '</option>').join('') + '</select></div>' +
+      '<div class="fld"><label for="' + I.m + '">Способ</label><select class="in" id="' + I.m + '"><option value="">Все</option>' + Object.keys(P.PAY_METHOD).map(k => '<option value="' + k + '">' + esc(P.PAY_METHOD[k]) + '</option>').join('') + '</select></div></div>' +
+    '<div class="kpis" data-tot style="margin-bottom:14px"></div><div class="box" data-meth style="margin-bottom:14px"></div><div data-list></div>' +
+    '<p class="note">Период — по дате создания платежа. «Оборот» — успешные платежи, включая позже возвращённые; «Чистыми» — оборот минус возвраты.</p></section>';
+  const el = k => $('#' + I[k], v);
+  const syncInputs = () => { const r = payRange(); el('f').value = r.from || ''; el('t').value = r.to || ''; $$('[data-p]', v).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.p === PS.preset))); };
+  syncInputs(); el('s').value = PS.status; el('m').value = PS.method;
+  $$('[data-p]', v).forEach(b => b.addEventListener('click', () => { PS.preset = b.dataset.p; PS.limit = 30; syncInputs(); refresh(); }));
+  ['f', 't'].forEach(k => el(k).addEventListener('change', () => { PS.preset = 'custom'; PS.from = el('f').value; PS.to = el('t').value; PS.limit = 30; syncInputs(); refresh(); }));
+  el('s').addEventListener('change', () => { PS.status = el('s').value; PS.limit = 30; refresh(); });
+  el('m').addEventListener('change', () => { PS.method = el('m').value; PS.limit = 30; refresh(); });
+  $('[data-list]', v).addEventListener('click', e => { const b = e.target.closest('[data-bk]'); if (b) { openBooking(b.dataset.bk); return; } const tr = e.target.closest('tr[data-open]'); if (tr && !e.target.closest('button,a')) openBooking(tr.dataset.open); });
+  let last = null;
+  $('[data-csv]', v).addEventListener('click', () => {
+    if (!last) return;
+    const r = payRange();
+    const rows = [['ID платежа', 'Бронь', 'Клиент', 'Дата игры', 'Время игры', 'Сумма, ₽', 'Способ', 'Карта', 'Статус', 'Создан', 'Оплачен', 'Возвращено, ₽', 'Дата возврата', 'Тип']];
+    last.list.forEach(p => rows.push([p.id, p.booking ? p.booking.number : '', p.booking ? p.booking.name : '', p.booking ? dShort(p.booking.date) : '', p.booking ? hhmm(p.booking.start) + '–' + hhmm(p.booking.start + p.booking.dur) : '', p.amount, P.PAY_METHOD[p.method] || p.method, p.cardMask || '', P.PAYMENT_STATUS[p.status] || p.status, dtFmt(p.createdAt), p.paidAt ? dtFmt(p.paidAt) : '', p.refunded != null ? p.refunded : (p.status === 'refunded' ? p.amount : 0), p.refundedAt ? dtFmt(p.refundedAt) : '', p.kind === 'surcharge' ? 'доплата' : p.test ? 'тестовый режим' : '']));
+    rows.push([]);
+    rows.push(['Итого за период', (r.from ? dShort(r.from) : 'начало') + ' — ' + (r.to ? dShort(r.to) : 'сегодня')]);
+    rows.push(['Оборот, ₽', last.totals.gross]); rows.push(['Возвраты, ₽', last.totals.refunds]); rows.push(['Чистыми, ₽', last.totals.net]);
+    const ok = UI.saveFile('pingpoint-oplaty-' + P.today() + '.csv', csv(rows), 'text/csv;charset=utf-8');
+    if (ok) UI.toast('Файл с платежами сохранён (' + last.list.length + ' ' + plural(last.list.length, 'строка', 'строки', 'строк') + ')', { kind: 'ok' });
+  });
+  async function refresh(keep) {
+    const r = payRange();
+    let d; try { d = await A.listPayments({ from: r.from, to: r.to, status: PS.status || undefined, method: PS.method || undefined }); } catch (e) { handleErr(e); return; }
+    if (!alive()) return;
+    last = d;
+    const t = d.totals;
+    $('[data-tot]', v).innerHTML =
+      '<div class="kpi"><span>Оборот</span><b>' + money(t.gross) + '</b><small>' + t.count + ' ' + plural(t.count, 'платёж', 'платежа', 'платежей') + ' в выборке</small></div>' +
+      '<div class="kpi' + (t.refunds ? ' warn' : '') + '"><span>Возвраты</span><b>' + money(t.refunds) + '</b><small>' + t.refundsCount + ' ' + plural(t.refundsCount, 'возврат', 'возврата', 'возвратов') + '</small></div>' +
+      '<div class="kpi good"><span>Чистыми</span><b>' + money(t.net) + '</b><small>оборот минус возвраты</small></div>';
+    const mk = Object.keys(t.byMethod), mx = Math.max.apply(null, mk.map(k => t.byMethod[k]).concat([1]));
+    $('[data-meth]', v).innerHTML = '<h3 class="sub-h" style="margin-top:0">По способам оплаты</h3>' + (mk.length ? mk.sort((a, b) => t.byMethod[b] - t.byMethod[a]).map(k => '<div class="mbar"><span>' + esc(P.PAY_METHOD[k] || k) + '</span><i style="width:' + Math.max(1, t.byMethod[k] / mx * 100).toFixed(1) + '%" aria-hidden="true"></i><b>' + money(t.byMethod[k]) + '</b></div>').join('') : '<p class="pp-h">Нет успешных платежей за период.</p>');
+    const shown = d.list.slice(0, PS.limit);
+    const rows = shown.map(p => '<tr' + (p.booking ? ' data-open="' + p.booking.id + '"' : '') + '>' +
+      td('ID', '<span class="hash">' + esc(p.id) + '</span>' + (p.kind === 'surcharge' ? ' <span class="tag">доплата</span>' : '')) +
+      td('Бронь', p.booking ? '<button class="linkbtn" type="button" data-bk="' + p.booking.id + '">' + esc(p.booking.number) + '</button><small>' + dShort(p.booking.date) + ', ' + hhmm(p.booking.start) + '</small>' : '<span class="dim">—</span>', 'nw') +
+      td('Клиент', p.booking ? esc(p.booking.name) : '—') +
+      td('Сумма', money(p.amount), 'num') +
+      td('Способ', esc(P.PAY_METHOD[p.method] || p.method) + (p.cardMask ? '<small>' + esc(p.cardMask) + '</small>' : ''), 'nw') +
+      td('Статус', payPill(p.status)) +
+      td('Дата', dtFmt(p.createdAt), 'nw') +
+      td('Возвращено', p.refunded || p.status === 'refunded' ? money(p.refunded || p.amount) : '<span class="dim">—</span>', 'num') + '</tr>').join('');
+    const box = $('[data-list]', v), sc = keep ? ($('.tw', box) || {}).scrollTop : 0;
+    box.innerHTML = table([{ h: 'ID' }, { h: 'Бронь' }, { h: 'Клиент' }, { h: 'Сумма', num: 1 }, { h: 'Способ' }, { h: 'Статус' }, { h: 'Дата' }, { h: 'Возвращено', num: 1 }], rows, { cap: 'Платежи за период', empty: 'Платежей за период нет' }) + moreBar(d.list.length, shown.length, plural(d.list.length, 'платежа', 'платежей', 'платежей'));
+    if (sc) $('.tw', box).scrollTop = sc;
+    bindMore(box, PS, refresh);
+  }
+  refresh();
+  return () => refresh(true);
+}
+
+/* =====================================================================
+   4. Клиенты
+   ===================================================================== */
+const CS = { q: '', limit: 30 };
+function renderClients(v, alive) {
+  const I = { q: nid() };
+  v.innerHTML = '<section class="panel" aria-labelledby="hCl"><div class="panel-h"><h2 id="hCl">Клиенты</h2><span class="dim" data-cnt></span></div>' +
+    '<form class="bar" role="search" onsubmit="return false"><div class="fld grow"><label for="' + I.q + '">Поиск</label><input class="in" type="search" id="' + I.q + '" placeholder="Имя или телефон" autocomplete="off"></div></form>' +
+    '<div data-list></div><p class="note">Клиенты собираются по номеру телефона из всех броней. «Визиты» — оплаченные брони, которые уже прошли; сумма — фактически полученные деньги за вычетом возвратов.</p></section>';
+  const q = $('#' + I.q, v); q.value = CS.q;
+  let t = 0; q.addEventListener('input', () => { clearTimeout(t); t = setTimeout(() => { CS.q = q.value; CS.limit = 30; refresh(); }, 220); });
+  $('[data-list]', v).addEventListener('click', e => { const b = e.target.closest('[data-cl]'); if (b) { openClient(b.dataset.cl); return; } const tr = e.target.closest('tr[data-open]'); if (tr && !e.target.closest('button,a')) openClient(tr.dataset.open); });
+  async function refresh(keep) {
+    let list; try { list = await A.listClients(CS.q); } catch (e) { handleErr(e); return; }
+    if (!alive()) return;
+    $('[data-cnt]', v).textContent = list.length + ' ' + plural(list.length, 'клиент', 'клиента', 'клиентов');
+    const shown = list.slice(0, CS.limit);
+    const rows = shown.map(c => '<tr data-open="' + esc(c.phone) + '">' +
+      td('Клиент', '<button class="linkbtn" type="button" data-cl="' + esc(c.phone) + '">' + esc(c.name) + '</button>') +
+      td('Телефон', esc(c.phoneFmt), 'nw') +
+      td('Визитов', c.visits, 'num') +
+      td('Броней', c.bookings, 'num') +
+      td('Сумма', money(c.sum), 'num') +
+      td('Последний визит', c.last ? dShort(c.last) : '<span class="dim">—</span>', 'nw') +
+      td('Ближайшая бронь', c.next ? esc(P.dateLabel(c.next)) : '<span class="dim">—</span>', 'nw') +
+      td('Отмены / неявки', (c.cancels || c.noshow) ? c.cancels + ' / ' + (c.noshow ? '<b style="color:var(--neon)">' + c.noshow + '</b>' : 0) : '<span class="dim">—</span>', 'num') +
+      td('Кабинет', c.hasCabinet ? pill('Есть', '#3dffa8') : '<span class="dim">нет</span>') + '</tr>').join('');
+    const box = $('[data-list]', v), sc = keep ? ($('.tw', box) || {}).scrollTop : 0;
+    box.innerHTML = table([{ h: 'Клиент' }, { h: 'Телефон' }, { h: 'Визитов', num: 1 }, { h: 'Броней', num: 1 }, { h: 'Сумма', num: 1 }, { h: 'Последний визит' }, { h: 'Ближайшая бронь' }, { h: 'Отмены / неявки', num: 1 }, { h: 'Кабинет' }], rows, { cap: 'Клиенты', empty: 'Клиентов не найдено' }) + moreBar(list.length, shown.length, plural(list.length, 'клиента', 'клиентов', 'клиентов'));
+    if (sc) $('.tw', box).scrollTop = sc;
+    bindMore(box, CS, refresh);
+  }
+  refresh();
+  return () => refresh(true);
+}
+async function openClient(phone) {
+  let c; try { c = await A.getClient(phone); } catch (e) { handleErr(e); return; }
+  const box = document.createElement('div');
+  box.innerHTML =
+    (c.profile ? '<div class="who" style="margin-bottom:14px"><img src="' + esc(c.profile.photo) + '" alt="" width="40" height="40" style="width:40px;height:40px"><div><b>Есть кабинет игрока</b><br><small class="muted">' + esc(c.profile.name) + (c.profile.level ? ' · ' + esc(P.label(P.LEVELS, c.profile.level)) : '') + '</small></div></div>' : '') +
+    '<div class="kpis" style="margin-bottom:16px"><div class="kpi"><span>Визитов</span><b>' + c.visits + '</b></div><div class="kpi"><span>Сумма</span><b>' + money(c.sum) + '</b></div><div class="kpi"><span>Отмены</span><b>' + c.cancels + '</b></div><div class="kpi' + (c.noshow ? ' alert' : '') + '"><span>Неявки</span><b>' + c.noshow + '</b></div></div>' +
+    '<div class="acts" style="margin-bottom:6px"><a class="btn btn-ghost btn-sm" href="tel:+' + esc(c.phone) + '">Позвонить</a><button class="btn btn-ghost btn-sm" type="button" data-new>Новая бронь</button><button class="btn btn-ghost btn-sm" type="button" data-cons>Согласия клиента</button></div>' +
+    '<h3 class="sub-h">История броней</h3><div class="mini-w"><table class="mini"><thead><tr><th>№</th><th>Дата</th><th>Время</th><th>Сумма</th><th>Статус</th></tr></thead><tbody>' +
+    c.history.map(b => '<tr><td><button class="linkbtn" type="button" data-bk="' + b.id + '">' + esc(b.number) + '</button></td><td class="nw">' + dShort(b.date) + '</td><td class="nw">' + b.timeLabel + '</td><td class="nw">' + money(b.amount) + '</td><td>' + bPill(b.status) + '</td></tr>').join('') + '</tbody></table></div>';
+  UI.sheet({ title: c.name, sub: c.phoneFmt + ' · ' + c.bookings + ' ' + plural(c.bookings, 'бронь', 'брони', 'броней'), body: box, width: 680 });
+  $('[data-new]', box).addEventListener('click', () => openManual({ name: c.name, phone: c.phone }));
+  $('[data-cons]', box).addEventListener('click', () => openSubject(c.phone));
+  $$('[data-bk]', box).forEach(b => b.addEventListener('click', () => openBooking(b.dataset.bk)));
+}
+
+/* =====================================================================
+   5. Сообщество
+   ===================================================================== */
+const MS = { tab: 'posts', limit: 30 };
+function renderCommunity(v, alive) {
+  const tabs = [['posts', 'Объявления'], ['reports', 'Жалобы'], ['responses', 'Отклики']];
+  v.innerHTML = '<section class="panel"><div class="panel-h"><div class="seg" role="tablist" aria-label="Сообщество">' + tabs.map(t => '<button type="button" role="tab" id="tab-' + t[0] + '" aria-controls="tp" data-tab="' + t[0] + '">' + t[1] + '<span class="pp-badge" hidden></span></button>').join('') + '</div></div>' +
+    '<div id="tp" role="tabpanel" tabindex="-1" data-list></div><p class="note" data-note></p></section>';
+  const setTab = (k, focus) => { MS.tab = k; MS.limit = 30; $$('[data-tab]', v).forEach(b => { const on = b.dataset.tab === k; b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; if (on && focus) b.focus(); }); $('#tp', v).setAttribute('aria-labelledby', 'tab-' + k); refresh(); };
+  $$('[data-tab]', v).forEach(b => {
+    b.addEventListener('click', () => setTab(b.dataset.tab));
+    b.addEventListener('keydown', e => { const i = tabs.findIndex(t => t[0] === b.dataset.tab); if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); setTab(tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length][0], true); } });
+  });
+  $('[data-list]', v).addEventListener('click', async e => {
+    const h = e.target.closest('[data-hide]');
+    if (h) { const on = h.dataset.on === '1'; act(h, () => A.hidePost(h.dataset.hide, on), on ? 'Объявление скрыто из ленты' : 'Объявление снова в ленте'); return; }
+    const d = e.target.closest('[data-del]');
+    if (d) { const r = await confirmSheet({ title: 'Удалить объявление?', text: 'Объявление и связанные жалобы исчезнут без возможности восстановления. Если нужно просто убрать его из ленты — используйте «Скрыть».', ok: 'Удалить', danger: true }); if (r) act(null, () => A.deletePost(d.dataset.del), 'Объявление удалено'); return; }
+    const rs = e.target.closest('[data-resolve]');
+    if (rs) act(rs, () => A.resolveReport(rs.dataset.resolve), 'Жалоба отклонена — объявление остаётся в ленте');
+  });
+  async function refresh(keep) {
+    let posts, reports, resps;
+    try { posts = await A.listAllPosts(); reports = await A.listReports(); resps = await A.listAllResponses(); } catch (e) { handleErr(e); return; }
+    if (!alive()) return;
+    const cnt = { posts: posts.length, reports: reports.filter(r => r.status === 'new').length, responses: resps.length };
+    $$('[data-tab]', v).forEach(b => { const n = cnt[b.dataset.tab]; const bd = $('.pp-badge', b); bd.hidden = !(b.dataset.tab === 'reports' ? n : 0); bd.textContent = n; b.setAttribute('aria-selected', String(b.dataset.tab === MS.tab)); b.tabIndex = b.dataset.tab === MS.tab ? 0 : -1; });
+    $('#tp', v).setAttribute('aria-labelledby', 'tab-' + MS.tab);
+    const box = $('[data-list]', v), sc = keep ? ($('.tw', box) || {}).scrollTop : 0;
+    let html = '', note = '';
+    if (MS.tab === 'posts') {
+      const shown = posts.slice(0, MS.limit);
+      html = table([{ h: 'Автор' }, { h: 'Текст' }, { h: 'Формат и время' }, { h: 'Создано' }, { h: 'Статус' }, { h: 'Откликов', num: 1 }, { h: 'Жалоб', num: 1 }, { h: '<span class="sr">Действия</span>' }],
+        shown.map(p => '<tr>' +
+          td('Автор', '<span class="who"><img src="' + esc(p.author ? p.author.photo : '') + '" alt="" width="30" height="30"><span>' + esc(p.author ? p.author.name : '—') + (p.demo ? ' <span class="tag">демо</span>' : '') + '</span></span>') +
+          td('Текст', '<span class="clamp" title="' + esc(p.text) + '">' + esc(p.text) + '</span>') +
+          td('Формат и время', '<small style="color:var(--muted);font-size:12.5px">' + esc(p.summary) + '</small>') +
+          td('Создано', esc(P.ago(p.createdAt)), 'nw') +
+          td('Статус', '<span class="acts" style="gap:4px">' + (p.status === 'open' ? pill('Открыто', '#3dffa8') : pill('Закрыто', '#8a8fb3')) + (p.hidden ? pill('Скрыто модератором', '#ff2e63') : '') + (p.revoked ? pill('Снято: отзыв согласия', '#8f9bff') : '') + '</span>') +
+          td('Откликов', p.responsesCount, 'num') +
+          td('Жалоб', p.reports ? '<b style="color:var(--neon)">' + p.reports + '</b>' : '0', 'num') +
+          td('', '<div class="acts">' + (p.hidden ? '<button class="btn btn-ok btn-xs" type="button" data-hide="' + p.id + '" data-on="0">Вернуть</button>' : '<button class="btn btn-ghost btn-xs" type="button" data-hide="' + p.id + '" data-on="1">Скрыть</button>') + '<button class="btn btn-danger btn-xs" type="button" data-del="' + p.id + '">Удалить</button></div>') + '</tr>').join(''),
+        { cap: 'Объявления сообщества', empty: 'Объявлений нет' }) + moreBar(posts.length, shown.length, plural(posts.length, 'объявления', 'объявлений', 'объявлений'));
+      note = '«Скрыть» убирает объявление из ленты и закрывает жалобы на него; автор видит его у себя в кабинете. «Удалить» — безвозвратно.';
+    } else if (MS.tab === 'reports') {
+      const shown = reports.slice(0, MS.limit);
+      html = table([{ h: 'Дата' }, { h: 'Объявление' }, { h: 'Причина' }, { h: 'От кого' }, { h: 'Статус' }, { h: '<span class="sr">Действия</span>' }],
+        shown.map(r => '<tr' + (r.status === 'new' ? '' : ' class="done"') + '>' +
+          td('Дата', dtFmt(r.at), 'nw') +
+          td('Объявление', r.post ? '<span class="clamp">' + esc(r.post.text) + '</span><small>' + esc(r.post.author ? r.post.author.name : '') + (r.post.hidden ? ' · скрыто' : '') + '</small>' : '<span class="dim">объявление удалено</span>') +
+          td('Причина', esc(r.reason)) +
+          td('От кого', esc(r.byName)) +
+          td('Статус', r.status === 'new' ? pill('Новая', '#ff2e63') : pill('Разобрана', '#8a8fb3')) +
+          td('', r.status === 'new' ? '<div class="acts">' + (r.post && !r.post.hidden ? '<button class="btn btn-danger btn-xs" type="button" data-hide="' + r.postId + '" data-on="1">Скрыть объявление</button>' : '') + '<button class="btn btn-ghost btn-xs" type="button" data-resolve="' + r.id + '">Отклонить жалобу</button></div>' : '') + '</tr>').join(''),
+        { cap: 'Жалобы', empty: 'Жалоб нет' }) + moreBar(reports.length, shown.length, plural(reports.length, 'жалобы', 'жалоб', 'жалоб'));
+      note = 'Жалобы оставляют игроки и гости из ленты «Найди партнёра». Скрытие объявления автоматически закрывает все жалобы на него.';
+    } else {
+      const shown = resps.slice(0, MS.limit);
+      html = table([{ h: 'Дата' }, { h: 'От кого' }, { h: 'Кому' }, { h: 'Объявление' }, { h: 'Сообщение' }, { h: 'Предложенное время' }, { h: 'Статус' }],
+        shown.map(r => { const st = RESP_STATUS[r.status] || [r.status, '#9ea3c7']; return '<tr>' + td('Дата', dtFmt(r.createdAt), 'nw') + td('От кого', esc(r.from ? r.from.name : '—')) + td('Кому', esc(r.to ? r.to.name : '—')) + td('Объявление', '<span class="clamp">' + esc(r.post) + '</span>') + td('Сообщение', '<span class="clamp">' + esc(r.message) + '</span>') + td('Предложенное время', esc(r.when || '—')) + td('Статус', pill(st[0], st[1])) + '</tr>'; }).join(''),
+        { cap: 'Отклики', empty: 'Откликов пока нет' }) + moreBar(resps.length, shown.length, plural(resps.length, 'отклика', 'откликов', 'откликов'));
+      note = 'Контакты сторон открываются друг другу только после того, как автор принял отклик.';
+    }
+    box.innerHTML = html; $('[data-note]', v).textContent = note;
+    if (sc && $('.tw', box)) $('.tw', box).scrollTop = sc;
+    bindMore(box, MS, refresh);
+  }
+  refresh();
+  return () => refresh(true);
+}
+
+/* =====================================================================
+   6. Согласия (152-ФЗ)
+   ===================================================================== */
+const JS = { docId: '', version: '', action: '', context: '', from: '', to: '', q: '', limit: 40 };
+function renderConsents(v, alive) {
+  const I = { d: nid(), ver: nid(), a: nid(), c: nid(), f: nid(), t: nid(), q: nid() };
+  v.innerHTML =
+    '<div class="kpis k7" data-stats></div><div data-outdated></div>' +
+    '<section class="panel" aria-labelledby="hReq"><div class="panel-h"><h2 id="hReq">Запросы субъектов</h2></div>' +
+      '<p class="law">Сроки по 152-ФЗ: прекращение распространения — <b>3 рабочих дня</b> (ч. 14 ст. 10.1), ответ на запрос сведений — <b>10 рабочих дней</b> (ч. 3 ст. 14), уничтожение данных после отзыва согласия — <b>30 дней</b> (ч. 5 ст. 21). Праздники в демо не учитываются — в боевой версии срок считает сервер по производственному календарю.</p><div data-req></div></section>' +
+    '<section class="panel" aria-labelledby="hJr"><div class="panel-h"><h2 id="hJr">Журнал согласий</h2><div class="acts"><button class="btn btn-ghost btn-sm" type="button" data-csv>Выгрузить CSV</button></div></div>' +
+      '<p class="law">Журнал — доказательство получения согласия (ч. 3 ст. 9 152-ФЗ). Записи только добавляются, не изменяются и не удаляются.</p>' +
+      '<form class="bar" role="search" onsubmit="return false">' +
+        '<div class="fld"><label for="' + I.d + '">Документ</label><select class="in" id="' + I.d + '"><option value="">Все документы</option>' + P.DOCS.map(d => '<option value="' + d.id + '">' + esc(d.title) + '</option>').join('') + '</select></div>' +
+        '<div class="fld"><label for="' + I.ver + '">Редакция</label><select class="in" id="' + I.ver + '"><option value="">Все</option></select></div>' +
+        '<div class="fld"><label for="' + I.a + '">Действие</label><select class="in" id="' + I.a + '"><option value="">Все</option>' + Object.keys(P.CONSENT_ACTION).map(k => '<option value="' + k + '">' + esc(P.CONSENT_ACTION[k]) + '</option>').join('') + '</select></div>' +
+        '<div class="fld"><label for="' + I.c + '">Контекст</label><select class="in" id="' + I.c + '"><option value="">Все</option>' + Object.keys(P.CONSENT_CONTEXT).map(k => '<option value="' + k + '">' + esc(P.CONSENT_CONTEXT[k]) + '</option>').join('') + '</select></div>' +
+        '<div class="fld"><label for="' + I.f + '">С</label><input class="in" type="date" id="' + I.f + '"></div>' +
+        '<div class="fld"><label for="' + I.t + '">По</label><input class="in" type="date" id="' + I.t + '"></div>' +
+        '<div class="fld grow"><label for="' + I.q + '">Субъект</label><input class="in" type="search" id="' + I.q + '" placeholder="Имя, телефон или ID субъекта" autocomplete="off"></div>' +
+        '<div class="fld"><span class="lbl" aria-hidden="true">&nbsp;</span><button class="btn btn-ghost btn-xs" type="button" data-reset style="height:40px">Сбросить</button></div>' +
+      '</form><p class="sr" aria-live="polite" data-live></p><div data-journal></div>' +
+      '<p class="note">Дата и время — местные. Хеш — SHA-256 текста редакции документа; при просмотре макета с диска считается от «id@версия» (видно в колонке). IP-адрес записывает сервер при приёме запроса; в демо его нет. Полная запись — по кнопке «Запись».</p></section>' +
+    '<section class="panel" aria-labelledby="hReg"><div class="panel-h"><h2 id="hReg">Реестр документов</h2></div><p class="note top0">Только чтение. Новая редакция заводится в реестре документов на сервере — после этого пользователи со старой редакцией увидят окно «Документ обновлён».</p><div data-reg></div></section>';
+  const el = k => $('#' + I[k], v);
+  const map = { d: 'docId', ver: 'version', a: 'action', c: 'context', f: 'from', t: 'to', q: 'q' };
+  Object.keys(map).forEach(k => { el(k).value = JS[map[k]]; el(k).addEventListener(k === 'q' ? 'input' : 'change', debounce(() => { JS[map[k]] = el(k).value; JS.limit = 40; refresh(); }, k === 'q' ? 220 : 0)); });
+  $('[data-reset]', v).addEventListener('click', () => { Object.keys(map).forEach(k => { JS[map[k]] = ''; el(k).value = ''; }); JS.limit = 40; refresh(); });
+  v.addEventListener('click', async e => {
+    const s = e.target.closest('[data-subj]'); if (s) { openSubject(s.dataset.subj); return; }
+    const en = e.target.closest('[data-entry]'); if (en) { const x = lastJ.find(j => j.id === en.dataset.entry); if (x) openEntry(x); return; }
+    const rq = e.target.closest('[data-done]');
+    if (rq) { const r = await confirmSheet({ title: 'Запрос выполнен', sub: rq.dataset.title, text: 'Отметьте, что сделано. Отметка сохранится в карточке запроса.', ok: 'Отметить выполненным', field: { label: 'Что сделано', placeholder: 'Например: ответ отправлен на e-mail, данные уничтожены', autofocus: true } }); if (r) act(null, () => A.resolveSubjectRequest(rq.dataset.done, r.value), 'Запрос отмечен выполненным'); }
+  });
+  let lastJ = [];
+  $('[data-csv]', v).addEventListener('click', () => {
+    const rows = [['ID записи', 'Дата и время (ISO, UTC)', 'Дата и время (местное)', 'ID субъекта', 'Имя', 'Телефон', 'Документ', 'Код документа', 'Редакция', 'Действие', 'Контекст', 'Условия', 'Хеш редакции (SHA-256)', 'Источник хеша', 'Законный представитель', 'Телефон представителя', 'IP-адрес', 'User-Agent']];
+    lastJ.forEach(e => rows.push([e.id, e.ts, dtFmt(e.ts), e.subjectId, e.name, csvPhone(e.phone), e.docTitle, e.docId, e.docVersion, e.actionLabel, e.contextLabel, condPlain(e), e.docHash, e.hashSource === 'file' ? 'текст файла' : 'id+версия', e.guardian ? e.guardian.fio : '', e.guardian ? csvPhone(e.guardian.phone) : '', e.ip || 'записывает сервер', e.userAgent]));
+    rows.push([]);
+    rows.push(['Журнал — доказательство получения согласия (ч. 3 ст. 9 152-ФЗ). Записи только добавляются, не изменяются и не удаляются.']);
+    rows.push(['Выгружено', dtFmt(Date.now()), 'Записей', lastJ.length]);
+    const ok = UI.saveFile('pingpoint-zhurnal-soglasiy-' + P.today() + '.csv', csv(rows), 'text/csv;charset=utf-8');
+    if (ok) UI.toast('Журнал выгружен: ' + lastJ.length + ' ' + plural(lastJ.length, 'запись', 'записи', 'записей'), { kind: 'ok' });
+  });
+  async function refresh(keep) {
+    let st, reqs, list, all, reg;
+    try {
+      st = await A.consentStats(); reqs = await A.listSubjectRequests();
+      list = await A.listConsents({ docId: JS.docId || undefined, version: JS.version || undefined, action: JS.action || undefined, context: JS.context || undefined, from: JS.from || undefined, to: JS.to || undefined, q: JS.q || undefined });
+      all = await A.listConsents({}); reg = await A.docRegistry();
+    } catch (e) { handleErr(e); return; }
+    if (!alive()) return;
+    lastJ = list;
+    const k = (label, val, sub, cls) => '<div class="kpi ' + (cls || '') + '"><span>' + label + '</span><b>' + val + '</b>' + (sub ? '<small>' + sub + '</small>' : '') + '</div>';
+    $('[data-stats]', v).innerHTML = k('Записей в журнале', st.total) + k('Подтверждений', st.accepted) + k('Отзывов', st.revoked, '', st.revoked ? 'warn' : '') + k('Изменений условий', st.changed) +
+      k('Без актуальной редакции', st.usersOutdated, 'из ' + st.usersTotal + ' ' + plural(st.usersTotal, 'кабинета', 'кабинетов', 'кабинетов'), st.usersOutdated ? 'warn' : 'good') +
+      k('Открытых запросов', st.requestsOpen, '', st.requestsOpen ? 'warn' : 'good') + k('Просрочено', st.requestsOverdue, st.requestsOverdue ? 'нужно выполнить сегодня' : 'в срок', st.requestsOverdue ? 'alert' : 'good');
+    $('[data-outdated]', v).innerHTML = st.outdatedList.length ? '<details class="box warn"><summary style="cursor:pointer;font-weight:700">Пользователи без актуальной редакции (' + st.outdatedList.length + ')</summary><ul class="list" style="margin-top:10px">' + st.outdatedList.map(u => '<li><span class="grow"><button class="linkbtn" type="button" data-subj="' + esc(u.id) + '">' + esc(u.name) + '</button> <small>' + esc(u.phone) + '</small><br><small>' + (u.docs.length ? 'нет действующего: ' + esc(u.docs.join(', ')) : 'подтверждена старая редакция') + '</small></span></li>').join('') + '</ul><p class="note">При следующем входе в кабинет они увидят окно «Документ обновлён»; до подтверждения связанные функции заблокированы.</p></details>' : '';
+    // запросы
+    $('[data-req]', v).innerHTML = table([{ h: 'Тип' }, { h: 'Субъект' }, { h: 'Поступил' }, { h: 'Срок' }, { h: 'Осталось' }, { h: 'Норма' }, { h: 'Статус' }, { h: 'Примечание' }, { h: '<span class="sr">Действия</span>' }],
+      reqs.map(r => '<tr class="' + (r.overdue ? 'overdue' : r.status === 'done' ? 'done' : '') + '">' +
+        td('Тип', '<b>' + esc(r.title) + '</b>') +
+        td('Субъект', '<button class="linkbtn" type="button" data-subj="' + esc(r.subjectId) + '">' + esc(r.name || r.subjectId) + '</button><small class="nw">' + esc(r.phone ? P.fmtPhone(r.phone) : '') + '</small>') +
+        td('Поступил', dtFmt(r.createdAt), 'nw') +
+        td('Срок', dShort(P.ymd(new Date(r.deadline))), 'nw') +
+        td('Осталось', r.status === 'done' ? '<span class="dim">выполнен ' + dtFmt(r.doneAt).slice(0, 10) + '</span>' : r.overdue ? '<b style="color:var(--neon);text-shadow:0 0 10px rgba(255,46,99,.6)">просрочен на ' + Math.abs(r.daysLeft) + ' ' + plural(Math.abs(r.daysLeft), 'день', 'дня', 'дней') + '</b>' : r.daysLeft + ' ' + plural(r.daysLeft, 'день', 'дня', 'дней'), 'nw') +
+        td('Норма', esc(r.rule), 'nw') +
+        td('Статус', r.status === 'done' ? pill('Выполнен', '#3dffa8') : r.overdue ? pill('Просрочен', '#ff2e63') : pill('Новый', '#ffb938')) +
+        td('Примечание', '<small style="color:var(--muted);font-size:12.5px">' + esc(r.note || '—') + '</small>') +
+        td('', r.status === 'new' ? '<button class="btn ' + (r.overdue ? 'btn-main' : 'btn-ok') + ' btn-xs" type="button" data-done="' + r.id + '" data-title="' + esc(r.title + ' — ' + (r.name || '')) + '">Выполнено</button>' : '') + '</tr>').join(''),
+      { free: 1, cap: 'Запросы субъектов персональных данных', empty: 'Запросов нет', minw: 1100 });
+    // редакции для фильтра
+    const vs = Array.from(new Set(all.map(e => e.docVersion).concat(P.DOCS.map(d => d.version)))).sort(P.verCmp);
+    const vSel = el('ver'); const cv = JS.version;
+    vSel.innerHTML = '<option value="">Все</option>' + vs.map(x => '<option value="' + esc(x) + '">' + esc(x) + '</option>').join(''); vSel.value = cv;
+    // журнал
+    const shown = list.slice(0, JS.limit);
+    const rows = shown.map(e => '<tr>' +
+      td('Дата и время', dtFmt(e.ts), 'nw') +
+      td('Субъект', '<button class="linkbtn mono" type="button" data-subj="' + esc(e.subjectId) + '" title="Все согласия субъекта">' + esc(e.subjectId.length > 18 ? e.subjectId.slice(0, 16) + '…' : e.subjectId) + '</button>') +
+      td('Имя', esc(e.name || '—')) +
+      td('Телефон', esc(e.phoneFmt || '—'), 'nw') +
+      td('Документ', esc(e.docTitle), 'dt') +
+      td('Ред.', esc(e.docVersion), 'nw') +
+      td('Действие', e.action === 'revoked' ? pill(e.actionLabel, '#ff2e63') : e.action === 'conditions_changed' ? pill(e.actionLabel, '#ffb938') : pill(e.actionLabel, '#3dffa8')) +
+      td('Контекст', esc(e.contextLabel)) +
+      td('Условия', condText(e)) +
+      td('Хеш', '<span class="hash" title="' + esc(e.docHash) + '">' + esc(e.docHash.slice(0, 12)) + '…</span><small>' + (e.hashSource === 'file' ? 'текст файла' : 'id+версия') + '</small>', 'nw') +
+      td('Представитель', e.guardian ? esc(e.guardian.fio) + '<small>' + esc(P.fmtPhone(e.guardian.phone)) + '</small>' : '<span class="dim">—</span>') +
+      td('', '<button class="btn btn-ghost btn-xs" type="button" data-entry="' + e.id + '">Запись</button>') + '</tr>').join('');
+    const box = $('[data-journal]', v), sc = keep ? ($('.tw', box) || {}).scrollTop : 0;
+    box.innerHTML = table([{ h: 'Дата и время' }, { h: 'Субъект' }, { h: 'Имя' }, { h: 'Телефон' }, { h: 'Документ' }, { h: 'Ред.' }, { h: 'Действие' }, { h: 'Контекст' }, { h: 'Условия' }, { h: 'Хеш' }, { h: 'Представитель' }, { h: '<span class="sr">Подробнее</span>' }], rows, { cap: 'Журнал согласий', empty: 'Записей по этим условиям нет', minw: 1560 }) + moreBar(list.length, shown.length, plural(list.length, 'записи', 'записей', 'записей'));
+    if (sc) $('.tw', box).scrollTop = sc;
+    bindMore(box, JS, refresh);
+    $('[data-live]', v).textContent = 'Записей: ' + list.length;
+    // реестр
+    $('[data-reg]', v).innerHTML = table([{ h: 'Документ' }, { h: 'Файл' }, { h: 'Редакция' }, { h: 'Дата' }, { h: 'Для чего' }, { h: 'Текущую подтвердили', num: 1 }, { h: 'Старую', num: 1 }, { h: 'Отозвали', num: 1 }],
+      reg.map(d => '<tr>' + td('Документ', '<b>' + esc(d.title) + '</b>' + (d.revocable ? '<small>можно отозвать</small>' : '')) + td('Файл', UI.docLink(d.id, d.file.replace(/^docs\//, '')), 'nw') + td('Редакция', esc(d.version), 'nw') + td('Дата', dShort(d.date), 'nw') + td('Для чего', esc(d.forLabel.join(', '))) + td('Текущую подтвердили', d.confirmedCurrent, 'num') + td('Старую', d.confirmedOld ? '<b style="color:var(--ball-hot)">' + d.confirmedOld + '</b>' : 0, 'num') + td('Отозвали', d.revoked ? '<b style="color:var(--neon)">' + d.revoked + '</b>' : 0, 'num') + '</tr>').join(''),
+      { free: 1, cap: 'Реестр документов' });
+  }
+  refresh();
+  return () => refresh(true);
+}
+function debounce(fn, ms) { let t = 0; return function () { clearTimeout(t); if (!ms) fn(); else t = setTimeout(fn, ms); }; }
+function openEntry(e) {
+  const box = document.createElement('div');
+  box.innerHTML = '<dl class="kv">' +
+    '<div><dt>Дата и время</dt><dd>' + dtFmt(e.ts) + '<small>' + esc(e.ts) + ' (UTC)</small></dd></div>' +
+    '<div><dt>Действие</dt><dd>' + esc(e.actionLabel) + '<small>' + esc(e.contextLabel) + '</small></dd></div>' +
+    '<div><dt>Субъект</dt><dd>' + esc(e.name || '—') + '<small><span class="hash">' + esc(e.subjectId) + '</span></small></dd></div>' +
+    '<div><dt>Телефон</dt><dd>' + esc(e.phoneFmt || '—') + '</dd></div>' +
+    '<div class="wide"><dt>Документ</dt><dd>' + UI.docLink(e.docId, e.docTitle) + '<small>редакция ' + esc(e.docVersion) + '</small></dd></div>' +
+    '<div class="wide"><dt>Условия</dt><dd>' + condText(e) + '</dd></div>' +
+    '<div class="wide"><dt>Хеш редакции (SHA-256)</dt><dd><span class="hash" style="overflow-wrap:anywhere">' + esc(e.docHash) + '</span><small>посчитан от: ' + (e.hashSource === 'file' ? 'текста файла документа' : '«id@версия» (просмотр с диска)') + '</small></dd></div>' +
+    '<div class="wide"><dt>Законный представитель</dt><dd>' + (e.guardian ? esc(e.guardian.fio) + '<small>' + esc(P.fmtPhone(e.guardian.phone)) + '</small>' : '<span class="dim">—</span>') + '</dd></div>' +
+    '<div><dt>IP-адрес</dt><dd>' + (e.ip ? esc(e.ip) : '<span class="dim">будет записан сервером</span>') + '</dd></div>' +
+    '<div><dt>ID записи</dt><dd><span class="hash">' + esc(e.id) + '</span></dd></div>' +
+    '<div class="wide"><dt>User-Agent</dt><dd class="ua">' + esc(e.userAgent || '—') + '</dd></div></dl>' +
+    '<div class="acts" style="margin-top:14px"><button class="btn btn-ghost btn-sm" type="button" data-subj>Все согласия субъекта</button></div>';
+  UI.sheet({ title: 'Запись журнала', sub: e.docTitle, body: box, width: 640 });
+  $('[data-subj]', box).addEventListener('click', () => openSubject(e.subjectId));
+}
+async function openSubject(key) {
+  let s; try { s = await A.consentSubject(key); } catch (e) { handleErr(e); return; }
+  const last = {};
+  s.entries.slice().reverse().forEach(e => { last[e.docId] = e; });
+  const cur = P.DOCS.map(d => {
+    const e = last[d.id]; if (!e) return '';
+    const st = e.action === 'revoked' ? pill('Отозвано', '#ff2e63') : P.verCmp(e.docVersion, d.version) < 0 ? pill('Старая редакция', '#ffb938') : pill('Действует', '#3dffa8');
+    return '<tr><td>' + esc(d.title) + '</td><td class="nw">' + esc(e.docVersion) + '</td><td class="nw">' + dtFmt(e.ts) + '</td><td>' + st + '</td><td>' + condText(e) + '</td></tr>';
+  }).join('');
+  const u = s.user;
+  const box = document.createElement('div');
+  box.innerHTML =
+    '<dl class="kv"><div><dt>Субъект</dt><dd>' + esc(s.name || '—') + '<small><span class="hash">' + esc(key) + '</span></small></dd></div><div><dt>Телефон</dt><dd>' + esc(s.phone || '—') + '</dd></div>' +
+    (u ? '<div><dt>Кабинет</dt><dd>' + (u.demo ? 'демо-игрок сообщества' : 'есть') + '<small>' + (u.ageGroup === 'minor' ? '14–17 лет, с согласия представителя' : '18+') + '</small></dd></div>' +
+      (u.guardian ? '<div><dt>Законный представитель</dt><dd>' + esc(u.guardian.fio) + '<small>' + esc(P.fmtPhone(u.guardian.phone)) + '</small></dd></div>' : '') +
+      (u.deletion ? '<div class="wide"><dt>Удаление</dt><dd style="color:var(--neon)">Профиль будет уничтожен ' + dtFmt(u.deletion.until).slice(0, 10) + '<small>запрошено ' + dtFmt(u.deletion.requestedAt) + '</small></dd></div>' : '') : '<div><dt>Кабинет</dt><dd class="dim">нет — гость (бронь без регистрации)</dd></div>') +
+    '</dl>' +
+    '<h3 class="sub-h">Текущее состояние по документам</h3>' + (cur ? '<div class="mini-w"><table class="mini"><thead><tr><th>Документ</th><th>Ред.</th><th>Последняя запись</th><th>Статус</th><th>Условия</th></tr></thead><tbody>' + cur + '</tbody></table></div>' : '<p class="pp-h">Записей нет.</p>') +
+    '<h3 class="sub-h">Запросы</h3>' + (s.requests.length ? '<ul class="list">' + s.requests.map(r => '<li><span class="grow"><b>' + esc(r.title) + '</b><br><small>поступил ' + dtFmt(r.createdAt) + ' · срок ' + dShort(P.ymd(new Date(r.deadline))) + (r.note ? ' · ' + esc(r.note) : '') + '</small></span>' + (r.status === 'done' ? pill('Выполнен', '#3dffa8') : r.deadline < Date.now() ? pill('Просрочен', '#ff2e63') : pill('Новый', '#ffb938')) + '</li>').join('') + '</ul>' : '<p class="pp-h">Запросов не было.</p>') +
+    '<h3 class="sub-h">Вся история (' + s.entries.length + ')</h3><div class="mini-w"><table class="mini"><thead><tr><th>Дата</th><th>Документ</th><th>Ред.</th><th>Действие</th><th>Контекст</th><th>Хеш</th></tr></thead><tbody>' +
+    s.entries.map(e => '<tr><td class="nw">' + dtFmt(e.ts) + '</td><td>' + esc(e.docTitle) + '</td><td>' + esc(e.docVersion) + '</td><td>' + esc(e.actionLabel) + '</td><td>' + esc(e.contextLabel) + '</td><td class="hash nw">' + esc(e.docHash.slice(0, 12)) + '…</td></tr>').join('') + '</tbody></table></div>';
+  UI.sheet({ title: 'Согласия субъекта', sub: (s.name || key) + (s.phone ? ' · ' + s.phone : ''), body: box, width: 760 });
+}
+
+/* =====================================================================
+   7. Настройки
+   ===================================================================== */
+function renderSettings(v, alive) {
+  const I = { open: nid(), close: nid(), border: nid(), am: nid(), pm: nid(), rk: nid(), lead: nid(), ch: nid(), hold: nid() };
+  let dirty = false, rules = [];
+  v.innerHTML =
+    '<section class="panel" aria-labelledby="hSet"><div class="panel-h"><h2 id="hSet">Работа комнаты и цены</h2></div>' +
+    '<p class="box warn" style="margin:0 0 18px;font-size:13.5px">Изменения сразу действуют на сайте: расписание, калькулятор брони и правила обновляются у всех посетителей. Уже созданные брони не пересчитываются.</p>' +
+    '<form data-form novalidate>' +
+      '<div class="set-sec"><h3>Часы и тарифы</h3><div class="set-grid">' +
+        '<div class="fld"><label for="' + I.open + '">Открытие</label><select class="in" id="' + I.open + '"></select></div>' +
+        '<div class="fld"><label for="' + I.close + '">Закрытие</label><select class="in" id="' + I.close + '"></select></div>' +
+        '<div class="fld"><label for="' + I.border + '">Граница тарифа</label><select class="in" id="' + I.border + '"></select></div>' +
+        '<div class="fld"><label for="' + I.am + '">Цена до границы, ₽/ч</label><input class="in" type="number" min="2" step="2" inputmode="numeric" id="' + I.am + '"></div>' +
+        '<div class="fld"><label for="' + I.pm + '">Цена после, ₽/ч</label><input class="in" type="number" min="2" step="2" inputmode="numeric" id="' + I.pm + '"></div>' +
+        '<div class="fld"><label for="' + I.rk + '">Проф. ракетка, ₽/ч</label><input class="in" type="number" min="0" step="10" inputmode="numeric" id="' + I.rk + '"></div>' +
+      '</div><p class="preview" data-preview aria-live="polite"></p></div>' +
+      '<div class="set-sec"><h3>Правила брони</h3><div class="set-grid">' +
+        '<div class="fld"><label for="' + I.lead + '">Бронь не позже чем за</label><select class="in" id="' + I.lead + '">' + [0, 30, 60, 90, 120, 180].map(m => '<option value="' + m + '">' + (m ? (m % 60 ? m + ' мин' : m / 60 + ' ч') : 'без ограничения') + '</option>').join('') + '</select></div>' +
+        '<div class="fld"><label for="' + I.ch + '">Бесплатная отмена, ч до начала</label><input class="in" type="number" min="0" max="72" step="1" inputmode="numeric" id="' + I.ch + '"></div>' +
+        '<div class="fld"><label for="' + I.hold + '">Удержание слота до оплаты, мин</label><input class="in" type="number" min="5" max="60" step="1" inputmode="numeric" id="' + I.hold + '"></div>' +
+      '</div><p class="note">Срок бесплатной отмены прописан в оферте — меняйте его вместе с новой редакцией документа.</p></div>' +
+      '<div class="set-sec"><h3 id="' + I.open + 'r">Правила посещения <small class="dim" style="text-transform:none;letter-spacing:0;font-weight:600">— блок «Правила» на главной, до 12 пунктов</small></h3><ul class="rules" data-rules aria-labelledby="' + I.open + 'r"></ul><button class="btn btn-ghost btn-xs" type="button" data-addrule>+ Добавить пункт</button></div>' +
+      '<div class="pp-e" role="alert" data-err></div>' +
+      '<div class="acts"><button class="btn btn-main btn-sm" type="submit">Сохранить настройки</button><button class="btn btn-ghost btn-sm" type="button" data-revert>Отменить изменения</button><span class="dim" data-state style="font-size:13px"></span></div>' +
+    '</form></section>' +
+    '<section class="panel" aria-labelledby="hPr"><div class="panel-h"><h2 id="hPr">Промокоды</h2><div class="acts"><button class="btn btn-main btn-sm" type="button" data-newpromo>+ Новый промокод</button></div></div><div data-promos></div><p class="note">Промокод применяется к сумме брони (аренда + ракетки). Выключенный код сразу перестаёт приниматься на сайте; «0» в лимите — без ограничения.</p></section>' +
+    '<section class="panel" aria-labelledby="hDemo"><div class="panel-h"><h2 id="hDemo">Демо-данные</h2></div><p class="note top0">Вернуть исходные брони, оплаты, объявления и журнал согласий. Всё, что создано вручную, пропадёт. Вход в админку сохранится.</p><div class="acts" style="margin-top:12px"><button class="btn btn-danger btn-sm" type="button" data-reset>Сбросить демо-данные</button></div></section>';
+  const el = k => $('#' + I[k], v);
+  const form = $('[data-form]', v);
+  const markDirty = () => { dirty = true; $('[data-state]', v).textContent = 'Есть несохранённые изменения'; preview(); };
+  function preview() {
+    const b = Number(el('border').value), am = Number(el('am').value), pm = Number(el('pm').value);
+    $('[data-preview]', v).innerHTML = 'На сайте: <b>' + hhmm(Number(el('open').value)) + '–' + hhmm(Number(el('close').value)) + '</b> · до ' + hhmm(b) + ' — <b>' + (am ? money(am) : '—') + '/ч</b>, после — <b>' + (pm ? money(pm) : '—') + '/ч</b> · ракетка <b>' + money(Number(el('rk').value) || 0) + '/ч</b>';
+  }
+  function drawRules() {
+    const ul = $('[data-rules]', v);
+    ul.innerHTML = rules.map((r, i) => '<li><label class="sr" for="' + I.open + 'rl' + i + '">Пункт ' + (i + 1) + '</label><input class="in" id="' + I.open + 'rl' + i + '" data-i="' + i + '" maxlength="120" value="' + esc(r) + '"><button class="ib" type="button" data-up="' + i + '" aria-label="Поднять пункт ' + (i + 1) + '"' + (i ? '' : ' disabled') + '>↑</button><button class="ib" type="button" data-down="' + i + '" aria-label="Опустить пункт ' + (i + 1) + '"' + (i < rules.length - 1 ? '' : ' disabled') + '>↓</button><button class="ib del" type="button" data-rm="' + i + '" aria-label="Удалить пункт ' + (i + 1) + '">×</button></li>').join('');
+    $('[data-addrule]', v).disabled = rules.length >= 12;
+  }
+  $('[data-rules]', v).addEventListener('input', e => { const i = e.target.dataset.i; if (i != null) { rules[Number(i)] = e.target.value; markDirty(); } });
+  $('[data-rules]', v).addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    let i, focus;
+    if (b.dataset.up != null) { i = Number(b.dataset.up); [rules[i - 1], rules[i]] = [rules[i], rules[i - 1]]; focus = '[data-up="' + (i - 1) + '"]'; if (i - 1 === 0) focus = '[data-down="0"]'; }
+    else if (b.dataset.down != null) { i = Number(b.dataset.down); [rules[i + 1], rules[i]] = [rules[i], rules[i + 1]]; focus = '[data-down="' + (i + 1) + '"]'; if (i + 1 === rules.length - 1) focus = '[data-up="' + (i + 1) + '"]'; }
+    else if (b.dataset.rm != null) { i = Number(b.dataset.rm); rules.splice(i, 1); focus = rules.length ? '[data-i="' + Math.min(i, rules.length - 1) + '"]' : '[data-addrule]'; }
+    else return;
+    markDirty(); drawRules(); const f = $(focus, v); if (f) f.focus();
+  });
+  $('[data-addrule]', v).addEventListener('click', () => { if (rules.length >= 12) return; rules.push(''); markDirty(); drawRules(); $('[data-i="' + (rules.length - 1) + '"]', v).focus(); });
+  $$('select,input', form).forEach(x => { if (!x.closest('[data-rules]')) x.addEventListener('input', markDirty); });
+  function fill(s) {
+    el('open').innerHTML = timeOpts(0, 1410, s.open); el('close').innerHTML = timeOpts(30, 1440, s.close); el('border').innerHTML = timeOpts(0, 1440, s.border);
+    el('am').value = s.priceAm; el('pm').value = s.pricePm; el('rk').value = s.racket; el('lead').value = s.minLeadMin; el('ch').value = s.cancelHours; el('hold').value = s.holdMin;
+    rules = (s.rules || []).slice(); drawRules(); dirty = false; $('[data-state]', v).textContent = ''; $('[data-err]', v).textContent = ''; preview();
+  }
+  $('[data-revert]', v).addEventListener('click', async () => { try { fill(await A.getSettings()); } catch (e) { handleErr(e); } });
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const err = $('[data-err]', v), btn = $('[type=submit]', form); err.textContent = '';
+    btn.classList.add('loading'); btn.disabled = true;
+    try {
+      const s = await A.saveSettings({ open: el('open').value, close: el('close').value, border: el('border').value, priceAm: el('am').value, pricePm: el('pm').value, racket: el('rk').value, minLeadMin: el('lead').value, cancelHours: el('ch').value, holdMin: el('hold').value, rules: rules });
+      fill(s); UI.toast('Настройки сохранены и уже действуют на сайте', { kind: 'ok' });
+    } catch (x) { if (x.code === 'AUTH') handleErr(x); else err.textContent = x.message; }
+    btn.classList.remove('loading'); btn.disabled = false;
+  });
+  $('[data-newpromo]', v).addEventListener('click', () => openPromo(null));
+  $('[data-promos]', v).addEventListener('click', e => {
+    const t = e.target.closest('[data-toggle]'); if (t) { const on = t.getAttribute('aria-checked') !== 'true'; act(null, () => A.togglePromo(t.dataset.toggle, on), 'Промокод ' + t.dataset.toggle + (on ? ' включён' : ' выключен')); return; }
+    const ed = e.target.closest('[data-edit]'); if (ed) { const p = promos.find(x => x.code === ed.dataset.edit); if (p) openPromo(p); }
+  });
+  $('[data-reset]', v).addEventListener('click', async () => {
+    const r = await confirmSheet({ title: 'Сбросить демо-данные?', text: 'Все брони, оплаты, объявления, отклики и записи журнала вернутся к исходным демонстрационным. То, что вы создали вручную, <b>пропадёт</b>.', ok: 'Сбросить', danger: true });
+    if (r) { const x = await act(null, () => A.resetDemo(), 'Демо-данные сброшены'); if (x.ok) { try { fill(await A.getSettings()); } catch (e) {} } }
+  });
+  let promos = [];
+  async function refresh() {
+    let s; try { s = await A.getSettings(); promos = await A.listPromos(); } catch (e) { handleErr(e); return; }
+    if (!alive()) return;
+    if (!dirty) fill(s);
+    $('[data-promos]', v).innerHTML = table([{ h: 'Код' }, { h: 'Скидка' }, { h: 'Использовано', num: 1 }, { h: 'Описание' }, { h: 'Активен' }, { h: '<span class="sr">Действия</span>' }],
+      promos.map(p => '<tr>' + td('Код', '<b class="hash" style="font-size:13.5px;color:var(--ink)">' + esc(p.code) + '</b>') + td('Скидка', p.type === 'pct' ? '−' + p.value + '%' : '−' + money(p.value), 'nw') +
+        td('Использовано', p.used + ' / ' + (p.limit ? p.limit : '∞') + (p.limit && p.used >= p.limit ? '<small style="color:var(--neon)">лимит исчерпан</small>' : ''), 'num') + td('Описание', esc(p.note || '—')) +
+        td('Активен', '<button class="sw" type="button" role="switch" aria-checked="' + (p.active ? 'true' : 'false') + '" aria-label="Промокод ' + esc(p.code) + ' активен" data-toggle="' + esc(p.code) + '"></button>') +
+        td('', '<button class="btn btn-ghost btn-xs" type="button" data-edit="' + esc(p.code) + '">Изменить</button>') + '</tr>').join(''),
+      { free: 1, cap: 'Промокоды', empty: 'Промокодов нет' });
+  }
+  refresh();
+  return refresh;
+}
+function openPromo(p) {
+  const isNew = !p; p = p || { code: '', type: 'pct', value: 10, limit: 0, note: '', active: true };
+  const I = { c: nid(), t: nid(), v: nid(), l: nid(), n: nid(), a: nid() };
+  const box = document.createElement('form'); box.noValidate = true;
+  box.innerHTML =
+    '<div class="pp-f"><label class="pp-l" for="' + I.c + '">Код <small>3–20 символов: буквы, цифры, «-» и «_»</small></label><input class="pp-i" id="' + I.c + '" maxlength="20" autocomplete="off" style="text-transform:uppercase" value="' + esc(p.code) + '"' + (isNew ? ' required' : ' readonly') + '></div>' +
+    '<fieldset class="pp-f pp-fs"><legend class="pp-l">Тип скидки</legend><div class="pp-chips"><label class="pp-chip"><input type="radio" name="' + I.t + '" value="pct"' + (p.type === 'pct' ? ' checked' : '') + '><span>Процент</span></label><label class="pp-chip"><input type="radio" name="' + I.t + '" value="rub"' + (p.type === 'rub' ? ' checked' : '') + '><span>Рубли</span></label></div></fieldset>' +
+    '<div class="frow"><div class="pp-f"><label class="pp-l" for="' + I.v + '">Размер <small data-unit></small></label><input class="pp-i" type="number" min="1" step="1" inputmode="numeric" id="' + I.v + '" value="' + p.value + '"></div>' +
+    '<div class="pp-f"><label class="pp-l" for="' + I.l + '">Лимит использований <small>0 — без лимита</small></label><input class="pp-i" type="number" min="0" step="1" inputmode="numeric" id="' + I.l + '" value="' + (p.limit || 0) + '"></div></div>' +
+    '<div class="pp-f"><label class="pp-l" for="' + I.n + '">Описание <small>для себя</small></label><input class="pp-i" id="' + I.n + '" maxlength="80" value="' + esc(p.note || '') + '"></div>' +
+    '<label class="pp-check" style="margin-bottom:16px"><input type="checkbox" id="' + I.a + '"' + (p.active ? ' checked' : '') + '> <span>Активен — принимается на сайте</span></label>' +
+    '<div class="pp-e" role="alert" data-err></div>' +
+    '<div class="pp-sheet-foot"><button class="btn btn-main" type="submit">' + (isNew ? 'Создать промокод' : 'Сохранить') + '</button><button class="btn btn-ghost" type="button" data-cancel>Отмена</button></div>';
+  const sh = UI.sheet({ title: isNew ? 'Новый промокод' : 'Промокод ' + p.code, sub: isNew ? 'Начнёт действовать на сайте сразу после создания' : 'Использован ' + p.used + ' ' + plural(p.used, 'раз', 'раза', 'раз'), body: box, width: 520 });
+  const unit = () => { $('[data-unit]', box).textContent = ($('input[name="' + I.t + '"]:checked', box).value === 'pct') ? 'в %, до 90' : 'в рублях'; };
+  unit(); $$('input[name="' + I.t + '"]', box).forEach(r => r.addEventListener('change', unit));
+  $('[data-cancel]', box).addEventListener('click', () => sh.close());
+  box.addEventListener('submit', async e => {
+    e.preventDefault();
+    const err = $('[data-err]', box), btn = $('[type=submit]', box); err.textContent = '';
+    btn.classList.add('loading'); btn.disabled = true;
+    try {
+      const r = await A.savePromo({ code: $('#' + I.c, box).value, type: $('input[name="' + I.t + '"]:checked', box).value, value: $('#' + I.v, box).value, limit: $('#' + I.l, box).value, note: $('#' + I.n, box).value, active: $('#' + I.a, box).checked, isNew: isNew });
+      sh.close(); UI.toast('Промокод ' + r.code + (isNew ? ' создан' : ' сохранён'), { kind: 'ok' });
+    } catch (x) { if (x.code === 'AUTH') { handleErr(x); return; } err.textContent = x.message; btn.classList.remove('loading'); btn.disabled = false; }
+  });
+}
+
+/* ---------- старт ---------- */
+if (A.isLogged()) showApp(); else showLogin();
+})();
+</script>
+</body>
+</html>

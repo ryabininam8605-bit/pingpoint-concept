@@ -1,0 +1,29 @@
+:root{--bg:#0d0f1c;--card:#151829;--text:#e9eaf2;--muted:#a3a7bd;--line:#2a2e48;--accent:#ff2e63;--ball:#F5A623}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.65 Manrope,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:32px 20px 80px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:28px}
+.top a{color:var(--muted);text-decoration:none;font-size:14px}
+.top a:hover{color:var(--accent)}
+.brand{display:flex;align-items:center;gap:10px;color:var(--text)!important;font-weight:800;letter-spacing:.02em}
+.brand img{width:36px;height:36px;border-radius:9px;background:#fff;object-fit:contain}
+h1{font-size:clamp(24px,4vw,34px);line-height:1.2;margin:0 0 10px}
+.meta{color:var(--muted);font-size:14px;margin-bottom:26px;padding:12px 16px;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+.meta b{color:var(--text)}
+h2{font-size:20px;margin:34px 0 10px;color:#fff}
+h2 .n{color:var(--accent);margin-right:6px}
+p,li{color:#d6d8e4}
+ol,ul{padding-left:22px}
+li{margin:5px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;margin:10px 0}
+.tw{overflow-x:auto}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--card);color:#fff}
+.fill{background:rgba(245,166,35,.14);color:var(--ball);padding:0 4px;border-radius:4px}
+.note{border-left:3px solid var(--accent);padding:10px 14px;background:var(--card);border-radius:0 10px 10px 0;margin:14px 0}
+.docs-nav{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-size:14px;display:flex;flex-wrap:wrap;gap:8px 18px}
+.docs-nav a{color:var(--muted)}
+.docs-nav a:hover{color:var(--accent)}
+a{color:#ff6f95}
+@media print{body{background:#fff;color:#000}p,li,td,th,h2,h1{color:#000!important}.meta,th,.note{background:#f3f3f3}.top,.docs-nav{display:none}.fill{background:#ffe9b3;color:#000}}

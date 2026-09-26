@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Кабинет игрока — Ping Point, настольный теннис в Брянске</title>
+<meta name="description" content="Личный кабинет игрока Ping Point: бронирования и коды доступа, объявления о поиске партнёра, отклики, статистика игр, документы и согласия.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0a0b16">
+<link rel="icon" href="../img/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="community.js"></script>
+<style>
+:root{
+  --bg:#07080f;
+  --bg-2:#0d0f1e;
+  --navy:#232740;
+  --navy-2:#1a1d33;
+  --line:rgba(160,170,255,.14);
+  --ink:#f2f3ff;
+  --muted:#9ea3c7;
+  --dim:#6d7299;
+  --bordo:#7C0C0B;
+  --neon:#ff2e63;
+  --neon-soft:rgba(255,46,99,.35);
+  --ball:#F5A623;
+  --ball-hot:#ffb938;
+  --violet:#8f9bff;
+  --green:#3dffa8;
+  --radius:22px;
+  --pad:clamp(16px,5vw,72px);
+  --maxw:1240px;
+  --display:"Unbounded","Montserrat","Arial Black",system-ui,sans-serif;
+  --text:"Manrope","Segoe UI",Roboto,Arial,system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:90px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--text);font-size:16px;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(50% 40% at 90% 0%,rgba(255,46,99,.10),transparent 70%),radial-gradient(40% 30% at 0% 10%,rgba(124,12,11,.22),transparent 70%)}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--ball-hot);outline-offset:3px;border-radius:6px}
+.wrap{max-width:var(--maxw);margin:0 auto;padding-inline:var(--pad)}
+[hidden]{display:none!important}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:12px;top:-60px;z-index:200;padding:10px 16px;border-radius:12px;background:var(--ball-hot);color:#111;font-weight:800;text-decoration:none}
+.skip:focus{top:12px}
+
+/* ---------- кнопки (как на главной) ---------- */
+.btn{--c:var(--neon);position:relative;display:inline-flex;align-items:center;justify-content:center;gap:.6em;padding:17px 30px;border-radius:999px;border:0;cursor:pointer;text-decoration:none;font-family:var(--display);font-weight:700;font-size:15px;letter-spacing:.02em;line-height:1.1;transition:transform .25s ease,background .25s ease,box-shadow .25s ease;white-space:nowrap}
+.btn-main{background:var(--neon);color:#fff;box-shadow:0 0 0 0 rgba(255,46,99,.6),0 10px 34px -8px rgba(255,46,99,.8);animation:pulse 2.6s ease-in-out infinite}
+.btn-main:hover{transform:translateY(-2px) scale(1.02);background:#ff4a78}
+.btn-main.calm{box-shadow:0 10px 30px -10px rgba(255,46,99,.8)}
+.btn-ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px rgba(242,243,255,.28)}
+.btn-ghost:hover{box-shadow:inset 0 0 0 1.5px var(--ball-hot),0 0 24px -4px rgba(255,170,40,.5);color:var(--ball-hot)}
+.btn-danger{background:rgba(255,46,99,.12);color:#ffd0dc;box-shadow:inset 0 0 0 1.5px var(--neon)}
+.btn-danger:hover{background:var(--neon);color:#fff}
+.btn-ok{background:rgba(61,255,168,.1);color:#c9ffe6;box-shadow:inset 0 0 0 1.5px rgba(61,255,168,.55)}
+.btn-ok:hover{background:rgba(61,255,168,.2)}
+.btn-sm{padding:12px 20px;font-size:13px}
+.btn-xs{padding:10px 16px;font-size:12.5px}
+@keyframes pulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(255,46,99,.55),0 10px 34px -8px rgba(255,46,99,.8)}
+  50%{box-shadow:0 0 0 12px rgba(255,46,99,0),0 10px 46px -4px rgba(255,46,99,1)}
+}
+
+/* ---------- шапка ---------- */
+.hdr{position:fixed;inset:0 0 auto 0;z-index:50;background:rgba(7,8,15,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line)}
+.hdr .wrap{display:flex;align-items:center;gap:22px;height:74px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;flex-shrink:0}
+.brand-logo{width:46px;height:46px;border-radius:14px;background:#fff;padding:4px;box-shadow:0 0 0 1px rgba(255,255,255,.2),0 0 22px -4px rgba(255,46,99,.7)}
+.brand-logo img{width:100%;height:100%;object-fit:contain}
+.brand b{font-family:var(--display);font-weight:900;font-size:17px;letter-spacing:.02em;line-height:1}
+.brand b span{color:var(--neon)}
+.brand small{display:block;font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-top:4px}
+.nav{display:flex;gap:22px;margin-left:auto}
+.nav a{white-space:nowrap;text-decoration:none;font-size:14px;font-weight:600;color:var(--muted);transition:color .2s}
+.nav a:hover{color:var(--ink)}
+.hdr .btn .short{display:none}
+
+/* ---------- общие ---------- */
+.eyebrow{display:inline-flex;align-items:center;gap:12px;font-size:12.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--neon);margin-bottom:12px}
+.eyebrow::before{content:"";width:28px;height:2px;background:var(--neon);box-shadow:0 0 10px var(--neon)}
+.h2{font-family:var(--display);font-weight:900;font-size:clamp(26px,4.2vw,52px);overflow-wrap:break-word;line-height:1.05;letter-spacing:-.02em;margin:0 0 20px}
+.muted{color:var(--muted)}
+.dim{color:var(--dim)}
+.card{position:relative;border-radius:var(--radius);background:linear-gradient(160deg,rgba(35,39,64,.55),rgba(13,15,30,.92));box-shadow:inset 0 0 0 1px var(--line);padding:clamp(18px,2.2vw,26px)}
+.acts{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.st{display:inline-flex;align-items:center;gap:7px;padding:5px 11px;border-radius:99px;font-size:12px;font-weight:800;letter-spacing:.04em;white-space:nowrap;background:rgba(255,255,255,.05);color:var(--muted);box-shadow:inset 0 0 0 1px var(--line)}
+.st::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;box-shadow:0 0 8px currentColor}
+.st.ok{color:var(--green);background:rgba(61,255,168,.07);box-shadow:inset 0 0 0 1px rgba(61,255,168,.35)}
+.st.warn{color:var(--ball-hot);background:rgba(245,166,35,.08);box-shadow:inset 0 0 0 1px rgba(245,166,35,.35)}
+.st.bad{color:#ff7a9a;background:rgba(255,46,99,.08);box-shadow:inset 0 0 0 1px rgba(255,46,99,.4)}
+.st.info{color:var(--violet);background:rgba(143,155,255,.08);box-shadow:inset 0 0 0 1px rgba(143,155,255,.35)}
+.st.mute{color:var(--dim)}
+.new-tag{display:inline-block;padding:3px 9px;border-radius:99px;background:var(--neon);color:#fff;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;box-shadow:0 0 14px -2px var(--neon)}
+.plaque{display:flex;gap:14px;align-items:center;flex-wrap:wrap;justify-content:space-between;padding:16px 18px;border-radius:18px;margin-bottom:20px;background:rgba(245,166,35,.07);box-shadow:inset 0 0 0 1px rgba(245,166,35,.35);color:#ffe2b0;font-size:14.5px;line-height:1.5}
+.plaque p{margin:0;flex:1 1 280px}
+.plaque b{color:#fff}
+.plaque.bad{background:rgba(255,46,99,.07);box-shadow:inset 0 0 0 1px rgba(255,46,99,.4);color:#ffd0dc}
+.plaque.info{background:rgba(143,155,255,.07);box-shadow:inset 0 0 0 1px rgba(143,155,255,.35);color:#d9ddff}
+.hint{font-size:13px;color:var(--dim);line-height:1.5;margin:0}
+.hint b{color:var(--muted)}
+
+/* ---------- страница кабинета ---------- */
+.cab{padding-top:106px;padding-bottom:20px;min-height:72vh}
+.cab-grid{display:grid;grid-template-columns:284px minmax(0,1fr);gap:28px;align-items:start}
+.side{position:sticky;top:96px;display:grid;gap:14px}
+.side-card{border-radius:var(--radius);padding:20px;background:radial-gradient(90% 70% at 100% 0%,rgba(255,46,99,.14),transparent 60%),linear-gradient(160deg,#171a33,#0c0d1a);box-shadow:inset 0 0 0 1px var(--line)}
+.side-me{display:flex;gap:14px;align-items:center;min-width:0}
+.side-me>div{min-width:0}
+.side-me b{display:block;font-family:var(--display);font-size:17px;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:6px}
+.side-meter{margin-top:18px}
+.side-meter .pp-row{font-size:13px;color:var(--muted);font-weight:600;margin-bottom:8px}
+.side-meter .pp-row b{font-family:var(--display);color:var(--ink);font-size:14px}
+.meter{height:8px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden}
+.meter i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--neon),var(--ball-hot));box-shadow:0 0 12px var(--neon);transition:width .5s ease}
+.side-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.side-foot a{font-size:13px;font-weight:700;color:var(--ball-hot);text-decoration:none}
+.side-foot a:hover{text-decoration:underline}
+.tabsnav{display:grid;gap:4px;padding:8px;border-radius:var(--radius);background:rgba(13,15,30,.7);box-shadow:inset 0 0 0 1px var(--line)}
+.tabsnav a{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:14px;text-decoration:none;color:var(--muted);font-weight:700;font-size:15px;transition:background .2s,color .2s,box-shadow .2s;white-space:nowrap}
+.tabsnav a svg{width:19px;height:19px;flex-shrink:0;opacity:.8}
+.tabsnav a:hover{color:var(--ink);background:rgba(255,255,255,.04)}
+.tabsnav a[aria-current=page]{background:rgba(255,46,99,.11);color:#fff;box-shadow:inset 0 0 0 1px rgba(255,46,99,.55),0 0 22px -10px var(--neon)}
+.tabsnav a[aria-current=page] svg{color:var(--neon);opacity:1}
+.tabsnav .pp-badge{margin-left:auto}
+.panel{min-width:0}
+.ph{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap;margin-bottom:22px}
+.ph-t{font-family:var(--display);font-weight:900;font-size:clamp(24px,3vw,38px);line-height:1.08;letter-spacing:-.015em;margin:0}
+.ph-t:focus{outline:none}
+.ph-l{color:var(--muted);margin:10px 0 0;max-width:640px;font-size:15.5px}
+.sec-t{font-family:var(--display);font-size:16px;font-weight:700;margin:30px 0 14px;display:flex;align-items:center;gap:10px}
+.sec-t small{font-family:var(--text);font-size:13px;color:var(--dim);font-weight:600}
+.list{display:grid;gap:14px}
+.pp-ava{display:block}
+.pp-chips{align-items:flex-start}
+.pp-fs{align-content:start}
+.loading-box{padding:40px;text-align:center;color:var(--dim)}
+
+/* пустые состояния */
+.empty{text-align:center;padding:clamp(28px,5vw,48px) 22px}
+.empty-ball{width:58px;height:58px;margin:0 auto 18px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff6dd 0 12%,var(--ball-hot) 30%,#c77a10 100%);box-shadow:0 0 30px -4px rgba(255,170,40,.7)}
+.empty h2{font-family:var(--display);font-size:20px;margin:0 0 8px}
+.empty p{color:var(--muted);margin:0 auto 20px;max-width:440px;font-size:15px}
+.empty .acts{justify-content:center}
+
+/* ---------- гость ---------- */
+.gst{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(24px,4vw,60px);align-items:start;padding-top:clamp(10px,3vw,40px)}
+.gst h1{font-family:var(--display);font-weight:900;font-size:clamp(34px,4.6vw,62px);line-height:1.02;letter-spacing:-.02em;margin:0 0 18px}
+.gst-lead{font-size:clamp(16px,1.3vw,18px);color:#c9cbe6;max-width:520px;margin:0 0 30px}
+.feats{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.feats li{display:flex;gap:16px;align-items:flex-start;padding:16px 18px;border-radius:18px;background:rgba(255,255,255,.025);box-shadow:inset 0 0 0 1px var(--line)}
+.feats i{flex-shrink:0;width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:rgba(255,46,99,.1);color:var(--neon);box-shadow:inset 0 0 0 1px rgba(255,46,99,.35)}
+.feats li:nth-child(2) i{background:rgba(143,155,255,.1);color:var(--violet);box-shadow:inset 0 0 0 1px rgba(143,155,255,.35)}
+.feats li:nth-child(3) i{background:rgba(61,255,168,.08);color:var(--green);box-shadow:inset 0 0 0 1px rgba(61,255,168,.3)}
+.feats li:nth-child(4) i{background:rgba(245,166,35,.08);color:var(--ball-hot);box-shadow:inset 0 0 0 1px rgba(245,166,35,.3)}
+.feats svg{width:20px;height:20px}
+.feats b{display:block;font-size:16px;margin-bottom:2px}
+.feats span{color:var(--muted);font-size:14.5px;line-height:1.5}
+.auth-card{border-radius:26px;padding:clamp(22px,3vw,34px);background:radial-gradient(90% 50% at 100% 0%,rgba(255,46,99,.14),transparent 60%),#0f1124;box-shadow:0 0 0 1.5px rgba(255,46,99,.55),0 0 70px -20px rgba(255,46,99,.5)}
+.auth-card h2{font-family:var(--display);font-size:22px;margin:0 0 6px}
+.auth-card>p{color:var(--muted);margin:0 0 22px;font-size:14.5px}
+
+/* ---------- блокировка ---------- */
+.lock{max-width:760px;margin:clamp(10px,3vw,40px) auto 0;padding:clamp(24px,4vw,44px);border-radius:26px;background:radial-gradient(90% 60% at 100% 0%,rgba(255,46,99,.14),transparent 60%),#0f1124;box-shadow:0 0 0 1.5px rgba(255,46,99,.5),0 0 70px -20px rgba(255,46,99,.5)}
+.lock h1{font-family:var(--display);font-weight:900;font-size:clamp(24px,3.4vw,40px);line-height:1.1;margin:0 0 16px}
+.lock p{color:#c9cbe6;margin:0 0 14px}
+.lock .acts{margin-top:26px}
+
+/* ---------- профиль ---------- */
+.prof{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:18px;align-items:start}
+.prof-main{display:grid;gap:18px;min-width:0}
+.prof-photo{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+.prof-photo h2,.meter-card h2{font-family:var(--display);font-size:16px;margin:0 0 4px}
+.prof-photo .acts{margin-top:14px}
+.frm-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}
+.frm-grid>.pp-f{min-width:0}
+.pfx{position:relative}
+.pfx>span{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--dim);font-weight:700;pointer-events:none}
+.pfx .pp-i{padding-left:34px}
+.pp-i[readonly]{color:var(--muted);background:rgba(255,255,255,.02)}
+.form-foot{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:6px}
+.saved-note{font-size:13.5px;color:var(--green);font-weight:700}
+.meter-card{position:sticky;top:96px}
+.meter-big{display:flex;align-items:baseline;gap:8px;margin:6px 0 12px}
+.meter-big b{font-family:var(--display);font-size:40px;font-weight:900;line-height:1;background:linear-gradient(90deg,var(--neon),var(--ball-hot));-webkit-background-clip:text;background-clip:text;color:transparent}
+.miss-list{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:6px}
+.miss-list button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;border:0;cursor:pointer;background:rgba(255,255,255,.035);box-shadow:inset 0 0 0 1px var(--line);font-size:14px;font-weight:600;color:#d0d2ea;text-align:left}
+.miss-list button:hover{box-shadow:inset 0 0 0 1px var(--ball-hot);color:#fff}
+.miss-list small{font-weight:800;color:var(--ball-hot)}
+.full-note{margin-top:14px;padding:12px 14px;border-radius:12px;background:rgba(61,255,168,.07);box-shadow:inset 0 0 0 1px rgba(61,255,168,.3);color:#c9ffe6;font-size:14px}
+
+/* ---------- объявления ---------- */
+.post{display:grid;grid-template-columns:96px minmax(0,1fr);gap:20px}
+.post-ph{width:96px;height:96px;border-radius:24px;object-fit:cover;background:#0b0c18;box-shadow:0 0 0 1px var(--line)}
+.post-top{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin-bottom:8px;font-size:13px;color:var(--dim)}
+.post-t{font-family:var(--display);font-size:16px;font-weight:700;line-height:1.35;margin:0 0 8px}
+.post-x{margin:0 0 12px;color:#d0d2ea;font-size:15px;overflow-wrap:anywhere}
+.post-meta{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13.5px;color:var(--muted);margin-bottom:14px}
+.post-meta a{color:var(--ball-hot);font-weight:700}
+.post-note{font-size:13px;color:var(--dim);margin:-6px 0 14px}
+
+/* форма объявления */
+.pf .pp-fs{margin-bottom:20px}
+.pf-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.pf-photo{display:flex;gap:16px;align-items:center;padding:14px;border-radius:16px;background:rgba(255,255,255,.025);box-shadow:inset 0 0 0 1px var(--line);margin-bottom:20px}
+.pf-photo img{width:72px;height:72px;border-radius:20px;object-fit:cover;flex-shrink:0;background:#0b0c18}
+.pf-photo b{display:block;font-size:14.5px}
+.pf-photo .acts{margin-top:8px;gap:8px 14px}
+.privacy{padding:18px;border-radius:18px;background:rgba(143,155,255,.05);box-shadow:inset 0 0 0 1px rgba(143,155,255,.25);margin-bottom:16px}
+.privacy h3{font-family:var(--display);font-size:15px;margin:0 0 4px}
+.privacy>p{margin:0 0 14px;font-size:13.5px;color:var(--muted)}
+.privacy .pp-tog{background:rgba(7,8,15,.35)}
+.preview{display:flex;gap:12px;align-items:center;margin-top:14px;padding:12px 14px;border-radius:14px;background:rgba(7,8,15,.45);box-shadow:inset 0 0 0 1px var(--line);font-size:13.5px;color:var(--muted)}
+.preview img{width:44px;height:44px;border-radius:14px;object-fit:cover;flex-shrink:0}
+.preview b{color:var(--ink);font-size:14.5px}
+.preview small{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);font-weight:800;margin-bottom:2px}
+
+/* ---------- отклики ---------- */
+.resp-h{display:flex;gap:14px;align-items:center;margin-bottom:14px}
+.resp-h>div{flex:1;min-width:0}
+.resp-h b{font-size:17px}
+.resp-sub{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:center;font-size:13px;color:var(--dim);margin-top:2px}
+.resp-post{font-size:13.5px;color:var(--muted);margin:0 0 10px}
+.resp-post b{color:#d0d2ea;font-weight:700}
+.resp-msg{margin:0 0 12px;padding:14px 16px;border-radius:16px 16px 16px 4px;background:rgba(255,255,255,.04);box-shadow:inset 0 0 0 1px var(--line);font-size:15px;color:#e2e3f6;overflow-wrap:anywhere}
+.resp-when{display:flex;gap:8px;align-items:center;margin:0 0 16px;font-size:14px;color:var(--muted)}
+.resp-when svg{width:17px;height:17px;color:var(--ball-hot);flex-shrink:0}
+.resp-when b{color:var(--ink)}
+.resp-ok{display:grid;gap:12px;padding:16px;border-radius:16px;background:rgba(61,255,168,.045);box-shadow:inset 0 0 0 1px rgba(61,255,168,.25)}
+.resp-ok>p{margin:0;font-size:14px;color:#c9ffe6}
+.played{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:700;color:var(--green)}
+.played svg{width:17px;height:17px}
+
+/* ---------- статистика ---------- */
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.stat{padding:22px 20px;border-radius:var(--radius);background:linear-gradient(160deg,rgba(35,39,64,.6),rgba(13,15,30,.92));box-shadow:inset 0 0 0 1px var(--line)}
+.stat b{display:block;font-family:var(--display);font-weight:900;font-size:clamp(30px,3.4vw,44px);line-height:1;margin-bottom:10px;color:var(--ink);text-shadow:0 0 22px rgba(255,46,99,.35)}
+.stat:nth-child(2) b{text-shadow:0 0 22px rgba(143,155,255,.45)}
+.stat:nth-child(3) b{text-shadow:0 0 22px rgba(61,255,168,.35)}
+.stat:nth-child(4) b{text-shadow:0 0 22px rgba(255,170,40,.4)}
+.stat span{font-size:14px;color:var(--muted);font-weight:600}
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.bdg{display:flex;gap:14px;align-items:flex-start;padding:18px;border-radius:18px;background:rgba(255,255,255,.02);box-shadow:inset 0 0 0 1px var(--line);opacity:.55;filter:saturate(.2)}
+.bdg.got{opacity:1;filter:none;background:radial-gradient(80% 90% at 0% 0%,rgba(245,166,35,.12),transparent 70%),rgba(255,255,255,.03);box-shadow:inset 0 0 0 1px rgba(245,166,35,.4),0 0 30px -16px var(--ball)}
+.bdg i{flex-shrink:0;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.05);color:var(--dim);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.12)}
+.bdg.got i{background:radial-gradient(circle at 35% 30%,#fff6dd 0 10%,var(--ball-hot) 35%,#c77a10 100%);color:#3b2400;box-shadow:0 0 18px -2px rgba(255,170,40,.8)}
+.bdg svg{width:22px;height:22px}
+.bdg b{display:block;font-size:15px;margin-bottom:2px}
+.bdg span{display:block;font-size:13px;color:var(--muted);line-height:1.45}
+.bdg em{display:inline-block;margin-top:6px;font-style:normal;font-size:12px;font-weight:800;color:var(--ball-hot)}
+
+/* ---------- бронирования ---------- */
+.cbk{display:grid;grid-template-columns:150px minmax(0,1fr);gap:22px;align-items:start}
+.cbk-date{padding:16px 14px;border-radius:18px;text-align:center;background:rgba(255,46,99,.07);box-shadow:inset 0 0 0 1px rgba(255,46,99,.35)}
+.cbk.past .cbk-date{background:rgba(255,255,255,.03);box-shadow:inset 0 0 0 1px var(--line)}
+.cbk-date b{display:block;font-family:var(--display);font-size:17px;line-height:1.2}
+.cbk-date span{display:block;font-family:var(--display);font-size:14px;color:var(--ball-hot);margin-top:6px}
+.cbk.past .cbk-date span{color:var(--muted)}
+.cbk-top{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-bottom:10px}
+.cbk-num{font-size:13px;color:var(--dim);font-weight:700;letter-spacing:.04em}
+.cbk-facts{display:flex;flex-wrap:wrap;gap:6px 20px;margin:0 0 12px;padding:0;list-style:none;font-size:14.5px;color:#d0d2ea}
+.cbk-facts b{font-family:var(--display);font-size:15px}
+.cbk-code{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-bottom:14px;font-size:14px;color:var(--muted)}
+.cbk-code code{font-family:var(--display);letter-spacing:.3em;color:var(--dim)}
+.cbk-hint{font-size:13px;color:var(--dim);margin:10px 0 0;line-height:1.5}
+.cbk-hint.warn{color:#ffd79a}
+.cbk-intro{display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:6px}
+.cbk-intro p{margin:0;flex:1 1 320px;font-size:14.5px;color:var(--muted)}
+.cbk-intro a{color:var(--ball-hot)}
+.more-btn{justify-self:start}
+.code-box{text-align:center}
+.code-box .code{font-family:var(--display);font-weight:900;font-size:40px;letter-spacing:.3em;padding-left:.3em;margin:6px 0 16px;color:#fff;text-shadow:0 0 22px rgba(255,46,99,.6)}
+.code-box svg{margin:0 auto 16px;border-radius:12px}
+
+/* ---------- документы ---------- */
+.doc-h{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap;margin-bottom:8px}
+.doc-h h3{font-family:var(--display);font-size:16px;line-height:1.35;margin:0;flex:1 1 260px}
+.doc-meta{font-size:13.5px;color:var(--dim);margin:0 0 6px}
+.doc-my{font-size:14px;color:#d0d2ea;margin:0 0 12px}
+.cond{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px;padding:0;list-style:none}
+.cond li{padding:6px 12px;border-radius:99px;font-size:13px;font-weight:700;background:rgba(255,255,255,.04);box-shadow:inset 0 0 0 1px var(--line);color:var(--muted)}
+.cond li.on{color:#c9ffe6;box-shadow:inset 0 0 0 1px rgba(61,255,168,.35)}
+.data-card h2{font-family:var(--display);font-size:18px;margin:0 0 8px}
+.data-card>p{color:var(--muted);font-size:14.5px;margin:0 0 18px}
+.cf p{margin:0 0 12px;color:#c9cbe6;font-size:15px}
+.cf ul{margin:0 0 16px;padding-left:20px;color:#c9cbe6;font-size:14.5px;display:grid;gap:6px}
+.cf .warnbox{padding:12px 14px;border-radius:12px;background:rgba(245,166,35,.08);box-shadow:inset 0 0 0 1px rgba(245,166,35,.35);color:#ffe2b0;font-size:14px;margin:0 0 16px}
+
+/* ---------- подвал ---------- */
+.ftr{padding:60px 0 36px;border-top:1px solid var(--line);margin-top:clamp(60px,8vw,110px);background:#05060c}
+.ftr-grid{display:grid;grid-template-columns:1.3fr 1.1fr .9fr 1.1fr;gap:36px}
+.ftr h4{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:0 0 16px}
+.ftr ul{list-style:none;margin:0;padding:0;display:grid;gap:9px;font-size:15px}
+.ftr a{text-decoration:none;color:#c6c8e2}
+.ftr a:hover{color:var(--ball-hot)}
+.ftr-about{color:var(--muted);font-size:14.5px;margin:18px 0 0;max-width:300px}
+.ftr-req{font-size:13.5px;color:var(--dim);line-height:1.7}
+.ftr-bottom{margin-top:44px;padding-top:22px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--dim)}
+.ftr-bottom a{color:var(--dim)}
+
+/* ---------- адаптив ---------- */
+@media (max-width:1180px){
+  .prof{grid-template-columns:minmax(0,1fr)}
+  .meter-card{position:static;order:-1}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:1099px){
+  .nav{display:none}
+  .hdr .cab-btn{margin-left:auto}
+  .ftr-grid{grid-template-columns:1fr 1fr}
+  .gst{grid-template-columns:minmax(0,1fr);gap:0}
+  .gst>div:first-child{display:contents}
+  .gst .auth-card{order:1;margin-bottom:28px}
+  .gst .feats{order:2}
+  .gst-lead{margin-bottom:22px}
+}
+@media (max-width:900px){
+  .cab{padding-top:88px}
+  .cab-grid{grid-template-columns:minmax(0,1fr);gap:14px}
+  .side{display:contents}
+  .side-card{padding:16px}
+  .side-meter{margin-top:14px}
+  .tabsnav{position:sticky;top:64px;z-index:20;display:flex;overflow-x:auto;scrollbar-width:none;gap:6px;padding:8px;margin-inline:calc(var(--pad) * -1);border-radius:0;background:rgba(7,8,15,.9);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--line),0 -1px 0 var(--line);scroll-padding-inline:16px}
+  .tabsnav::-webkit-scrollbar{display:none}
+  .tabsnav a{flex-shrink:0;padding:9px 14px;font-size:14px;gap:8px}
+  .tabsnav a svg{width:16px;height:16px}
+  .tabsnav .pp-badge{margin-left:2px}
+  .panel{padding-top:8px}
+}
+@media (max-width:640px){
+  body{font-size:15.5px}
+  html{scroll-padding-top:130px}
+  .hdr .wrap{height:64px;gap:10px}
+  .brand-logo{width:40px;height:40px;border-radius:12px}
+  .brand b{font-size:15px}
+  .brand small{display:none}
+  .hdr .btn{padding:11px 14px;font-size:12px}
+  .hdr .btn .long{display:none}
+  .hdr .btn .short{display:inline}
+  .cab{padding-top:80px}
+  .frm-grid,.pf-row{grid-template-columns:minmax(0,1fr)}
+  .pf .pp-chips.days{flex-wrap:nowrap;gap:5px}
+  .pf .pp-chips.days .pp-chip{flex:1 1 0;min-width:0}
+  .pf .pp-chips.days .pp-chip span{min-width:0;width:100%}
+  .pf-row .pp-fs{margin-bottom:12px}
+  .post{grid-template-columns:64px minmax(0,1fr);gap:14px}
+  .post-ph{width:64px;height:64px;border-radius:18px}
+  .cbk{grid-template-columns:minmax(0,1fr);gap:14px}
+  .cbk-date{display:flex;justify-content:space-between;align-items:baseline;text-align:left;padding:12px 16px}
+  .cbk-date span{margin-top:0}
+  .stats{gap:10px}
+  .stat{padding:18px 16px}
+  .acts .btn{flex:1 1 auto}
+  .panel .btn,.lock .btn{white-space:normal;text-align:center}
+  .ph .btn{flex:1 1 100%}
+  .ftr-grid{grid-template-columns:1fr}
+  .prof-photo{gap:16px}
+  .lock .acts .btn{flex:1 1 100%}
+  .pp-cookie{bottom:calc(12px + env(safe-area-inset-bottom))}
+  .pp-toasts{bottom:calc(12px + env(safe-area-inset-bottom))}
+}
+@media (max-width:319px){
+  .hdr .btn{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">К содержимому кабинета</a>
+
+<header class="hdr" id="hdr">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="Ping Point — на главную">
+      <span class="brand-logo"><img src="../img/logo.jpg" alt="Логотип Ping Point" width="46" height="46"></span>
+      <span><b>PING <span>POINT</span></b><small>Брянск · ТРЦ «Мельница»</small></span>
+    </a>
+    <nav class="nav" aria-label="Сайт">
+      <a href="index.html">На главную</a>
+      <a href="index.html#partners">Найти партнёра</a>
+    </nav>
+    <a class="cab-btn" id="cabBtn" href="#profile">Кабинет</a>
+    <button class="btn btn-main btn-sm" type="button" data-book aria-label="Забронировать стол"><span class="long">Забронировать</span><span class="short">Бронь</span></button>
+  </div>
+</header>
+
+<main class="cab wrap" id="main" tabindex="-1">
+  <!-- гость -->
+  <section id="guestView" hidden aria-labelledby="gstTitle">
+    <div class="gst">
+      <div>
+        <span class="eyebrow">Личный кабинет</span>
+        <h1 id="gstTitle">Кабинет игрока</h1>
+        <p class="gst-lead">Всё про ваши игры в одном месте. Вход по номеру телефона — без паролей.</p>
+        <ul class="feats">
+          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></i><div><b>Брони и коды доступа</b><span>Ближайшие игры, код на вход и QR, отмена и перенос по правилам оферты, повтор брони в пару нажатий.</span></div></li>
+          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><circle cx="17" cy="9" r="2.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M15 14.5a5 5 0 0 1 6.5 5"/></svg></i><div><b>Поиск партнёров</b><span>Объявления «ищу, с кем поиграть» — вы сами решаете, что показывать в ленте: фото, возраст, уровень.</span></div></li>
+          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></i><div><b>Отклики и контакты</b><span>Принимаете отклик — и вы с партнёром видите контакты друг друга. Стол можно сразу забронировать вместе.</span></div></li>
+          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg></i><div><b>Документы и согласия</b><span>Какие согласия вы дали и когда, отзыв в один клик, выгрузка своих данных.</span></div></li>
+        </ul>
+      </div>
+      <div class="auth-card">
+        <h2>Вход и регистрация</h2>
+        <p>Введите номер — пришлём код. Новый номер — создадим кабинет.</p>
+        <div id="authBox"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- профиль в очереди на удаление -->
+  <section id="deletedView" hidden aria-labelledby="delTitle"></section>
+
+  <!-- кабинет -->
+  <div id="appView" class="cab-grid" hidden>
+    <aside class="side" aria-label="Профиль и разделы кабинета">
+      <div class="side-card" id="sideCard"></div>
+      <nav class="tabsnav" id="tabsNav" aria-label="Разделы кабинета"></nav>
+    </aside>
+    <div class="panel" id="panel" aria-live="off"></div>
+  </div>
+</main>
+
+<footer class="ftr">
+  <div class="wrap">
+    <div class="ftr-grid">
+      <div>
+        <a class="brand" href="index.html"><span class="brand-logo"><img src="../img/logo.jpg" alt="" width="46" height="46"></span><span><b>PING <span>POINT</span></b><small>настольный теннис</small></span></a>
+        <p class="ftr-about">Комната для настольного тенниса на одну компанию. Брянск, ул. Красноармейская, 100, ТРЦ «Мельница», 4 этаж, офис 422.</p>
+      </div>
+      <div>
+        <h4>Документы</h4>
+        <ul id="ftrDocs"></ul>
+      </div>
+      <div>
+        <h4>Связь</h4>
+        <ul>
+          <li><a href="tel:+79036447653">+7 903 644-76-53</a></li>
+          <li><a href="mailto:pingp-inf@bk.ru">pingp-inf@bk.ru</a></li>
+          <li><a href="https://t.me/PingP32" target="_blank" rel="noopener">Telegram</a></li>
+          <li><a href="https://vk.com/pingp32" target="_blank" rel="noopener">ВКонтакте</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Реквизиты</h4>
+        <div class="ftr-req">ИП Исаков Игорь Константинович<br>ИНН 323407837462<br>ОГРНИП 325320000017817<br>Ежедневно 10:00–20:30</div>
+      </div>
+    </div>
+    <div class="ftr-bottom">
+      <span>© <span id="year">2026</span> Ping Point, Брянск</span>
+      <span><a href="index.html">На главную</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+'use strict';
+const C = window.CommunityAPI, B = window.BookingAPI, P = window.PP, U = window.PPUI;
+const esc = P.esc;
+const $ = (s, c) => (c || document).querySelector(s);
+const $$ = (s, c) => Array.prototype.slice.call((c || document).querySelectorAll(s));
+const pad2 = n => (n < 10 ? '0' : '') + n;
+const PHONE = '+7 903 644-76-53';
+
+/* ---------- иконки ---------- */
+const svg = (d, extra) => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"' + (extra || '') + '>' + d + '</svg>';
+const IC = {
+  profile: svg('<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>'),
+  posts: svg('<path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/>'),
+  incoming: svg('<path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.5 5h13L22 12v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-6z"/>'),
+  mine: svg('<path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/>'),
+  stats: svg('<path d="M4 20V11M10 20V4M16 20v-7M22 20H2"/>'),
+  bookings: svg('<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>'),
+  docs: svg('<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/>'),
+  clock: svg('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'),
+  check: svg('<path d="M20 6 9 17l-5-5"/>'),
+  star: svg('<path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"/>'),
+  send: svg('<path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/>'),
+  users: svg('<circle cx="9" cy="8" r="3.5"/><circle cx="17" cy="9" r="2.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M15 14.5a5 5 0 0 1 6.5 5"/>'),
+  five: svg('<circle cx="12" cy="12" r="9"/><path d="M14.5 7.5h-4l-.5 4a3 3 0 1 1-1 3.5"/>')
+};
+const TABS = [
+  ['profile', 'Профиль'],
+  ['posts', 'Мои объявления'],
+  ['incoming', 'Отклики мне'],
+  ['mine', 'Мои отклики'],
+  ['stats', 'Статистика'],
+  ['bookings', 'Мои бронирования'],
+  ['docs', 'Документы и согласия']
+];
+const TAB_IDS = TABS.map(t => t[0]);
+
+/* ---------- состояние ---------- */
+let tab = 'profile', mode = null, me = null;
+let renderSeq = 0, renderTimer = 0, held = false, profDirty = false, openNewAfter = false, showAllPast = false;
+const fresh = { incoming: null, mine: null };
+const guestView = $('#guestView'), deletedView = $('#deletedView'), appView = $('#appView');
+const panel = $('#panel'), sideCard = $('#sideCard'), tabsNav = $('#tabsNav');
+
+/* ---------- утилиты ---------- */
+function fmtDate(ts) { const d = new Date(ts); return pad2(d.getDate()) + '.' + pad2(d.getMonth() + 1) + '.' + d.getFullYear(); }
+function fmtDT(ts) { const d = new Date(ts); return fmtDate(ts) + ' в ' + pad2(d.getHours()) + ':' + pad2(d.getMinutes()); }
+function longDate(ts) { const d = new Date(ts); return d.getDate() + ' ' + P.MONTH_G[d.getMonth()] + ' ' + d.getFullYear(); }
+function verDate(s) { return String(s).split('-').reverse().join('.'); }
+function errText(x) {
+  if (!x) return 'Что-то пошло не так. Попробуйте ещё раз.';
+  if (x.code === 'QUOTA') return x.message || 'Не хватает места в памяти браузера. Попробуйте фото поменьше или удалите старые объявления.';
+  if (x.code === 'AUTH') return 'Сессия закончилась — войдите снова.';
+  return x.message || 'Что-то пошло не так. Попробуйте ещё раз.';
+}
+function toastErr(x) { U.toast(errText(x), { kind: 'err' }); if (x && x.code === 'AUTH') scheduleRender(true); }
+function busy(btn, on) { if (!btn) return; btn.classList.toggle('loading', !!on); btn.disabled = !!on; }
+function settings() { try { return B.settings(); } catch (e) { return { cancelHours: 3, minLeadMin: 60 }; } }
+
+/* Бронирование — через booking.js (подключается в конце страницы) */
+function noBooking() { U.toast('Онлайн-бронь сейчас не открылась. Обновите страницу или позвоните: ' + PHONE, { kind: 'err', ms: 9000 }); }
+function openBooking(o) { if (window.PPBooking && typeof window.PPBooking.open === 'function') window.PPBooking.open(o); else noBooking(); }
+document.addEventListener('click', e => {
+  const b = e.target.closest && e.target.closest('[data-book]');
+  if (b && !window.PPBooking) { e.preventDefault(); noBooking(); }
+});
+
+/* ---------- модалка-подтверждение ---------- */
+function confirmSheet(o) {
+  const box = document.createElement('div');
+  box.innerHTML = '<div class="cf">' + o.html + '</div><div class="pp-e" role="alert"></div>' +
+    '<div class="pp-sheet-foot"><button class="btn btn-sm ' + (o.danger ? 'btn-danger' : 'btn-main calm') + '" type="button" data-ok>' + esc(o.ok) + '</button>' +
+    '<button class="btn btn-ghost btn-sm" type="button" data-no autofocus>' + esc(o.cancel || 'Отмена') + '</button></div>';
+  const sh = U.sheet({ title: o.title, sub: o.sub, body: box, width: o.width || 540 });
+  const ok = box.querySelector('[data-ok]'), er = box.querySelector('.pp-e');
+  box.querySelector('[data-no]').addEventListener('click', () => sh.close('no'));
+  ok.addEventListener('click', async () => {
+    busy(ok, true); er.textContent = '';
+    try { await o.onOk(); sh.close('ok'); }
+    catch (x) { er.textContent = errText(x); busy(ok, false); }
+  });
+  if (o.bind) o.bind(box, sh);
+  return sh;
+}
+
+/* =====================================================================
+   Режимы: гость / удаление / кабинет
+   ===================================================================== */
+function setMode(m) {
+  if (mode === m) return false;
+  mode = m;
+  guestView.hidden = m !== 'guest'; deletedView.hidden = m !== 'deleted'; appView.hidden = m !== 'app';
+  return true;
+}
+
+function showGuest() {
+  if (!setMode('guest')) return;
+  fresh.incoming = fresh.mine = null; profDirty = false;
+  document.title = 'Кабинет игрока — вход · Ping Point';
+  U.authForm($('#authBox'), {
+    context: 'registration',
+    onDone: (u, isNew) => {
+      U.toast(isNew ? 'Кабинет создан. Добро пожаловать, ' + u.name + '!' : 'С возвращением, ' + u.name + '!', { kind: 'ok' });
+      if (isNew && !location.hash) history.replaceState(null, '', '#profile');
+      scheduleRender(true);
+      setTimeout(() => U.checkDocUpdates(), 400);
+      window.scrollTo(0, 0);
+    }
+  });
+}
+
+function showDeleted() {
+  setMode('deleted');
+  document.title = 'Профиль ожидает удаления · Ping Point';
+  const d = me.deletion;
+  const why = d.reason === 'revoke_pd' ? 'Вы отозвали согласие на обработку персональных данных.' : 'Вы запросили удаление профиля.';
+  const sig = d.until + '|' + me.name;
+  if (deletedView.dataset.sig === sig) return;
+  deletedView.dataset.sig = sig;
+  deletedView.innerHTML =
+    '<div class="lock">' +
+      '<span class="eyebrow">Кабинет заблокирован</span>' +
+      '<h1 id="delTitle">Профиль будет удалён ' + esc(longDate(d.until)) + '</h1>' +
+      '<p>' + esc(why) + ' Объявления сняты с публикации, профиль не виден другим игрокам, функции кабинета недоступны.</p>' +
+      '<p>До этой даты можно передумать — профиль, объявления в архиве и история броней вернутся. После — данные будут уничтожены. Журнал согласий хранится отдельно, как этого требует закон.</p>' +
+      '<div class="acts">' +
+        '<button class="btn btn-main calm" type="button" data-act="restore">Передумал — восстановить профиль</button>' +
+        '<button class="btn btn-ghost btn-sm" type="button" data-act="export">Скачать мои данные</button>' +
+        '<button class="btn btn-ghost btn-sm" type="button" data-act="logout">Выйти</button>' +
+      '</div>' +
+    '</div>';
+}
+
+/* =====================================================================
+   Рендер
+   ===================================================================== */
+function scheduleRender(force) {
+  clearTimeout(renderTimer);
+  renderTimer = setTimeout(() => render({ force: !!force }), 40);
+}
+function fieldFocused() {
+  const a = document.activeElement;
+  return !!a && panel.contains(a) && /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName) && a.type !== 'file' && a.type !== 'checkbox' && a.type !== 'radio';
+}
+async function render(opts) {
+  opts = opts || {};
+  me = C.meSync();
+  if (!me) { ++renderSeq; showGuest(); return; }
+  if (me.deletion) { ++renderSeq; showDeleted(); return; }
+  const entered = setMode('app');
+  renderSide();
+  /* пока человек печатает в поле этой же вкладки — панель не трогаем, обновим после ухода фокуса */
+  if (!opts.force && !entered && panel.dataset.tab === tab && fieldFocused()) { held = true; renderNav(renderSeq); return; }
+  const seq = ++renderSeq;
+  renderNav(seq);
+  held = false;
+  await renderPanel(seq, opts.focus);
+}
+panel.addEventListener('focusout', () => { setTimeout(() => { if (held && !fieldFocused()) scheduleRender(); }, 60); });
+
+function renderSide() {
+  const c = me.completeness;
+  sideCard.innerHTML =
+    '<div class="side-me">' + U.ava(me, 60) + '<div><b title="' + esc(me.name) + '">' + esc(me.name) + '</b>' + (me.level ? U.levelPill(me.level) : '<span class="hint">Уровень не указан</span>') + '</div></div>' +
+    '<div class="side-meter"><div class="pp-row"><span>Профиль заполнен</span><b>' + c.pct + '%</b></div>' +
+    '<div class="meter" role="progressbar" aria-label="Заполненность профиля" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + c.pct + '"><i style="width:' + c.pct + '%"></i></div></div>' +
+    '<div class="side-foot">' + (c.pct < 100 ? '<a href="#profile">Дополнить профиль</a>' : '<span class="hint">' + esc(me.phone) + '</span>') + '<button class="pp-link" type="button" data-act="logout">Выйти</button></div>';
+}
+
+async function renderNav(seq) {
+  let inc = 0, mine = 0;
+  if (me.docsOk) {
+    try {
+      const [a, b] = await Promise.all([C.listResponsesToMe(), C.listMyResponses()]);
+      inc = a.filter(r => r.unseen).length; mine = b.filter(r => r.unseen).length;
+    } catch (e) {}
+  }
+  if (seq !== renderSeq) return;
+  const badge = { incoming: inc, mine: mine };
+  const cur = tabsNav.querySelector('[aria-current]');
+  const hadFocus = cur && cur === document.activeElement;
+  const fKey = document.activeElement && tabsNav.contains(document.activeElement) ? document.activeElement.getAttribute('href') : null;
+  tabsNav.innerHTML = TABS.map(t => '<a href="#' + t[0] + '"' + (t[0] === tab ? ' aria-current="page"' : '') + '>' + IC[t[0]] + '<span>' + esc(t[1]) + '</span>' +
+    (badge[t[0]] ? '<span class="pp-badge" aria-label="новых: ' + badge[t[0]] + '">' + badge[t[0]] + '</span>' : '') + '</a>').join('');
+  if (fKey) { const el = tabsNav.querySelector('[href="' + fKey + '"]'); if (el) el.focus({ preventScroll: true }); }
+  else if (hadFocus) { const el = tabsNav.querySelector('[aria-current]'); if (el) el.focus({ preventScroll: true }); }
+  centerTab();
+}
+function centerTab() {
+  const a = tabsNav.querySelector('[aria-current]');
+  if (!a || tabsNav.scrollWidth <= tabsNav.clientWidth) return;
+  tabsNav.scrollLeft = a.offsetLeft - (tabsNav.clientWidth - a.offsetWidth) / 2;
+}
+
+const PANELS = { profile: pProfile, posts: pPosts, incoming: pIncoming, mine: pMine, stats: pStats, bookings: pBookings, docs: pDocs };
+async function renderPanel(seq, focusTitle) {
+  const act = document.activeElement;
+  const key = act && panel.contains(act) ? (act.getAttribute('data-k') || act.id || '__title') : null;
+  const snap = tab === 'profile' && profDirty ? readProf() : null;
+  let html;
+  try {
+    const lockedTab = !me.docsOk && tab !== 'docs';
+    html = (lockedTab ? lockedHTML() : await PANELS[tab]());
+    html = docsPlaque() + html;
+  } catch (x) {
+    if (x && (x.code === 'AUTH' || x.code === 'DELETION')) { if (seq === renderSeq) scheduleRender(true); return; }
+    html = '<div class="card empty"><div class="empty-ball" aria-hidden="true"></div><h2>Не получилось загрузить раздел</h2><p>' + esc(errText(x)) + '</p><div class="acts"><button class="btn btn-ghost btn-sm" type="button" data-act="reload">Попробовать снова</button></div></div>';
+  }
+  if (seq !== renderSeq) return;
+  panel.innerHTML = html;
+  panel.dataset.tab = tab;
+  const after = AFTER[tab]; if (after && (me.docsOk || tab === 'docs')) after();
+  if (snap) fillProf(snap);
+  if (focusTitle) { const t = $('#panelTitle'); if (t) t.focus({ preventScroll: true }); }
+  else if (key) {
+    let el = key !== '__title' ? (panel.querySelector('[data-k="' + CSS.escape(key) + '"]') || document.getElementById(key)) : null;
+    if (!el || !panel.contains(el)) el = $('#panelTitle');
+    if (el) el.focus({ preventScroll: true });
+  }
+  if (openNewAfter && tab === 'posts') { openNewAfter = false; setTimeout(() => openPostForm(null, 'new'), 50); }
+}
+
+function head(eyebrow, title, lead, right) {
+  return '<header class="ph"><div><span class="eyebrow">' + eyebrow + '</span><h1 class="ph-t" id="panelTitle" tabindex="-1">' + title + '</h1>' + (lead ? '<p class="ph-l">' + lead + '</p>' : '') + '</div>' + (right || '') + '</header>';
+}
+function empty(title, text, actions) {
+  return '<div class="card empty"><div class="empty-ball" aria-hidden="true"></div><h2>' + title + '</h2><p>' + text + '</p><div class="acts">' + (actions || '') + '</div></div>';
+}
+function docsPlaque() {
+  if (!me.docsOk) return '<div class="plaque bad" role="status"><p><b>Документы обновились.</b> Пока вы не подтвердите новую редакцию, объявления, отклики и брони в кабинете недоступны. Раздел «Документы и согласия» работает.</p><button class="btn btn-main calm btn-sm" type="button" data-act="docs-confirm">Подтвердить документы</button></div>';
+  if (me.outdated && me.outdated.length) return '<div class="plaque" role="status"><p><b>Есть новая редакция документа.</b> Подтвердите её, чтобы связанные функции продолжили работать.</p><button class="btn btn-ghost btn-sm" type="button" data-act="docs-confirm">Посмотреть и подтвердить</button></div>';
+  return '';
+}
+function lockedHTML() {
+  const t = TABS.find(x => x[0] === tab);
+  return head('Кабинет', esc(t[1]), '') + empty('Раздел временно недоступен', 'Подтвердите новую редакцию документов — и всё заработает как прежде. Это займёт полминуты.', '<button class="btn btn-main calm btn-sm" type="button" data-act="docs-confirm">Подтвердить документы</button><a class="btn btn-ghost btn-sm" href="#docs">Открыть документы</a>');
+}
+
+/* =====================================================================
+   1. Профиль
+   ===================================================================== */
+function chips(name, list, cur, cls) {
+  return '<div class="pp-chips' + (cls ? ' ' + cls : '') + '">' + list.map(x => '<label class="pp-chip"><input type="radio" name="' + name + '" value="' + x[0] + '"' + (cur === x[0] ? ' checked' : '') + '><span>' + esc(x[1]) + '</span></label>').join('') + '</div>';
+}
+function pProfile() {
+  const c = me.completeness;
+  const guard = me.ageGroup === 'minor' && me.guardian ? '<p class="hint" style="margin-top:-8px;margin-bottom:16px">Регистрация с согласия законного представителя: <b>' + esc(me.guardian.fio) + '</b>.</p>' : '';
+  return head('Кабинет', 'Профиль', 'Партнёры видят профиль в объявлениях — в пределах условий вашего согласия на распространение. Телефон и Telegram открываются только после принятия отклика.') +
+  '<div class="prof">' +
+    '<div class="prof-main">' +
+      '<section class="card prof-photo" aria-labelledby="phT">' +
+        '<div id="photoAva">' + U.ava(me, 112) + '</div>' +
+        '<div style="flex:1;min-width:220px">' +
+          '<h2 id="phT">Фото</h2>' +
+          '<p class="hint">Квадратом, лицо по центру — так вас проще узнать в зале. Сожмём до 400 px, оригинал не сохраняем.</p>' +
+          '<div class="acts">' +
+            '<button class="btn btn-ghost btn-xs" type="button" id="photoPick" data-act="photo-pick">' + (me.hasPhoto ? 'Заменить фото' : 'Загрузить фото') + '</button>' +
+            (me.hasPhoto ? '<button class="pp-link danger" type="button" data-act="photo-del" data-k="photo-del">Удалить фото</button>' : '') +
+          '</div>' +
+          '<input type="file" id="fPhoto" class="sr" accept="image/jpeg,image/png,image/webp" tabindex="-1" aria-hidden="true">' +
+          '<div class="pp-e" id="photoErr" role="alert" style="margin:12px 0 0"></div>' +
+        '</div>' +
+      '</section>' +
+      '<form class="card" id="profForm" novalidate aria-label="Данные профиля">' +
+        '<div class="frm-grid">' +
+          '<div class="pp-f"><label class="pp-l" for="fName">Имя</label><input class="pp-i" id="fName" name="name" maxlength="40" autocomplete="given-name" value="' + esc(me.name) + '"></div>' +
+          '<div class="pp-f"><label class="pp-l" for="fAge">Возраст <small>(14–99)</small></label><input class="pp-i" id="fAge" name="age" inputmode="numeric" maxlength="2" autocomplete="off" placeholder="Например, 30" value="' + esc(me.age || '') + '"></div>' +
+        '</div>' + guard +
+        '<fieldset class="pp-f pp-fs" id="fLevel"><legend class="pp-l">Уровень игры</legend>' + chips('level', P.LEVELS, me.level) + '</fieldset>' +
+        '<div class="frm-grid">' +
+          '<fieldset class="pp-f pp-fs" id="fHand"><legend class="pp-l">Игровая рука</legend>' + chips('hand', P.HANDS, me.hand) + '</fieldset>' +
+          '<fieldset class="pp-f pp-fs" id="fStyle"><legend class="pp-l">Стиль</legend>' + chips('style', P.STYLES, me.style) + '</fieldset>' +
+        '</div>' +
+        '<div class="pp-f"><div class="pp-row"><label class="pp-l" for="fAbout">О себе</label><span class="pp-cnt" id="aboutCnt" aria-live="polite"></span></div>' +
+          '<textarea class="pp-i" id="fAbout" name="about" maxlength="300" rows="3" placeholder="Как давно играете, что нравится в игре, чего хотите от партнёра">' + esc(me.about) + '</textarea></div>' +
+        '<div class="frm-grid">' +
+          '<div class="pp-f"><label class="pp-l" for="fTg">Telegram</label><div class="pfx"><span aria-hidden="true">@</span><input class="pp-i" id="fTg" name="tg" maxlength="33" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="nickname" value="' + esc(me.tg) + '"></div><span class="hint">Виден партнёру только после принятия отклика.</span></div>' +
+          '<div class="pp-f"><label class="pp-l" for="fPhone">Телефон</label><input class="pp-i" id="fPhone" value="' + esc(me.phone) + '" readonly aria-describedby="fPhoneH"><span class="hint" id="fPhoneH">Номер для входа. Сменить — через администратора.</span></div>' +
+        '</div>' +
+        '<label class="pp-check" style="margin:4px 0 20px"><input type="checkbox" id="fShowPhone"' + (me.showPhone ? ' checked' : '') + '> <span>Показывать телефон партнёру после принятия отклика<br><small class="dim">Выключено — партнёр увидит только Telegram.</small></span></label>' +
+        '<div class="pp-e" id="profErr" role="alert"></div>' +
+        '<div class="form-foot"><button class="btn btn-main calm btn-sm" type="submit" data-k="prof-save">Сохранить</button><span class="saved-note" id="profNote" aria-live="polite"></span></div>' +
+      '</form>' +
+    '</div>' +
+    '<aside class="card meter-card" aria-labelledby="mtT">' +
+      '<h2 id="mtT">Заполненность</h2>' +
+      '<div class="meter-big"><b>' + c.pct + '%</b><span class="muted">профиля</span></div>' +
+      '<div class="meter" role="progressbar" aria-label="Заполненность профиля" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + c.pct + '"><i style="width:' + c.pct + '%"></i></div>' +
+      (c.missing.length
+        ? '<p class="hint" style="margin-top:14px">С полным профилем отвечают охотнее. Чего не хватает:</p><ul class="miss-list">' + c.missing.map(m => '<li><button type="button" data-act="goto-field" data-f="' + m.key + '" data-k="miss-' + m.key + '"><span>' + esc(m.title) + '</span><small>+' + m.add + '%</small></button></li>').join('') + '</ul>'
+        : '<div class="full-note">Профиль заполнен полностью — отлично!</div>') +
+    '</aside>' +
+  '</div>';
+}
+function readProf() {
+  const f = $('#profForm'); if (!f) return null;
+  const r = n => { const x = f.querySelector('input[name="' + n + '"]:checked'); return x ? x.value : null; };
+  return { name: $('#fName').value, age: $('#fAge').value.trim(), level: r('level'), hand: r('hand'), style: r('style'), about: $('#fAbout').value, tg: $('#fTg').value.trim(), showPhone: $('#fShowPhone').checked };
+}
+function fillProf(s) {
+  const f = $('#profForm'); if (!f || !s) return;
+  $('#fName').value = s.name; $('#fAge').value = s.age; $('#fAbout').value = s.about; $('#fTg').value = s.tg; $('#fShowPhone').checked = s.showPhone;
+  ['level', 'hand', 'style'].forEach(n => { $$('input[name="' + n + '"]', f).forEach(i => { i.checked = i.value === s[n]; }); });
+  aboutCount();
+}
+function aboutCount() { const a = $('#fAbout'), c = $('#aboutCnt'); if (!a || !c) return; c.textContent = a.value.length + ' / 300'; c.classList.toggle('over', a.value.length > 300); }
+const FIELD_OF = { NAME: 'fName', AGE: 'fAge', TG: 'fTg' };
+function afterProfile() {
+  const f = $('#profForm');
+  aboutCount();
+  f.addEventListener('input', e => { profDirty = true; $('#profNote').textContent = ''; if (e.target.id === 'fAbout') aboutCount(); if (e.target.getAttribute('aria-invalid')) e.target.removeAttribute('aria-invalid'); });
+  f.addEventListener('change', () => { profDirty = true; $('#profNote').textContent = ''; });
+  f.addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn = f.querySelector('[type=submit]'), er = $('#profErr');
+    er.textContent = ''; $$('[aria-invalid]', f).forEach(x => x.removeAttribute('aria-invalid'));
+    const s = readProf();
+    const patch = { name: s.name, age: s.age, about: s.about, tg: s.tg, showPhone: s.showPhone };
+    if (s.level) patch.level = s.level;
+    if (s.hand) patch.hand = s.hand;
+    if (s.style) patch.style = s.style;
+    busy(btn, true);
+    try {
+      await C.updateProfile(patch);
+      profDirty = false;
+      U.toast('Профиль сохранён', { kind: 'ok' });
+      await render({ force: true });
+      const n = $('#profNote'); if (n) n.textContent = 'Сохранено';
+    } catch (x) {
+      busy(btn, false);
+      er.textContent = errText(x);
+      const fid = FIELD_OF[x.code]; if (fid) { const i = document.getElementById(fid); i.setAttribute('aria-invalid', 'true'); i.focus(); }
+    }
+  });
+  $('#fPhoto').addEventListener('change', async e => {
+    const file = e.target.files && e.target.files[0]; e.target.value = '';
+    if (!file) return;
+    const er = $('#photoErr'), pick = $('#photoPick');
+    er.textContent = ''; busy(pick, true);
+    try {
+      const url = await U.compressImage(file);
+      const img = $('#photoAva img'); if (img) img.src = url;
+      await C.updateProfile({ photo: url });
+      U.toast('Фото обновлено', { kind: 'ok' });
+      render({ force: true });
+    } catch (x) {
+      busy(pick, false); er.textContent = errText(x);
+      const img = $('#photoAva img'); if (img) img.src = me.photo;
+    }
+  });
+}
+
+/* =====================================================================
+   2. Мои объявления
+   ===================================================================== */
+function postStatus(p) {
+  if (p.hidden) return ['bad', 'Скрыто модератором'];
+  if (p.status === 'open') return ['ok', 'Активно'];
+  if (p.revoked) return ['bad', 'Снято после отзыва согласия'];
+  return ['mute', 'Партнёр найден'];
+}
+let myPosts = [];
+async function pPosts() {
+  myPosts = await C.listMyPosts();
+  const active = myPosts.filter(p => p.status === 'open').length;
+  const full = active >= 3;
+  const right = '<button class="btn btn-main calm btn-sm" type="button" data-act="post-new" data-k="post-new"' + (full ? ' disabled aria-describedby="limitH"' : '') + '>Новое объявление</button>';
+  let html = head('Найди партнёра', 'Мои объявления', 'До трёх активных объявлений. Отклики приходят во вкладку «Отклики мне», а в ленте — <a href="index.html#partners" style="color:var(--ball-hot)">все объявления игроков</a>.', right);
+  if (full) html += '<p class="hint" id="limitH" style="margin:-8px 0 16px">Уже 3 активных объявления — отметьте «Партнёр найден» у одного из них, чтобы добавить новое.</p>';
+  if (!me.publicOk && myPosts.some(p => p.revoked && p.status !== 'open')) html += '<div class="plaque info"><p>Вы отозвали согласие на распространение — объявления сняты и не видны в ленте. Чтобы снова публиковаться, дайте согласие в форме объявления.</p></div>';
+  if (!myPosts.length) return html + empty('Объявлений пока нет', 'Расскажите, когда и как хотите играть, — партнёры откликнутся сами. Обычно первый отклик приходит в тот же день.', '<button class="btn btn-main calm btn-sm" type="button" data-act="post-new">Разместить объявление</button><a class="btn btn-ghost btn-sm" href="index.html#partners">Посмотреть ленту</a>');
+  const noPhoto = !me.publicCond.photo;
+  return html + '<div class="list">' + myPosts.map(p => {
+    const st = postStatus(p);
+    let acts = '';
+    if (p.status === 'open') acts = '<button class="btn btn-ghost btn-xs" type="button" data-act="post-edit" data-id="' + p.id + '" data-k="pe-' + p.id + '">Редактировать</button>' + (p.hidden ? '' : '<button class="btn btn-ok btn-xs" type="button" data-act="post-close" data-id="' + p.id + '" data-k="pc-' + p.id + '">Партнёр найден</button>');
+    else acts = '<button class="btn btn-ghost btn-xs" type="button" data-act="post-reopen" data-id="' + p.id + '" data-k="pr-' + p.id + '">Опубликовать снова</button>';
+    acts += '<button class="pp-link danger" type="button" data-act="post-del" data-id="' + p.id + '" data-k="pd-' + p.id + '">Удалить</button>';
+    const lvl = p.partnerLevel === 'any' ? 'любой уровень' : P.label(P.LEVELS, p.partnerLevel).toLowerCase();
+    return '<article class="card post">' +
+      '<img class="post-ph" src="' + esc(p.photo) + '" alt="" loading="lazy">' +
+      '<div>' +
+        '<div class="post-top"><span class="st ' + st[0] + '">' + st[1] + '</span><span>' + esc(P.ago(p.createdAt)) + '</span>' + (p.ownPhoto ? '<span>своё фото</span>' : '') + '</div>' +
+        '<h2 class="post-t">' + esc(p.summary) + '</h2>' +
+        '<p class="post-x">' + esc(p.text) + '</p>' +
+        '<div class="post-meta"><span>Партнёр: ' + esc(lvl) + '</span><span>' + p.responsesCount + ' ' + P.plural(p.responsesCount, 'отклик', 'отклика', 'откликов') + '</span>' +
+          (p.newResponses ? '<a href="#incoming">' + p.newResponses + ' ' + P.plural(p.newResponses, 'новый', 'новых', 'новых') + ' — посмотреть</a>' : '') + '</div>' +
+        (p.hidden ? '<p class="post-note">Объявление скрыто после проверки жалобы. Если это ошибка — позвоните администратору: ' + PHONE + '.</p>' : '') +
+        (p.status === 'open' && noPhoto ? '<p class="post-note">В ленте вместо фото показывается рисованный аватар — так вы настроили согласие.</p>' : '') +
+        '<div class="acts">' + acts + '</div>' +
+      '</div></article>';
+  }).join('') + '</div>';
+}
+
+/* Форма объявления: new | edit | reopen */
+function openPostForm(post, fmode) {
+  me = C.meSync();
+  if (!me || me.deletion) return;
+  if (!me.docsOk) { confirmDocs(); return; }
+  const id = 'pf' + Date.now().toString(36);
+  const cond = Object.assign({ photo: true, age: true, prefs: true }, me.publicCond);
+  let photo = post && post.ownPhoto ? post.photo : null;
+  const fmt = post ? post.format : 'once', pl = post ? post.partnerLevel : 'any';
+  const days = post ? post.days : [], times = post ? post.times : [];
+  const tf = post && post.timeFrom != null ? post.timeFrom : '';
+  const opts = ['<option value="">не важно</option>'];
+  for (let m = 600; m <= 1170; m += 30) opts.push('<option value="' + m + '"' + (tf === m ? ' selected' : '') + '>с ' + P.hhmm(m) + '</option>');
+  const form = document.createElement('form');
+  form.className = 'pf'; form.noValidate = true;
+  form.innerHTML =
+    '<fieldset class="pp-f pp-fs"><legend class="pp-l">Формат</legend><div class="pp-chips">' + P.FORMATS.map(f => '<label class="pp-chip"><input type="radio" name="' + id + 'fmt" value="' + f[0] + '"' + (fmt === f[0] ? ' checked' : '') + '><span>' + esc(f[1]) + '</span></label>').join('') + '</div></fieldset>' +
+    '<fieldset class="pp-f pp-fs"><legend class="pp-l">Уровень партнёра</legend><div class="pp-chips">' + [['any', 'Любой']].concat(P.LEVELS).map(l => '<label class="pp-chip"><input type="radio" name="' + id + 'pl" value="' + l[0] + '"' + (pl === l[0] ? ' checked' : '') + '><span>' + esc(l[1]) + '</span></label>').join('') + '</div></fieldset>' +
+    '<fieldset class="pp-f pp-fs"><legend class="pp-l">Дни</legend><div class="pp-chips days">' + P.DAY_SHORT.map((d, i) => '<label class="pp-chip"><input type="checkbox" name="' + id + 'd" value="' + i + '"' + (days.indexOf(i) >= 0 ? ' checked' : '') + '><span>' + d + '</span></label>').join('') + '</div></fieldset>' +
+    '<div class="pf-row">' +
+      '<fieldset class="pp-f pp-fs"><legend class="pp-l">Время</legend><div class="pp-chips">' + P.TIMES.map(t => '<label class="pp-chip"><input type="checkbox" name="' + id + 't" value="' + t[0] + '"' + (times.indexOf(t[0]) >= 0 ? ' checked' : '') + '><span>' + esc(t[1]) + ' <small>' + esc(t[2]) + '</small></span></label>').join('') + '</div></fieldset>' +
+      '<div class="pp-f"><label class="pp-l" for="' + id + 'tf">Или конкретно</label><select class="pp-i" id="' + id + 'tf">' + opts.join('') + '</select><span class="hint">Можно указать и время суток, и точное начало.</span></div>' +
+    '</div>' +
+    '<div class="pp-f"><div class="pp-row"><label class="pp-l" for="' + id + 'x">Текст объявления</label><span class="pp-cnt" data-cnt aria-live="polite"></span></div>' +
+      '<textarea class="pp-i" id="' + id + 'x" maxlength="300" rows="4" placeholder="Например: играю пару лет для себя, хочу регулярного партнёра по вечерам. Стол пополам.">' + esc(post ? post.text : '') + '</textarea>' +
+      '<span class="hint">От 20 до 300 символов. Контакты в тексте не пишите — они откроются после принятия отклика.</span></div>' +
+    '<div class="pf-photo"><img data-pimg alt="Фото объявления"><div><b data-plbl></b><span class="hint" data-phint></span><div class="acts">' +
+      '<button class="pp-link" type="button" data-ppick>Заменить для объявления</button><button class="pp-link" type="button" data-preset>Вернуть фото профиля</button></div>' +
+      '<div class="pp-e" data-perr role="alert" style="margin:8px 0 0"></div></div>' +
+      '<input type="file" class="sr" accept="image/jpeg,image/png,image/webp" tabindex="-1" aria-hidden="true" data-pfile></div>' +
+    '<section class="privacy" aria-labelledby="' + id + 'pv"><h3 id="' + id + 'pv">Что показывать в ленте</h3>' +
+      '<p>Это условия вашего согласия на распространение персональных данных. Они действуют для всех ваших объявлений, изменить их можно в любой момент.</p>' +
+      '<div class="pp-cset">' +
+        '<label class="pp-tog"><input type="checkbox" data-c="photo"' + (cond.photo ? ' checked' : '') + '> <span><b>Показывать фото</b><small>Если выключить — вместо фото будет рисованный аватар с инициалами.</small></span></label>' +
+        '<label class="pp-tog"><input type="checkbox" data-c="age"' + (cond.age ? ' checked' : '') + '> <span><b>Показывать возраст</b><small>Возраст из профиля рядом с именем.</small></span></label>' +
+        '<label class="pp-tog"><input type="checkbox" data-c="prefs"' + (cond.prefs ? ' checked' : '') + '> <span><b>Показывать уровень и предпочтения</b><small>Уровень, стиль, дни и время игры.</small></span></label>' +
+      '</div>' +
+      '<p class="hint" style="margin-top:12px">Телефон и Telegram в ленте не показываются никогда — только тому, чей отклик вы примете.</p>' +
+      '<div class="preview" data-prev aria-live="polite"></div>' +
+    '</section>' +
+    '<div data-cons></div>' +
+    '<div class="pp-e" data-err role="alert"></div>' +
+    '<p class="pp-h pp-miss" data-miss aria-live="polite"></p>' +
+    '<div class="pp-sheet-foot"><button class="btn btn-main calm" type="submit">' + (fmode === 'edit' ? 'Сохранить' : 'Опубликовать') + '</button><button class="btn btn-ghost" type="button" data-cancel>Отмена</button></div>';
+  const cons = me.publicOk ? null : U.consentChecks(['consent_public'], { onChange: validate });
+  if (cons) form.querySelector('[data-cons]').appendChild(cons.el);
+  const title = fmode === 'new' ? 'Новое объявление' : fmode === 'reopen' ? 'Опубликовать снова' : 'Редактировать объявление';
+  const sh = U.sheet({ title: title, sub: fmode === 'new' ? 'Появится в ленте «Найди партнёра» сразу после публикации' : 'Проверьте детали и условия показа', body: form, width: 680 });
+  const q = s => form.querySelector(s);
+  const txt = q('#' + id + 'x'), sel = q('#' + id + 'tf'), submit = q('[type=submit]'), miss = q('[data-miss]'), err = q('[data-err]');
+  const val = () => ({
+    format: (q('input[name="' + id + 'fmt"]:checked') || {}).value || null,
+    partnerLevel: (q('input[name="' + id + 'pl"]:checked') || {}).value || 'any',
+    days: $$('input[name="' + id + 'd"]:checked', form).map(i => Number(i.value)),
+    times: $$('input[name="' + id + 't"]:checked', form).map(i => i.value),
+    timeFrom: sel.value === '' ? null : Number(sel.value),
+    text: txt.value, photo: photo
+  });
+  function readCond() { $$('[data-c]', form).forEach(i => { cond[i.getAttribute('data-c')] = i.checked; }); }
+  function drawPhoto() {
+    const src = photo || me.photo;
+    q('[data-pimg]').src = src;
+    q('[data-plbl]').textContent = photo ? 'Своё фото для этого объявления' : me.hasPhoto ? 'Фото из профиля' : 'Рисованный аватар';
+    q('[data-phint]').textContent = photo ? 'Фото профиля не меняется.' : me.hasPhoto ? 'Можно поставить другое фото только для объявления.' : 'В профиле нет фото. Можно загрузить фото только для объявления.';
+    q('[data-preset]').hidden = !photo;
+  }
+  function drawPreview() {
+    const v = val();
+    const img = cond.photo ? (photo || me.photo) : P.avatarSVG(me.name, me.id);
+    const bits = [];
+    if (cond.age && me.age) bits.push(me.age + ' ' + P.plural(me.age, 'год', 'года', 'лет'));
+    if (cond.prefs && me.level) bits.push(P.label(P.LEVELS, me.level));
+    let when = '';
+    if (cond.prefs) {
+      const t = v.times.map(x => P.label(P.TIMES, x).toLowerCase()); if (v.timeFrom != null) t.push('с ' + P.hhmm(v.timeFrom));
+      when = v.days.map(d => P.DAY_SHORT[d]).join(', ') + (t.length ? ' · ' + t.join(', ') : '');
+    } else when = 'дни и время скрыты';
+    q('[data-prev]').innerHTML = '<img src="' + esc(img) + '" alt=""><div><small>Так вас увидят в ленте</small><b>' + esc(me.name) + '</b>' + (bits.length ? ' · ' + esc(bits.join(', ')) : '') + '<br>' + esc((v.format ? P.label(P.FORMATS, v.format) : 'Формат не выбран') + (when ? ' · ' + when : '')) + '</div>';
+  }
+  function validate() {
+    const v = val(), extra = [];
+    if (!v.format) extra.push('формат');
+    if (!v.days.length) extra.push('дни');
+    if (!v.times.length && v.timeFrom == null) extra.push('время');
+    const n = v.text.trim().length;
+    if (n < 20) extra.push('текст — ещё ' + (20 - n) + ' ' + P.plural(20 - n, 'символ', 'символа', 'символов'));
+    if (n > 300) extra.push('текст — не больше 300 символов');
+    const m = cons ? cons.missing() : [];
+    submit.disabled = !!(m.length || extra.length);
+    miss.textContent = submit.disabled ? U.missingHint(m, extra).replace('отметьте', m.length ? 'отметьте' : 'заполните') : '';
+    const cnt = q('[data-cnt]'); cnt.textContent = txt.value.length + ' / 300'; cnt.classList.toggle('over', txt.value.length > 300);
+    drawPreview();
+  }
+  form.addEventListener('input', () => { readCond(); validate(); });
+  form.addEventListener('change', () => { readCond(); validate(); });
+  q('[data-cancel]').addEventListener('click', () => sh.close('cancel'));
+  q('[data-ppick]').addEventListener('click', () => q('[data-pfile]').click());
+  q('[data-preset]').addEventListener('click', () => { photo = null; drawPhoto(); drawPreview(); q('[data-ppick]').focus(); });
+  q('[data-pfile]').addEventListener('change', async e => {
+    const f = e.target.files && e.target.files[0]; e.target.value = '';
+    if (!f) return;
+    q('[data-perr]').textContent = '';
+    try { photo = await U.compressImage(f); drawPhoto(); drawPreview(); }
+    catch (x) { q('[data-perr]').textContent = errText(x); }
+  });
+  form.addEventListener('submit', async e => {
+    e.preventDefault(); err.textContent = '';
+    validate(); if (submit.disabled) return;
+    busy(submit, true);
+    try {
+      readCond();
+      await C.setPublicConditions({ photo: cond.photo, age: cond.age, prefs: cond.prefs }, 'post');
+      const v = val();
+      if (fmode === 'new') await C.createPost(v);
+      else {
+        await C.updatePost(post.id, v);
+        if (fmode === 'reopen') await C.reopenPost(post.id);
+      }
+      sh.close('ok');
+      U.toast(fmode === 'new' ? 'Объявление опубликовано. Отклики появятся во вкладке «Отклики мне»' : fmode === 'reopen' ? 'Объявление снова в ленте' : 'Изменения сохранены', { kind: 'ok' });
+      if (tab !== 'posts') location.hash = '#posts'; else scheduleRender(true);
+    } catch (x) { err.textContent = errText(x); busy(submit, false); validate(); }
+  });
+  drawPhoto(); validate();
+}
+
+async function postAction(act, id, btn) {
+  const p = myPosts.find(x => x.id === id);
+  if (act === 'post-edit') return openPostForm(p, 'edit');
+  if (act === 'post-reopen') {
+    if (!me.publicOk || p.hidden) return openPostForm(p, 'reopen');
+    busy(btn, true);
+    try { await C.reopenPost(id); U.toast('Объявление снова в ленте', { kind: 'ok' }); }
+    catch (x) { busy(btn, false); toastErr(x); }
+    return;
+  }
+  if (act === 'post-close') {
+    busy(btn, true);
+    try { await C.closePost(id); U.toast('Отлично! Объявление снято с ленты. Отметьте «Сыграли», когда встретитесь', { kind: 'ok' }); }
+    catch (x) { busy(btn, false); toastErr(x); }
+    return;
+  }
+  if (act === 'post-del') {
+    confirmSheet({
+      title: 'Удалить объявление?', danger: true, ok: 'Удалить', cancel: 'Оставить',
+      html: '<p>«' + esc(p ? p.summary : '') + '» пропадёт из ленты и из вашего списка. Это нельзя отменить.</p><p class="hint">Принятые отклики и открытые контакты сохранятся во вкладках откликов.</p>',
+      onOk: async () => { await C.deletePost(id); U.toast('Объявление удалено', { kind: 'ok' }); }
+    });
+  }
+}
+
+/* =====================================================================
+   3–4. Отклики
+   ===================================================================== */
+function captureFresh(kind, list) {
+  const un = list.filter(r => r.unseen).map(r => r.id);
+  if (!fresh[kind]) fresh[kind] = new Set(un); else un.forEach(i => fresh[kind].add(i));
+  if (un.length) C.markSeen(kind).catch(() => {});
+}
+function whenLine(r, who) {
+  return r.when ? '<p class="resp-when">' + IC.clock + '<span>' + who + ': <b>' + esc(r.when) + '</b></span></p>' : '';
+}
+function acceptedBlock(r, intro) {
+  return '<div class="resp-ok"><p>' + intro + '</p>' + U.contactsHTML(r.contacts) +
+    '<div class="acts"><button class="btn btn-main calm btn-xs" type="button" data-act="book-together" data-id="' + r.id + '" data-k="bt-' + r.id + '">Забронировать стол вместе</button>' +
+    (r.played ? '<span class="played">' + IC.check + 'Отмечено: сыграли</span>' : '<button class="btn btn-ok btn-xs" type="button" data-act="played" data-id="' + r.id + '" data-k="pl-' + r.id + '">Сыграли</button>') +
+    '</div></div>';
+}
+function userLine(u) {
+  const bits = [];
+  if (u.age) bits.push(u.age + ' ' + P.plural(u.age, 'год', 'года', 'лет'));
+  return (bits.length ? '<span>' + esc(bits.join(', ')) + '</span>' : '') + (u.level ? U.levelPill(u.level) : '');
+}
+let respCache = {};
+async function pIncoming() {
+  const list = await C.listResponsesToMe();
+  captureFresh('incoming', list);
+  list.forEach(r => { respCache[r.id] = r; });
+  const html = head('Найди партнёра', 'Отклики мне', 'Игроки, которые откликнулись на ваши объявления. Примите отклик — и вы оба увидите контакты друг друга.');
+  if (!list.length) return html + empty('Откликов пока нет', 'Как только кто-то откликнется на ваше объявление, он появится здесь, а мы покажем уведомление.', '<button class="btn btn-main calm btn-sm" type="button" data-act="post-new">Разместить объявление</button><a class="btn btn-ghost btn-sm" href="#posts">Мои объявления</a>');
+  const noContacts = !me.tg && !me.showPhone;
+  return html + (noContacts ? '<div class="plaque info"><p>Партнёр не увидит ваших контактов: не указан Telegram и выключен показ телефона. <a href="#profile" style="color:var(--ball-hot)">Добавьте в профиле</a>.</p></div>' : '') +
+    '<div class="list">' + list.map(r => {
+      const u = r.user || { name: 'Игрок', photo: P.avatarSVG('?') };
+      const st = r.status === 'accepted' ? '<span class="st ok">Принят</span>' : r.status === 'declined' ? '<span class="st mute">Отклонён</span>' : '<span class="st warn">Ждёт ответа</span>';
+      let body = '';
+      if (r.status === 'pending') body = '<div class="acts"><button class="btn btn-main calm btn-xs" type="button" data-act="accept" data-id="' + r.id + '" data-k="ac-' + r.id + '">Принять</button><button class="btn btn-ghost btn-xs" type="button" data-act="decline" data-id="' + r.id + '" data-k="dc-' + r.id + '">Отклонить</button></div>';
+      else if (r.status === 'accepted') body = acceptedBlock(r, 'Контакты открыты — договоритесь о времени и забронируйте стол.');
+      return '<article class="card resp">' +
+        '<div class="resp-h">' + U.ava(u, 56) + '<div><b>' + esc(u.name) + '</b> ' + (fresh.incoming && fresh.incoming.has(r.id) ? '<span class="new-tag">Новый</span>' : '') + '<div class="resp-sub">' + userLine(u) + '<span>' + esc(P.ago(r.createdAt)) + '</span></div></div>' + st + '</div>' +
+        '<p class="resp-post">На объявление: <b>' + esc(r.post.summary) + '</b></p>' +
+        '<blockquote class="resp-msg">' + esc(r.message) + '</blockquote>' +
+        whenLine(r, 'Предлагает') + body + '</article>';
+    }).join('') + '</div>';
+}
+async function pMine() {
+  const list = await C.listMyResponses();
+  captureFresh('mine', list);
+  list.forEach(r => { respCache[r.id] = r; });
+  const html = head('Найди партнёра', 'Мои отклики', 'Ваши отклики на чужие объявления. Когда автор примет отклик, здесь откроются его контакты.');
+  if (!list.length) return html + empty('Вы ещё не откликались', 'Загляните в ленту партнёров: там игроки Брянска ищут, с кем поиграть. Откликнуться — пара слов и удобное время.', '<a class="btn btn-main calm btn-sm" href="index.html#partners">Найти партнёра</a>');
+  return html + '<div class="list">' + list.map(r => {
+    const u = r.user || { name: 'Игрок', photo: P.avatarSVG('?') };
+    const isNew = fresh.mine && fresh.mine.has(r.id);
+    const st = r.status === 'accepted' ? '<span class="st ok">Принят</span>' : r.status === 'declined' ? '<span class="st mute">Отклонён</span>' : '<span class="st warn">Ожидает ответа</span>';
+    let body = '';
+    if (r.status === 'accepted') body = acceptedBlock(r, esc(u.name) + ' ' + 'принял(а) ваш отклик. Контакты открыты.');
+    else if (r.status === 'declined') body = '<p class="hint">Автор выбрал другого партнёра. Не расстраивайтесь — <a href="index.html#partners" style="color:var(--ball-hot)">в ленте</a> есть и другие объявления.</p>';
+    else body = '<p class="hint">Автор ещё не ответил. Мы покажем уведомление, как только он примет отклик.</p>';
+    return '<article class="card resp">' +
+      '<div class="resp-h">' + U.ava(u, 56) + '<div><b>' + esc(u.name) + '</b> ' + (isNew ? '<span class="new-tag">Новое</span>' : '') + '<div class="resp-sub">' + userLine(u) + '<span>отклик ' + esc(P.ago(r.createdAt)) + '</span></div></div>' + st + '</div>' +
+      '<p class="resp-post">Объявление: <b>' + esc(r.post.summary) + '</b>' + (r.post.status === 'deleted' ? ' <span class="dim">(удалено автором)</span>' : '') + '</p>' +
+      '<blockquote class="resp-msg">' + esc(r.message) + '</blockquote>' +
+      whenLine(r, 'Вы предложили') + body + '</article>';
+  }).join('') + '</div>';
+}
+function bookTogether(r) {
+  const o = { players: 2, dur: 60, title: 'Игра с партнёром' + (r.user ? ': ' + r.user.name : ''), partnerResponseId: r.id };
+  const lead = (settings().minLeadMin || 60) * 60e3;
+  if (r.whenAt && r.whenAt.date && P.tsAt(r.whenAt.date, r.whenAt.start) - Date.now() >= lead) { o.date = r.whenAt.date; o.start = r.whenAt.start; }
+  openBooking(o);
+}
+
+/* =====================================================================
+   5. Статистика
+   ===================================================================== */
+const BADGE_IC = { post: IC.posts, resp: IC.send, found: IC.users, five: IC.star };
+async function pStats() {
+  const s = await C.stats();
+  const tiles = [[s.played, 'Сыграно встреч'], [s.sent, 'Откликов отправлено'], [s.found, 'Партнёров найдено'], [s.posts, 'Объявлений']];
+  return head('Кабинет', 'Статистика', 'Встречи считаются, когда вы отмечаете «Сыграли» в принятом отклике.') +
+    '<div class="stats">' + tiles.map(t => '<div class="stat"><b>' + t[0] + '</b><span>' + t[1] + '</span></div>').join('') + '</div>' +
+    '<h2 class="sec-t">Достижения <small>' + s.badges.filter(b => b.got).length + ' из ' + s.badges.length + '</small></h2>' +
+    '<div class="badges">' + s.badges.map(b => '<div class="bdg' + (b.got ? ' got' : '') + '"><i>' + (BADGE_IC[b.id] || IC.star) + '</i><div><b>' + esc(b.title) + '</b><span>' + esc(b.desc) + '</span>' +
+      (b.got ? '<em>Получено</em>' : b.progress ? '<em>' + esc(b.progress) + '</em>' : '<em class="dim" style="color:var(--dim)">Ещё не получено</em>') + '</div></div>').join('') + '</div>' +
+    (s.played === 0 ? '<div class="card empty" style="margin-top:20px"><h2>Первая игра — впереди</h2><p>Найдите партнёра, договоритесь о времени и забронируйте стол — статистика начнёт расти.</p><div class="acts"><a class="btn btn-main calm btn-sm" href="index.html#partners">Найти партнёра</a><button class="btn btn-ghost btn-sm" type="button" data-book>Забронировать стол</button></div></div>' : '');
+}
+
+/* =====================================================================
+   6. Мои бронирования
+   ===================================================================== */
+let bkCache = {};
+function bookingCard(b, past) {
+  bkCache[b.id] = b;
+  const cs = settings(), h = cs.cancelHours || 3;
+  const stCls = b.status === 'paid' ? (past ? 'info' : 'ok') : b.status === 'pending' ? 'warn' : b.status === 'refund_partial' ? 'warn' : b.status === 'noshow' ? 'bad' : 'mute';
+  const started = b.status === 'paid' && b.startTs <= Date.now() && b.endTs >= Date.now();
+  let refund = '';
+  if (b.status === 'refund_partial') refund = b.refundAmount == null ? '<li><span class="st warn">Ожидает расчёта возврата</span></li>' : '<li>Возвращено <b>' + P.money(b.refundAmount) + '</b></li>';
+  if (b.status === 'refunded') refund = '<li>Возвращено <b>' + P.money(b.refundAmount != null ? b.refundAmount : b.amount) + '</b></li>';
+  let code = '';
+  if (b.status === 'paid' && !past) code = '<div class="cbk-code"><span>Код доступа: <code aria-label="скрыт">••••••</code></span><button class="btn btn-ghost btn-xs" type="button" data-act="bk-code" data-id="' + b.id + '" data-k="bc-' + b.id + '">Показать код</button></div>';
+  let acts = '', hints = [];
+  if (!past) {
+    if (b.status === 'pending') acts += '<button class="btn btn-main calm btn-xs" type="button" data-act="bk-pay" data-id="' + b.id + '" data-k="bp-' + b.id + '">Перейти к оплате</button>';
+    if (b.canCancel) acts += '<button class="btn btn-ghost btn-xs" type="button" data-act="bk-cancel" data-id="' + b.id + '" data-k="bx-' + b.id + '">Отменить</button>';
+    if (b.canReschedule) acts += '<button class="btn btn-ghost btn-xs" type="button" data-act="bk-move" data-id="' + b.id + '" data-k="bm-' + b.id + '">Перенести</button>';
+    if (started) hints.push(['warn', 'Бронь уже идёт — отмена и перенос недоступны. Хорошей игры!']);
+    else if (b.status === 'paid') {
+      if (b.cancelLate) hints.push(['warn', 'До начала меньше ' + h + ' ч: при отмене вернём оплату за вычетом фактических расходов, перенос уже недоступен.']);
+      else if (b.canReschedule) hints.push(['', 'Отмена не позднее чем за ' + h + ' ч — возврат 100%. Перенос бесплатный, один раз, не позднее чем за ' + h + ' ч; разница в цене — доплата или возврат.']);
+      else if (b.rescheduled) hints.push(['', 'Бесплатный перенос уже использован. Отмена не позднее чем за ' + h + ' ч — возврат 100%.']);
+    }
+    if (b.status === 'pending') hints.push(['warn', 'Бронь не оплачена — время держится ' + (cs.holdMin || 15) + ' минут, потом слот освободится.']);
+  } else {
+    acts += '<button class="btn btn-ghost btn-xs" type="button" data-act="bk-repeat" data-id="' + b.id + '" data-k="br-' + b.id + '">Повторить бронь</button>';
+  }
+  return '<article class="card cbk' + (past ? ' past' : '') + '">' +
+    '<div class="cbk-date"><b>' + esc(b.dateLabel) + '</b><span>' + esc(b.timeLabel) + '</span></div>' +
+    '<div>' +
+      '<div class="cbk-top"><span class="st ' + stCls + '">' + esc(b.statusLabel) + '</span><span class="cbk-num">№ ' + esc(b.number) + '</span>' + (b.rescheduled ? '<span class="hint">перенесена</span>' : '') + '</div>' +
+      '<ul class="cbk-facts"><li>' + b.players + ' ' + P.plural(b.players, 'игрок', 'игрока', 'игроков') + '</li><li>' + (b.dur / 60).toString().replace('.', ',') + ' ч</li><li><b>' + P.money(b.amount) + '</b></li>' + (b.rackets ? '<li>ракеток: ' + b.rackets + '</li>' : '') + refund + '</ul>' +
+      code +
+      (acts ? '<div class="acts">' + acts + '</div>' : '') +
+      hints.map(x => '<p class="cbk-hint ' + x[0] + '">' + esc(x[1]) + '</p>').join('') +
+    '</div></article>';
+}
+async function pBookings() {
+  const r = await B.listMyBookings();
+  bkCache = {};
+  const intro = '<div class="cbk-intro"><p>Бронь и оплата — прямо здесь, на сайте: выберите время, оплатите картой или по СБП и получите код на вход. Условия отмены и переноса — в ' + U.docLink('offer', 'Публичной оферте') + '.</p></div>';
+  let html = head('Бронирование', 'Мои бронирования', '', '<button class="btn btn-main calm btn-sm" type="button" data-book>Новая бронь</button>') + intro;
+  html += '<h2 class="sec-t">Ближайшие <small>' + r.upcoming.length + '</small></h2>';
+  html += r.upcoming.length ? '<div class="list">' + r.upcoming.map(b => bookingCard(b, false)).join('') + '</div>'
+    : empty('Ближайших игр нет', 'Выберите свободное время — бронь занимает минуту, код на вход придёт сразу после оплаты.', '<button class="btn btn-main calm btn-sm" type="button" data-book>Забронировать стол</button>');
+  if (r.past.length) {
+    const shown = showAllPast ? r.past : r.past.slice(0, 6);
+    html += '<h2 class="sec-t">История <small>' + r.past.length + '</small></h2><div class="list">' + shown.map(b => bookingCard(b, true)).join('') +
+      (r.past.length > shown.length ? '<button class="btn btn-ghost btn-sm more-btn" type="button" data-act="bk-more">Показать ещё ' + (r.past.length - shown.length) + '</button>' : '') + '</div>';
+  }
+  return html;
+}
+function showCode(b) {
+  if (window.PPBooking && typeof window.PPBooking.showBooking === 'function') return window.PPBooking.showBooking(b.id);
+  const box = document.createElement('div');
+  box.className = 'code-box';
+  box.innerHTML = '<p class="hint">' + esc(b.dateLabel + ', ' + b.timeLabel) + ' · № ' + esc(b.number) + '</p><div class="code">' + esc(b.code || '—') + '</div>' + U.qrSVG(b.code || b.id, 180) +
+    '<p class="hint" style="margin-bottom:16px">Наберите код на замке у двери или покажите QR. ТРЦ «Мельница», 4 этаж, офис 422.</p><div class="pp-sheet-foot"><button class="btn btn-ghost btn-sm" type="button" data-ics>Добавить в календарь</button></div>';
+  box.querySelector('[data-ics]').addEventListener('click', () => U.saveFile('ping-point-' + b.number + '.ics', U.icsFor(b), 'text/calendar'));
+  U.sheet({ title: 'Код доступа', body: box, width: 420 });
+}
+function nextSameWeekday(b) {
+  const want = P.dayIdx(P.parseYmd(b.date)), lead = (settings().minLeadMin || 60) * 60e3, t0 = P.parseYmd(P.today());
+  for (let i = 0; i <= 14; i++) {
+    const d = P.addDays(t0, i); if (P.dayIdx(d) !== want) continue;
+    const ds = P.ymd(d); if (P.tsAt(ds, b.start) - Date.now() >= lead) return ds;
+  }
+  return null;
+}
+function bookingAction(act, id) {
+  const b = bkCache[id]; if (!b) return;
+  if (act === 'bk-code') return showCode(b);
+  if (act === 'bk-pay') {
+    if (window.PPBooking && typeof window.PPBooking.resume === 'function') return window.PPBooking.resume(id);
+    return noBooking();
+  }
+  if (act === 'bk-move') {
+    if (window.PPBooking && typeof window.PPBooking.reschedule === 'function') return window.PPBooking.reschedule(id);
+    return noBooking();
+  }
+  if (act === 'bk-repeat') {
+    const ds = nextSameWeekday(b);
+    return openBooking({ date: ds, start: b.start, dur: b.dur, players: b.players, rackets: b.rackets || 0, title: 'Повтор брони: ' + P.DAY_LONG[P.dayIdx(P.parseYmd(b.date))] + ', ' + b.timeLabel });
+  }
+  if (act === 'bk-cancel') {
+    const h = settings().cancelHours || 3;
+    let html;
+    if (b.status === 'pending') html = '<p>Бронь ещё не оплачена — просто снимем её и освободим время.</p>';
+    else if (b.cancelFree) html = '<p>До начала больше ' + h + ' ч — вернём <b>100%: ' + P.money(b.amount) + '</b> тем же способом, которым вы платили. Обычно деньги приходят за 1–3 рабочих дня, по СБП — быстрее.</p>';
+    else html = '<div class="warnbox">До начала меньше ' + h + ' ч. По условиям оферты возврат будет <b>за вычетом фактических расходов</b> — сумму рассчитает администратор, она появится в этой карточке.</div><p>Если комната оказалась недоступна по нашей вине, позвоните: ' + PHONE + ' — вернём 100%.</p>';
+    confirmSheet({
+      title: 'Отменить бронь?', sub: b.dateLabel + ', ' + b.timeLabel + ' · № ' + b.number, danger: true, ok: 'Отменить бронь', cancel: 'Не отменять',
+      html: html + '<p class="hint">' + U.docLink('offer', 'Условия отмены в оферте') + '</p>',
+      onOk: async () => {
+        const v = await B.cancelBooking(id);
+        U.toast(v.status === 'refunded' ? 'Бронь отменена, возврат ' + P.money(v.refundAmount || 0) + ' оформлен' : v.status === 'refund_partial' ? 'Бронь отменена. Сумму возврата рассчитает администратор' : 'Бронь отменена', { kind: 'ok', ms: 8000 });
+      }
+    });
+  }
+}
+
+/* =====================================================================
+   7. Документы и согласия
+   ===================================================================== */
+let docsCache = [];
+const DOC_ST = {
+  ok: ['ok', 'Действует'], outdated: ['warn', 'Новая редакция'], revoked: ['bad', 'Отозвано'], none: ['mute', 'Не подтверждалось']
+};
+function condList(c) {
+  if (!c) return '';
+  const it = [['photo', 'Фото'], ['age', 'Возраст'], ['prefs', 'Уровень и предпочтения']];
+  return '<ul class="cond" aria-label="Условия согласия">' + it.map(x => '<li class="' + (c[x[0]] ? 'on' : '') + '">' + x[1] + ': ' + (c[x[0]] ? 'показывать' : 'скрыто') + '</li>').join('') + '</ul>';
+}
+async function pDocs() {
+  docsCache = await C.docs();
+  const html = head('152-ФЗ', 'Документы и согласия', 'Какие документы вы подтвердили и когда. Согласия можно отозвать — последствия покажем заранее.');
+  const rows = docsCache.map(d => {
+    let st = DOC_ST[d.status] || DOC_ST.none;
+    if (d.status === 'ok' && d.kind === 'ack') st = ['ok', 'Ознакомлены'];
+    if (d.status === 'ok' && d.kind === 'accept') st = ['ok', 'Принято'];
+    let my;
+    if (d.my) my = (d.status === 'revoked' ? 'Отозвано. Последнее подтверждение: ред. ' : 'Вы подтвердили ред. ') + esc(d.my.version) + ' — ' + esc(fmtDT(d.my.at));
+    else if (d.id === 'offer') { my = 'Подтверждается при каждой брони.'; st = ['mute', 'При брони']; }
+    else if (d.id === 'consent_public') { my = 'Даётся при первом объявлении.'; st = ['mute', 'Не давалось']; }
+    else if (d.id === 'cookies') { my = 'Выбор ещё не сделан.'; }
+    else my = 'Ещё не подтверждали.';
+    let extra = '';
+    if (d.id === 'consent_public' && d.my && d.my.conditions) extra = '<p class="hint" style="margin-bottom:8px">' + (d.status === 'revoked' ? 'Условия на момент отзыва:' : 'Текущие условия показа в ленте:') + '</p>' + condList(d.my.conditions);
+    if (d.id === 'cookies' && d.my && d.my.conditions) extra = '<ul class="cond"><li class="on">Необходимые: всегда</li><li class="' + (d.my.conditions.analytics ? 'on' : '') + '">Аналитические: ' + (d.my.conditions.analytics ? 'да' : 'нет') + '</li><li class="' + (d.my.conditions.ads ? 'on' : '') + '">Рекламные: ' + (d.my.conditions.ads ? 'да' : 'нет') + '</li></ul>';
+    let acts = '<button class="btn btn-ghost btn-xs" type="button" data-act="doc-open" data-id="' + d.id + '" data-k="do-' + d.id + '">Открыть</button>';
+    if (d.status === 'outdated') acts += '<button class="btn btn-main calm btn-xs" type="button" data-act="docs-confirm" data-k="dcf-' + d.id + '">Подтвердить новую редакцию</button>';
+    if (d.id === 'consent_public' && d.status === 'ok') acts += '<button class="btn btn-ghost btn-xs" type="button" data-act="cond-edit" data-k="ce">Изменить условия</button>';
+    if (d.id === 'consent_public' && d.status !== 'ok' && d.status !== 'outdated' && me.docsOk) acts += '<button class="btn btn-ghost btn-xs" type="button" data-act="post-new" data-k="cpn">Дать согласие в новом объявлении</button>';
+    if (d.id === 'cookies') acts += '<button class="btn btn-ghost btn-xs" type="button" data-act="cookie-cfg" data-k="ck">Настройки cookie</button>';
+    if (d.revocable && d.my && d.my.active) acts += '<button class="pp-link danger" type="button" data-act="revoke" data-id="' + d.id + '" data-k="rv-' + d.id + '">Отозвать согласие</button>';
+    return '<article class="card doc"><div class="doc-h"><h2 class="post-t" style="margin:0">' + esc(d.title) + '</h2><span class="st ' + st[0] + '">' + st[1] + '</span></div>' +
+      '<p class="doc-meta">Редакция ' + esc(d.version) + ' от ' + esc(verDate(d.date)) + ' · Нужен для: ' + esc(d.forLabel.join(', ').toLowerCase()) + '</p>' +
+      '<p class="doc-my">' + my + '</p>' + extra + '<div class="acts">' + acts + '</div></article>';
+  }).join('');
+  return html + '<div class="list">' + rows +
+    '<section class="card data-card" aria-labelledby="dataT"><h2 id="dataT">Ваши данные</h2>' +
+      '<p>Можно выгрузить всё, что мы храним о вас: профиль, объявления, отклики, брони и журнал согласий — одним файлом. Запросы по персональным данным принимаем и по почте pingp-inf@bk.ru или по телефону ' + PHONE + '.</p>' +
+      '<div class="acts"><button class="btn btn-ghost btn-sm" type="button" data-act="export" data-k="exp">Скачать мои данные</button><button class="btn btn-ghost btn-sm" type="button" data-act="cookie-cfg" data-k="ck2">Настройки cookie</button><button class="pp-link danger" type="button" data-act="delete-profile" data-k="delp">Удалить профиль</button></div>' +
+    '</section></div>';
+}
+function confirmDocs() {
+  if (U.checkDocUpdates()) return;
+  me = C.meSync(); if (!me) return;
+  C.docs().then(list => {
+    const ids = list.filter(d => d.for.indexOf('registration') >= 0 && d.status !== 'ok').map(d => d.id);
+    if (!ids.length) { U.toast('Все документы уже подтверждены', { kind: 'ok' }); scheduleRender(true); return; }
+    const box = document.createElement('div');
+    box.innerHTML = '<p class="pp-h" style="font-size:15px;color:var(--muted);margin:0 0 16px">Чтобы пользоваться кабинетом, подтвердите документы:</p><div data-c></div><p class="pp-h pp-miss" data-miss aria-live="polite"></p><div class="pp-e" role="alert"></div><div class="pp-sheet-foot"><button class="btn btn-main calm" type="button" data-ok>Подтвердить</button></div>';
+    const btn = box.querySelector('[data-ok]'), miss = box.querySelector('[data-miss]');
+    const cons = U.consentChecks(ids, { onChange: upd });
+    box.querySelector('[data-c]').appendChild(cons.el);
+    function upd() { btn.disabled = !cons.ok(); miss.textContent = btn.disabled ? U.missingHint(cons.missing()) : ''; }
+    upd();
+    const sh = U.sheet({ title: 'Подтвердите документы', body: box, width: 560 });
+    btn.addEventListener('click', async () => {
+      busy(btn, true);
+      try { await C.acceptDocs(ids, { context: 'cabinet' }); U.toast('Спасибо! Документы подтверждены', { kind: 'ok' }); sh.close('ok'); }
+      catch (x) { box.querySelector('.pp-e').textContent = errText(x); busy(btn, false); }
+    });
+  });
+}
+function editConditions() {
+  const c = Object.assign({ photo: true, age: true, prefs: true }, me.publicCond);
+  confirmSheet({
+    title: 'Условия показа в ленте', sub: 'Согласие на распространение персональных данных', ok: 'Сохранить условия', cancel: 'Отмена',
+    html: '<div class="pp-cset">' +
+      '<label class="pp-tog"><input type="checkbox" data-c="photo"' + (c.photo ? ' checked' : '') + '> <span><b>Показывать фото</b><small>Выключено — рисованный аватар с инициалами.</small></span></label>' +
+      '<label class="pp-tog"><input type="checkbox" data-c="age"' + (c.age ? ' checked' : '') + '> <span><b>Показывать возраст</b></span></label>' +
+      '<label class="pp-tog"><input type="checkbox" data-c="prefs"' + (c.prefs ? ' checked' : '') + '> <span><b>Показывать уровень и предпочтения</b><small>Уровень, стиль, дни и время игры.</small></span></label>' +
+      '</div><p class="hint" style="margin-top:12px">Изменения сразу применятся ко всем вашим объявлениям. Телефон и Telegram в ленте не показываются.</p>',
+    bind: box => { box.dataset.bound = '1'; editConditions.box = box; },
+    onOk: async () => {
+      const box = editConditions.box, v = {};
+      $$('[data-c]', box).forEach(i => { v[i.getAttribute('data-c')] = i.checked; });
+      await C.setPublicConditions(v, 'cabinet');
+      U.toast('Условия показа обновлены', { kind: 'ok' });
+    }
+  });
+}
+function revoke(id) {
+  const d = docsCache.find(x => x.id === id); if (!d) return;
+  let html;
+  if (id === 'consent_public') html = '<p>После отзыва:</p><ul><li>все ваши активные объявления снимутся с ленты;</li><li>ваш профиль пропадёт из ленты партнёров;</li><li>принятые отклики и открытые контакты останутся у вас и у партнёров;</li><li>чтобы снова публиковать объявления, согласие нужно будет дать заново.</li></ul>';
+  else html = '<div class="warnbox">Это отзыв согласия на обработку персональных данных — без него кабинет работать не может.</div><ul><li>профиль уйдёт в удаление через 30 дней, объявления снимутся сразу;</li><li>кабинет заблокируется — останутся только «Восстановить профиль» и «Скачать мои данные»;</li><li>до этой даты можно передумать и восстановить профиль;</li><li>оплаченные брони сохраняют силу — код доступа придёт как обычно.</li></ul>';
+  confirmSheet({
+    title: 'Отозвать согласие?', sub: d.title, danger: true, ok: 'Отозвать согласие', cancel: 'Оставить как есть', html: html,
+    onOk: async () => {
+      const r = await C.revokeConsent(id);
+      U.toast(id === 'consent_public' ? 'Согласие отозвано' + (r.closedPosts ? ', снято объявлений: ' + r.closedPosts : '') : 'Согласие отозвано. Профиль будет удалён через 30 дней', { kind: 'ok', ms: 8000 });
+    }
+  });
+}
+async function exportData(btn) {
+  busy(btn, true);
+  try {
+    const data = await C.exportMyData();
+    U.saveFile('ping-point-moi-dannye.json', JSON.stringify(data, null, 2), 'application/json');
+    U.toast('Файл с вашими данными сохранён', { kind: 'ok' });
+  } catch (x) { toastErr(x); }
+  busy(btn, false);
+}
+function deleteProfile() {
+  confirmSheet({
+    title: 'Удалить профиль?', danger: true, ok: 'Удалить профиль', cancel: 'Не удалять',
+    html: '<ul><li>объявления сразу снимутся с ленты, профиль перестанет быть виден;</li><li>данные будут уничтожены через 30 дней — до этого можно передумать: войдите по номеру телефона и нажмите «Восстановить профиль»;</li><li>журнал согласий хранится отдельно, как требует закон;</li><li>оплаченные брони остаются в силе.</li></ul><p class="hint">Советуем сначала <button class="pp-link" type="button" data-exp>скачать свои данные</button>.</p>',
+    bind: box => { const b = box.querySelector('[data-exp]'); b.addEventListener('click', () => exportData(b)); },
+    onOk: async () => {
+      await C.deleteProfile();
+      history.replaceState(null, '', location.pathname + location.search);
+      tab = 'profile';
+      U.toast('Запрос на удаление принят. Вы вышли из кабинета', { kind: 'ok', ms: 8000 });
+    }
+  });
+}
+
+/* =====================================================================
+   Действия (делегирование)
+   ===================================================================== */
+async function onAct(e) {
+  const el = e.target.closest('[data-act]'); if (!el) return;
+  const act = el.getAttribute('data-act'), id = el.getAttribute('data-id');
+  e.preventDefault();
+  try {
+    switch (act) {
+      case 'logout':
+        await C.logout(); fresh.incoming = fresh.mine = null; profDirty = false;
+        U.toast('Вы вышли из кабинета', { kind: 'ok' });
+        break;
+      case 'reload': scheduleRender(true); break;
+      case 'restore':
+        busy(el, true);
+        await C.restoreProfile();
+        U.toast('Профиль восстановлен. С возвращением!', { kind: 'ok' });
+        deletedView.dataset.sig = '';
+        break;
+      case 'export': await exportData(el); break;
+      case 'docs-confirm': confirmDocs(); break;
+      case 'photo-pick': $('#fPhoto').click(); break;
+      case 'photo-del':
+        busy(el, true);
+        try { await C.updateProfile({ photo: null }); U.toast('Фото удалено', { kind: 'ok' }); } catch (x) { busy(el, false); $('#photoErr').textContent = errText(x); }
+        break;
+      case 'goto-field': {
+        const f = el.getAttribute('data-f');
+        const map = { photo: '#photoPick', name: '#fName', age: '#fAge', level: '#fLevel input', hand: '#fHand input', style: '#fStyle input', about: '#fAbout', tg: '#fTg' };
+        const t = $(map[f]); if (t) { t.scrollIntoView({ block: 'center', behavior: 'smooth' }); t.focus({ preventScroll: true }); }
+        break;
+      }
+      case 'post-new': {
+        const act2 = (await C.listMyPosts()).filter(p => p.status === 'open').length;
+        if (act2 >= 3) { U.toast('Уже 3 активных объявления — закройте одно, чтобы добавить новое', { kind: 'err' }); break; }
+        openPostForm(null, 'new'); break;
+      }
+      case 'post-edit': case 'post-reopen': case 'post-close': case 'post-del': await postAction(act, id, el); break;
+      case 'accept':
+        busy(el, true);
+        await C.acceptResponse(id);
+        U.toast('Отклик принят — контакты открыты', { kind: 'ok' });
+        break;
+      case 'decline':
+        busy(el, true);
+        await C.declineResponse(id);
+        U.toast('Отклик отклонён', { kind: 'ok' });
+        break;
+      case 'played':
+        busy(el, true);
+        await C.markPlayed(id);
+        U.toast('Отмечено! Встреча засчитана в статистику', { kind: 'ok' });
+        break;
+      case 'book-together': { const r = respCache[id]; if (r) bookTogether(r); break; }
+      case 'bk-code': case 'bk-pay': case 'bk-move': case 'bk-repeat': case 'bk-cancel': bookingAction(act, id); break;
+      case 'bk-more': showAllPast = true; scheduleRender(true); break;
+      case 'doc-open': U.openDoc(id); break;
+      case 'cond-edit': editConditions(); break;
+      case 'cookie-cfg': U.openCookieSettings(); break;
+      case 'revoke': revoke(id); break;
+      case 'delete-profile': deleteProfile(); break;
+    }
+  } catch (x) { busy(el, false); toastErr(x); }
+}
+panel.addEventListener('click', onAct);
+sideCard.addEventListener('click', onAct);
+deletedView.addEventListener('click', onAct);
+
+const AFTER = { profile: afterProfile };
+
+/* =====================================================================
+   Маршрутизация по #hash
+   ===================================================================== */
+function route(initial) {
+  const h = location.hash.slice(1);
+  let next = tab;
+  if (h === 'new') { next = 'posts'; openNewAfter = true; history.replaceState(null, '', '#posts'); }
+  else if (TAB_IDS.indexOf(h) >= 0) next = h;
+  else if (!h) next = 'profile';
+  else return; // якоря вроде #main — вкладку не меняем
+  const changed = next !== tab;
+  if (changed) {
+    if (tab === 'incoming' || tab === 'mine') fresh[tab] = null;
+    if (tab === 'profile') profDirty = false;
+    showAllPast = false;
+  }
+  tab = next;
+  const t = TABS.find(x => x[0] === tab);
+  if (mode === 'app' || initial) document.title = t[1] + ' — кабинет игрока · Ping Point';
+  if (changed && !initial) {
+    const top = appView.getBoundingClientRect().top + window.scrollY - 90;
+    if (window.scrollY > top) window.scrollTo(0, Math.max(0, top));
+  }
+  render({ force: true, focus: changed && !initial });
+}
+window.addEventListener('hashchange', () => route(false));
+window.addEventListener('pp:change', () => scheduleRender(false));
+
+/* ---------- старт ---------- */
+$('#ftrDocs').innerHTML = U.docsFooterHTML();
+$('#year').textContent = new Date().getFullYear();
+U.bindCabButton($('#cabBtn'));
+U.cookieBanner();
+route(true);
+setTimeout(() => U.checkDocUpdates(), 500);
+})();
+</script>
+<script src="booking.js"></script>
+</body>
+</html>
