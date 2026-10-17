@@ -11,8 +11,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script src="community.js?v=20261017"></script>
-<script src="shared-booking.js?v=20261017"></script>
+<script src="community.js?v=20261017a"></script>
+<script src="shared-booking.js?v=20261017a"></script>
+<script src="shared-account.js?v=20261017a"></script>
 <style>
 :root{
   --bg:#07080f;
@@ -399,20 +400,21 @@ button{font:inherit;color:inherit}
       <div>
         <span class="eyebrow">Личный кабинет</span>
         <h1 id="gstTitle">Кабинет игрока</h1>
-        <p class="gst-lead">Всё про ваши игры в одном месте. Вход по номеру телефона — без паролей.</p>
+        <p class="gst-lead">Всё про ваши игры в одном месте. Вход по телефону и паролю или ключу устройства.</p>
         <ul class="feats">
           <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></i><div><b>Брони и коды доступа</b><span>Ближайшие игры, код на вход и QR, отмена и перенос по правилам оферты, повтор брони в пару нажатий.</span></div></li>
           <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><circle cx="17" cy="9" r="2.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M15 14.5a5 5 0 0 1 6.5 5"/></svg></i><div><b>Поиск партнёров</b><span>Объявления «ищу, с кем поиграть» — вы сами решаете, что показывать в ленте: фото, возраст, уровень.</span></div></li>
           <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></i><div><b>Отклики и контакты</b><span>Принимаете отклик — и вы с партнёром видите контакты друг друга. Стол можно сразу забронировать вместе.</span></div></li>
-          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg></i><div><b>Документы и согласия</b><span>Какие согласия вы дали и когда, отзыв в один клик, выгрузка своих данных.</span></div></li>
+          <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg></i><div><b>Документы и согласия</b><span>Документы, согласия и данные профиля. Для отзыва серверного согласия или удаления аккаунта обратитесь к администратору.</span></div></li>
         </ul>
       </div>
       <div class="auth-card">
         <h2>Вход и регистрация</h2>
-        <p>Введите номер — пришлём код. Новый номер — создадим кабинет.</p>
+        <p>Используйте пароль или зарегистрируйтесь. Ключ устройства можно добавить после входа.</p>
         <div id="authBox"></div>
       </div>
     </div>
+    <section id="guestBookings" style="margin-top:32px" aria-label="Гостевые брони этого браузера"></section>
   </section>
 
   <!-- профиль в очереди на удаление -->
@@ -557,6 +559,7 @@ function setMode(m) {
 }
 
 function showGuest() {
+  loadGuestBookings();
   if (!setMode('guest')) return;
   fresh.incoming = fresh.mine = null; profDirty = false;
   document.title = 'Кабинет игрока — вход · Ping Point';
@@ -570,6 +573,17 @@ function showGuest() {
       window.scrollTo(0, 0);
     }
   });
+}
+
+let guestRead=0;
+async function loadGuestBookings() {
+  const seq=++guestRead,box=$('#guestBookings');
+  try {
+    const result=await B.listMyBookings();
+    if(seq!==guestRead || C.meSync())return;
+    const bookings=result.upcoming.concat(result.past);
+    box.innerHTML=bookings.length?'<h2>Ваши брони в этом браузере</h2><p class="hint">Для просмотра и оплаты регистрация не нужна. Сохраните этот браузер и его cookie; после входа брони привяжутся к аккаунту.</p><div class="list">'+bookings.map(b=>bookingCard(b,b.isPast)).join('')+'</div>':'';
+  }catch(e){if(seq===guestRead)box.innerHTML='<p class="pp-e" role="alert">'+esc(e.message)+'</p><button class="btn btn-ghost btn-sm" type="button" data-guest-retry>Повторить загрузку броней</button>';const retry=box.querySelector('[data-guest-retry]');if(retry)retry.addEventListener('click',loadGuestBookings);}
 }
 
 function showDeleted() {
@@ -662,9 +676,9 @@ async function renderPanel(seq, focusTitle) {
   const snap = tab === 'profile' && profDirty ? readProf() : null;
   let html;
   try {
-    const lockedTab = !me.docsOk && tab !== 'docs';
+    const lockedTab = !me.docsOk && !['docs', 'bookings'].includes(tab);
     html = (lockedTab ? lockedHTML() : await PANELS[tab]());
-    html = docsPlaque() + html;
+    html = docsPlaque() + ((tab==='posts'||tab==='incoming'||tab==='mine'||tab==='stats')?'<p class="hint">Объявления и отклики хранятся в этом браузере. Серверный аккаунт и брони доступны на других устройствах.</p>':'') + html;
   } catch (x) {
     if (x && (x.code === 'AUTH' || x.code === 'DELETION')) { if (seq === renderSeq) scheduleRender(true); return; }
     html = '<div class="card empty"><div class="empty-ball" aria-hidden="true"></div><h2>Не получилось загрузить раздел</h2><p>' + esc(errText(x)) + '</p><div class="acts"><button class="btn btn-ghost btn-sm" type="button" data-act="reload">Попробовать снова</button></div></div>';
@@ -690,13 +704,13 @@ function empty(title, text, actions) {
   return '<div class="card empty"><div class="empty-ball" aria-hidden="true"></div><h2>' + title + '</h2><p>' + text + '</p><div class="acts">' + (actions || '') + '</div></div>';
 }
 function docsPlaque() {
-  if (!me.docsOk) return '<div class="plaque bad" role="status"><p><b>Документы обновились.</b> Пока вы не подтвердите новую редакцию, объявления, отклики и брони в кабинете недоступны. Раздел «Документы и согласия» работает.</p><button class="btn btn-main calm btn-sm" type="button" data-act="docs-confirm">Подтвердить документы</button></div>';
+  if (!me.docsOk) return '<div class="plaque bad" role="status"><p><b>Документы обновились.</b> Продление согласий в кабинете пока недоступно — обратитесь к администратору. Свои брони, проверка оплаты и выданные QR остаются доступны в разделе «Мои бронирования».</p><button class="btn btn-ghost btn-sm" type="button" data-act="docs-confirm">Что делать</button><a class="btn btn-ghost btn-sm" href="#bookings">Мои бронирования</a></div>';
   if (me.outdated && me.outdated.length) return '<div class="plaque" role="status"><p><b>Есть новая редакция документа.</b> Подтвердите её, чтобы связанные функции продолжили работать.</p><button class="btn btn-ghost btn-sm" type="button" data-act="docs-confirm">Посмотреть и подтвердить</button></div>';
   return '';
 }
 function lockedHTML() {
   const t = TABS.find(x => x[0] === tab);
-  return head('Кабинет', esc(t[1]), '') + empty('Раздел временно недоступен', 'Подтвердите новую редакцию документов — и всё заработает как прежде. Это займёт полминуты.', '<button class="btn btn-main calm btn-sm" type="button" data-act="docs-confirm">Подтвердить документы</button><a class="btn btn-ghost btn-sm" href="#docs">Открыть документы</a>');
+  return head('Кабинет', esc(t[1]), '') + empty('Раздел временно недоступен', 'Для этого раздела нужны актуальные согласия. Их продление в кабинете пока недоступно — обратитесь к администратору по контактам внизу сайта. Свои брони и выданные QR можно открыть в разделе «Мои бронирования».', '<a class="btn btn-main calm btn-sm" href="#bookings">Мои бронирования</a><a class="btn btn-ghost btn-sm" href="#docs">Открыть документы</a>');
 }
 
 /* =====================================================================
@@ -753,7 +767,7 @@ function pProfile() {
         ? '<p class="hint" style="margin-top:14px">С полным профилем отвечают охотнее. Чего не хватает:</p><ul class="miss-list">' + c.missing.map(m => '<li><button type="button" data-act="goto-field" data-f="' + m.key + '" data-k="miss-' + m.key + '"><span>' + esc(m.title) + '</span><small>+' + m.add + '%</small></button></li>').join('') + '</ul>'
         : '<div class="full-note">Профиль заполнен полностью — отлично!</div>') +
     '</aside>' +
-  '</div>';
+  '</div><section class="card" id="accountSecurity" style="margin-top:24px"></section>';
 }
 function readProf() {
   const f = $('#profForm'); if (!f) return null;
@@ -769,6 +783,7 @@ function fillProf(s) {
 function aboutCount() { const a = $('#fAbout'), c = $('#aboutCnt'); if (!a || !c) return; c.textContent = a.value.length + ' / 300'; c.classList.toggle('over', a.value.length > 300); }
 const FIELD_OF = { NAME: 'fName', AGE: 'fAge', TG: 'fTg' };
 function afterProfile() {
+  if (window.AccountAPI) window.AccountAPI.mountSecurity($('#accountSecurity'));
   const f = $('#profForm');
   aboutCount();
   f.addEventListener('input', e => { profDirty = true; $('#profNote').textContent = ''; if (e.target.id === 'fAbout') aboutCount(); if (e.target.getAttribute('aria-invalid')) e.target.removeAttribute('aria-invalid'); });
@@ -1133,8 +1148,11 @@ function bookingCard(b, past) {
   if (b.status === 'refund_partial') refund = b.refundAmount == null ? '<li><span class="st warn">Ожидает расчёта возврата</span></li>' : '<li>Возвращено <b>' + P.money(b.refundAmount) + '</b></li>';
   if (b.status === 'refunded') refund = '<li>Возвращено <b>' + P.money(b.refundAmount != null ? b.refundAmount : b.amount) + '</b></li>';
   let code = b.test?'<p class="hint">Тестовая бронь · деньги не списаны, код доступа не выдаётся.</p>':'';
-  if (b.status === 'paid' && !past && b.code) code = '<div class="cbk-code"><span>Код доступа: <code aria-label="скрыт">••••••</code></span><button class="btn btn-ghost btn-xs" type="button" data-act="bk-code" data-id="' + b.id + '" data-k="bc-' + b.id + '">Показать код</button></div>';
+  if (b.status === 'paid' && !past && !b.test) code = '<div class="cbk-code"><span>QR-пропуск на время сеанса</span><button class="btn btn-ghost btn-xs" type="button" data-act="bk-code" data-id="' + b.id + '" data-k="bc-' + b.id + '">Показать QR</button></div>' ;
   let acts = '', hints = [];
+  if(b.payment && b.payment.provider==='yookassa') acts+='<button class="btn btn-ghost btn-xs" type="button" data-act="bk-refresh" data-id="'+b.id+'">Проверить оплату / возврат</button>';
+  if(b.status==='payment_review') hints.push(['bad','Оплата требует проверки администратора. Пропуск не выдан.']);
+  if(b.status==='refund_pending') hints.push(['warn','Возврат обрабатывается. Деньги ещё не подтверждены как возвращённые, вход закрыт.']);
   if (!past) {
     if (b.status === 'pending') acts += '<button class="btn btn-main calm btn-xs" type="button" data-act="bk-pay" data-id="' + b.id + '" data-k="bp-' + b.id + '">Перейти к оплате</button>';
     if (b.canCancel) acts += '<button class="btn btn-ghost btn-xs" type="button" data-act="bk-cancel" data-id="' + b.id + '" data-k="bx-' + b.id + '">Отменить</button>';
@@ -1142,7 +1160,7 @@ function bookingCard(b, past) {
     if (started) hints.push(['warn', 'Бронь уже идёт — отмена и перенос недоступны. Хорошей игры!']);
     else if (b.status === 'paid') {
       if (b.cancelLate) hints.push(['warn', 'До начала меньше ' + h + ' ч: при отмене вернём оплату за вычетом фактических расходов, перенос уже недоступен.']);
-      else if (b.canReschedule) hints.push(['', 'Отмена не позднее чем за ' + h + ' ч — возврат 100%. Перенос бесплатный, один раз, не позднее чем за ' + h + ' ч; разница в цене — доплата или возврат.']);
+      else if (b.canReschedule) hints.push(['', 'Отмена не позднее чем за ' + h + ' ч — возврат 100%. Перенос один раз при той же цене. При изменении суммы нужен отдельный расчёт через администратора.']);
       else if (b.rescheduled) hints.push(['', 'Бесплатный перенос уже использован. Отмена не позднее чем за ' + h + ' ч — возврат 100%.']);
     }
     if (b.status === 'pending') hints.push(['warn', 'Бронь не оплачена — время держится ' + (cs.holdMin || 15) + ' минут, потом слот освободится.']);
@@ -1162,11 +1180,11 @@ function bookingCard(b, past) {
 async function pBookings() {
   const r = await B.listMyBookings();
   bkCache = {};
-  const intro = '<div class="cbk-intro"><p>Бронь и оплата — прямо здесь, на сайте: выберите время, оплатите картой или по СБП и получите код на вход. Условия отмены и переноса — в ' + U.docLink('offer', 'Публичной оферте') + '.</p></div>';
+  const intro = '<div class="cbk-intro"><p>Статус оплаты подтверждает сервер через ЮKassa. После реальной оплаты здесь доступен QR на время сеанса. Работа двери зависит от подключения СКУД. Условия отмены и переноса — в ' + U.docLink('offer', 'Публичной оферте') + '.</p></div>';
   let html = head('Бронирование', 'Мои бронирования', '', '<button class="btn btn-main calm btn-sm" type="button" data-book>Новая бронь</button>') + intro;
   html += '<h2 class="sec-t">Ближайшие <small>' + r.upcoming.length + '</small></h2>';
   html += r.upcoming.length ? '<div class="list">' + r.upcoming.map(b => bookingCard(b, false)).join('') + '</div>'
-    : empty('Ближайших игр нет', 'Выберите свободное время — бронь занимает минуту, код на вход придёт сразу после оплаты.', '<button class="btn btn-main calm btn-sm" type="button" data-book>Забронировать стол</button>');
+    : empty('Ближайших игр нет', 'Выберите свободное время. Оплата и QR появятся после настройки ЮKassa и подтверждения платежа.', '<button class="btn btn-main calm btn-sm" type="button" data-book>Забронировать стол</button>');
   if (r.past.length) {
     const shown = showAllPast ? r.past : r.past.slice(0, 6);
     html += '<h2 class="sec-t">История <small>' + r.past.length + '</small></h2><div class="list">' + shown.map(b => bookingCard(b, true)).join('') +
@@ -1176,12 +1194,10 @@ async function pBookings() {
 }
 function showCode(b) {
   if (window.PPBooking && typeof window.PPBooking.showBooking === 'function') return window.PPBooking.showBooking(b.id);
-  const box = document.createElement('div');
-  box.className = 'code-box';
-  box.innerHTML = '<p class="hint">' + esc(b.dateLabel + ', ' + b.timeLabel) + ' · № ' + esc(b.number) + '</p><div class="code">' + esc(b.code || '—') + '</div>' + U.qrSVG(b.code || b.id, 180) +
-    '<p class="hint" style="margin-bottom:16px">Наберите код на замке у двери или покажите QR. ТРЦ «Мельница», 4 этаж, офис 422.</p><div class="pp-sheet-foot"><button class="btn btn-ghost btn-sm" type="button" data-ics>Добавить в календарь</button></div>';
-  box.querySelector('[data-ics]').addEventListener('click', () => U.saveFile('ping-point-' + b.number + '.ics', U.icsFor(b), 'text/calendar'));
-  U.sheet({ title: 'Код доступа', body: box, width: 420 });
+  const box=document.createElement('div');
+  const sh=U.sheet({title:'Пропуск на сеанс',body:box,width:460});
+  B.mountAccess(box,b.id);
+  return sh;
 }
 function nextSameWeekday(b) {
   const want = P.dayIdx(P.parseYmd(b.date)), lead = (settings().minLeadMin || 60) * 60e3, t0 = P.parseYmd(P.today());
@@ -1194,6 +1210,7 @@ function nextSameWeekday(b) {
 function bookingAction(act, id) {
   const b = bkCache[id]; if (!b) return;
   if (act === 'bk-code') return showCode(b);
+  if (act === 'bk-refresh') return (async()=>{try{await B.refreshPayment(b.payment.id);U.toast('Статус сверён с платёжной системой');scheduleRender(true);}catch(e){U.toast(e.message,{kind:'err'});}})();
   if (act === 'bk-pay') {
     if (window.PPBooking && typeof window.PPBooking.resume === 'function') return window.PPBooking.resume(id);
     return noBooking();
@@ -1217,7 +1234,7 @@ function bookingAction(act, id) {
       html: html + '<p class="hint">' + U.docLink('offer', 'Условия отмены в оферте') + '</p>',
       onOk: async () => {
         const v = await B.cancelBooking(id);
-        U.toast(v.status === 'refunded' ? 'Бронь отменена, возврат ' + P.money(v.refundAmount || 0) + ' оформлен' : v.status === 'refund_partial' ? 'Бронь отменена. Сумму возврата рассчитает администратор' : 'Бронь отменена', { kind: 'ok', ms: 8000 });
+        U.toast(v.status==='refund_pending'?'Возврат обрабатывается. Вход закрыт.':v.status === 'refunded' ? 'Бронь отменена, возврат ' + P.money(v.refundAmount || 0) + ' оформлен' : v.status === 'refund_partial' ? 'Бронь отменена. Сумму возврата рассчитает администратор' : 'Бронь отменена', { kind: 'ok', ms: 8000 });
       }
     });
   }
@@ -1263,11 +1280,12 @@ async function pDocs() {
   }).join('');
   return html + '<div class="list">' + rows +
     '<section class="card data-card" aria-labelledby="dataT"><h2 id="dataT">Ваши данные</h2>' +
-      '<p>Можно выгрузить всё, что мы храним о вас: профиль, объявления, отклики, брони и журнал согласий — одним файлом. Запросы по персональным данным принимаем и по почте pingp-inf@bk.ru или по телефону ' + PHONE + '.</p>' +
+      '<p>Можно выгрузить серверный профиль и брони, а также объявления и отклики этого браузера. Это частичная выгрузка; полный серверный журнал согласий можно запросить у администратора. Запросы по персональным данным принимаем и по почте pingp-inf@bk.ru или по телефону ' + PHONE + '.</p>' +
       '<div class="acts"><button class="btn btn-ghost btn-sm" type="button" data-act="export" data-k="exp">Скачать мои данные</button><button class="btn btn-ghost btn-sm" type="button" data-act="cookie-cfg" data-k="ck2">Настройки cookie</button><button class="pp-link danger" type="button" data-act="delete-profile" data-k="delp">Удалить профиль</button></div>' +
     '</section></div>';
 }
 function confirmDocs(onDone) {
+  if(me && !me.docsOk){U.sheet({title:'Документы обновились',body:'<p class="pp-h">Подтверждение новых редакций для существующего серверного аккаунта пока недоступно. Обратитесь к администратору. Согласия автоматически не продлеваются.</p>',width:520});return;}
   if (U.checkDocUpdates({onClose:()=>{me=C.meSync();if(me&&me.docsOk&&onDone)onDone();}})) return;
   me = C.meSync(); if (!me) return;
   C.docs().then(list => {
@@ -1308,6 +1326,7 @@ function editConditions() {
 }
 function revoke(id) {
   const d = docsCache.find(x => x.id === id); if (!d) return;
+  if(id!=='consent_public'){U.sheet({title:'Отзыв серверного согласия',body:'<p class="pp-h">Отправка отзыва из кабинета пока недоступна. Обратитесь к администратору по контактам внизу сайта. Запрос не отправлен; серверное согласие не изменено.</p>',width:520});return;}
   let html;
   if (id === 'consent_public') html = '<p>После отзыва:</p><ul><li>все ваши активные объявления снимутся с ленты;</li><li>ваш профиль пропадёт из ленты партнёров;</li><li>принятые отклики и открытые контакты останутся у вас и у партнёров;</li><li>чтобы снова публиковать объявления, согласие нужно будет дать заново.</li></ul>';
   else html = '<div class="warnbox">Это отзыв согласия на обработку персональных данных — без него кабинет работать не может.</div><ul><li>профиль уйдёт в удаление через 30 дней, объявления снимутся сразу;</li><li>кабинет заблокируется — останутся только «Восстановить профиль» и «Скачать мои данные»;</li><li>до этой даты можно передумать и восстановить профиль;</li><li>оплаченные брони сохраняют силу — код доступа придёт как обычно.</li></ul>';
@@ -1329,17 +1348,7 @@ async function exportData(btn) {
   busy(btn, false);
 }
 function deleteProfile() {
-  confirmSheet({
-    title: 'Удалить профиль?', danger: true, ok: 'Удалить профиль', cancel: 'Не удалять',
-    html: '<ul><li>объявления сразу снимутся с ленты, профиль перестанет быть виден;</li><li>данные будут уничтожены через 30 дней — до этого можно передумать: войдите по номеру телефона и нажмите «Восстановить профиль»;</li><li>журнал согласий хранится отдельно, как требует закон;</li><li>оплаченные брони остаются в силе.</li></ul><p class="hint">Советуем сначала <button class="pp-link" type="button" data-exp>скачать свои данные</button>.</p>',
-    bind: box => { const b = box.querySelector('[data-exp]'); b.addEventListener('click', () => exportData(b)); },
-    onOk: async () => {
-      await C.deleteProfile();
-      history.replaceState(null, '', location.pathname + location.search);
-      tab = 'profile';
-      U.toast('Запрос на удаление принят. Вы вышли из кабинета', { kind: 'ok', ms: 8000 });
-    }
-  });
+  U.sheet({title:'Удаление серверного аккаунта',body:'<p class="pp-h">Удаление аккаунта из кабинета пока недоступно. Обратитесь к администратору по контактам внизу сайта. Запрос не отправлен; аккаунт и брони сохранены.</p>',width:520});
 }
 
 /* =====================================================================
@@ -1397,7 +1406,7 @@ async function onAct(e) {
         U.toast('Отмечено! Встреча засчитана в статистику', { kind: 'ok' });
         break;
       case 'book-together': { const r = respCache[id]; if (r) bookTogether(r); break; }
-      case 'bk-code': case 'bk-pay': case 'bk-move': case 'bk-repeat': case 'bk-cancel': bookingAction(act, id); break;
+      case 'bk-code': case 'bk-refresh': case 'bk-pay': case 'bk-move': case 'bk-repeat': case 'bk-cancel': bookingAction(act, id); break;
       case 'bk-more': showAllPast = true; scheduleRender(true); break;
       case 'doc-open': U.openDoc(id); break;
       case 'cond-edit': editConditions(); break;
@@ -1410,6 +1419,7 @@ async function onAct(e) {
 panel.addEventListener('click', onAct);
 sideCard.addEventListener('click', onAct);
 deletedView.addEventListener('click', onAct);
+guestView.addEventListener('click', onAct);
 
 const AFTER = { profile: afterProfile };
 
@@ -1446,10 +1456,11 @@ $('#ftrDocs').innerHTML = U.docsFooterHTML();
 $('#year').textContent = new Date().getFullYear();
 U.bindCabButton($('#cabBtn'));
 U.cookieBanner();
-route(true);
+try { if(sessionStorage.getItem('pp_checkout_booking')){sessionStorage.removeItem('pp_checkout_booking');history.replaceState(null,'','#bookings');} } catch (_) {}
+AccountAPI.ready.then(() => route(true)).catch(e => { route(true); U.toast(e.message, {kind:'err'}); });
 setTimeout(() => U.checkDocUpdates(), 500);
 })();
 </script>
-<script src="booking.js?v=20261017"></script>
+<script src="booking.js?v=20261017a"></script>
 </body>
 </html>

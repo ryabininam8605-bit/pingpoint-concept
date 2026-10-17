@@ -8,7 +8,7 @@ const B = global.BookingAPI, A = global.AdminAPI;
 if (!B || !A) throw new Error('shared-booking.js requires community.js');
 const clone = value => JSON.parse(JSON.stringify(value));
 let settings = { open:600, close:1230, border:780, priceAm:400, pricePm:500, racket:100, minLeadMin:60, cancelHours:3, holdMin:15, maxPlayers:4, rules:[] };
-let csrf = '', admin = false, boot = null;
+let csrf = '', admin = false, boot = null, session = null;
 const cache = new Map(), requests = new Map(), promos = new Map();
 const key = (date, excludeId) => date + '|' + (excludeId || '');
 function error(code, message) { const e = new Error(message); e.code = code; return e; }
@@ -35,6 +35,7 @@ async function request(path, body) {
       if (response.status === 403 && path.indexOf('/api/admin/') === 0) { admin = false; localAdminFlag(); }
       throw error(value.error && value.error.code || 'SERVER', value.error && value.error.message || 'Не удалось выполнить запрос');
     }
+    if (value && typeof value.csrf === 'string') applySession(value);
     return value;
   } catch (e) {
     if (e.code) throw e;
@@ -44,14 +45,26 @@ async function request(path, body) {
 function bootstrap() {
   if (boot) return boot;
   boot = request('/api/session').then(value => {
-    settings = value.settings; csrf = value.csrf; admin = !!value.admin; B.demoPayments = !!value.demoPayments;
-    localAdminFlag(); return value;
+    applySession(value); return value;
   }).catch(e => { boot = null; admin = false; localAdminFlag(); throw e; });
   // The UI can await the same rejection, while an unobserved initial load is safe.
   boot.catch(() => {});
   B.ready = boot;
   return boot;
 }
+function applySession(value) {
+  session = Object.assign({}, session || {}, value);
+  if (value.settings) settings = value.settings;
+  if (typeof value.csrf === 'string') csrf = value.csrf;
+  if ('admin' in value) admin = !!value.admin;
+  if ('demoPayments' in value) B.demoPayments = !!value.demoPayments;
+  if (value.capabilities) B.capabilities = clone(value.capabilities);
+  localAdminFlag();
+  global.dispatchEvent(new CustomEvent('pp:session', {detail:clone(session)}));
+}
+B.session = () => session ? clone(session) : null;
+B.request = async (path, body) => { await bootstrap(); return request(path, body); };
+B.refreshSession = async () => { await bootstrap(); return request('/api/session'); };
 function query(values) { const p = new URLSearchParams(); Object.keys(values || {}).forEach(k => { if (values[k] != null && values[k] !== '') p.set(k, values[k]); }); return p.toString(); }
 async function refresh(date, excludeId) {
   const id = key(date, excludeId);
@@ -94,6 +107,7 @@ async function mutate(path, body, dates) {
 }
 B.settings = () => clone(settings);
 B.demoPayments = false;
+B.capabilities = {payments:'disabled',access:'unconfigured',accounts:false,passkeys:false};
 B.refreshAvailability = refresh;
 B.refreshAllAvailability = (dates, excludeId) => Promise.all(dates.map(date => refresh(date, excludeId)));
 B.availabilityState = (date, excludeId) => { const c = cache.get(key(date, excludeId)); return c ? (c.status === 'error' ? { status:'error', error:c.error } : { status:c.status }) : { status:'loading' }; };
@@ -126,6 +140,50 @@ B.createBooking = async options => {
 };
 B.createPayment = (id, method) => mutate('/api/bookings/' + encodeURIComponent(id) + '/payments', {method});
 B.confirmPayment = (id, options) => mutate('/api/payments/' + encodeURIComponent(id) + '/confirm', options || {});
+B.refreshPayment = id => mutate('/api/payments/' + encodeURIComponent(id) + '/refresh', {});
+B.getAccess = async id => { await bootstrap(); return request('/api/bookings/' + encodeURIComponent(id) + '/access'); };
+B.checkoutUrl = payment => {
+  let url;
+  try { url = new URL(payment.confirmationUrl); } catch (_) { throw error('PAYMENT_URL','Сервер не вернул безопасную ссылку для оплаты. Повторите проверку или обратитесь к администратору.'); }
+  if (url.protocol !== 'https:' || url.username || url.password) throw error('PAYMENT_URL','Небезопасная ссылка оплаты заблокирована. Обратитесь к администратору.');
+  return url.href;
+};
+const htmlEscape = value => String(value == null ? '' : value).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+B.accessHTML = access => {
+  const disconnected = B.capabilities.access !== 'online' ? '<p class="pp-h" role="note"><b>СКУД не подключена.</b> Открытие реальной двери ещё не настроено; совместимость считывателя требует проверки.</p>' : '';
+  const labels = {unavailable:'Пропуск пока недоступен',scheduled:'Пропуск на будущий сеанс',active:'Сеанс идёт — пропуск действует',expired:'Сеанс закончился — QR недействителен',revoked:'Пропуск отозван'};
+  const reasons = {payment_invalid:'Оплата не подтверждена для прохода.',refund_pending:'Возврат обрабатывается, вход закрыт.',revoked:'Бронь отменена или изменена.',expired:'Время действия закончилось.'};
+  let content = '<p class="pp-h">' + htmlEscape(labels[access.status] || 'Пропуск недоступен') + '</p>';
+  if (!access.test && ['scheduled','active'].includes(access.status) && access.qrSvg && access.qrPayload) {
+    const format = ts => new Intl.DateTimeFormat('ru-RU',{timeZone:'Europe/Moscow',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(ts));
+    content += '<div style="text-align:center"><img alt="QR-пропуск в комнату" width="220" height="220" style="display:block;max-width:100%;height:auto;margin:12px auto;background:white" src="data:image/svg+xml;charset=utf-8,' + encodeURIComponent(access.qrSvg) + '"></div><p class="pp-h">' + htmlEscape(format(access.validFrom) + ' — ' + format(access.validTo)) + ' (Москва). Повторный вход разрешён в течение сеанса. Раньше начала и с момента окончания QR не действует.</p>';
+  } else content += '<p class="pp-h">' + htmlEscape(access.test ? 'Тестовая оплата не даёт доступа в комнату.' : reasons[access.reason] || access.reason || 'После подтверждённой реальной оплаты здесь появится пропуск.') + '</p>';
+  return content + disconnected;
+};
+B.mountAccess = (container, id) => {
+  let closed = false, timer = null, expiresAt = null;
+  const read = async () => {
+    if (closed || container.isConnected === false) return;
+    if (expiresAt && Date.now() >= expiresAt) container.innerHTML = '<p class="pp-h" role="status">Срок QR закончился. Проверяем состояние брони…</p>';
+    try {
+      const access = await B.getAccess(id);
+      if (closed || container.isConnected === false) return;
+      expiresAt = access.validTo || null;
+      container.innerHTML = B.accessHTML(access);
+      let delay = 20000;
+      if (access.validTo > Date.now()) delay = Math.min(delay, access.validTo - Date.now() + 10);
+      timer = setTimeout(read, Math.max(100,delay));
+    } catch (e) {
+      if (closed || container.isConnected === false) return;
+      // Do not leave an old QR visible when the authoritative read fails.
+      container.innerHTML = '<p class="pp-e" role="alert">' + htmlEscape(e.message) + ' Пропуск скрыт до повторной проверки.</p><button type="button" class="btn btn-ghost btn-sm" data-access-retry>Проверить пропуск</button>';
+      container.querySelector('[data-access-retry]').addEventListener('click',read,{once:true});
+    }
+  };
+  container.innerHTML = '<p class="pp-h" role="status">Проверяем пропуск на сервере…</p>';
+  read();
+  return () => {closed=true;clearTimeout(timer);};
+};
 B.getBooking = async id => { await bootstrap(); try { return await request('/api/bookings/' + encodeURIComponent(id)); } catch(e) { if (e.code === 'NOTFOUND') return null; throw e; } };
 B.listMyBookings = async () => { await bootstrap(); return request('/api/bookings/mine'); };
 B.cancelBooking = id => mutate('/api/bookings/' + encodeURIComponent(id) + '/cancel', {});

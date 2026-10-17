@@ -82,7 +82,6 @@ const BOOKING_STATUS = {
 };
 const PAYMENT_STATUS = { pending: 'Ожидает', succeeded: 'Оплачен', failed: 'Отказ', canceled: 'Отменён', refunded: 'Возвращён', partially_refunded: 'Частичный возврат' };
 const PAY_METHOD = { card: 'Карта', sbp: 'СБП', cash: 'Наличные', terminal: 'Карта на месте' };
-const DEMO_CODE = '1234';
 const ADMIN_LOGIN = 'admin', ADMIN_PASS = 'pingpoint'; // демо-доступ, в боевой версии — учётки на сервере
 const DEFAULT_SETTINGS = {
   open: 600, close: 1230, border: 780, priceAm: 400, pricePm: 500, racket: 100,
@@ -464,7 +463,8 @@ function isVisibleAuthor(u) { return !!u && !u.deletion && hasCurrent(u, 'consen
 /* =====================================================================
    Сессия и представления
    ===================================================================== */
-function sessionId() { return sget(SKEY) || null; }
+let serverIdentityEnabled = false, serverIdentityId = null;
+function sessionId() { return serverIdentityEnabled ? serverIdentityId : sget(SKEY) || null; }
 function currentUser(db) { const id = sessionId(); const u = id && db.users[id]; return u && !u.demo ? u : null; }
 function needUser(db, soft) {
   const u = currentUser(db);
@@ -653,59 +653,10 @@ const norm = s => String(s || '').toLowerCase().replace(/ё/g, 'е');
 
 const CommunityAPI = {
   isPersistent: () => persistent,
-  async requestCode(phone) {
-    await wait();
-    const p = normPhone(phone);
-    if (!p) throw new PPError('PHONE', 'Введите номер полностью: +7 и 10 цифр');
-    const db = load();
-    const exists = Object.keys(db.users).some(k => db.users[k].phone === p && !db.users[k].demo);
-    return { sent: true, exists: exists, demoCode: DEMO_CODE };
-  },
-  /* o: {phone, code, name, ageGroup:'adult'|'minor', guardian:{fio, phone}, consents:{consent_pd, community_rules, policy}, context} */
-  async register(o) {
-    await wait();
-    const p = normPhone(o.phone); if (!p) throw new PPError('PHONE', 'Проверьте номер телефона');
-    if (String(o.code || '').trim() !== DEMO_CODE) throw new PPError('CODE', 'Неверный код. В демо-режиме код — ' + DEMO_CODE);
-    const name = String(o.name || '').trim().slice(0, 40);
-    if (name.length < 2) throw new PPError('NAME', 'Как вас зовут?');
-    const c = o.consents || {};
-    const miss = REG_DOCS.filter(id => !c[id]);
-    if (miss.length) throw new PPError('CONSENT', 'Отметьте: ' + miss.map(id => docById(id).title).join(', '));
-    const ageGroup = o.ageGroup === 'minor' ? 'minor' : o.ageGroup === 'adult' ? 'adult' : null;
-    if (!ageGroup) throw new PPError('AGE', 'Укажите возраст: 18+ или 14–17 с согласия законного представителя');
-    let guardian = null;
-    if (ageGroup === 'minor') {
-      const fio = String((o.guardian || {}).fio || '').trim().replace(/\s+/g, ' ');
-      const gp = normPhone((o.guardian || {}).phone);
-      if (fio.split(' ').length < 2 || fio.length < 5) throw new PPError('GUARDIAN', 'Укажите ФИО законного представителя полностью');
-      if (!gp) throw new PPError('GUARDIAN', 'Проверьте телефон законного представителя');
-      if (gp === p) throw new PPError('GUARDIAN', 'Телефон представителя должен отличаться от вашего');
-      guardian = { fio: fio.slice(0, 80), phone: gp };
-    }
-    const H = await hashesFor(REG_DOCS);
-    const ctx = CONSENT_CONTEXT[o.context] ? o.context : 'registration';
-    const u = mutate(db => {
-      if (Object.keys(db.users).some(k => db.users[k].phone === p && !db.users[k].demo)) throw new PPError('EXISTS', 'Этот номер уже зарегистрирован — просто войдите');
-      const nu = { id: uid('u'), phone: p, name: name, age: null, level: null, hand: null, style: null, about: '', tg: '', showPhone: false, photo: null, createdAt: Date.now(), ageGroup: ageGroup, guardian: guardian, consents: {} };
-      db.users[nu.id] = nu;
-      REG_DOCS.forEach(id => { db.consents.push(consentEntry({ subjectId: nu.id, name: name, phone: p, docId: id, action: 'accepted', context: ctx, hash: H[id], guardian: guardian })); setUserConsent(nu, id); });
-      db.bookings.forEach(b => { if (!b.userId && b.phone === p) b.userId = nu.id; });
-      return nu;
-    });
-    sset(SKEY, u.id); emit(); goal('cabinet_register');
-    return meView(u);
-  },
-  async login(o) {
-    await wait();
-    const p = normPhone(o.phone); if (!p) throw new PPError('PHONE', 'Проверьте номер телефона');
-    if (String(o.code || '').trim() !== DEMO_CODE) throw new PPError('CODE', 'Неверный код. В демо-режиме код — ' + DEMO_CODE);
-    const db = load();
-    const id = Object.keys(db.users).find(k => db.users[k].phone === p && !db.users[k].demo);
-    if (!id) throw new PPError('NOUSER', 'Такого номера ещё нет — зарегистрируйтесь');
-    sset(SKEY, id); emit(); goal('cabinet_login');
-    return meView(db.users[id]);
-  },
-  async logout() { await wait(60); sdel(SKEY); emit(); return true; },
+  async requestCode() { throw new PPError('PASSWORD', 'SMS-вход отключён. Используйте пароль или ключ устройства.'); },
+  async register(options) { if (!global.AccountAPI) throw new PPError('SERVER', 'Серверный вход недоступен'); return global.AccountAPI.register(options); },
+  async login(options) { if (!global.AccountAPI) throw new PPError('SERVER', 'Серверный вход недоступен'); return global.AccountAPI.login(options); },
+  async logout() { if (!global.AccountAPI) throw new PPError('SERVER', 'Серверный вход недоступен'); return global.AccountAPI.logout(); },
   async me() { const db = load(); const u = currentUser(db); return u ? meView(u) : null; },
   meSync() { try { const db = load(); const u = currentUser(db); return u ? meView(u) : null; } catch (e) { return null; } },
   async updateProfile(patch) {
@@ -1887,100 +1838,17 @@ function missingHint(list, extra) {
   return t;
 }
 
-/* ---------- Вход / регистрация: телефон → код (демо 1234) → имя, возраст и согласия для новых ---------- */
+/* ---------- Server password/passkey form ---------- */
 function authForm(container, o) {
-  o = o || {};
-  const id = uid('au');
-  container.innerHTML =
-    '<form class="pp-auth-step" data-step="phone" novalidate>' +
-      (o.reason ? '<p class="pp-h" style="margin:0 0 16px;font-size:15px;color:var(--muted)">' + esc(o.reason) + '</p>' : '') +
-      '<div class="pp-e" role="alert"></div>' +
-      '<div class="pp-f"><label class="pp-l" for="' + id + 'p">Телефон</label><input class="pp-i" id="' + id + 'p" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (900) 000-00-00" required autofocus></div>' +
-      '<button class="btn btn-main calm" type="submit" style="width:100%">Получить код</button>' +
-      '<p class="pp-h" style="margin:14px 0 0">Телефон не показывается другим игрокам без вашего разрешения.</p>' +
-    '</form>' +
-    '<form class="pp-auth-step" data-step="code" hidden novalidate>' +
-      '<div class="pp-demo"><span>Демо-режим: СМС не отправляется. Код — <b>' + DEMO_CODE + '</b></span></div>' +
-      '<p class="pp-h" data-sent style="margin:0 0 14px;font-size:14.5px;color:var(--muted)"></p>' +
-      '<div class="pp-f"><label class="pp-l" for="' + id + 'c">Код из СМС</label><input class="pp-i pp-code" id="' + id + 'c" inputmode="numeric" autocomplete="one-time-code" maxlength="4" pattern="[0-9]*" required></div>' +
-      '<div data-new hidden>' +
-        '<div class="pp-f"><label class="pp-l" for="' + id + 'n">Как вас зовут</label><input class="pp-i" id="' + id + 'n" autocomplete="given-name" maxlength="40" placeholder="Имя"></div>' +
-        '<fieldset class="pp-f pp-fs"><legend class="pp-l">Возраст</legend>' +
-          '<label class="pp-check"><input type="radio" name="' + id + 'age" value="adult"> <span>Мне есть 18 лет</span></label>' +
-          '<label class="pp-check"><input type="radio" name="' + id + 'age" value="minor"> <span>Мне 14–17 лет, мой законный представитель согласен</span></label>' +
-        '</fieldset>' +
-        '<div data-guardian hidden class="pp-guard">' +
-          '<p class="pp-h" style="margin:0 0 12px">Данные родителя или другого законного представителя — сохраним их вместе с согласием.</p>' +
-          '<div class="pp-f"><label class="pp-l" for="' + id + 'gf">ФИО представителя</label><input class="pp-i" id="' + id + 'gf" autocomplete="off" maxlength="80" placeholder="Фамилия Имя Отчество"></div>' +
-          '<div class="pp-f"><label class="pp-l" for="' + id + 'gp">Телефон представителя</label><input class="pp-i" id="' + id + 'gp" type="tel" inputmode="tel" placeholder="+7 (900) 000-00-00"></div>' +
-        '</div>' +
-        '<div data-consents></div>' +
-      '</div>' +
-      '<div class="pp-e" role="alert"></div>' +
-      '<p class="pp-h pp-miss" data-miss aria-live="polite"></p>' +
-      '<button class="btn btn-main calm" type="submit" style="width:100%">Войти</button>' +
-      '<div class="pp-row" style="margin-top:14px"><button class="pp-link" type="button" data-back>Изменить номер</button></div>' +
-    '</form>';
-  const f1 = container.querySelector('[data-step=phone]'), f2 = container.querySelector('[data-step=code]');
-  const ph = f1.querySelector('input'), code = f2.querySelector('.pp-code'), nm = f2.querySelector('#' + id + 'n');
-  const gBox = f2.querySelector('[data-guardian]'), gFio = f2.querySelector('#' + id + 'gf'), gPh = f2.querySelector('#' + id + 'gp');
-  const submit2 = f2.querySelector('[type=submit]'), miss = f2.querySelector('[data-miss]');
-  const cons = consentChecks(REG_DOCS, { onChange: validate });
-  f2.querySelector('[data-consents]').appendChild(cons.el);
-  bindPhoneMask(ph); bindPhoneMask(gPh);
-  if (o.phone) ph.value = maskPhone(o.phone);
-  let isNew = false;
-  const age = () => { const r = f2.querySelector('input[name="' + id + 'age"]:checked'); return r ? r.value : null; };
-  f2.querySelectorAll('input[name="' + id + 'age"]').forEach(r => r.addEventListener('change', () => { gBox.hidden = age() !== 'minor'; validate(); }));
-  [nm, gFio, gPh, code].forEach(i => i.addEventListener('input', validate));
-  /* Кнопка неактивна, пока не отмечены обязательные пункты; подсказка — чего не хватает */
-  function validate() {
-    if (!isNew) { submit2.disabled = code.value.trim().length < 4; miss.textContent = ''; return; }
-    const extra = [];
-    if (nm.value.trim().length < 2) extra.push('имя');
-    if (!age()) extra.push('возраст');
-    if (age() === 'minor' && (gFio.value.trim().split(/\s+/).length < 2 || !normPhone(gPh.value))) extra.push('данные представителя');
-    if (code.value.trim().length < 4) extra.push('код из СМС');
-    const m = cons.missing();
-    submit2.disabled = !!(m.length || extra.length);
-    miss.textContent = submit2.disabled ? missingHint(m, extra) : '';
-  }
-  const err = (f, m) => { f.querySelector('.pp-e').textContent = m || ''; };
-  const busy = (f, on) => { const b = f.querySelector('[type=submit]'); b.classList.toggle('loading', on); if (on) b.disabled = true; };
-  f1.addEventListener('submit', async e => {
-    e.preventDefault(); err(f1);
-    busy(f1, true);
-    try {
-      const r = await CommunityAPI.requestCode(ph.value);
-      isNew = !r.exists;
-      f2.querySelector('[data-new]').hidden = !isNew;
-      submit2.textContent = isNew ? 'Создать кабинет' : 'Войти';
-      f2.querySelector('[data-sent]').textContent = (isNew ? 'Новый игрок — создадим кабинет. ' : 'С возвращением! ') + 'Код отправлен на ' + fmtPhone(normPhone(ph.value)) + '.';
-      f1.hidden = true; f2.hidden = false; code.value = ''; validate(); code.focus();
-    } catch (x) { err(f1, x.message); ph.setAttribute('aria-invalid', 'true'); ph.focus(); }
-    busy(f1, false); f1.querySelector('[type=submit]').disabled = false;
-  });
-  ph.addEventListener('input', () => ph.removeAttribute('aria-invalid'));
-  f2.querySelector('[data-back]').addEventListener('click', () => { f2.hidden = true; f1.hidden = false; ph.focus(); });
-  f2.addEventListener('submit', async e => {
-    e.preventDefault(); err(f2); validate();
-    if (submit2.disabled) return;
-    busy(f2, true);
-    try {
-      const u = isNew
-        ? await CommunityAPI.register({ phone: ph.value, code: code.value, name: nm.value, ageGroup: age(), guardian: age() === 'minor' ? { fio: gFio.value, phone: gPh.value } : null, consents: cons.values(), context: o.context })
-        : await CommunityAPI.login({ phone: ph.value, code: code.value });
-      if (o.onDone) o.onDone(u, isNew);
-    } catch (x) { err(f2, x.message); (x.code === 'NAME' ? nm : x.code === 'GUARDIAN' ? gFio : code).focus(); }
-    busy(f2, false); validate();
-  });
+  if (global.AccountAPI) return global.AccountAPI.authForm(container, o);
+  container.innerHTML = '<p class="pp-e" role="alert">Серверный вход недоступен. Обновите страницу и проверьте подключение.</p>';
 }
 function openAuth(o) {
   o = o || {};
   return new Promise(resolve => {
     let done = null;
     const box = document.createElement('div');
-    const sh = sheet({ title: o.title || 'Вход в кабинет игрока', sub: 'По номеру телефона — без паролей', body: box, width: 500, onClose: () => resolve(done) });
+    const sh = sheet({ title: o.title || 'Вход в кабинет игрока', sub: 'Телефон и пароль или ключ устройства', body: box, width: 500, onClose: () => resolve(done) });
     authForm(box, { reason: o.reason, phone: o.phone, context: o.context, onDone: (u, isNew) => { done = u; toast(isNew ? 'Кабинет создан. Добро пожаловать, ' + u.name + '!' : 'Вы вошли как ' + u.name, { kind: 'ok' }); sh.close('done'); setTimeout(checkDocUpdates, 400); } });
   });
 }
@@ -1991,6 +1859,10 @@ function checkDocUpdates(o) {
   o = o || {};
   const me = CommunityAPI.meSync();
   if (!me || me.deletion || docUpdOpen) return false;
+  // Existing server accounts cannot renew registration consents here yet.
+  // Keep their paid bookings reachable instead of placing a legacy consent
+  // dialog over navigation. The cabinet displays the administrator path.
+  if (global.AccountAPI && !me.docsOk) return false;
   const list = CommunityAPI.outdatedDocsSync();
   if (!list.length) return false;
   docUpdOpen = true;
@@ -2118,11 +1990,23 @@ function saveFile(name, text, mime) {
    Экспорт
    ===================================================================== */
 global.CommunityAPI = CommunityAPI;
+// Cache for the existing local partner feed. Only the live server adapter sets
+// the current identity; old local sessions and matching phone numbers stay inert.
+CommunityAPI._setServerUser = function (user) {
+  serverIdentityEnabled = true; serverIdentityId = user ? user.id : null;
+  if (!user) return;
+  const db = load(), previous = db.users[user.id] || {}, consents = clone(user.consents || {});
+  if (previous.consents && previous.consents.consent_public) consents.consent_public = clone(previous.consents.consent_public);
+  Object.values(consents).forEach(c => { if (!c.at) c.at = c.acceptedAt; });
+  db.users[user.id] = Object.assign({}, previous, clone(user), { phone: user.phoneRaw || normPhone(user.phone), consents, demo:false, deletion:null });
+  persist(db, true);
+};
+CommunityAPI._serverMe = function () { const db=load(),user=currentUser(db);return user?meView(user):null; };
 global.BookingAPI = BookingAPI;
 global.AdminAPI = AdminAPI;
 global.PP = {
   DOCS, REG_DOCS, BOOKING_DOCS, OFFER_URL, CONSENT_ACTION, CONSENT_CONTEXT, REQUEST_TYPES, docById, verCmp, sha256, loadMetrika,
-  LEVELS, LEVEL_COLOR, FORMATS, TIMES, HANDS, STYLES, DAY_SHORT, DAY_LONG, MONTH_G, MONTH_S, BOOKING_STATUS, PAYMENT_STATUS, PAY_METHOD, DEMO_CODE,
+  LEVELS, LEVEL_COLOR, FORMATS, TIMES, HANDS, STYLES, DAY_SHORT, DAY_LONG, MONTH_G, MONTH_S, BOOKING_STATUS, PAYMENT_STATUS, PAY_METHOD,
   esc, plural, money, hhmm, ymd, parseYmd, addDays, dayIdx, tsAt, today, dateLabel, dateLong, ago, label, fmtPhone, normPhone, goal, hash, mulberry,
   rateAt, rentFor, allowedPostStarts, nextSlots: (p, n) => nextSlots(p, n, global.BookingAPI.settings()), avatarSVG, postSummary, isQuota, PPError
 };

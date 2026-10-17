@@ -350,86 +350,51 @@ async function open(preset, resumeBooking) {
     });
   }
 
-  /* ---------- шаг 4: оплата (тестовый режим) ---------- */
+  /* ---------- шаг 4: server payment / provider redirect ---------- */
   function step4() {
-    const b = st.booking;
-    if(!BookingAPI.demoPayments){root.innerHTML=stepsHTML()+'<div class="bk-empty">Онлайн-оплата ещё не подключена. Время удерживается до завершения срока брони, затем освободится автоматически.</div>';return;}
-    root.innerHTML = stepsHTML() +
-      '<div class="bk-test" role="note">Тестовый режим · деньги не списываются</div>' +
-      '<div class="bk-payhead"><div><small>Оплата заказа</small><b>' + esc(b.number) + ' · Ping Point</b><span>Аренда стола: ' + esc(P.dateLabel(b.date)) + ', ' + esc(b.timeLabel) + '</span></div><div class="sum">' + money(b.amount) + '</div></div>' +
-      '<p class="bk-hold">Время удерживается за вами ещё <b data-timer>15:00</b>. Не успеете — слот освободится.</p>' +
-      '<div class="pp-e" role="alert"></div>' +
-      '<div class="bk-tabs" role="tablist" aria-label="Способ оплаты"><button type="button" role="tab" id="bkT1" aria-controls="bkCard" aria-selected="' + (st.method === 'card') + '" data-m="card">Банковская карта</button><button type="button" role="tab" id="bkT2" aria-controls="bkSbp" aria-selected="' + (st.method === 'sbp') + '" data-m="sbp">СБП</button></div>' +
-      '<form class="bk-card" id="bkCard" role="tabpanel" aria-labelledby="bkT1" novalidate' + (st.method === 'card' ? '' : ' hidden') + '>' +
-        '<p class="pp-h" style="margin:0 0 8px">Тестовые карты — нажмите, чтобы подставить:</p>' +
-        '<div class="bk-tc"><button type="button" data-tc="5555 5555 5555 4444"><b>5555 5555 5555 4444</b>оплата пройдёт</button><button type="button" data-tc="4000 0000 0000 0002"><b>4000 0000 0000 0002</b>банк откажет</button></div>' +
-        '<div class="pp-f"><label class="pp-l" for="bkNum">Номер карты</label><input class="pp-i" id="bkNum" inputmode="numeric" autocomplete="cc-number" placeholder="0000 0000 0000 0000" maxlength="19"></div>' +
-        '<div class="bk-grid2"><div class="pp-f"><label class="pp-l" for="bkExp">Срок</label><input class="pp-i" id="bkExp" inputmode="numeric" autocomplete="cc-exp" placeholder="ММ/ГГ" maxlength="5"></div>' +
-        '<div class="pp-f"><label class="pp-l" for="bkCvc">CVC</label><input class="pp-i" id="bkCvc" type="password" inputmode="numeric" autocomplete="cc-csc" placeholder="•••" maxlength="3"></div></div>' +
-        '<button class="btn btn-main calm" type="submit" style="width:100%">Оплатить ' + money(b.amount) + '</button>' +
-      '</form>' +
-      '<div class="bk-sbp" id="bkSbp" role="tabpanel" aria-labelledby="bkT2"' + (st.method === 'sbp' ? '' : ' hidden') + '><div data-qr></div><div><p>Тестовая оплата СБП: нажмите кнопку для проверки суммы ' + money(b.amount) + '.</p><button class="btn btn-main calm" type="button" data-sbp>Подтвердить тестовую оплату</button></div></div>' +
-      '<p class="pp-h" style="margin:14px 0 0">Это имитация платёжной формы. В боевой версии оплата проходит на защищённой странице ЮKassa: данные карты не попадают на сайт Ping Point, чек придёт по 54-ФЗ.</p>' +
-      '<div class="bk-bar static"><button class="bk-back" type="button" data-cancel>Отменить бронь</button><div class="bk-what">' + whatHTML() + '</div></div>';
-    const tEl = root.querySelector('[data-timer]');
-    const tick = () => {
-      const left = Math.max(0, st.booking.expiresAt - Date.now());
-      tEl.textContent = String(Math.floor(left / 60000)).padStart(2, '0') + ':' + String(Math.floor(left / 1000) % 60).padStart(2, '0');
-      if (!left) { clearInterval(timer); expired(); }
-    };
-    tick(); timer = setInterval(tick, 1000);
-    root.querySelectorAll('[role=tab]').forEach(t => t.addEventListener('click', () => { st.method = t.getAttribute('data-m'); render('[data-m="' + st.method + '"]'); }));
-    root.querySelector('[role=tablist]').addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { st.method = st.method === 'card' ? 'sbp' : 'card'; render('[data-m="' + st.method + '"]'); } });
-    const num = root.querySelector('#bkNum'), exp = root.querySelector('#bkExp'), cvc = root.querySelector('#bkCvc');
-    num.addEventListener('input', () => { num.value = num.value.replace(/\D/g, '').slice(0, 16).replace(/(\d{4})(?=\d)/g, '$1 '); });
-    exp.addEventListener('input', () => { const d = exp.value.replace(/\D/g, '').slice(0, 4); exp.value = d.length > 2 ? d.slice(0, 2) + '/' + d.slice(2) : d; });
-    cvc.addEventListener('input', () => { cvc.value = cvc.value.replace(/\D/g, '').slice(0, 3); });
-    root.querySelectorAll('[data-tc]').forEach(x => x.addEventListener('click', () => { num.value = x.getAttribute('data-tc'); const d = new Date(); exp.value = '12/' + String(d.getFullYear() + 2).slice(2); cvc.value = '123'; root.querySelector('#bkCard [type=submit]').focus(); }));
-    root.querySelector('#bkCard').addEventListener('submit', async e => {
-      e.preventDefault(); err(root);
-      const n = num.value.replace(/\D/g, ''), ex = exp.value.split('/'), mm = +ex[0], yy = +ex[1];
-      const now = new Date(), yNow = now.getFullYear() % 100;
-      if (n.length !== 16) { err(root, 'Номер карты — 16 цифр'); num.focus(); return; }
-      if (!(mm >= 1 && mm <= 12) || !(yy > yNow || (yy === yNow && mm >= now.getMonth() + 1))) { err(root, 'Проверьте срок действия карты'); exp.focus(); return; }
-      if (cvc.value.length !== 3) { err(root, 'CVC — три цифры на обороте карты'); cvc.focus(); return; }
-      pay('card', { card: n });
+    const b=st.booking, mode=(BookingAPI.capabilities || {}).payments || 'disabled';
+    st.payment=st.payment || b.payment;
+    const pending=st.payment && ['pending','waiting_for_capture','requires_review'].includes(st.payment.status);
+    root.innerHTML=stepsHTML() +
+      (mode==='demo'?'<div class="bk-test" role="note">Демонстрация · деньги не списываются, вход не выдаётся</div>':mode==='test'?'<div class="bk-test" role="note">Тестовая ЮKassa · реальные деньги не списываются, пропуска нет</div>':'')+
+      '<div class="bk-payhead"><div><small>Оплата брони</small><b>'+esc(b.number)+' · Ping Point</b><span>'+esc(b.dateLabel || P.dateLabel(b.date))+', '+esc(b.timeLabel)+'</span></div><div class="sum">'+money(b.amount)+'</div></div>'+
+      '<p class="bk-hold">'+(b.expiresAt?'Неоплаченное время удерживается до '+esc(new Intl.DateTimeFormat('ru-RU',{timeZone:'Europe/Moscow',hour:'2-digit',minute:'2-digit'}).format(new Date(b.expiresAt)))+' (Москва).':'')+'</p>'+
+      '<div class="pp-e" role="alert"></div><p class="pp-h" data-payment-state aria-live="polite">'+(pending?'Есть попытка оплаты. После возвращения проверьте её статус. Сам переход со страницы ЮKassa не подтверждает оплату.':mode==='disabled'?'Онлайн-оплата ещё не подключена. Неоплаченная бронь освободится по окончании срока удержания.':'')+'</p>'+
+      (mode==='disabled'?'': '<div class="bk-acts"><button class="btn btn-main calm" type="button" data-pay>'+(mode==='demo'?'Подтвердить демонстрационную оплату':pending?'Продолжить оплату в ЮKassa':'Оплатить в ЮKassa · '+money(b.amount))+'</button></div>')+
+      (mode!=='demo'?'<button class="btn btn-ghost btn-sm" type="button" data-refresh style="margin-top:12px">Проверить статус оплаты</button>':'')+
+      '<p class="pp-h" style="margin-top:16px">'+(mode==='demo'?'Это локальная имитация оплаты. Не вводите реквизиты настоящей карты.':'Реквизиты карты вводятся только на защищённой странице ЮKassa. Здесь данные карты не запрашиваются.')+'</p>'+
+      '<div class="bk-bar static"><button class="bk-back" type="button" data-cancel>Отменить неоплаченную бронь</button></div>';
+    const payButton=root.querySelector('[data-pay]');
+    if(payButton)payButton.addEventListener('click',async()=>{
+      if(st.busy)return;st.busy=true;payButton.disabled=true;err(root);
+      try {
+        st.payment=await BookingAPI.createPayment(b.id,mode==='demo'?'sbp':undefined);
+        if(mode==='demo') {const value=await BookingAPI.confirmPayment(st.payment.id,{});if(!value.ok)throw Error(value.reason || 'Демонстрационная оплата не выполнена');st.booking=value.booking;st.step=5;render();return;}
+        if(st.payment.status==='succeeded') {await reconcile();return;}
+        const url=BookingAPI.checkoutUrl(st.payment);
+        try { sessionStorage.setItem('pp_checkout_booking',b.id); } catch (_) {}
+        globalThis.location.assign(url);
+      } catch(e) {err(root,e.message);}
+      finally {st.busy=false;if(payButton.isConnected)payButton.disabled=false;}
     });
-    if (st.method === 'sbp') {
-      (async () => {
-        try { if (!st.payment || st.payment.method !== 'sbp' || st.payment.status !== 'pending') st.payment = await BookingAPI.createPayment(st.booking.id, 'sbp'); root.querySelector('[data-qr]').innerHTML = UI.qrSVG('sbp-' + st.payment.id, 150); }
-        catch (x) { handlePayErr(x); }
-      })();
-      root.querySelector('[data-sbp]').addEventListener('click', () => pay('sbp', {}));
+    const refresh=root.querySelector('[data-refresh]');
+    if(refresh)refresh.addEventListener('click',async()=>{if(st.busy)return;st.busy=true;refresh.disabled=true;err(root);try{await reconcile();}catch(e){err(root,e.message);}finally{st.busy=false;if(refresh.isConnected)refresh.disabled=false;}});
+    root.querySelector('[data-cancel]').addEventListener('click',async e=>{
+      if(st.busy)return;st.busy=true;const cancelButton=e.currentTarget;cancelButton.disabled=true;
+      try {const value=await BookingAPI.cancelBooking(b.id);st.booking=value;UI.toast(value.status==='refund_pending'?'Возврат обрабатывается. Вход закрыт.':'Бронь отменена, время освобождено');sh.close('cancelled');}
+      catch(x){err(root,x.message);cancelButton.disabled=false;}finally{st.busy=false;}
+    });
+  }
+  async function reconcile() {
+    st.booking=await BookingAPI.getBooking(st.booking.id);
+    st.payment=st.booking && st.booking.payment || st.payment;
+    if(st.payment && st.payment.provider==='yookassa') {
+      const result=await BookingAPI.refreshPayment(st.payment.id);st.payment=result.payment;st.booking=result.booking;
     }
-    root.querySelector('[data-cancel]').addEventListener('click', async () => {
-      try { await BookingAPI.cancelBooking(st.booking.id); } catch (x) {}
-      st.booking = null; st.payment = null; st.step = 1; render(); UI.toast('Неоплаченная бронь отменена, время освобождено');
-    });
-  }
-  function handlePayErr(x) {
-    if (x.code === 'EXPIRED') return expired();
-    err(root, x.message);
-  }
-  function expired() {
-    clearInterval(timer);
-    st.booking = null; st.payment = null;
-    root.innerHTML = stepsHTML() + '<div class="bk-ok"><div class="chk" style="background:rgba(255,46,99,.12);box-shadow:inset 0 0 0 2px var(--neon);color:var(--neon)">!</div><h3>Время на оплату вышло</h3><p>Бронь не оплачена за ' + s.holdMin + ' минут, поэтому слот освобождён. Выберите время заново — это быстро.</p></div><div class="bk-acts" style="margin-top:18px"><button class="btn btn-main calm" type="button" data-again>Выбрать время</button></div>';
-    root.querySelector('[data-again]').addEventListener('click', () => { st.step = 1; render(); });
-    root.querySelector('[data-again]').focus();
-  }
-  async function pay(method, data) {
-    st.busy = true;
-    const form = root.querySelector(method === 'card' ? '#bkCard' : '#bkSbp');
-    const keep = form.innerHTML;
-    form.innerHTML = '<div class="bk-proc" role="status"><i></i>Проверяем оплату…</div>';
-    try {
-      if (method === 'card' || !st.payment || st.payment.status !== 'pending') st.payment = await BookingAPI.createPayment(st.booking.id, method);
-      const r = await BookingAPI.confirmPayment(st.payment.id, data);
-      st.busy = false;
-      if (r.ok) { st.booking = r.booking; st.step = 5; render(); sh.body.scrollTop = 0; return; }
-      st.payment = null;
-      render(); err(root, r.reason);
-    } catch (x) { st.busy = false; if (x.code === 'EXPIRED') return expired(); form.innerHTML = keep; render(); err(root, x.message); }
+    if(st.booking.status==='paid') {st.step=5;render();return;}
+    if(st.booking.status!=='pending') {sh.close('status');return showBooking(st.booking.id);}
+    const state=root.querySelector('[data-payment-state]');
+    if(state)state.textContent=st.payment && st.payment.status==='canceled'?'Оплата отменена. Деньги не подтверждены. Можно повторить оплату, пока время удерживается.':'Оплата ещё не подтверждена. Повторите проверку позже; повторный переход не означает новое списание.';
   }
 
   /* ---------- шаг 5: готово ---------- */
@@ -439,7 +404,7 @@ async function open(preset, resumeBooking) {
     const f = root.querySelector('[data-ics]'); if (f) f.focus();
   }
 
-  if (resumeBooking) { st.booking = resumeBooking; st.date = resumeBooking.date; st.start = resumeBooking.start; st.dur = resumeBooking.dur; st.players = resumeBooking.players; st.rackets = resumeBooking.rackets; st.step = 4; }
+  if (resumeBooking) { st.booking = resumeBooking; st.payment=resumeBooking.payment || null; st.date = resumeBooking.date; st.start = resumeBooking.start; st.dur = resumeBooking.dur; st.players = resumeBooking.players; st.rackets = resumeBooking.rackets; st.step = 4; }
   render();
   return sh;
 }
@@ -448,16 +413,17 @@ async function open(preset, resumeBooking) {
 function successHTML(b, fresh) {
   const me = CommunityAPI.meSync();
   const test=!!b.test;
-  const access=test?'<div class="bk-empty" role="note">Это тестовая бронь. Деньги не списаны, код доступа не выдаётся. Настоящая оплата и вход в комнату пока не подключены.</div>':(b.code?'<div class="bk-code"><div><small>Код на вход</small><b>'+esc(String(b.code).replace(/(\d{3})(\d{3})/,'$1 $2'))+'</b><span>Код действует в забронированное время.</span></div>'+UI.qrSVG(b.id+'-'+b.code,140)+'</div>':'<p class="pp-h">Код доступа ещё не выдан.</p>');
+  const access=test?'<div class="bk-empty" role="note">Тестовая бронь. Реальная оплата не подтверждалась, пропуска в комнату нет.</div>':'<div data-server-access role="region" aria-label="Пропуск в комнату"></div>';
   return '<div class="bk-ok">' + (fresh ? '<div class="chk">' + ICO_OK + '</div><h3>'+(test?'Тестовая бронь создана':'Бронь оплачена')+'</h3><p>Бронь ' + esc(b.number) + '</p>' : '<h3 style="margin-bottom:2px">Бронь ' + esc(b.number) + '</h3><p>' + esc(b.statusLabel) + '</p>') + '</div>' +
     access +
     '<div class="bk-facts"><div>Когда<b>' + esc(P.dateLabel(b.date)) + ', ' + esc(b.timeLabel) + '</b></div><div>Игроков<b>' + b.players + (b.rackets ? ' · проф. ракеток ' + b.rackets : '') + '</b></div><div>Оплачено<b>' + money(b.amount) + '</b></div><div>Где<b>ТРЦ «Мельница», 4 этаж, офис 422</b></div></div>' +
     '<div class="bk-acts"><button class="btn btn-ghost" type="button" data-ics>Добавить в календарь</button>' +
     (me && !me.deletion ? '<a class="btn btn-main calm" href="cabinet.html#bookings">В кабинет</a>' : '<button class="btn btn-main calm" type="button" data-reg>Создать кабинет</button>') + '</div>' +
-    (me ? '' : '<p class="pp-h" style="margin:12px 0 0;text-align:center">В кабинете доступны брони этого браузера, отмена и перенос.</p>') +
+    (me ? '' : '<p class="pp-h" style="margin:12px 0 0;text-align:center">После регистрации и входа ваши брони доступны на других устройствах. Гостевой пропуск остаётся в этом браузере.</p>') +
     '<p class="pp-h" style="margin:10px 0 0;text-align:center">Отмена не позднее чем за 3 часа — возврат 100%. ' + UI.docLink('offer', 'Условия оферты') + '</p>';
 }
 function bindSuccess(root, b, sh) {
+  const access=root.querySelector('[data-server-access]'); if(access) BookingAPI.mountAccess(access,b.id);
   root.querySelector('[data-ics]').addEventListener('click', () => { UI.saveFile('ping-point-' + b.number + '.ics', UI.icsFor(b), 'text/calendar;charset=utf-8'); });
   const r = root.querySelector('[data-reg]');
   if (r) r.addEventListener('click', async () => { const u = await UI.openAuth({ title: 'Создать кабинет', reason: 'После входа бронь этого браузера доступна в кабинете', phone: b.phone, context: 'booking' }); if (u) location.href = 'cabinet.html#bookings'; });
@@ -476,9 +442,11 @@ async function showBooking(id) {
     if (!b) return;
     if (b.status === 'pending') return resume(id);
     const box = document.createElement('div');
-    box.innerHTML = (b.status === 'paid') ? successHTML(b, false) : '<p class="pp-h" style="font-size:15px">Бронь ' + esc(b.number) + ': ' + esc(b.statusLabel) + '. Кода доступа нет.</p>';
+    box.innerHTML = (b.status === 'paid') ? successHTML(b, false) : '<p class="pp-h">Бронь ' + esc(b.number) + ': ' + esc(b.statusLabel) + '. Вход закрыт.</p>' + (b.status==='payment_review'?'<p class="pp-h">Деньги получены, но требуется проверка администратора: пропуск не выдан.</p>':'') + '<div data-server-access></div>' + (b.payment && b.payment.provider==='yookassa'?'<div class="pp-e" role="alert"></div><button class="btn btn-ghost btn-sm" type="button" data-refresh>Проверить оплату / возврат</button>':'');
     const sh = UI.sheet({ title: 'Бронь ' + b.number, sub: P.dateLong(b.date) + ', ' + b.timeLabel, body: box, width: 620 });
     if (box.querySelector('[data-ics]')) bindSuccess(box, b, sh);
+    else if(box.querySelector('[data-server-access]')) BookingAPI.mountAccess(box.querySelector('[data-server-access]'),b.id);
+    const refresh=box.querySelector('[data-refresh]'); if(refresh)refresh.addEventListener('click',async()=>{refresh.disabled=true;try{await BookingAPI.refreshPayment(b.payment.id);sh.close('refresh');showBooking(id);}catch(e){err(box,e.message);refresh.disabled=false;}});
   } catch (x) { UI.toast(x.message, { kind: 'err' }); }
 }
 
