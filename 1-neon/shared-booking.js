@@ -147,6 +147,7 @@ A.moveBooking = (id,options) => adminWrite('bookings/' + encodeURIComponent(id) 
 A.markNoShow = id => adminWrite('bookings/' + encodeURIComponent(id) + '/noshow');
 A.setPartialRefund = (id,amount,note) => adminWrite('bookings/' + encodeURIComponent(id) + '/partial-refund',{amount,note});
 A.refundFault = (id,note) => adminWrite('bookings/' + encodeURIComponent(id) + '/refund-fault',{note});
+A.quoteManualBooking = async options => { await bootstrap(); return request('/api/admin/bookings/quote', options); };
 A.createManualBooking = options => adminWrite('bookings/create',options);
 A.confirmManualPayment = (id,method) => adminWrite('bookings/' + encodeURIComponent(id) + '/manual-payment',{method});
 A.listBlocks = () => adminRead('blocks');

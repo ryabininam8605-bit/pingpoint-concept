@@ -920,39 +920,62 @@ function openManual(pre) {
     '<div class="pp-f"><label class="pp-l" for="' + I.no + '">Заметка <small>звонок, касса, пожелания</small></label><textarea class="pp-i" id="' + I.no + '" rows="2" maxlength="200" style="min-height:64px"></textarea></div>' +
     '<div class="pp-e" role="alert" data-err></div>' +
     '<div class="pp-sheet-foot"><button class="btn btn-main" type="submit">Создать бронь</button><button class="btn btn-ghost" type="button" data-cancel>Отмена</button></div>';
-  const sh = UI.sheet({ title: 'Бронь вручную', sub: 'Звонок или касса — правило «за 1 час до начала» не действует', body: box, width: 620 });
+  let closed=false, saving=false, quoteVersion=0, availabilityVersion=0, confirmed=null;
+  const sh = UI.sheet({ title: 'Бронь вручную', sub: 'Звонок или касса — правило «за 1 час до начала» не действует', body: box, width: 620, onClose:()=>{closed=true;quoteVersion++;availabilityVersion++;} });
   const el = k => $('#' + I[k], box);
   UI.bindPhoneMask(el('ph'));
   if (pre.phone) el('ph').value = UI.maskPhone(pre.phone);
-  const fillStarts = async () => {
-    const date=el('d').value,select=el('s'),button=$('[type=submit]',box),current=Number(select.value||pre.start||s.open);
-    select.disabled=true;button.disabled=true;select.innerHTML='<option value="">Загружаем занятость…</option>';
-    try{await BK.refreshAvailability(date);if(el('d').value!==date)return;select.innerHTML=timeOpts(s.open,s.close-60,current,slotMarks(date));select.disabled=false;button.disabled=false;quote();}
-    catch(x){select.innerHTML='<option value="">Не удалось загрузить</option>';$('[data-err]',box).textContent=x.message;}
+  const button = $('[type=submit]',box), preview = $('[data-quote]',box);
+  const priceInput = () => ({ date:el('d').value, start:Number(el('s').value), dur:Number(el('l').value), players:Number(el('p').value), rackets:Math.min(Number(el('r').value),Number(el('p').value)), promo:el('pr').value.trim(), amount:el('a').value });
+  const signature = () => JSON.stringify(priceInput());
+  const canSave = () => !closed && !saving && !el('s').disabled && confirmed && confirmed.signature===signature();
+  const quote = async () => {
+    const version=++quoteVersion;
+    confirmed=null;button.disabled=true;
+    if(closed||saving||el('s').disabled||!el('s').value)return;
+    const input=priceInput(), key=JSON.stringify(input);
+    preview.textContent='Проверяем сумму на сервере…';
+    try {
+      const q=await A.quoteManualBooking(input);
+      if(closed||version!==quoteVersion||key!==signature())return;
+      confirmed={signature:key,total:q.total};
+      el('a').placeholder=String(q.tariffTotal);
+      preview.innerHTML='К оплате: <b>'+money(q.total)+'</b> · по тарифу '+money(q.tariffTotal)+' · аренда '+money(q.rent)+(q.rackets?' + ракетки '+money(q.rackets):'')+(q.discount?' − скидка '+money(q.discount):'');
+      button.disabled=!canSave();
+    } catch(x) {
+      if(closed||version!==quoteVersion||key!==signature())return;
+      preview.textContent=x.message;
+      if(x.code==='AUTH')handleErr(x);
+    }
   };
-  const quote = () => {
-    if(el('s').disabled||!el('s').value)return;
-    const rk = Math.min(Number(el('r').value), Number(el('p').value));
-    let q, promoErr = '';
-    try { q = BK.quote({ start: Number(el('s').value), dur: Number(el('l').value), rackets: rk }, el('pr').value.trim() || null); }
-    catch (e) { promoErr = e.message; q = BK.quote({ start: Number(el('s').value), dur: Number(el('l').value), rackets: rk }, null); }
-    el('a').placeholder = String(q.total);
-    const st = Number(el('s').value), du = Number(el('l').value), mk = slotMarks(el('d').value);
-    let clash = ''; for (let m = st; m < st + du; m += 30) if (mk[m]) { clash = 'С ' + hhmm(m) + ' время ' + mk[m] + ' — выберите другое начало или длительность.'; break; }
-    if (!clash && st + du > s.close) clash = 'Комната закрывается в ' + hhmm(s.close) + '.';
-    $('[data-quote]', box).innerHTML = 'По тарифу: <b>' + money(q.total) + '</b> · аренда ' + money(q.rent) + (q.rackets ? ' + ракетки ' + money(q.rackets) : '') + (q.discount ? ' − скидка ' + money(q.discount) : '') + (promoErr ? '<br><span style="color:#ffc2d1">' + esc(promoErr) + '</span>' : '') + (clash ? '<br><span style="color:#ffc2d1">' + esc(clash) + '</span>' : '');
+  const fillStarts = async () => {
+    const version=++availabilityVersion,date=el('d').value,select=el('s'),current=Number(select.value||pre.start||s.open);
+    quoteVersion++;confirmed=null;select.disabled=true;button.disabled=true;
+    select.innerHTML='<option value="">Загружаем занятость…</option>';
+    try {
+      await BK.refreshAvailability(date);
+      if(closed||version!==availabilityVersion||el('d').value!==date)return;
+      select.innerHTML=timeOpts(s.open,s.close-60,current,slotMarks(date));select.disabled=false;quote();
+    } catch(x) {
+      if(closed||version!==availabilityVersion)return;
+      select.innerHTML='<option value="">Не удалось загрузить</option>';$('[data-err]',box).textContent=x.message;
+    }
   };
   fillStarts();
   el('d').addEventListener('change', fillStarts);
-  ['s', 'l', 'p', 'r'].forEach(k => el(k).addEventListener('change', quote));
-  el('pr').addEventListener('input', quote);
+  ['s','l','p','r'].forEach(k=>el(k).addEventListener('change',quote));
+  ['pr','a'].forEach(k=>el(k).addEventListener('input',quote));
   $('[data-cancel]', box).addEventListener('click', () => sh.close());
   box.addEventListener('submit', async e => {
     e.preventDefault();
-    const err = $('[data-err]', box), btn = $('[type=submit]', box); err.textContent = '';
-    btn.classList.add('loading'); btn.disabled = true;
+    const err = $('[data-err]', box), btn = button;
+    if(closed||saving)return;
+    if(!canSave()){err.textContent='Дождитесь актуального расчёта суммы на сервере.';return;}
+    const input=Object.assign(priceInput(),{expectedAmount:confirmed.total,name:el('n').value,phone:el('ph').value,pay:($('input[name="'+I.pay+'"]:checked',box)||{}).value||'unpaid',note:el('no').value.trim()});
+    err.textContent='';saving=true;
+    btn.classList.add('loading'); btn.disabled=true;
     try {
-      const b = await A.createManualBooking({ date: el('d').value, start: Number(el('s').value), dur: Number(el('l').value), players: Number(el('p').value), rackets: Math.min(Number(el('r').value), Number(el('p').value)), name: el('n').value, phone: el('ph').value, promo: el('pr').value.trim(), amount: el('a').value, pay: ($('input[name="' + I.pay + '"]:checked', box) || {}).value || 'unpaid', note: el('no').value.trim() });
+      const b = await A.createManualBooking(input);
       sh.close();
       UI.toast('Бронь ' + b.number + ' создана: ' + b.dateLabel + ', ' + b.timeLabel, { kind: 'ok', action: 'Открыть', onAction: () => openBooking(b.id) });
     } catch (x) {
@@ -960,7 +983,8 @@ function openManual(pre) {
       err.textContent = x.message;
       const f = x.code === 'PHONE' ? el('ph') : x.code === 'NAME' ? el('n') : x.code === 'PROMO' ? el('pr') : x.code === 'BUSY' || x.code === 'VALID' ? el('s') : null;
       if (f) f.focus();
-      btn.classList.remove('loading'); btn.disabled = false;
+      saving=false;btn.classList.remove('loading');btn.disabled=!canSave();
+      quote();
     }
   });
 }

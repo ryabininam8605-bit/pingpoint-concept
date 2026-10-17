@@ -116,6 +116,17 @@ def quote(db, start, dur, rackets=0, code=None, promo_terms=None):
     return dict(rent=rent, rackets=extra, subtotal=subtotal, discount=discount, total=subtotal - discount)
 
 
+def manual_quote(db, body):
+    """Admin-only input uses the same validated pricing for preview and creation."""
+    players = integer(body.get('players', 2), 'игроки', 1, db['settings']['maxPlayers'])
+    rackets = integer(body.get('rackets', 0), 'ракетки', 0, players)
+    result = quote(db, body.get('start'), body.get('dur'), rackets, body.get('promo'))
+    result['tariffTotal'] = result['total']
+    if body.get('amount') is not None and body['amount'] != '':
+        result['total'] = integer(body['amount'], 'сумма', 0, 9007199254740991)
+    return result
+
+
 def consume_promo(db, booking):
     """Called inside the same SQLite transaction that changes a booking to paid."""
     if booking.get('promo') and not booking.get('promoConsumed'):
@@ -430,7 +441,12 @@ class Handler(SimpleHTTPRequestHandler):
         start, dur = check_range(db, body.get('date'), body.get('start'), body.get('dur'), ignore_lead=manual)
         players = integer(body.get('players', 2), 'игроки', 1, db['settings']['maxPlayers'])
         rackets = integer(body.get('rackets', 0), 'ракетки', 0, players)
-        q = quote(db, start, dur, rackets, body.get('promo'))
+        q = manual_quote(db, body) if manual else quote(db, start, dur, rackets, body.get('promo'))
+        if manual and 'expectedAmount' in body and integer(body['expectedAmount'], 'подтверждённая сумма', 0, 9007199254740991) != q['total']:
+            raise APIError('QUOTE_CHANGED', 'Расчёт изменился. Проверьте новую сумму и повторите сохранение.', 409)
+        note = body.get('note', '') if manual else ''
+        if not isinstance(note, str):
+            raise APIError('VALID', 'Проверьте поле: заметка')
         promo = find_promo(db, body.get('promo'))
         paid = manual and body.get('pay', 'unpaid') != 'unpaid'
         if paid:
@@ -443,6 +459,8 @@ class Handler(SimpleHTTPRequestHandler):
                        discount=q['discount'], amount=q['total'],
                        status='pending', code=None, createdAt=now_ms(), expiresAt=now_ms() + db['settings']['holdMin'] * 60000,
                        source='admin' if manual else 'site', paymentId=None, partnerResponseId=body.get('partnerResponseId'), history=[])
+        if manual:
+            booking['note'] = note[:200]
         record(booking, 'pending', 'admin' if manual else 'client', 'Время удерживается 15 минут')
         db['bookings'].append(booking)
         if not manual:
@@ -507,6 +525,9 @@ class Handler(SimpleHTTPRequestHandler):
     def admin_operation(self, db, method, path, body, query, session):
         if path == '/api/admin/auth' and method == 'GET':
             return True
+        if path == '/api/admin/bookings/quote' and method == 'POST':
+            check_range(db, body.get('date'), body.get('start'), body.get('dur'), ignore_lead=True)
+            return manual_quote(db, body)
         if path == '/api/admin/bookings/create' and method == 'POST':
             return self.create_booking(db, body, session, True)
         if path == '/api/admin/bookings' and method == 'GET':

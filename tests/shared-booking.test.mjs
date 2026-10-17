@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const adapter = path.join(root, '1-neon/shared-booking.js');
 
-function fixture() {
+function fixture(respond) {
   assert.ok(fs.existsSync(adapter), 'Shared server adapter must exist');
   let online = true, events = 0, creates = 0;
   const requests = [];
@@ -26,7 +26,7 @@ function fixture() {
       if (url==='/api/session') result={settings,admin:false,csrf:'fixture-token',demoPayments:false};
       else if (url.startsWith('/api/availability')) result=data;
       else if (url==='/api/bookings') { creates++; result={id:'bk-one',date:data.date,status:'pending'}; }
-      else result=true;
+      else result=respond ? respond(url, options) : true;
       return {ok:true,status:200,json:async()=>result};
     }
   };
@@ -73,4 +73,18 @@ test('transfer preview uses granted booking promo terms without new-purchase pro
   assert.equal(quote.total,450,'500 rubles less granted 10%, even without an active promo cache entry');
   assert.equal(quote.discount,50);
   assert.throws(()=>f.api.quote({start:900,dur:60,promoTerms:{code:'OTHER',type:'rub',value:100}},'PASTONE'));
+});
+
+test('manual preview requests authoritative server pricing without a warmed promo cache',async()=>{
+  const f=fixture((url)=>url==='/api/admin/bookings/quote' ? {total:325,tariffTotal:360,discount:40,rent:400,rackets:0} : true);
+  await f.api.ready;
+  const values={date:'2026-10-20',start:600,dur:60,players:2,rackets:0,promo:'NEW10',amount:'325'};
+  const preview=await f.admin.quoteManualBooking(values);
+  assert.equal(preview.total,325);
+  assert.equal(preview.tariffTotal,360);
+  const request=f.requests.find(x=>x.url==='/api/admin/bookings/quote');
+  assert.deepEqual(JSON.parse(request.options.body),values);
+  assert.equal(request.options.headers['X-PP-CSRF'],'fixture-token');
+  await f.admin.createManualBooking({...values,expectedAmount:preview.total,note:'Касса',pay:'unpaid'});
+  assert.equal(JSON.parse(f.requests.find(x=>x.url==='/api/admin/bookings/create').options.body).expectedAmount,325);
 });

@@ -161,9 +161,11 @@ function err(box, m) { const e = box.querySelector('.pp-e'); if (e) e.textConten
 
 /* ------------------------------------------------------------------ */
 async function open(preset, resumeBooking) {
-  const loading=UI.sheet({title:'Проверяем свободное время',body:'<p class="pp-h" role="status">Загружаем актуальную занятость комнаты…</p>',width:540});
+  let cancelled=false;
+  const loading=UI.sheet({title:'Проверяем свободное время',body:'<p class="pp-h" role="status">Загружаем актуальную занятость комнаты…</p>',width:540,onClose:reason=>{if(reason!=='loaded'&&reason!=='error')cancelled=true;}});
   try { await BookingAPI.refreshAllAvailability(next14()); }
-  catch(x){loading.close('error');UI.toast(x.message+' Откройте бронирование ещё раз, чтобы повторить.',{kind:'err'});return;}
+  catch(x){if(cancelled)return;loading.close('error');UI.toast(x.message+' Откройте бронирование ещё раз, чтобы повторить.',{kind:'err'});return;}
+  if(cancelled)return;
   loading.close('loaded');
   preset = preset || {};
   const s = BookingAPI.settings();
@@ -485,8 +487,11 @@ async function reschedule(id) {
   let b;
   try { b = await BookingAPI.getBooking(id); } catch (x) { UI.toast(x.message, { kind: 'err' }); return; }
   if (!b || !b.canReschedule) { UI.toast(b && b.rescheduled ? 'Бесплатный перенос уже использован' : 'Перенос возможен не позднее чем за 3 часа до начала', { kind: 'err' }); return; }
-  const loading=UI.sheet({title:'Проверяем время для переноса',body:'<p role="status">Загружаем актуальную занятость…</p>'});
-  try{await BookingAPI.refreshAllAvailability(next14(),b.id);}catch(x){loading.close('error');UI.toast(x.message,{kind:'err'});return;}loading.close('loaded');
+  let cancelled=false;
+  const loading=UI.sheet({title:'Проверяем время для переноса',body:'<p role="status">Загружаем актуальную занятость…</p>',onClose:reason=>{if(reason!=='loaded'&&reason!=='error')cancelled=true;}});
+  try{await BookingAPI.refreshAllAvailability(next14(),b.id);}catch(x){if(cancelled)return;loading.close('error');UI.toast(x.message,{kind:'err'});return;}
+  if(cancelled)return;
+  loading.close('loaded');
   const s = BookingAPI.settings(), days = next14();
   const st = { date: b.date, start: null, busy:false };
   const root = document.createElement('div'); root.className = 'bk';
