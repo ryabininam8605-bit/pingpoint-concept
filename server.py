@@ -16,6 +16,9 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, unquote, urlsplit
 
+import identity
+import analytics
+
 ROOT = Path(__file__).resolve().parent
 MOSCOW = timezone(timedelta(hours=3))
 SETTINGS = dict(open=600, close=1230, border=780, priceAm=400, pricePm=500, racket=100,
@@ -166,9 +169,16 @@ def booking_view(db, booking):
 
 def private_booking(db, ident, session):
     booking = next((b for b in db['bookings'] if b['id'] == ident), None)
-    if not booking or (booking['owner'] != session['id'] and not session['admin']):
+    if not booking or (not owns_booking(booking, session) and not session['admin']):
         raise APIError('NOTFOUND', 'Бронь не найдена', 404)
     return booking
+
+
+def owns_booking(booking, session):
+    # A phone number is a login label, never proof of booking ownership.
+    if booking.get('userId'):
+        return booking['userId'] == session.get('userId')
+    return booking.get('owner') == session['id']
 
 
 def record(booking, status, by='client', note=''):
@@ -196,6 +206,8 @@ class Store:
         with self.connect() as conn:
             conn.execute('CREATE TABLE IF NOT EXISTS state (id INTEGER PRIMARY KEY, data TEXT NOT NULL)')
             conn.execute('CREATE TABLE IF NOT EXISTS sessions (token TEXT PRIMARY KEY, csrf TEXT NOT NULL, admin INTEGER NOT NULL DEFAULT 0, expires INTEGER NOT NULL)')
+            if 'user_id' not in {row[1] for row in conn.execute('PRAGMA table_info(sessions)')}:
+                conn.execute('ALTER TABLE sessions ADD COLUMN user_id TEXT')
             initial = dict(settings=SETTINGS, bookings=[], payments=[], blocks=[], promos=[], seq=0, consents=[])
             conn.execute('INSERT OR IGNORE INTO state VALUES (1, ?)', (json.dumps(initial),))
 
@@ -213,10 +225,16 @@ class Store:
         with self.connect() as conn:
             conn.execute('BEGIN IMMEDIATE')
             state = json.loads(conn.execute('SELECT data FROM state WHERE id=1').fetchone()[0])
+            self.defaults(state)
             self.expire(state)
             result = action(state)
             conn.execute('UPDATE state SET data=? WHERE id=1', (json.dumps(state, ensure_ascii=False),))
             return result
+
+    @staticmethod
+    def defaults(state):
+        for key in ['users', 'authChallenges', 'credentials', 'paymentOperations', 'accessGrants', 'accessEvents', 'refundOperations']:
+            state.setdefault(key, [])
 
     @staticmethod
     def expire(state):
@@ -257,15 +275,50 @@ class Handler(SimpleHTTPRequestHandler):
         raw = jar['pp_session'].value if 'pp_session' in jar else ''
         token = hashlib.sha256(raw.encode()).hexdigest() if raw else ''
         with self.server.store.connect() as conn:
-            row = conn.execute('SELECT csrf, admin FROM sessions WHERE token=? AND expires>?', (token, now_ms())).fetchone()
+            row = conn.execute('SELECT csrf, admin, user_id FROM sessions WHERE token=? AND expires>?', (token, now_ms())).fetchone()
             if not row:
                 raw = secrets.token_urlsafe(32)
                 token = hashlib.sha256(raw.encode()).hexdigest()
                 csrf = secrets.token_urlsafe(24)
-                conn.execute('INSERT INTO sessions VALUES (?, ?, 0, ?)', (token, csrf, now_ms() + 180 * 86400000))
-                self.new_cookie = 'pp_session=' + raw + '; Path=/; HttpOnly; SameSite=Strict; Max-Age=15552000'
-                row = (csrf, 0)
-        return dict(id=token, csrf=row[0], admin=bool(row[1]))
+                conn.execute('INSERT INTO sessions (token,csrf,admin,expires) VALUES (?, ?, 0, ?)', (token, csrf, now_ms() + 180 * 86400000))
+                self.set_session_cookie(raw)
+                row = (csrf, 0, None)
+        return dict(id=token, csrf=row[0], admin=bool(row[1]), userId=row[2])
+
+    def set_session_cookie(self, raw):
+        self.new_cookie = 'pp_session=' + raw + '; Path=/; HttpOnly; SameSite=Strict; Max-Age=15552000' + ('; Secure' if self.server.secure_cookie else '')
+
+    def rotate_session(self, session, user_id=None, admin=False, claim=False, verified=None, new_password_hash=None):
+        raw, csrf = secrets.token_urlsafe(32), secrets.token_urlsafe(24)
+        token = hashlib.sha256(raw.encode()).hexdigest()
+        # Claims are scoped to the actual browser cookie. Never claim by phone.
+        with self.server.store.connect() as conn:
+            conn.execute('BEGIN IMMEDIATE')
+            if user_id:
+                state = json.loads(conn.execute('SELECT data FROM state WHERE id=1').fetchone()[0])
+                user = next((u for u in state.get('users', []) if u['id'] == user_id), None)
+                source = conn.execute('SELECT token FROM sessions WHERE token=? AND expires>?', (session['id'], now_ms())).fetchone()
+                if not user or not source or not verified or user.get('authRevision', 0) != verified.get('authRevision', 0) or user['passwordHash'] != verified['passwordHash']:
+                    raise APIError('AUTH', 'Данные входа изменились. Войдите заново', 401)
+                if new_password_hash is not None:
+                    user['passwordHash'] = new_password_hash
+                    user['authRevision'] = user.get('authRevision', 0) + 1
+                    state['authChallenges'] = [c for c in state.get('authChallenges', []) if c.get('userId') != user_id]
+                    conn.execute('DELETE FROM sessions WHERE user_id=?', (user_id,))
+                else:
+                    user['lastLoginAt'] = now_ms()
+            if claim:
+                for booking in state['bookings']:
+                    if not booking.get('userId') and booking.get('owner') == session['id']:
+                        booking['userId'] = user_id
+            if user_id:
+                conn.execute('UPDATE state SET data=? WHERE id=1', (json.dumps(state, ensure_ascii=False),))
+            conn.execute('DELETE FROM sessions WHERE token=?', (session['id'],))
+            conn.execute('INSERT INTO sessions(token,csrf,admin,expires,user_id) VALUES (?,?,?,?,?)',
+                         (token, csrf, int(admin), now_ms() + 180 * 86400000, user_id))
+        session.update(id=token, csrf=csrf, admin=admin, userId=user_id)
+        self.set_session_cookie(raw)
+        return csrf
 
     def do_GET(self):
         if urlsplit(self.path).path.startswith('/api/'):
@@ -314,7 +367,7 @@ class Handler(SimpleHTTPRequestHandler):
             query = {key: values[0] for key, values in parse_qs(route.query).items()}
             result = self.dispatch(method, route.path, body, query, session)
             self.reply(result)
-        except APIError as error:
+        except (APIError, identity.IdentityError) as error:
             self.reply(dict(error=dict(code=error.code, message=error.message)), error.status)
         except (ValueError, KeyError, TypeError):
             self.reply(dict(error=dict(code='VALID', message='Некорректные данные запроса')), 400)
@@ -323,8 +376,14 @@ class Handler(SimpleHTTPRequestHandler):
 
     def dispatch(self, method, path, body, query, session):
         if method == 'GET' and path == '/api/session':
-            return self.server.store.transaction(lambda db: dict(settings=db['settings'], admin=session['admin'], csrf=session['csrf'], demoPayments=self.server.demo_payments))
+            return self.server.store.transaction(lambda db: dict(settings=db['settings'], admin=session['admin'], csrf=session['csrf'],
+                demoPayments=self.server.demo_payments, user=identity.profile(self.server.accounts.user(db, session)),
+                capabilities=dict(accounts=True, passkeys=bool(self.server.accounts.origin),
+                                  payments='demo' if self.server.demo_payments else 'disabled', access='unconfigured')))
+        if path.startswith('/api/account/'):
+            return self.account_route(method, path, body, session)
         if path == '/api/admin/login' and method == 'POST':
+            self.server.accounts.limiter.check('admin-login', self.client_address[0], limit=20)
             login, password = str(body.get('login', '')), str(body.get('password', ''))
             if not self.server.admin_login or not self.server.admin_password or not hmac.compare_digest(login, self.server.admin_login) or not hmac.compare_digest(password, self.server.admin_password):
                 raise APIError('AUTH', 'Неверный логин или пароль; доступ задаётся на сервере', 403)
@@ -338,6 +397,51 @@ class Handler(SimpleHTTPRequestHandler):
         if path.startswith('/api/admin/') and not session['admin']:
             raise APIError('AUTH', 'Войдите в админку сервера', 403)
         return self.server.store.transaction(lambda db: self.operation(db, method, path, body, query, session))
+
+    def account_route(self, method, path, body, session):
+        accounts = self.server.accounts
+        peer = self.client_address[0]
+        if path == '/api/account/documents' and method == 'GET':
+            return dict(list=identity.documents())
+        if method == 'POST' and path in {'/api/account/register', '/api/account/login'}:
+            user = accounts.register(body, peer) if path.endswith('/register') else accounts.login(body, peer)
+            csrf = self.rotate_session(session, user['id'], claim=True, verified=user)
+            return dict(user=identity.profile(user), csrf=csrf)
+        if path == '/api/account/logout' and method == 'POST':
+            return dict(user=None, csrf=self.rotate_session(session))
+        if path == '/api/account/me' and method == 'GET':
+            return self.server.store.transaction(lambda db: dict(user=identity.profile(accounts.user(db, session))))
+        if path == '/api/account/profile' and method == 'POST':
+            return self.server.store.transaction(lambda db: accounts.update(db, body, session))
+        if path == '/api/account/password' and method == 'POST':
+            accounts.limiter.check('password', peer, session.get('userId', ''), limit=10)
+            user = self.server.store.transaction(lambda db: accounts.user(db, session, True))
+            if not identity.password_matches(body.get('currentPassword'), user['passwordHash']):
+                raise APIError('AUTH', 'Неверный текущий пароль', 401)
+            hashed = identity.password_hash(body.get('newPassword'))
+            return dict(ok=True, csrf=self.rotate_session(session, user['id'], verified=user, new_password_hash=hashed))
+        match = re.fullmatch(r'/api/account/passkeys/(register|login)/(options|verify)', path)
+        if match and method == 'POST':
+            purpose, action = match.groups()
+            accounts.limiter.check('passkey', peer, limit=40)
+            if action == 'options':
+                return self.server.store.transaction(lambda db: accounts.options(db, session, purpose, body.get('phone')))
+            result = accounts.verify(body, session, purpose)
+            if purpose == 'login':
+                return dict(user=identity.profile(result), csrf=self.rotate_session(session, result['id'], claim=True, verified=result))
+            return result
+        if path == '/api/account/passkeys' and method == 'GET':
+            def listing(db):
+                user = accounts.user(db, session, True)
+                return dict(list=[{k: c[k] for k in ['id', 'name', 'createdAt']} for c in db['credentials'] if c['userId'] == user['id']])
+            return self.server.store.transaction(listing)
+        if path == '/api/account/passkeys/delete' and method == 'POST':
+            def remove(db):
+                user = accounts.user(db, session, True)
+                db['credentials'] = [c for c in db['credentials'] if not (c['userId'] == user['id'] and c['id'] == body.get('id'))]
+                return dict(ok=True)
+            return self.server.store.transaction(remove)
+        raise APIError('NOTFOUND', 'Маршрут не найден', 404)
 
     def operation(self, db, method, path, body, query, session):
         if path == '/api/availability' and method == 'GET':
@@ -364,7 +468,7 @@ class Handler(SimpleHTTPRequestHandler):
         if path == '/api/bookings' and method == 'POST':
             return self.create_booking(db, body, session)
         if path == '/api/bookings/mine' and method == 'GET':
-            mine = [booking_view(db, b) for b in db['bookings'] if b['owner'] == session['id'] and b['status'] != 'expired']
+            mine = [booking_view(db, b) for b in db['bookings'] if owns_booking(b, session) and b['status'] != 'expired']
             upcoming = [b for b in mine if b['endTs'] >= now_ms() and b['status'] in {'paid', 'pending'}]
             past = [b for b in mine if b not in upcoming]
             return dict(upcoming=sorted(upcoming, key=lambda b: b['startTs']), past=sorted(past, key=lambda b: -b['startTs']))
@@ -452,7 +556,7 @@ class Handler(SimpleHTTPRequestHandler):
         if paid:
             self.require_demo()
         db['seq'] += 1
-        booking = dict(id=uid('bk'), number='PP-' + str(db['seq']), owner=session['id'], userId=None, name=name,
+        booking = dict(id=uid('bk'), number='PP-' + str(db['seq']), owner=session['id'], userId=session.get('userId') if not manual else None, name=name,
                        phone=phone, date=body['date'], start=start, dur=dur, players=players, rackets=rackets,
                        promo=promo['code'] if promo else None,
                        promoTerms={key: promo[key] for key in ['code', 'type', 'value']} if promo else None,
@@ -523,6 +627,47 @@ class Handler(SimpleHTTPRequestHandler):
         return view if admin else dict(booking=view, diff=diff)
 
     def admin_operation(self, db, method, path, body, query, session):
+        if path == '/api/admin/analytics' and method == 'GET':
+            try:
+                result = analytics.summarize(db, query)
+                result['from'] = result.pop('from_')
+                return result
+            except analytics.AnalyticsError as error:
+                raise APIError('VALID', str(error)) from None
+        if path == '/api/admin/integrations' and method == 'GET':
+            return dict(payments=dict(mode='demo' if self.server.demo_payments else 'disabled', configured=False,
+                missing=['PP_YOOKASSA_SHOP_ID', 'PP_YOOKASSA_SECRET_KEY', 'PP_YOOKASSA_MODE', 'PP_RECEIPT_MODE', 'PP_PUBLIC_ORIGIN'],
+                message='ЮKassa ещё не подключена; текущий demo-режим не списывает деньги'),
+                access=dict(configured=False, mode='unconfigured', missing=['PP_SKUD_DEVICE_TOKEN', 'PP_SKUD_DOOR_ID'],
+                    message='СКУД не подключена. Ожидаются сведения об оборудовании'),
+                passkeys=dict(configured=bool(self.server.accounts.origin), origin=self.server.accounts.origin or None,
+                    rpId=self.server.accounts.rp_id or None, message='Ключ устройства проверяет отпечаток, лицо или PIN; биометрия не передаётся сайту'))
+        if path == '/api/admin/access-events' and method == 'GET':
+            limit = integer(query.get('limit', 50), 'лимит', 1, 200)
+            allowed = ['at', 'bookingId', 'doorId', 'result', 'reason']
+            return dict(list=[{k: e[k] for k in allowed if k in e} for e in sorted(db['accessEvents'], key=lambda e: -e['at'])[:limit]], total=len(db['accessEvents']))
+        if path == '/api/admin/users' and method == 'GET':
+            page = integer(query.get('page', 1), 'страница', 1, 1000000)
+            size = integer(query.get('pageSize', 30), 'размер страницы', 1, 100)
+            text = str(query.get('q', '')).strip().casefold()[:100]
+            users = [u for u in db['users'] if text in (u['name'] + ' ' + u['phone']).casefold()]
+            users.sort(key=lambda u: (u['createdAt'], u['id']), reverse=True)
+            def view(user):
+                bookings = [b for b in db['bookings'] if b.get('userId') == user['id']]
+                payments = [p for p in db['payments'] if p.get('paidAt') and not p.get('test', True) and
+                            p.get('status') in {'succeeded', 'refunded', 'partially_refunded', 'requires_review'} and
+                            p['bookingId'] in {b['id'] for b in bookings}]
+                return dict(id=user['id'], name=user['name'], phone=user['phone'], phoneVerified=False,
+                    createdAt=user['createdAt'], lastLoginAt=user.get('lastLoginAt'), bookingsCount=len(bookings),
+                    paidCount=len(payments), totalPaid=sum(analytics.kopecks(p['amount']) for p in payments) / 100)
+            return dict(list=[view(u) for u in users[(page-1)*size:page*size]], total=len(users), page=page, pageSize=size)
+        user_match = re.fullmatch(r'/api/admin/users/([^/]+)', path)
+        if user_match and method == 'GET':
+            user = next((u for u in db['users'] if u['id'] == user_match[1]), None)
+            if not user:
+                raise APIError('NOTFOUND', 'Пользователь не найден', 404)
+            return dict(user=identity.profile(user), bookings=[booking_view(db, b) for b in db['bookings'] if b.get('userId') == user['id']],
+                        registrations=[c for c in db['consents'] if c.get('subjectId') == user['id']])
         if path == '/api/admin/auth' and method == 'GET':
             return True
         if path == '/api/admin/bookings/quote' and method == 'POST':
@@ -730,6 +875,16 @@ def create_server(host='127.0.0.1', port=8767, db_path=None, demo_payments=False
     server.admin_login = admin_login if admin_login is not None else os.environ.get('PP_ADMIN_LOGIN', '')
     server.admin_password = admin_password if admin_password is not None else os.environ.get('PP_ADMIN_PASSWORD', '')
     server.allowed_hosts = {f'{host}:{server.server_port}', f'localhost:{server.server_port}', f'127.0.0.1:{server.server_port}'}
+    configured_origin = os.environ.get('PP_PUBLIC_ORIGIN', '').rstrip('/')
+    origin = urlsplit(configured_origin)
+    if configured_origin and (origin.scheme != 'https' or not origin.hostname or origin.path or origin.query or origin.fragment or origin.username):
+        raise ValueError('PP_PUBLIC_ORIGIN must be a canonical HTTPS origin without a path')
+    if configured_origin:
+        server.allowed_hosts.add(origin.netloc)
+    server.public_origin = configured_origin
+    server.secure_cookie = bool(configured_origin)
+    passkey_origin = configured_origin or (f'http://{host}:{server.server_port}' if host in {'127.0.0.1', 'localhost'} else '')
+    server.accounts = identity.Accounts(server.store, passkey_origin, origin.hostname if configured_origin else host)
     return server
 
 
