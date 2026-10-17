@@ -60,6 +60,27 @@ class BookingServerTest(unittest.TestCase):
         status, _ = self.call('/.data/bookings.sqlite3')
         self.assertEqual(status, 404)
 
+    def test_site_images_are_public_without_exposing_other_files(self):
+        with self.client.open(self.base + '/img/logo.jpg') as response:
+            self.assertEqual(response.status, 200)
+            self.assertEqual(response.headers.get_content_type(), 'image/jpeg')
+            self.assertEqual(response.read(), (ROOT / 'img' / 'logo.jpg').read_bytes())
+        with self.client.open(urllib.request.Request(self.base + '/img/logo.jpg', method='HEAD')) as response:
+            self.assertEqual(response.status, 200)
+            self.assertEqual(response.headers.get_content_type(), 'image/jpeg')
+            self.assertEqual(response.read(), b'')
+
+        assets = Path(self.temp.name) / 'static-fixture'
+        (assets / 'img').mkdir(parents=True)
+        (assets / 'img' / 'private.txt').write_text('not public', encoding='utf-8')
+        (assets / 'private.jpg').write_bytes(b'outside the public image directory')
+        with patch.object(self.module, 'ROOT', assets):
+            for path in ['/img/private.txt', '/img/%2e%2e/private.jpg', '/img/', '/server.py', '/.data/bookings.sqlite3']:
+                self.assertEqual(self.call(path)[0], 404, path)
+                with self.assertRaises(urllib.error.HTTPError) as denied:
+                    self.client.open(urllib.request.Request(self.base + path, method='HEAD'))
+                self.assertEqual(denied.exception.code, 404, path)
+
     def booking(self, start=600, **values):
         tomorrow = (datetime.now(timezone(timedelta(hours=3))) + timedelta(days=2)).date().isoformat()
         return dict(date=tomorrow, start=start, dur=60, players=2, rackets=0,

@@ -336,12 +336,23 @@ class Handler(SimpleHTTPRequestHandler):
             self.send_header('Location', '/1-neon/index.html')
             self.end_headers()
             return
-        target = (ROOT / path.lstrip('/')).resolve()
-        allowed = {'.html', '.css', '.js', '.png', '.jpg', '.jpeg', '.webp', '.svg', '.ico', '.woff', '.woff2', '.ttf'}
-        if not path.startswith('/1-neon/') or not target.is_relative_to(ROOT / '1-neon') or not target.is_file() or target.suffix.lower() not in allowed:
+        if not self.public_static_file(path):
             self.reply(dict(error=dict(code='NOTFOUND', message='Файл не найден')), 404)
             return
         super().do_GET()
+
+    def public_static_file(self, path):
+        target = (ROOT / path.lstrip('/')).resolve()
+        allowed = {'.html', '.css', '.js', '.png', '.jpg', '.jpeg', '.webp', '.svg', '.ico', '.woff', '.woff2', '.ttf'}
+        site_file = path.startswith('/1-neon/') and target.is_relative_to(ROOT / '1-neon') and target.suffix.lower() in allowed
+        image_file = path.startswith('/img/') and target.is_relative_to(ROOT / 'img') and target.suffix.lower() in {'.png', '.jpg', '.jpeg', '.webp', '.svg', '.ico'}
+        return target.is_file() and (site_file or image_file)
+
+    def do_HEAD(self):
+        if not self.public_static_file(unquote(urlsplit(self.path).path)):
+            self.send_error(404)
+            return
+        super().do_HEAD()
 
     def translate_path(self, path):
         return str((ROOT / unquote(urlsplit(path).path).lstrip('/')).resolve())
