@@ -1,0 +1,6 @@
+-r requirements.txt
+
+# Independent QR decoding and SVG rasterization in tests/test_access.py.
+opencv-python==5.0.0.93
+numpy==2.4.6
+Pillow==13.0.0

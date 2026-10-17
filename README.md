@@ -1,6 +1,6 @@
 # Ping Point
 
-Выбранный вариант сайта — `1-neon`. Нужен Python 3.11 или новее. Перед запуском установите закреплённые зависимости `python -m pip install -r requirements.txt`; сборки фронтенда нет.
+Выбранный вариант сайта — `1-neon`. Нужен Python 3.11 или новее. Для запуска сайта установите закреплённые runtime-зависимости: `python -m pip install -r requirements.txt`. Полный набор для разработки и проверок устанавливается отдельно, как описано в разделе «Проверки»; сборки фронтенда нет.
 
 ## Запуск общего бронирования
 
@@ -60,6 +60,26 @@ python server.py --port 8767 --demo-payments
 
 ## Проверки
 
+Для полной проверки нужны Python и Node.js. Из корня проекта установите runtime- и dev-зависимости одной командой:
+
+```powershell
+python -m pip install -r requirements-dev.txt
+node tests/check.mjs
+```
+
+`requirements-dev.txt` включает `requirements.txt` и закреплённые OpenCV, NumPy и Pillow для независимой проверки QR. Эти три пакета не нужны для запуска сайта. Установку и проверки выполняйте одним Python из выбранного окружения: `tests/check.mjs` запускает команду `python` из `PATH`.
+
+Чтобы проверить в отдельном чистом окружении на Windows PowerShell без активации скриптом:
+
+```powershell
+python -m venv .venv
+$env:PATH = (Resolve-Path .venv\Scripts).Path + [IO.Path]::PathSeparator + $env:PATH
+python -m pip install -r requirements-dev.txt
+node tests/check.mjs
+```
+
+Единая команда `node tests/check.mjs` включает Python- и Node-тесты и проверку синтаксиса. Отдельные команды:
+
 ```powershell
 python -m unittest discover -s tests -p "test_*.py"
 node tests/check.mjs
@@ -68,6 +88,6 @@ node --test tests/*.test.mjs
 
 Python-тесты поднимают серверы на случайном loopback-порту и временной базе. Они проверяют независимые сессии, гонку за один интервал, конфликты переноса, истечение, отмену, приватность, CSRF, повтор платежа, админку и сохранение после перезапуска. Node-тесты проверяют адаптер и регрессии локальных API без изменения данных рабочего браузера.
 
-`tests/test_payments.py` запускает отдельный настоящий loopback HTTP mock ЮKassa: никаких реальных финансовых запросов. Factory `create_server(..., payment_provider=...)` позволяет программно внедрить такой адаптер, без debug HTTPмаршрутов. `tests/test_access.py` растеризует именно SVG, возвращённый API, и независимо декодирует OpenCV, затем проверяет интервалы, повторный вход и отзыв. Для этого dev-теста нужны OpenCV, NumPy и Pillow (в текущем окружении уже есть); это не runtime-зависимости сайта. Пример отдельной проверки: `python -m unittest discover -s tests -p test_access.py`.
+`tests/test_payments.py` запускает отдельный настоящий loopback HTTP mock ЮKassa: никаких реальных финансовых запросов. Factory `create_server(..., payment_provider=...)` позволяет программно внедрить такой адаптер, без debug HTTPмаршрутов. `tests/test_access.py` растеризует именно SVG, возвращённый API, и независимо декодирует OpenCV, затем проверяет интервалы, повторный вход и отзыв. Его зависимости устанавливаются через `requirements-dev.txt`. Пример отдельной проверки: `python -m unittest discover -s tests -p test_access.py`.
 
 Порядок подключения скриптов: `community.js`, `shared-booking.js`, затем `booking.js`. Публичные методы `BookingAPI` и booking-методы `AdminAPI` сохранены. Дополнительно доступны `BookingAPI.ready`, `refreshAvailability(date, excludeId?)`, `refreshAllAvailability(dates, excludeId?)`, `availabilityState(date, excludeId?)` и `demoPayments`. Синхронный `availabilitySync` возвращает только загруженный серверный кеш; до загрузки и при ошибке — пустой массив. `availabilityState` сообщает `{status:'loading'|'ready'|'error', error?:string}`. При неизменном ответе повторный запрос не генерирует `pp:change`.
