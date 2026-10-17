@@ -2,7 +2,7 @@
 
 **Требования:** R01, R02
 **Зависит от:** —
-**Зона:** server.py · 1-neon/shared-booking.js · tests/test_*.py · tests/shared-booking*.mjs · README.md
+**Зона:** `server.py` · `1-neon/shared-booking.js` · `tests/test_*.py` · `tests/shared-booking*.mjs` · `README.md`
 **Волна:** 1
 **Ревью:** да — фундамент, доступ и деньги
 **Модель:** сильная

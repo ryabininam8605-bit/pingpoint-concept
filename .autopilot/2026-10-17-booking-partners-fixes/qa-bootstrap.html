@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ping Point — изолированная QA-фикстура</title>
+<style>body{max-width:680px;margin:60px auto;padding:24px;font:17px/1.6 system-ui;background:#101223;color:#eee}button,a{font:inherit}button{padding:12px 18px;cursor:pointer}a{color:#9ecfff}[hidden]{display:none!important}</style>
+<h1>Тестовый кабинет QA</h1>
+<p>Только для временной копии сайта на localhost:8768. Использует вымышленного игрока и уже существующие демо-записи согласий.</p>
+<button id="prepare" type="button">Подготовить тестовый кабинет</button>
+<p id="status" role="status"></p>
+<a id="open" href="cabinet.html#new" hidden>Открыть форму нового объявления</a>
+<script>
+'use strict';
+const statusEl = document.getElementById('status');
+const button = document.getElementById('prepare');
+function guard() {
+  if (location.protocol !== 'http:' || !['localhost', '127.0.0.1'].includes(location.hostname) || location.port !== '8768') {
+    throw new Error('Отказ: разрешён только http://localhost:8768 или http://127.0.0.1:8768.');
+  }
+  const raw = localStorage.getItem('pp_data_v1');
+  if (!raw) return null;
+  const db = JSON.parse(raw);
+  if (!db || db.v !== 1 || !db.users) throw new Error('Отказ: неизвестный формат базы.');
+  if (Object.values(db.users).some(u => !u.demo && u.id !== 'qa_fixture')) {
+    throw new Error('Отказ: найдены обычные пользователи; их данные не изменены.');
+  }
+  return db;
+}
+try { guard(); } catch (error) { button.disabled = true; statusEl.textContent = error.message; }
+button.addEventListener('click', async () => {
+  button.disabled = true;
+  try {
+    guard();
+    await new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = 'community.js'; script.onload = resolve;
+      script.onerror = () => reject(new Error('Не найден соседний community.js. Скопируйте фикстуру в 1-neon временной QA-копии.'));
+      document.head.appendChild(script);
+    });
+    CommunityAPI.meSync(); // Инициализация штатных демо-данных только в изолированном origin.
+    const db = guard(), source = db && db.users.d1;
+    if (!source || !source.demo) throw new Error('Не найден исходный вымышленный игрок d1.');
+    const records = db.consents.filter(c => c.subjectId === 'd1' && c.action === 'accepted');
+    const required = PP.REG_DOCS.concat('consent_public');
+    if (!required.every(id => source.consents[id] && source.consents[id].active && records.some(c => c.docId === id))) {
+      throw new Error('У исходного демо-игрока отсутствуют готовые согласия. Фикстура не создавалась.');
+    }
+    const fixture = JSON.parse(JSON.stringify(source));
+    fixture.id = 'qa_fixture'; fixture.demo = false; fixture.name = 'Тестовый игрок QA';
+    fixture.qaFixture = true;
+    db.users.qa_fixture = fixture;
+    db.consents = db.consents.filter(c => c.subjectId !== 'qa_fixture').concat(records.map(record => {
+      const copy = JSON.parse(JSON.stringify(record));
+      copy.id = 'qa_fixture_' + record.id; copy.subjectId = fixture.id; copy.name = fixture.name;
+      copy.qaFixture = true; return copy;
+    }));
+    localStorage.setItem('pp_data_v1', JSON.stringify(db));
+    localStorage.setItem('pp_session_v1', fixture.id); // Штатная сессия — строковый id пользователя.
+    statusEl.textContent = 'Готово: тестовая сессия создана. Новые согласия не принимались; обычные пользователи отсутствуют.';
+    document.getElementById('open').hidden = false;
+  } catch (error) { statusEl.textContent = error.message; }
+});
+</script>
+</html>

@@ -2,7 +2,7 @@
 
 **Требования:** R01, R02, R03, R04, R05, R06, R07
 **Зависит от:** 01
-**Зона:** 1-neon/index.html · 1-neon/cabinet.html · 1-neon/admin.html · 1-neon/community.js · 1-neon/booking.js · tests/check.mjs · tests/community*.mjs
+**Зона:** `1-neon/index.html` · `1-neon/cabinet.html` · `1-neon/admin.html` · `1-neon/community.js` · `1-neon/booking.js` · `tests/check.mjs` · `tests/community*.mjs`
 **Волна:** 2
 **Ревью:** да — согласия, расчёт и брони
 **Модель:** сильная
