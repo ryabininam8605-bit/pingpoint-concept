@@ -18,6 +18,8 @@ from urllib.parse import parse_qs, unquote, urlsplit
 
 import identity
 import analytics
+import payments
+import access
 
 ROOT = Path(__file__).resolve().parent
 MOSCOW = timezone(timedelta(hours=3))
@@ -27,7 +29,8 @@ SETTINGS = dict(open=600, close=1230, border=780, priceAm=400, pricePm=500, rack
                        'Дети до 14 лет — только вместе со взрослым', 'Сменная или не скользящая обувь',
                        'Без еды и алкоголя, вода из кулера — можно'])
 LABELS = dict(pending='Ожидает оплаты', paid='Оплачена', expired='Истекла', cancelled='Отменена',
-              refunded='Возврат', refund_partial='Частичный возврат', noshow='Неявка')
+              refunded='Возврат', refund_partial='Частичный возврат', noshow='Неявка',
+              refund_pending='Возврат обрабатывается', payment_review='Оплата требует проверки')
 
 
 class APIError(Exception):
@@ -152,6 +155,7 @@ def granted_promo(db, booking):
 def booking_view(db, booking):
     result = copy.deepcopy(booking)
     result.pop('owner', None)
+    result.pop('accessToken', None)
     start = at_ms(booking['date'], booking['start'])
     left = start - now_ms()
     paid = booking['status'] == 'paid'
@@ -161,7 +165,7 @@ def booking_view(db, booking):
                   cancelLate=paid and 0 < left < db['settings']['cancelHours'] * 3600000,
                   canCancel=booking['status'] == 'pending' or (paid and left > 0),
                   canReschedule=paid and not booking.get('rescheduled') and left >= db['settings']['cancelHours'] * 3600000,
-                  refundAmount=booking.get('refundAmount'), payment=next((p for p in db['payments'] if p['id'] == booking.get('paymentId')), None),
+                  refundAmount=booking.get('refundAmount'), payment=next((payments.Payments.public(p) for p in db['payments'] if p['id'] == booking.get('paymentId')), None),
                   timeLabel=hhmm(booking['start']) + '–' + hhmm(booking['start'] + booking['dur']),
                   dateLabel=checked_date(booking['date']).strftime('%d.%m.%Y'), phoneFmt='+' + booking['phone'])
     return result
@@ -191,6 +195,8 @@ def refund_amount(db, booking, amount):
     for payment in reversed(db['payments']):
         if payment['bookingId'] != booking['id'] or payment['status'] not in {'succeeded', 'partially_refunded'}:
             continue
+        if payment.get('provider') == 'yookassa':
+            raise APIError('SETTLEMENT_REQUIRED', 'Возврат ЮKassa требует подтверждения провайдера', 409)
         take = min(remaining, payment['amount'] - payment.get('refunded', 0))
         payment['refunded'] = payment.get('refunded', 0) + take
         payment['refundedAt'] = now_ms()
@@ -352,10 +358,11 @@ class Handler(SimpleHTTPRequestHandler):
             session = self.session()
             body = {}
             if method == 'POST':
+                external = urlsplit(self.path).path in {'/api/yookassa/webhook', '/api/access/verify'}
                 origin = self.headers.get('Origin')
-                if origin and origin not in {'http://' + host, 'https://' + host}:
+                if not external and origin and origin not in {'http://' + host, 'https://' + host}:
                     raise APIError('CSRF', 'Обновите страницу', 403)
-                if not hmac.compare_digest(self.headers.get('X-PP-CSRF', ''), session['csrf']):
+                if not external and not hmac.compare_digest(self.headers.get('X-PP-CSRF', ''), session['csrf']):
                     raise APIError('CSRF', 'Обновите страницу', 403)
                 length = int(self.headers.get('Content-Length', 0))
                 if length < 0 or length > 65536:
@@ -367,7 +374,7 @@ class Handler(SimpleHTTPRequestHandler):
             query = {key: values[0] for key, values in parse_qs(route.query).items()}
             result = self.dispatch(method, route.path, body, query, session)
             self.reply(result)
-        except (APIError, identity.IdentityError) as error:
+        except (APIError, identity.IdentityError, payments.PaymentError) as error:
             self.reply(dict(error=dict(code=error.code, message=error.message)), error.status)
         except (ValueError, KeyError, TypeError):
             self.reply(dict(error=dict(code='VALID', message='Некорректные данные запроса')), 400)
@@ -379,7 +386,8 @@ class Handler(SimpleHTTPRequestHandler):
             return self.server.store.transaction(lambda db: dict(settings=db['settings'], admin=session['admin'], csrf=session['csrf'],
                 demoPayments=self.server.demo_payments, user=identity.profile(self.server.accounts.user(db, session)),
                 capabilities=dict(accounts=True, passkeys=bool(self.server.accounts.origin),
-                                  payments='demo' if self.server.demo_payments else 'disabled', access='unconfigured')))
+                                  payments='demo' if self.server.demo_payments else self.server.payments.provider.readiness()['mode'],
+                                  access=self.server.access.readiness()['mode'])))
         if path.startswith('/api/account/'):
             return self.account_route(method, path, body, session)
         if path == '/api/admin/login' and method == 'POST':
@@ -396,6 +404,38 @@ class Handler(SimpleHTTPRequestHandler):
             return True
         if path.startswith('/api/admin/') and not session['admin']:
             raise APIError('AUTH', 'Войдите в админку сервера', 403)
+        if path == '/api/yookassa/webhook' and method == 'POST':
+            self.server.accounts.limiter.check('webhook', self.client_address[0], limit=300, seconds=60)
+            return self.server.payments.webhook(body)
+        if path in {'/api/access/verify', '/api/admin/access/simulate'} and method == 'POST':
+            payload, door = body.get('payload'), body.get('doorId')
+            simulation = path.endswith('/simulate')
+            if not simulation and not self.server.access.authorized(self.headers.get('Authorization', ''), door):
+                # No hostile QR content, bearer, or claimed door IDs are retained.
+                self.server.store.transaction(lambda db: db['accessEvents'].append(dict(at=now_ms(),
+                    doorId=self.server.access.door_id or 'unconfigured', result='deny', reason='unauthorized')))
+                raise APIError('DEVICE_AUTH', 'Устройство не авторизовано', 403)
+            if not isinstance(payload, str) or not 1 <= len(payload) <= 256 or not isinstance(door, str) or len(door) > 100:
+                raise APIError('VALID', 'Некорректный запрос устройства')
+            return self.server.store.transaction(lambda db: self.server.access.verify(db, payload, door, now_ms(), at_ms, simulation))
+        match = re.fullmatch(r'/api/bookings/([^/]+)/access', path)
+        if match and method == 'GET':
+            return self.server.store.transaction(lambda db: self.server.access.view(db, private_booking(db, match[1], session), now_ms(), at_ms))
+        match = re.fullmatch(r'/api/bookings/([^/]+)/payments', path)
+        if match and method == 'POST' and not self.server.demo_payments:
+            return self.server.payments.start(match[1], session)
+        match = re.fullmatch(r'/api/payments/([^/]+)/refresh', path)
+        if match and method == 'POST':
+            return self.server.payments.refresh(match[1], session)
+        match = re.fullmatch(r'/api/(admin/)?bookings/([^/]+)/(cancel|partial-refund|refund-fault)', path)
+        if match and method == 'POST':
+            if match[3] != 'cancel' and not session['admin']:
+                raise APIError('AUTH', 'Операция доступна администратору', 403)
+            # Authority is checked before provider I/O; transaction re-checks it too.
+            real = self.server.store.transaction(lambda db: any(p['id'] == private_booking(db, match[2], session).get('paymentId')
+                and p.get('provider') == 'yookassa' and p.get('paidAt') for p in db['payments']))
+            if real:
+                return self.server.payments.refund(match[2], session, match[3], body)
         return self.server.store.transaction(lambda db: self.operation(db, method, path, body, query, session))
 
     def account_route(self, method, path, body, session):
@@ -498,6 +538,8 @@ class Handler(SimpleHTTPRequestHandler):
             payment = next((p for p in db['payments'] if p['id'] == match[1]), None)
             if not payment:
                 raise APIError('NOTFOUND', 'Платёж не найден', 404)
+            if payment.get('provider') == 'yookassa':
+                raise APIError('PROVIDER_REQUIRED', 'Платёж подтверждается только через ЮKassa', 409)
             booking = private_booking(db, payment['bookingId'], session)
             if booking['status'] != 'pending' or payment['status'] != 'pending' or booking['paymentId'] != payment['id']:
                 raise APIError('EXPIRED' if booking['status'] == 'expired' else 'STATE', 'Платёж уже завершён или время удержания вышло')
@@ -611,6 +653,9 @@ class Handler(SimpleHTTPRequestHandler):
         start, dur = check_range(db, ds, body.get('start', booking['start']), body.get('dur', booking['dur']), booking['id'], admin)
         q = quote(db, start, dur, booking['rackets'], promo_terms=granted_promo(db, booking))
         diff = q['total'] - booking['amount']
+        real = any(p['id'] == booking.get('paymentId') and p.get('provider') == 'yookassa' for p in db['payments'])
+        if real and diff:
+            raise APIError('SETTLEMENT_REQUIRED', 'Изменение цены оплаченной брони требует отдельного расчёта с ЮKassa; автоматический перенос недоступен', 409)
         if only_quote:
             return dict(oldAmount=booking['amount'], newAmount=q['total'], diff=diff)
         if booking['status'] == 'paid' and diff:
@@ -620,6 +665,8 @@ class Handler(SimpleHTTPRequestHandler):
             else:
                 refund_amount(db, booking, -diff)
         booking.update(date=ds, start=start, dur=dur, amount=q['total'], discount=q['discount'])
+        if real:
+            self.server.access.issue(db, booking, at_ms)
         if not admin:
             booking['rescheduled'] = True
         record(booking, booking['status'], 'admin' if admin else 'client', 'Перенос времени')
@@ -635,11 +682,9 @@ class Handler(SimpleHTTPRequestHandler):
             except analytics.AnalyticsError as error:
                 raise APIError('VALID', str(error)) from None
         if path == '/api/admin/integrations' and method == 'GET':
-            return dict(payments=dict(mode='demo' if self.server.demo_payments else 'disabled', configured=False,
-                missing=['PP_YOOKASSA_SHOP_ID', 'PP_YOOKASSA_SECRET_KEY', 'PP_YOOKASSA_MODE', 'PP_RECEIPT_MODE', 'PP_PUBLIC_ORIGIN'],
-                message='ЮKassa ещё не подключена; текущий demo-режим не списывает деньги'),
-                access=dict(configured=False, mode='unconfigured', missing=['PP_SKUD_DEVICE_TOKEN', 'PP_SKUD_DOOR_ID'],
-                    message='СКУД не подключена. Ожидаются сведения об оборудовании'),
+            return dict(payments=self.server.payments.provider.readiness() if not self.server.demo_payments else
+                dict(mode='demo', configured=False, missing=[], message='Локальная имитация: деньги не списываются; доступ не выдаётся'),
+                access=self.server.access.readiness(),
                 passkeys=dict(configured=bool(self.server.accounts.origin), origin=self.server.accounts.origin or None,
                     rpId=self.server.accounts.rp_id or None, message='Ключ устройства проверяет отпечаток, лицо или PIN; биометрия не передаётся сайту'))
         if path == '/api/admin/access-events' and method == 'GET':
@@ -694,7 +739,9 @@ class Handler(SimpleHTTPRequestHandler):
             action = match[2]
             if method == 'GET' and not action:
                 view = booking_view(db, booking)
-                view['payments'] = [p for p in db['payments'] if p['bookingId'] == booking['id']]
+                view['payments'] = [payments.Payments.public(p) for p in db['payments'] if p['bookingId'] == booking['id']]
+                view['refunds'] = [{k: r[k] for k in ['id', 'paymentId', 'amount', 'status', 'createdAt', 'succeededAt', 'providerId'] if k in r}
+                    for r in db['refundOperations'] if r['bookingId'] == booking['id']]
                 return view
             if method == 'POST' and action == 'cancel':
                 return self.cancel_booking(db, booking, True, body.get('withRefund', False) is True)
@@ -713,6 +760,7 @@ class Handler(SimpleHTTPRequestHandler):
                 if booking['status'] != 'paid' or at_ms(booking['date'], booking['start']) > now_ms():
                     raise APIError('STATE', 'Отметить неявку можно после начала оплаченной игры')
                 record(booking, 'noshow', 'admin')
+                self.server.access.revoke(db, booking['id'])
                 return booking_view(db, booking)
             if method == 'POST' and action == 'partial-refund':
                 if booking['status'] != 'refund_partial' or booking.get('refundAmount') is not None:
@@ -788,21 +836,23 @@ class Handler(SimpleHTTPRequestHandler):
             promo['active'] = body.get('active') is True
             return True
         if path == '/api/admin/payments' and method == 'GET':
-            payments = []
+            payment_views = []
             for payment in db['payments']:
+                if query.get('mode') in {'live', 'test'} and payment.get('test', True) != (query['mode'] == 'test'):
+                    continue
                 ds = datetime.fromtimestamp(payment['createdAt'] / 1000, MOSCOW).date().isoformat()
                 if query.get('from', ds) > ds or query.get('to', ds) < ds or any(query.get(k) and query[k] != payment[k] for k in ['method', 'status']):
                     continue
                 view = copy.deepcopy(payment)
                 booking = next(b for b in db['bookings'] if b['id'] == payment['bookingId'])
                 view['booking'] = {key: booking[key] for key in ['id', 'number', 'name', 'date', 'start', 'dur']}
-                payments.append(view)
-            paid = [p for p in payments if p['status'] in {'succeeded', 'refunded', 'partially_refunded'}]
+                payment_views.append(view)
+            paid = [p for p in payment_views if p['status'] in {'succeeded', 'refunded', 'partially_refunded', 'requires_review'}]
             gross, refunds = sum(p['amount'] for p in paid), sum(p.get('refunded', 0) for p in paid)
             methods = {}
             for p in paid:
                 methods[p['method']] = methods.get(p['method'], 0) + p['amount']
-            return dict(list=sorted(payments, key=lambda p: -p['createdAt']), totals=dict(count=len(payments), gross=gross, refunds=refunds, refundsCount=sum(p.get('refunded', 0) > 0 for p in paid), net=gross - refunds, byMethod=methods))
+            return dict(list=sorted(payment_views, key=lambda p: -p['createdAt']), totals=dict(count=len(payment_views), gross=gross, refunds=refunds, refundsCount=sum(p.get('refunded', 0) > 0 for p in paid), net=gross - refunds, byMethod=methods))
         if path == '/api/admin/clients' and method == 'GET':
             return self.clients(db, query.get('q', ''))
         if path == '/api/admin/client' and method == 'GET':
@@ -867,7 +917,7 @@ class Handler(SimpleHTTPRequestHandler):
                     blocksToday=[b for b in db['blocks'] if b['date'] == td], newReports=0)
 
 
-def create_server(host='127.0.0.1', port=8767, db_path=None, demo_payments=False, admin_login=None, admin_password=None):
+def create_server(host='127.0.0.1', port=8767, db_path=None, demo_payments=False, admin_login=None, admin_password=None, payment_provider=None):
     server = ThreadingHTTPServer((host, port), Handler)
     server.daemon_threads = True
     server.store = Store(db_path or ROOT / '.data' / 'bookings.sqlite3')
@@ -885,6 +935,10 @@ def create_server(host='127.0.0.1', port=8767, db_path=None, demo_payments=False
     server.secure_cookie = bool(configured_origin)
     passkey_origin = configured_origin or (f'http://{host}:{server.server_port}' if host in {'127.0.0.1', 'localhost'} else '')
     server.accounts = identity.Accounts(server.store, passkey_origin, origin.hostname if configured_origin else host)
+    server.access = access.Access()
+    server.payments = payments.Payments(server, at_ms, record, check_range, consume_promo, booking_view, private_booking, server.access)
+    if payment_provider is not None:
+        server.payments.provider = payment_provider
     return server
 
 
