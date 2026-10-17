@@ -9,3 +9,4 @@ __pycache__/
 .autopilot/serve.*
 .data/
 .autopilot/qa-runtime/
+_site/

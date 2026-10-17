@@ -34,6 +34,7 @@ Runtime-only install: `python -m pip install -r requirements.txt`. Для изо
 - Полная G4 проверка: `node tests/check.mjs` — 10 syntax, 36 Node, 38 Python тестов прошли; 0 ошибок. Команда harness использует `python` из `PATH`, поэтому выбранный venv `Scripts` должен быть первым.
 - Отдельно проверено: `python -m unittest discover -s tests -p test_access.py` — 6 тестов прошли (`Ran 6 tests`, `OK`).
 ## Что легко сломать
+- Показ заказчику на GitHub Pages — отдельный экспорт `python scripts/build_preview.py` в `_site/`; `preview/preview-api.js` добавляется только экспортером до остальных scripts. Это браузерная симуляция с отдельным ключом localStorage, не fallback серверного приложения. Не подключать её к исходным `1-neon` страницам и не выдавать тестовый QR за реальный.
 - Windows: перед рестартом после изменения схемы остановить старый сервер на порту; прежний процесс может ещё отвечать ошибкой. Проверять `/api/session`, а не только HTML.
 - `.data/bookings.sqlite3` — база по умолчанию; QA запускать с отдельным `--database`. Остановка сервера перед копированием/резервом SQLite. `localhost` и `127.0.0.1` разделяют cookie; разные порты на одном hostname — нет.
 - Страницы и скрипты раздаются из `/1-neon/`, изображения разрешённых типов — также из `/img/` (там логотип и фото). Не закрывать `/img/` при изменении static allowlist; служебные файлы и выход за эти каталоги закрыты. `python -m http.server` не заменяет API-сервер.
