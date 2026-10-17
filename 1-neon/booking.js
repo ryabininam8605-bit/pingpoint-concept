@@ -312,9 +312,9 @@ async function open(preset, resumeBooking) {
         : '<p class="pp-h" style="font-size:14.5px;margin:0 0 16px">Есть кабинет? <button class="pp-link" type="button" data-login style="font-size:14.5px;color:var(--ball-hot)">Войдите</button> — бронь сохранится в нём, а контакты подставятся сами.</p>') +
       '<div class="pp-e" role="alert"></div>' +
       '<div class="bk-grid2"><div class="pp-f"><label class="pp-l" for="bkName">Имя</label><input class="pp-i" id="bkName" autocomplete="name" maxlength="60" value="' + esc(st.name) + '" placeholder="Как к вам обращаться"></div>' +
-      '<div class="pp-f"><label class="pp-l" for="bkPhone">Телефон <small>для кода и чека</small></label><input class="pp-i" id="bkPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (900) 000-00-00"' + (isSigned ? ' readonly' : '') + '></div></div>' +
+      '<div class="pp-f"><label class="pp-l" for="bkPhone">Телефон <small>для связи по брони</small></label><input class="pp-i" id="bkPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (900) 000-00-00"' + (isSigned ? ' readonly' : '') + '></div></div>' +
       '<div data-c></div>' +
-      '<p class="pp-h" style="margin:-4px 0 12px">' + (isSigned ? '' : 'Бронь без кабинета тоже работает: код и чек придут на телефон. ') + 'Отмена не позднее чем за ' + s.cancelHours + ' ч — возврат 100%, позже — за вычетом фактических расходов; перенос — бесплатно один раз.</p>' +
+      '<p class="pp-h" style="margin:-4px 0 12px">' + (isSigned ? '' : 'После подтверждённой оплаты QR появится в вашей брони в этом браузере. Открыть бронь с других устройств можно после регистрации и входа в кабинет. ') + 'Отмена не позднее чем за ' + s.cancelHours + ' ч — возврат 100%, позже — за вычетом фактических расходов; перенос — бесплатно один раз.</p>' +
       sumHTML() +
       '<p class="pp-h pp-miss" data-miss aria-live="polite" style="margin:12px 0 0"></p>' +
       '<div class="bk-bar"><button class="bk-back" type="button" data-back>← Назад</button><div class="bk-what">' + whatHTML() + '</div><button class="btn btn-main calm" type="button" data-next>К оплате · ' + money(quote().total) + '</button></div>';
@@ -401,7 +401,7 @@ async function open(preset, resumeBooking) {
   function step5() {
     root.innerHTML = stepsHTML() + successHTML(st.booking, true);
     bindSuccess(root, st.booking, sh);
-    const f = root.querySelector('[data-ics]'); if (f) f.focus();
+    sh.focusFirst();
   }
 
   if (resumeBooking) { st.booking = resumeBooking; st.payment=resumeBooking.payment || null; st.date = resumeBooking.date; st.start = resumeBooking.start; st.dur = resumeBooking.dur; st.players = resumeBooking.players; st.rackets = resumeBooking.rackets; st.step = 4; }

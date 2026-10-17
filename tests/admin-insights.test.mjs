@@ -13,6 +13,17 @@ test('admin navigation exposes registered users separately from booking contacts
   assert.match(html,/\['users',\s*'Пользователи'/);
   assert.match(html,/Контакты броней/);
 });
+test('admin page and sidebar hide native rails while keeping their scroll containers',()=>{
+  const html=readFileSync(new URL('../1-neon/admin.html',import.meta.url),'utf8');
+  const css=html.match(/<style>([\s\S]*?)<\/style>/)[1];
+  const declarations=selector=>Array.from(css.matchAll(/([^{}]+)\{([^{}]*)\}/g)).filter(match=>match[1].split(',').map(s=>s.trim()).includes(selector)).map(match=>match[2]).join(';');
+  for(const selector of ['html','.side']) {
+    assert.match(declarations(selector),/scrollbar-width\s*:\s*none/,'rails hidden for '+selector);
+    assert.match(declarations(selector+'::-webkit-scrollbar'),/display\s*:\s*none/,'Chromium rails hidden for '+selector);
+    assert.doesNotMatch(declarations(selector),/overflow(?:-y)?\s*:\s*hidden/,'vertical scrolling remains enabled for '+selector);
+  }
+  assert.match(declarations('.side'),/overflow\s*:\s*auto/);
+});
 test('cash chart and exact table preserve fractional rubles and negative net',()=>{
   const a=api();assert.equal(typeof a.analyticsHTML,'function');
   const html=a.analyticsHTML({mode:'live',timezone:'Europe/Moscow',totals:{users:1,newUsers:1,bookings:0,payments:1,gross:100.01,refunds:200.02,net:-100.01},series:[{date:'2026-10-16',registrations:0,bookings:0,payments:1,gross:100.01,refunds:200.02,net:-100.01}]});

@@ -35,7 +35,12 @@ async function request(path, body) {
       if (response.status === 403 && path.indexOf('/api/admin/') === 0) { admin = false; localAdminFlag(); }
       throw error(value.error && value.error.code || 'SERVER', value.error && value.error.message || 'Не удалось выполнить запрос');
     }
-    if (value && typeof value.csrf === 'string') applySession(value);
+    // Account reads/profile edits are authoritative even when they do not
+    // rotate CSRF. Keep the snapshot used by later token-only responses current.
+    // WebAuthn registration options also contain a `user` descriptor, which
+    // is not a profile. Only these routes return the current account DTO.
+    const currentAccount = ['/api/session','/api/account/me','/api/account/profile','/api/account/register','/api/account/login','/api/account/logout','/api/account/passkeys/login/verify'].includes(path);
+    if (value && (typeof value.csrf === 'string' || (currentAccount && Object.prototype.hasOwnProperty.call(value, 'user')))) applySession(value);
     return value;
   } catch (e) {
     if (e.code) throw e;
@@ -162,6 +167,16 @@ B.accessHTML = access => {
 };
 B.mountAccess = (container, id) => {
   let closed = false, timer = null, expiresAt = null;
+  // This policy belongs only to this access dialog. Other sheets keep their
+  // normal first-input focus; polling never resets the player's scroll.
+  const dialog = container.closest && container.closest('.pp-sheet');
+  if (dialog) {
+    dialog.dataset.ppInitialFocus = 'close';
+    const body = dialog.querySelector('.pp-sheet-body');
+    if (body) body.scrollTop = 0;
+    const close = dialog.querySelector('.pp-x');
+    if (close) close.focus({ preventScroll: true });
+  }
   const read = async () => {
     if (closed || container.isConnected === false) return;
     if (expiresAt && Date.now() >= expiresAt) container.innerHTML = '<p class="pp-h" role="status">Срок QR закончился. Проверяем состояние брони…</p>';

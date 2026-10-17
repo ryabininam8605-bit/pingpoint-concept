@@ -1701,7 +1701,13 @@ function sheet(opts) {
       if (prevFocus && prevFocus.focus && document.contains(prevFocus)) try { prevFocus.focus({ preventScroll: true }); } catch (e) {}
       if (opts.onClose) opts.onClose(reason);
     },
-    focusFirst() { const f = body.querySelector('[autofocus]') || body.querySelector(FOCUSABLE) || $('.pp-x', wrap); if (f) f.focus(); }
+    focusFirst() {
+      // Access views select the close control so a later control below the QR
+      // cannot scroll the pass behind the fixed dialog heading.
+      const atStart = opts.initialFocus === 'close' || wrap.dataset.ppInitialFocus === 'close';
+      const f = atStart ? $('.pp-x', wrap) : body.querySelector('[autofocus]') || body.querySelector(FOCUSABLE) || $('.pp-x', wrap);
+      if (f) f.focus(atStart ? { preventScroll: true } : undefined);
+    }
   };
   sheetStack.push(api);
   $('.pp-x', wrap).addEventListener('click', () => api.close('x'));

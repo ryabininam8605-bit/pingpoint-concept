@@ -87,3 +87,80 @@ test('automatic document check cannot cover booking navigation with unsupported 
   assert.equal(context.checkDocUpdates(),true,'legacy local community checks are preserved');
   assert.equal(consentChecks,1);
 });
+
+test('guest contact step explains browser retrieval instead of promising SMS delivery',()=>{
+  const code=fs.readFileSync(new URL('../1-neon/booking.js',import.meta.url),'utf8');
+  const step=code.slice(code.indexOf('  function step3()'),code.indexOf('  /* ---------- шаг 4:'));
+  const field=()=>({value:'',classList:{add(){},remove(){}},addEventListener(){},appendChild(){}}),fields=new Map();
+  const root={innerHTML:'',querySelector:selector=>{if(!fields.has(selector))fields.set(selector,field());return fields.get(selector);}};
+  const context={root,CommunityAPI:{meSync:()=>null},P:{BOOKING_DOCS:['policy'],normPhone:()=>null},UI:{bindPhoneMask(){},consentChecks:()=>({el:{},missing:()=>['policy']}),missingHint:()=>''},st:{name:'',phone:''},s:{cancelHours:3},stepsHTML:()=>'',sumHTML:()=>'',whatHTML:()=>'',quote:()=>({total:400}),money:String,esc:String};
+  vm.createContext(context);vm.runInContext(step+'\nstep3();',context);
+  assert.doesNotMatch(root.innerHTML,/код и чек придут на телефон|для кода и чека/);
+  assert.match(root.innerHTML,/QR/);assert.match(root.innerHTML,/этом браузере/);assert.match(root.innerHTML,/других устройств/);
+});
+
+// Exercise the real sheet/access/booking helpers together. The small DOM tracks
+// focus-triggered scrolling; real viewport geometry is checked in browser QA.
+function accessDialogFixture() {
+  const timers=new Map();let timerId=0;
+  const document={activeElement:null,documentElement:{style:{}},contains:()=>true,addEventListener(){}};
+  class Element {
+    constructor(tag='div',attrs='') {this.tag=tag;this.attrs=attrs;this.style={};this.dataset={};this.children=[];this.listeners={};this.scrollTop=0;this.isConnected=true;this.offsetParent={};this.classList={add(){},remove(){}};}
+    set innerHTML(value) {this.html=value;this.children=[];for(const m of value.matchAll(/<(div|b|span|button|input|a|select|textarea|img)\b([^>]*)>/g))this.appendChild(new Element(m[1],m[2]));}
+    get innerHTML(){return this.html||'';}
+    appendChild(child){child.parent=this;this.children.push(child);return child;}
+    setAttribute(key,value){this.attrs+=' '+key+'="'+value+'"';if(key.startsWith('data-'))this.dataset[key.slice(5).replace(/-([a-z])/g,(_,ch)=>ch.toUpperCase())]=value;}
+    matches(selector){if(selector.startsWith('.'))return ((this.className||'')+' '+(this.attrs.match(/class="([^"]*)"/)?.[1]||'')).split(/\s+/).includes(selector.slice(1));if(selector.startsWith('['))return this.attrs.includes(selector.slice(1,-1).split('=')[0]);return this.tag===selector;}
+    closest(selector){return this.matches(selector)?this:this.parent?.closest(selector)||null;}
+    all(){return this.children.flatMap(child=>[child,...child.all()]);}
+    querySelectorAll(selector){return this.all().filter(node=>selector.includes(',')?['button','input','a','select','textarea'].includes(node.tag):node.matches(selector.split(' ').at(-1)));}
+    querySelector(selector){return this.querySelectorAll(selector)[0]||null;}
+    addEventListener(type,fn){(this.listeners[type]||=[]).push(fn);}
+    focus(options){document.activeElement=this;if(!options?.preventScroll){const body=this.closest('.pp-sheet-body');if(body)body.scrollTop=600;}}
+    remove(){if(this.parent)this.parent.children=this.parent.children.filter(child=>child!==this);}
+    contains(node){return this===node||this.all().includes(node);}
+  }
+  document.body=new Element('body');document.createElement=tag=>new Element(tag);
+  const paid={id:'paid-booking',number:'PP-SYNTHETIC',date:'2026-10-18',timeLabel:'12:00–13:00',status:'paid',statusLabel:'Оплачена',players:2,rackets:0,amount:400,test:false};
+  const access={status:'scheduled',test:false,qrSvg:'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45"></svg>',qrPayload:'synthetic-opaque',validFrom:1792220400000,validTo:1792224000000};
+  const context={document,BookingAPI:{},AdminAPI:{},CommunityAPI:{meSync:()=>null},localStorage:{setItem(){},removeItem(){}},dispatchEvent(){},addEventListener(){},
+    fetch:async url=>({ok:true,json:async()=>url==='/api/session'?{csrf:'initial',settings:{},capabilities:{access:'unconfigured'}}:url.endsWith('/access')?access:paid}),
+    CustomEvent:class{},AbortController,URL,URLSearchParams,Intl,Date,console,
+    setTimeout:(fn,ms)=>{const id=++timerId;timers.set(id,{fn,ms});return id;},clearTimeout:id=>timers.delete(id),setInterval:()=>0,
+    requestAnimationFrame:fn=>fn(),uid:()=> 'dialog-title',esc:String,money:String,ICO_OK:'',P:{dateLabel:String,dateLong:String},resume(){},err(){}};
+  context.window=context;vm.createContext(context);
+  const community=fs.readFileSync(new URL('../1-neon/community.js',import.meta.url),'utf8');
+  vm.runInContext(community.slice(community.indexOf('const $ = (s, c)'),community.indexOf('let toastBox =')),context);
+  context.UI={sheet:context.sheet,docLink:()=>'',saveFile(){},icsFor(){},toast:message=>{throw Error(message);}};context.PPUI=context.UI;
+  vm.runInContext(fs.readFileSync(new URL('../1-neon/shared-booking.js',import.meta.url),'utf8'),context);
+  const booking=fs.readFileSync(new URL('../1-neon/booking.js',import.meta.url),'utf8');
+  vm.runInContext(booking.slice(booking.indexOf('function successHTML('),booking.indexOf('async function resume('))+booking.slice(booking.indexOf('async function showBooking('),booking.indexOf('/* Перенос:')),context);
+  context.PPBooking={showBooking:context.showBooking};context.U=context.UI;context.B=context.BookingAPI;
+  const cabinet=fs.readFileSync(new URL('../1-neon/cabinet.html',import.meta.url),'utf8');
+  vm.runInContext(cabinet.slice(cabinet.indexOf('function showCode('),cabinet.indexOf('function nextSameWeekday(')),context);
+  return {context,paid,document,Element,booking,flush:async()=>{for(let i=0;i<12;i++)await Promise.resolve();for(const [id,timer]of timers)if(timer.ms===60){timers.delete(id);timer.fn();}}};
+}
+test('opening a QR from cabinet or payment success keeps focus at the modal start and traps Tab',async()=>{
+  for(const entry of ['cabinet','success']) {
+    const f=accessDialogFixture(),c=f.context;await c.BookingAPI.ready;
+    if(entry==='cabinet')await c.showCode(f.paid);
+    else {
+      c.root=new f.Element();c.st={booking:f.paid};c.stepsHTML=()=>'<p>Шаг 5 из 5</p>';
+      c.sh=c.UI.sheet({title:'Бронирование',body:c.root});c.sh.body.scrollTop=400;
+      vm.runInContext(f.booking.slice(f.booking.indexOf('  function step5()'),f.booking.indexOf('  if (resumeBooking)'))+'\nstep5();',c);
+    }
+    await f.flush();
+    const dialog=f.document.body.children.at(-1),body=dialog.querySelector('.pp-sheet-body'),close=dialog.querySelector('.pp-x');
+    assert.ok(f.document.activeElement===close,entry+': initial focus belongs to the close control, above the QR');
+    assert.equal(body.scrollTop,0,entry+': showing a pass cannot auto-scroll its upper quiet zone out of view');
+    const controls=dialog.querySelectorAll('button,input,a,select,textarea'),last=controls.at(-1);last.focus({preventScroll:true});
+    let trapped=false;dialog.listeners.keydown[0]({key:'Tab',shiftKey:false,preventDefault(){trapped=true;}});
+    assert.equal(trapped,true);assert.equal(f.document.activeElement,close,'Tab wraps inside the dialog');
+  }
+});
+test('ordinary authentication sheets retain their first form control focus',async()=>{
+  const f=accessDialogFixture(),form=new f.Element();form.innerHTML='<input name="phone"><input name="password">';
+  const sh=f.context.UI.sheet({title:'Войти',body:form});await f.flush();
+  assert.equal(f.document.activeElement,form.querySelector('input'));
+  assert.ok(sh.el.contains(f.document.activeElement));
+});
