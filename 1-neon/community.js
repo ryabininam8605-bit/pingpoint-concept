@@ -267,7 +267,7 @@ function housekeeping(db) {
     db.responses.forEach(r => { if (r.demo) r.createdAt += shift; });
     db.seededAt = now; changed = true;
   }
-  if (ensureDemoFuture(db)) changed = true;
+  // Legacy demo bookings are retained, but never generate new occupation.
   if (sweepExpired(db, now)) changed = true;
   // срок «можно передумать» истёк — уничтожаем данные профиля (журнал согласий хранится отдельно по закону)
   Object.keys(db.users).forEach(k => {
@@ -354,7 +354,7 @@ function seed() {
   // одна техническая блокировка через 5 дней — чтобы было видно, как это выглядит
   const bd = ymd(addDays(new Date(), 5));
   db.blocks.push({ id: 'blk1', date: bd, start: 600, end: 720, reason: 'Техническое обслуживание стола', createdAt: now, demo: true });
-  ensureDemoFuture(db, 60);
+  // No fabricated booking history or future reservations.
   seedConsents(db, now);
   return db;
 }
@@ -390,80 +390,6 @@ function seedConsents(db, now) {
   req(19, 'access', 16, 'new', 'Просит сведения об обработке своих данных');
   req(5, 'revoke_pd', 2, 'new', 'Звонок администратору');
   req(30, 'access', 40, 'done', 'Ответ отправлен на e-mail');
-}
-
-/* Детерминированная генерация демо-броней на день (история + ближайшие 2 недели).
-   Вечер и выходные — спрос выше. Итоговая загрузка ~25–40%. */
-function genDay(db, ds, now) {
-  const s = db.settings, rnd = mulberry(hash('pp-day-' + ds));
-  const d = parseYmd(ds), we = dayIdx(d) >= 5;
-  const dist = Math.round((d - parseYmd(ymd(new Date(now)))) / 864e5);
-  const ahead = dist > 0 ? Math.max(0.1, 0.85 - dist * 0.06) : 1;
-  const totalW = db.demoClients.reduce((a, c) => a + c.w, 0);
-  const pickClient = () => { let r = rnd() * totalW; for (const c of db.demoClients) { r -= c.w; if (r <= 0) return c; } return db.demoClients[0]; };
-  let m = s.open;
-  while (m <= s.close - 60) {
-    let p = m < 780 ? 0.1 : m < 1020 ? 0.14 : 0.3;
-    if (we) p *= 1.55;
-    p *= ahead;
-    const busy = db.blocks.some(b => b.date === ds && m < b.end && m + 60 > b.start);
-    if (!busy && rnd() < p) {
-      const r = rnd();
-      let dur = r < 0.5 ? 60 : r < 0.72 ? 90 : r < 0.95 ? 120 : 180;
-      if (m + dur > s.close) dur = s.close - m;
-      const c = pickClient();
-      const start = tsAt(ds, m), end = start + dur * 60e3;
-      let created = start - (2 + rnd() * 70) * 3600e3;
-      if (created > now) created = now - rnd() * 48 * 3600e3;
-      const players = [2, 2, 2, 2, 2, 4, 4, 4, 3, 1][Math.floor(rnd() * 10)];
-      const rackets = rnd() < 0.12 ? 1 + Math.floor(rnd() * Math.min(2, players)) : 0;
-      const pr = rnd(); const promo = pr < 0.06 ? 'PONG10' : pr < 0.09 ? 'FRIEND' : null;
-      const q = quoteRaw(s, m, dur, rackets, promo ? db.promos.find(x => x.code === promo) : null);
-      const b = {
-        id: 'bk' + hash(ds + '-' + m).toString(36), number: 'PP-' + (++db.seq), userId: null, name: c.name, phone: c.phone,
-        date: ds, start: m, dur: dur, players: players, rackets: rackets, promo: promo, discount: q.discount, amount: q.total,
-        status: 'paid', code: String(100000 + Math.floor(rnd() * 900000)), createdAt: created, expiresAt: null,
-        source: rnd() < 0.08 ? 'admin' : 'site', paymentId: null, demo: true,
-        history: [{ at: created, s: 'pending', by: 'client' }]
-      };
-      const x = rnd();
-      if (end < now) {
-        if (x < 0.06) b.status = 'refunded';
-        else if (x < 0.09) b.status = 'noshow';
-        else if (x < 0.11) b.status = 'expired';
-      } else if (x < 0.05) b.status = 'refunded';
-      if (b.status === 'expired') {
-        b.history.push({ at: created + 15 * 60e3, s: 'expired', by: 'system', note: 'Не оплачено вовремя' });
-        b.code = null;
-      } else {
-        const method = b.source === 'admin' ? (rnd() < 0.6 ? 'cash' : 'terminal') : (rnd() < 0.72 ? 'card' : 'sbp');
-        const pay = { id: 'pay' + hash('p' + b.id).toString(36), bookingId: b.id, amount: b.amount, method: method, status: 'succeeded', createdAt: created + 30e3, paidAt: created + 90e3, cardMask: method === 'card' ? '•• ' + String(1000 + Math.floor(rnd() * 8999)) : null, refundedAt: null, demo: true };
-        b.paymentId = pay.id;
-        b.history.push({ at: pay.paidAt, s: 'paid', by: 'payment', note: PAY_METHOD[method] });
-        if (b.status === 'refunded') {
-          const rAt = Math.min(now - 60e3, start - (4 + rnd() * 20) * 3600e3);
-          pay.status = 'refunded'; pay.refunded = pay.amount; pay.refundedAt = Math.max(pay.paidAt + 60e3, rAt); b.refundAmount = b.amount;
-          b.history.push({ at: pay.refundedAt, s: 'refunded', by: 'client', note: 'Отмена заранее, возврат 100%' });
-        }
-        if (b.status === 'noshow') b.history.push({ at: end + 600e3, s: 'noshow', by: 'admin' });
-        if (promo && b.status !== 'expired') { const pp = db.promos.find(x2 => x2.code === promo); if (pp) pp.used++; }
-        db.payments.push(pay);
-      }
-      db.bookings.push(b);
-      m += dur;
-      if (rnd() < 0.5) m += 30;
-    } else m += 30;
-  }
-}
-function ensureDemoFuture(db, backDays) {
-  const now = Date.now(), t = parseYmd(ymd(new Date(now)));
-  const target = ymd(addDays(t, 13));
-  if (db.demoUntil && db.demoUntil >= target) return false;
-  let from = db.demoUntil ? addDays(parseYmd(db.demoUntil), 1) : addDays(t, -(backDays || 60));
-  const minFrom = addDays(t, -60); if (from < minFrom) from = minFrom;
-  for (let d = from; ymd(d) <= target; d = addDays(d, 1)) genDay(db, ymd(d), now);
-  db.demoUntil = target;
-  return true;
 }
 
 /* =====================================================================
@@ -628,13 +554,21 @@ function responseView(db, r, me) {
 }
 
 /* Ближайшие подходящие слоты по дням/времени объявления */
+function allowedPostStarts(times, settings) {
+  const s = settings || (global.BookingAPI ? global.BookingAPI.settings() : DEFAULT_SETTINGS);
+  const periods = { morning: [600,780], day: [780,1020], evening: [1020,1230] };
+  const selected = (times || []).filter(t => periods[t]);
+  const out = [];
+  for (let m = s.open; m + 60 <= s.close; m += 30) {
+    if (!selected.length || selected.some(t => m >= periods[t][0] && m < periods[t][1])) out.push(m);
+  }
+  return out;
+}
 function nextSlots(post, count, settings) {
   const s = settings || (cacheDb ? cacheDb.settings : DEFAULT_SETTINGS);
   const out = [], now = Date.now(), t = parseYmd(today());
-  const starts = [];
-  (post.times || []).forEach(x => { if (x === 'morning') starts.push(600, 690); if (x === 'day') starts.push(840, 930); if (x === 'evening') starts.push(1080, 1140); });
-  if (post.timeFrom != null) starts.push(post.timeFrom);
-  const uniq = Array.from(new Set(starts)).filter(m => m >= s.open && m + 60 <= s.close).sort((a, b) => a - b);
+  const allowed = allowedPostStarts(post.times, s);
+  const uniq = post.timeFrom != null ? allowed.filter(m => m === post.timeFrom) : allowed;
   for (let i = 0; i < 14 && out.length < (count || 6); i++) {
     const d = addDays(t, i);
     if ((post.days || []).indexOf(dayIdx(d)) < 0) continue;
@@ -701,6 +635,7 @@ function validatePost(data) {
   const times = (data.times || []).filter(t => TIMES.some(x => x[0] === t));
   const timeFrom = data.timeFrom != null && data.timeFrom !== '' ? Number(data.timeFrom) : null;
   if (!times.length && timeFrom == null) throw new PPError('VALID', 'Укажите удобное время');
+  if (timeFrom != null && (!Number.isFinite(timeFrom) || !allowedPostStarts(times).includes(timeFrom))) throw new PPError('VALID', 'Точное начало должно попадать в выбранное время, с шагом 30 минут и минимум часом игры');
   const text = String(data.text || '').trim();
   if (text.length < 20) throw new PPError('VALID', 'Расскажите чуть подробнее — хотя бы 20 символов');
   if (text.length > 300) throw new PPError('VALID', 'Не больше 300 символов');
@@ -1099,8 +1034,8 @@ const OCCUPY = { pending: 1, paid: 1, noshow: 1 };
 function occupied(db, ds, excludeId) {
   const now = Date.now();
   const list = [];
-  db.bookings.forEach(b => { if (b.date === ds && b.id !== excludeId && OCCUPY[b.status] && !(b.status === 'pending' && b.expiresAt && b.expiresAt < now)) list.push([b.start, b.start + b.dur, 'busy', b]); });
-  db.blocks.forEach(k => { if (k.date === ds) list.push([k.start, k.end, 'blocked', k]); });
+  db.bookings.forEach(b => { if (!b.demo && b.date === ds && b.id !== excludeId && OCCUPY[b.status] && !(b.status === 'pending' && b.expiresAt && b.expiresAt < now)) list.push([b.start, b.start + b.dur, 'busy', b]); });
+  db.blocks.forEach(k => { if (!k.demo && k.date === ds) list.push([k.start, k.end, 'blocked', k]); });
   return list;
 }
 function availability(db, ds, excludeId) {
@@ -1645,7 +1580,21 @@ const CSS = `
 .pp-sheet-head span{display:block;font-size:14px;color:var(--muted);margin-top:4px;line-height:1.45}
 .pp-x{flex-shrink:0;width:42px;height:42px;border-radius:50%;border:0;background:rgba(255,255,255,.07);cursor:pointer;font-size:24px;line-height:1;color:var(--ink)}
 .pp-x:hover{background:var(--neon)}
-.pp-sheet-body{padding:22px 26px 26px;overflow:auto;overscroll-behavior:contain}
+.pp-sheet-body{padding:22px 26px 26px;overflow:auto;overflow-x:hidden;min-height:0;overscroll-behavior:contain;scrollbar-width:none;-ms-overflow-style:none}
+.pp-sheet-body::-webkit-scrollbar{display:none}
+.pp-sheet-box{min-width:0;overflow:hidden}
+.pp-sheet-head{flex-shrink:0}
+.pp-sheet-body>*{min-width:0;max-width:100%}
+.pp-sheet-body input,.pp-sheet-body select,.pp-sheet-body textarea{max-width:100%;box-sizing:border-box}
+.pf-step[hidden]{display:none!important}
+.pf-progress{color:var(--muted);font-size:14px;margin:0 0 18px}
+.pf .pp-sheet-foot{position:sticky;bottom:-26px;background:#0f1124;padding:14px 0;z-index:2}
+.pf .pp-sheet-foot .btn{min-width:0}
+.pf-row>*{min-width:0}
+.pf-actions{flex-shrink:0;padding:12px 26px 16px;background:#0f1124;border-top:1px solid var(--line)}
+.pf-actions .pp-miss,.pf-actions .pp-e{flex-basis:100%;margin:0;font-size:13px}
+.pf-actions [hidden]{display:none!important}
+@media(max-width:600px){.pf-actions{padding:10px 20px calc(12px + env(safe-area-inset-bottom))}.pp-sheet-head b{font-size:18px}.pf-actions .btn{padding:12px;font-size:14px}}
 .pp-f{display:grid;gap:8px;margin-bottom:18px}
 .pp-l{font-size:12.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .pp-l small{text-transform:none;letter-spacing:0;font-weight:600;color:var(--dim)}
@@ -2175,7 +2124,7 @@ global.PP = {
   DOCS, REG_DOCS, BOOKING_DOCS, OFFER_URL, CONSENT_ACTION, CONSENT_CONTEXT, REQUEST_TYPES, docById, verCmp, sha256, loadMetrika,
   LEVELS, LEVEL_COLOR, FORMATS, TIMES, HANDS, STYLES, DAY_SHORT, DAY_LONG, MONTH_G, MONTH_S, BOOKING_STATUS, PAYMENT_STATUS, PAY_METHOD, DEMO_CODE,
   esc, plural, money, hhmm, ymd, parseYmd, addDays, dayIdx, tsAt, today, dateLabel, dateLong, ago, label, fmtPhone, normPhone, goal, hash, mulberry,
-  rateAt, rentFor, nextSlots: (p, n) => nextSlots(p, n, load().settings), avatarSVG, postSummary, isQuota, PPError
+  rateAt, rentFor, allowedPostStarts, nextSlots: (p, n) => nextSlots(p, n, global.BookingAPI.settings()), avatarSVG, postSummary, isQuota, PPError
 };
 global.PPUI = { consentChecks, missingHint, docLink, openDoc, checkDocUpdates, cookieBanner, openCookieSettings, docsFooterHTML,
   sheet, toast, openAuth, authForm, bindCabButton, bindPhoneMask, maskPhone, compressImage, qrSVG, levelPill, ava, contactsHTML, icsFor, saveFile, ICON };

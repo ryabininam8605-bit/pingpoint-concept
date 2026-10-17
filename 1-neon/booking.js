@@ -160,7 +160,11 @@ function next14() { const out = [], t = new Date(); for (let i = 0; i < 14; i++)
 function err(box, m) { const e = box.querySelector('.pp-e'); if (e) e.textContent = m || ''; }
 
 /* ------------------------------------------------------------------ */
-function open(preset, resumeBooking) {
+async function open(preset, resumeBooking) {
+  const loading=UI.sheet({title:'Проверяем свободное время',body:'<p class="pp-h" role="status">Загружаем актуальную занятость комнаты…</p>',width:540});
+  try { await BookingAPI.refreshAllAvailability(next14()); }
+  catch(x){loading.close('error');UI.toast(x.message+' Откройте бронирование ещё раз, чтобы повторить.',{kind:'err'});return;}
+  loading.close('loaded');
   preset = preset || {};
   const s = BookingAPI.settings();
   const me = CommunityAPI.meSync();
@@ -228,7 +232,7 @@ function open(preset, resumeBooking) {
 
   /* ---------- шаг 1: дата и время ---------- */
   function step1() {
-    const slots = av(st.date);
+    const slots = av(st.date),state=BookingAPI.availabilityState(st.date);
     if (st.start != null && !fits(slots, s, st.start, st.dur)) st.start = null;
     const t0 = P.parseYmd(days[0]), lead = P.dayIdx(t0);
     let cal = '<div class="bk-cal" role="group" aria-label="Дата">' + P.DAY_SHORT.map(d => '<span class="wd" aria-hidden="true">' + d + '</span>').join('');
@@ -250,16 +254,23 @@ function open(preset, resumeBooking) {
       grid += '<button type="button" class="bk-slot ' + cls + (sel ? ' sel' : '') + (inr ? ' inr' : '') + '" data-start="' + x.start + '"' + (cls === 'free' ? '' : ' disabled') + ' aria-pressed="' + sel + '" aria-label="' + hhmm(x.start) + (cls === 'free' ? ', свободно, ' + perHour(s, x.start) + ' рублей в час' : cls === 'nofit' ? ', не хватает времени на ' + durTxt(st.dur) : ', недоступно') + '"><b>' + hhmm(x.start) + '</b><span>' + lbl + '</span></button>';
     });
     if (!startable.some(x => x.state === 'free' && fits(slots, s, x.start, st.dur))) grid = '<div class="bk-empty">На этот день нет окна на ' + durTxt(st.dur) + '. Выберите другой день или уменьшите длительность.</div>' + grid;
+    if(state.status!=='ready')grid='<div class="bk-empty" role="status">'+(state.status==='error'?'Не удалось загрузить время. <button type="button" class="btn btn-ghost btn-sm" data-retry>Повторить</button>':'Проверяем свободное время…')+'</div>';
     root.innerHTML = stepsHTML() +
       '<div class="bk-sec"><h3 class="bk-h">Дата <small>' + esc(P.dateLong(st.date)) + '</small></h3>' + cal + '</div>' +
       '<div class="bk-sec"><h3 class="bk-h" id="bkDurL">Сколько играем <small>минимум 1 час, шаг 30 минут</small></h3><div class="bk-dur"><div class="bk-stp" role="group" aria-labelledby="bkDurL"><button type="button" data-dur="-30" aria-label="Меньше"' + (st.dur <= 60 ? ' disabled' : '') + '>−</button><output aria-live="polite">' + durTxt(st.dur) + '</output><button type="button" data-dur="30" aria-label="Больше"' + (st.dur >= 240 ? ' disabled' : '') + '>+</button></div></div></div>' +
       '<div class="bk-sec"><h3 class="bk-h">Начало <small>до ' + hhmm(s.border) + ' — ' + s.priceAm + ' ₽/ч, после — ' + s.pricePm + ' ₽/ч</small></h3><div class="bk-slots">' + grid + '</div>' +
       '<div class="bk-legend"><span><i style="box-shadow:inset 0 0 0 1.5px #3dffa8;background:rgba(61,255,168,.15)"></i>Свободно</span><span><i style="background:rgba(255,46,99,.4)"></i>Занято</span><span><i style="background:rgba(255,255,255,.08)"></i>Не успеть: бронь не позднее чем за ' + (s.minLeadMin / 60) + ' ч</span></div></div>' +
       '<div class="bk-bar"><div class="bk-what">' + whatHTML() + '</div><button class="btn btn-main calm" type="button" data-next' + (st.start == null ? ' disabled' : '') + '>Дальше</button></div>';
-    root.querySelectorAll('.bk-day').forEach(b => b.addEventListener('click', () => { st.date = b.getAttribute('data-date'); render('.bk-day[aria-pressed=true]'); }));
+    root.querySelectorAll('.bk-day').forEach(b => b.addEventListener('click', () => { st.date = b.getAttribute('data-date');reloadDate(); }));
+    const retry=root.querySelector('[data-retry]');if(retry)retry.onclick=reloadDate;
     root.querySelectorAll('[data-dur]').forEach(b => b.addEventListener('click', () => { st.dur = clampDur(st.dur + +b.getAttribute('data-dur')); render('[data-dur="' + b.getAttribute('data-dur') + '"]'); }));
     root.querySelectorAll('.bk-slot.free').forEach(b => b.addEventListener('click', () => { st.start = +b.getAttribute('data-start'); render('[data-next]'); }));
-    root.querySelector('[data-next]').addEventListener('click', () => { st.step = 2; render('.bk-ppl [aria-pressed=true]'); sh.body.scrollTop = 0; });
+    root.querySelector('[data-next]').addEventListener('click', () => { if(BookingAPI.availabilityState(st.date).status!=='ready'||!fits(av(st.date),s,st.start,st.dur))return;st.step = 2; render('.bk-ppl [aria-pressed=true]'); sh.body.scrollTop = 0; });
+  }
+
+  async function reloadDate(){
+    const date=st.date;const pending=BookingAPI.refreshAvailability(date);render();
+    try{await pending;}catch(x){}finally{if(st.date===date)render('.bk-day[aria-pressed=true]');}
   }
 
   /* ---------- шаг 2: игроки, ракетки, промокод ---------- */
@@ -340,6 +351,7 @@ function open(preset, resumeBooking) {
   /* ---------- шаг 4: оплата (тестовый режим) ---------- */
   function step4() {
     const b = st.booking;
+    if(!BookingAPI.demoPayments){root.innerHTML=stepsHTML()+'<div class="bk-empty">Онлайн-оплата ещё не подключена. Время удерживается до завершения срока брони, затем освободится автоматически.</div>';return;}
     root.innerHTML = stepsHTML() +
       '<div class="bk-test" role="note">Тестовый режим · деньги не списываются</div>' +
       '<div class="bk-payhead"><div><small>Оплата заказа</small><b>' + esc(b.number) + ' · Ping Point</b><span>Аренда стола: ' + esc(P.dateLabel(b.date)) + ', ' + esc(b.timeLabel) + '</span></div><div class="sum">' + money(b.amount) + '</div></div>' +
@@ -354,7 +366,7 @@ function open(preset, resumeBooking) {
         '<div class="pp-f"><label class="pp-l" for="bkCvc">CVC</label><input class="pp-i" id="bkCvc" type="password" inputmode="numeric" autocomplete="cc-csc" placeholder="•••" maxlength="3"></div></div>' +
         '<button class="btn btn-main calm" type="submit" style="width:100%">Оплатить ' + money(b.amount) + '</button>' +
       '</form>' +
-      '<div class="bk-sbp" id="bkSbp" role="tabpanel" aria-labelledby="bkT2"' + (st.method === 'sbp' ? '' : ' hidden') + '><div data-qr></div><div><p>Отсканируйте QR-код в приложении банка и подтвердите платёж на ' + money(b.amount) + '.</p><button class="btn btn-main calm" type="button" data-sbp>Я оплатил</button></div></div>' +
+      '<div class="bk-sbp" id="bkSbp" role="tabpanel" aria-labelledby="bkT2"' + (st.method === 'sbp' ? '' : ' hidden') + '><div data-qr></div><div><p>Тестовая оплата СБП: нажмите кнопку для проверки суммы ' + money(b.amount) + '.</p><button class="btn btn-main calm" type="button" data-sbp>Подтвердить тестовую оплату</button></div></div>' +
       '<p class="pp-h" style="margin:14px 0 0">Это имитация платёжной формы. В боевой версии оплата проходит на защищённой странице ЮKassa: данные карты не попадают на сайт Ping Point, чек придёт по 54-ФЗ.</p>' +
       '<div class="bk-bar static"><button class="bk-back" type="button" data-cancel>Отменить бронь</button><div class="bk-what">' + whatHTML() + '</div></div>';
     const tEl = root.querySelector('[data-timer]');
@@ -433,18 +445,20 @@ function open(preset, resumeBooking) {
 /* Карточка успешной брони: код доступа, QR, календарь. Код в боевой версии выдаёт контроллер замка. */
 function successHTML(b, fresh) {
   const me = CommunityAPI.meSync();
-  return '<div class="bk-ok">' + (fresh ? '<div class="chk">' + ICO_OK + '</div><h3>Оплачено! Стол ваш</h3><p>Бронь ' + esc(b.number) + ' · чек и код отправлены на ' + esc(b.phoneFmt) + '</p>' : '<h3 style="margin-bottom:2px">Бронь ' + esc(b.number) + '</h3><p>' + esc(b.statusLabel) + '</p>') + '</div>' +
-    '<div class="bk-code"><div><small>Код на вход</small><b>' + esc(String(b.code || '').replace(/(\d{3})(\d{3})/, '$1 $2')) + '</b><span>Введите на панели у двери комнаты или покажите QR. Код действует в забронированное время.</span></div>' + UI.qrSVG(b.id + '-' + b.code, 140) + '</div>' +
+  const test=!!b.test;
+  const access=test?'<div class="bk-empty" role="note">Это тестовая бронь. Деньги не списаны, код доступа не выдаётся. Настоящая оплата и вход в комнату пока не подключены.</div>':(b.code?'<div class="bk-code"><div><small>Код на вход</small><b>'+esc(String(b.code).replace(/(\d{3})(\d{3})/,'$1 $2'))+'</b><span>Код действует в забронированное время.</span></div>'+UI.qrSVG(b.id+'-'+b.code,140)+'</div>':'<p class="pp-h">Код доступа ещё не выдан.</p>');
+  return '<div class="bk-ok">' + (fresh ? '<div class="chk">' + ICO_OK + '</div><h3>'+(test?'Тестовая бронь создана':'Бронь оплачена')+'</h3><p>Бронь ' + esc(b.number) + '</p>' : '<h3 style="margin-bottom:2px">Бронь ' + esc(b.number) + '</h3><p>' + esc(b.statusLabel) + '</p>') + '</div>' +
+    access +
     '<div class="bk-facts"><div>Когда<b>' + esc(P.dateLabel(b.date)) + ', ' + esc(b.timeLabel) + '</b></div><div>Игроков<b>' + b.players + (b.rackets ? ' · проф. ракеток ' + b.rackets : '') + '</b></div><div>Оплачено<b>' + money(b.amount) + '</b></div><div>Где<b>ТРЦ «Мельница», 4 этаж, офис 422</b></div></div>' +
     '<div class="bk-acts"><button class="btn btn-ghost" type="button" data-ics>Добавить в календарь</button>' +
     (me && !me.deletion ? '<a class="btn btn-main calm" href="cabinet.html#bookings">В кабинет</a>' : '<button class="btn btn-main calm" type="button" data-reg>Создать кабинет</button>') + '</div>' +
-    (me ? '' : '<p class="pp-h" style="margin:12px 0 0;text-align:center">В кабинете видны все брони и коды, там же отмена и перенос. Брони на этот номер появятся в нём сами.</p>') +
+    (me ? '' : '<p class="pp-h" style="margin:12px 0 0;text-align:center">В кабинете доступны брони этого браузера, отмена и перенос.</p>') +
     '<p class="pp-h" style="margin:10px 0 0;text-align:center">Отмена не позднее чем за 3 часа — возврат 100%. ' + UI.docLink('offer', 'Условия оферты') + '</p>';
 }
 function bindSuccess(root, b, sh) {
   root.querySelector('[data-ics]').addEventListener('click', () => { UI.saveFile('ping-point-' + b.number + '.ics', UI.icsFor(b), 'text/calendar;charset=utf-8'); });
   const r = root.querySelector('[data-reg]');
-  if (r) r.addEventListener('click', async () => { const u = await UI.openAuth({ title: 'Создать кабинет', reason: 'Регистрация по номеру из брони — бронь сразу появится в кабинете', phone: b.phone, context: 'booking' }); if (u) location.href = 'cabinet.html#bookings'; });
+  if (r) r.addEventListener('click', async () => { const u = await UI.openAuth({ title: 'Создать кабинет', reason: 'После входа бронь этого браузера доступна в кабинете', phone: b.phone, context: 'booking' }); if (u) location.href = 'cabinet.html#bookings'; });
 }
 
 async function resume(id) {
@@ -460,7 +474,7 @@ async function showBooking(id) {
     if (!b) return;
     if (b.status === 'pending') return resume(id);
     const box = document.createElement('div');
-    box.innerHTML = b.code && (b.status === 'paid') ? successHTML(b, false) : '<p class="pp-h" style="font-size:15px">Бронь ' + esc(b.number) + ': ' + esc(b.statusLabel) + '. Кода доступа нет.</p>';
+    box.innerHTML = (b.status === 'paid') ? successHTML(b, false) : '<p class="pp-h" style="font-size:15px">Бронь ' + esc(b.number) + ': ' + esc(b.statusLabel) + '. Кода доступа нет.</p>';
     const sh = UI.sheet({ title: 'Бронь ' + b.number, sub: P.dateLong(b.date) + ', ' + b.timeLabel, body: box, width: 620 });
     if (box.querySelector('[data-ics]')) bindSuccess(box, b, sh);
   } catch (x) { UI.toast(x.message, { kind: 'err' }); }
@@ -471,8 +485,10 @@ async function reschedule(id) {
   let b;
   try { b = await BookingAPI.getBooking(id); } catch (x) { UI.toast(x.message, { kind: 'err' }); return; }
   if (!b || !b.canReschedule) { UI.toast(b && b.rescheduled ? 'Бесплатный перенос уже использован' : 'Перенос возможен не позднее чем за 3 часа до начала', { kind: 'err' }); return; }
+  const loading=UI.sheet({title:'Проверяем время для переноса',body:'<p role="status">Загружаем актуальную занятость…</p>'});
+  try{await BookingAPI.refreshAllAvailability(next14(),b.id);}catch(x){loading.close('error');UI.toast(x.message,{kind:'err'});return;}loading.close('loaded');
   const s = BookingAPI.settings(), days = next14();
-  const st = { date: b.date, start: null };
+  const st = { date: b.date, start: null, busy:false };
   const root = document.createElement('div'); root.className = 'bk';
   const sh = UI.sheet({ title: 'Перенос брони ' + b.number, sub: 'Сейчас: ' + P.dateLabel(b.date) + ', ' + b.timeLabel + ' · бесплатно, один раз', body: root, width: 720 });
   sh.body.classList.add('bk-body');
@@ -490,23 +506,25 @@ async function reschedule(id) {
       const sel = st.start === x.start;
       grid += '<button type="button" class="bk-slot ' + cls + (sel ? ' sel' : '') + '" data-start="' + x.start + '"' + (cls === 'free' ? '' : ' disabled') + ' aria-pressed="' + sel + '"><b>' + hhmm(x.start) + '</b><span>' + (same ? 'сейчас' : cls === 'free' ? P.rateAt(s, x.start) + ' ₽/ч' : '—') + '</span></button>';
     });
+    const availability=BookingAPI.availabilityState(st.date,b.id);
+    if(availability.status!=='ready'){st.start=null;grid='<div class="bk-empty" role="status">'+(availability.status==='error'?'Не удалось загрузить время. Выберите дату, чтобы повторить.':'Проверяем время…')+'</div>';}
     let diffTxt = '';
     if (st.start != null) {
-      const q = BookingAPI.quote({ start: st.start, dur: b.dur, rackets: b.rackets }, b.promo || null);
+      const q = BookingAPI.quote({ start: st.start, dur: b.dur, rackets: b.rackets, promoTerms:b.promoTerms }, b.promo || null);
       const d = q.total - b.amount;
       diffTxt = d > 0 ? 'Доплата ' + money(d) : d < 0 ? 'Вернём разницу ' + money(-d) : 'Без доплаты';
     }
     root.innerHTML = '<div class="pp-e" role="alert"></div><div class="bk-sec"><h3 class="bk-h">Новая дата <small>' + esc(P.dateLong(st.date)) + '</small></h3>' + cal + '</div><div class="bk-sec"><h3 class="bk-h">Новое время <small>длительность ' + durTxt(b.dur) + '</small></h3><div class="bk-slots">' + grid + '</div></div>' +
       '<div class="bk-bar"><div class="bk-what">' + (st.start == null ? '<b>Выберите новое время</b>Перенос бесплатный — меняется только цена по тарифу' : '<b>' + esc(P.dateLabel(st.date)) + ' · ' + hhmm(st.start) + '–' + hhmm(st.start + b.dur) + '</b>' + diffTxt) + '</div><button class="btn btn-main calm" type="button" data-go' + (st.start == null ? ' disabled' : '') + '>Перенести</button></div>';
-    root.querySelectorAll('.bk-day').forEach(x => x.addEventListener('click', () => { st.date = x.getAttribute('data-date'); st.start = null; render('.bk-day[aria-pressed=true]'); }));
+    root.querySelectorAll('.bk-day').forEach(x => x.addEventListener('click', async () => { st.date = x.getAttribute('data-date'); st.start = null;const pending=BookingAPI.refreshAvailability(st.date,b.id);render();try{await pending;}catch(e){}render('.bk-day[aria-pressed=true]'); }));
     root.querySelectorAll('.bk-slot.free').forEach(x => x.addEventListener('click', () => { st.start = +x.getAttribute('data-start'); render('[data-go]'); }));
     root.querySelector('[data-go]').addEventListener('click', async e => {
-      const btn = e.currentTarget; btn.classList.add('loading');
+      if(st.busy||st.start==null)return;st.busy=true;const btn = e.currentTarget; btn.classList.add('loading');btn.disabled=true;
       try {
         const r = await BookingAPI.rescheduleBooking(b.id, { date: st.date, start: st.start, dur: b.dur });
         sh.close('ok');
         UI.toast('Бронь перенесена на ' + P.dateLabel(st.date) + ', ' + r.booking.timeLabel + (r.diff > 0 ? '. Доплата ' + money(r.diff) + ' прошла' : r.diff < 0 ? '. Разницу ' + money(-r.diff) + ' вернём на карту' : ''), { kind: 'ok', ms: 9000 });
-      } catch (x) { btn.classList.remove('loading'); err(root, x.message); }
+      } catch (x) { st.busy=false;btn.disabled=false;btn.classList.remove('loading'); err(root, x.message); }
     });
     const f = foc && root.querySelector(foc); if (f) f.focus({ preventScroll: true });
   }

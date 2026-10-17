@@ -20,7 +20,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <!-- данные сообщества, бронирования и согласий; Яндекс Метрика подключается только после согласия на cookie -->
-<script src="community.js?v=20260926b"></script>
+<script src="community.js?v=20261017"></script>
+<script src="shared-booking.js?v=20261017"></script>
 
 <script type="application/ld+json">
 {
@@ -233,6 +234,7 @@ section{position:relative}
 .flip-price span{color:var(--muted);font-size:14px;line-height:1.3}
 .face-back .row{display:flex;justify-content:space-between;align-items:center;gap:12px}
 
+.cost-breakdown{display:grid;gap:14px;margin:16px 0 24px}.cost-breakdown>div{display:flex;justify-content:space-between;gap:18px;padding-bottom:12px;border-bottom:1px solid var(--line);color:var(--muted)}.cost-breakdown b{color:var(--ink);white-space:nowrap}.price-sum small{font-size:16px;white-space:normal}.price-pp small{font-size:14px;color:var(--muted)}
 /* ---------- calculator ---------- */
 .calc{display:grid;grid-template-columns:1.05fr .95fr;border-radius:28px;overflow:hidden;box-shadow:inset 0 0 0 1px var(--line),0 40px 90px -40px rgba(0,0,0,.9)}
 .calc-form{padding:clamp(24px,3.6vw,48px);background:#0f1124;display:grid;gap:28px;align-content:start}
@@ -268,13 +270,6 @@ section{position:relative}
 .out-per small{font-size:.4em;letter-spacing:0;margin-left:6px;color:var(--ball-hot);text-shadow:0 0 18px rgba(255,170,40,.5)}
 .out-sub{color:#d0d2ea;font-size:16px;margin:0 0 26px}
 .out-sub b{color:#fff}
-.bars{display:grid;gap:14px;margin-bottom:24px}
-.bar-l{display:flex;justify-content:space-between;font-size:14px;color:#c6c8e2;margin-bottom:6px}
-.bar-l b{color:#fff}
-.bar{height:12px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden}
-.bar i{display:block;height:100%;border-radius:inherit;transition:width .7s cubic-bezier(.2,.8,.2,1)}
-.bar-us i{background:linear-gradient(90deg,var(--neon),var(--ball-hot));box-shadow:0 0 16px rgba(255,46,99,.7)}
-.bar-kino i{background:rgba(255,255,255,.28)}
 .out-verdict{padding:14px 16px;border-radius:14px;background:rgba(61,255,168,.08);box-shadow:inset 0 0 0 1px rgba(61,255,168,.3);color:#c9ffe6;font-size:15px;margin-bottom:24px}
 .out-verdict b{color:#3dffa8}
 .out-foot{margin-top:auto;display:flex;flex-direction:column;gap:12px}
@@ -819,7 +814,7 @@ section{position:relative}
     <div class="sec-head rv">
       <div class="eyebrow">Калькулятор компании</div>
       <h2 class="h2" id="calc-title">Сколько выйдет <span class="hot">с&nbsp;человека?</span></h2>
-      <p class="sec-lead">Платите за стол, а не за каждого. Чем больше компания — тем дешевле. Спойлер: дешевле разового похода в фитнес-клуб.</p>
+      <p class="sec-lead">Аренда комнаты делится на компанию до 4 игроков. Ниже — стоимость времени, ракеток и доля каждого.</p>
     </div>
     <div class="calc rv">
       <form class="calc-form" id="calcForm" onsubmit="return false">
@@ -866,21 +861,11 @@ section{position:relative}
         <div class="out-cap">С каждого примерно</div>
         <div class="out-per" id="oPer">~250<small>₽</small></div>
         <p class="out-sub" id="oSub">Итого <b>1 000 ₽</b> за стол · 16:00–18:00</p>
-        <div class="bars">
-          <div>
-            <div class="bar-l"><span>Ping Point, с человека</span><b id="oBarUsV">200 ₽</b></div>
-            <div class="bar bar-us"><i id="oBarUs" style="width:40%"></i></div>
-          </div>
-          <div>
-            <!-- ориентир цены разового посещения фитнес-клуба в Брянске — уточнить -->
-            <div class="bar-l"><span>Разовое посещение фитнес-клуба*</span><b id="oBarKinoV">~500 ₽</b></div>
-            <div class="bar bar-kino"><i id="oBarKino" style="width:90%"></i></div>
-          </div>
-        </div>
-        <div class="out-verdict" id="oVerdict">Дешевле фитнес-клуба на <b>375 ₽</b> с каждого — и вместо тренажёров живая игра.</div>
+        <div class="cost-breakdown" id="oBreakdown"></div>
+        <div class="out-verdict" id="oVerdict"></div>
         <div class="out-foot">
           <button class="btn btn-main" type="button" data-book id="calcBook" data-goal="booking_click calc_booking_click">Забронировать это время</button>
-          <div class="out-note">* Средний ориентир, для сравнения. Цены Ping Point: до <span data-pp="border">13:00</span> — <span data-pp="am">400</span> ₽/ч, после — <span data-pp="pm">500</span> ₽/ч, в будни и выходные одинаково. Считаем по получасам.</div>
+          <div class="out-note">Цены за комнату: до <span data-pp="border">13:00</span> — <span data-pp="am">400</span> ₽/ч, после — <span data-pp="pm">500</span> ₽/ч, в будни и выходные одинаково. Считаем по получасам.</div>
         </div>
       </div>
     </div>
@@ -926,23 +911,24 @@ section{position:relative}
       <article class="price rv">
         <div class="price-when">Утро</div>
         <div class="price-time">каждый день · 10:00–<span data-pp="border">13:00</span></div>
-        <div class="price-sum"><span data-pp="am">400</span> <small>₽/час</small></div>
-        <div class="price-pp">от <span data-pp="am/4">100</span> ₽ с человека</div>
+        <div class="price-sum"><span data-pp="am">400</span> <small>₽ за комнату / час</small></div>
+        <div class="price-pp"><span data-pp="am">400</span> ÷ 4 = <span data-pp="am/4">100</span> ₽ с человека за час<br><small>при 4 игроках</small></div>
       </article>
       <article class="price hl rv" style="--d:.1s">
         <span class="price-badge">День и вечер</span>
         <div class="price-when">После <span data-pp="border">13:00</span></div>
         <div class="price-time">каждый день · <span data-pp="border">13:00</span>–20:30</div>
-        <div class="price-sum"><span data-pp="pm">500</span> <small>₽/час</small></div>
-        <div class="price-pp">от <span data-pp="pm/4">125</span> ₽ с человека</div>
+        <div class="price-sum"><span data-pp="pm">500</span> <small>₽ за комнату / час</small></div>
+        <div class="price-pp"><span data-pp="pm">500</span> ÷ 4 = <span data-pp="pm/4">125</span> ₽ с человека за час<br><small>при 4 игроках</small></div>
       </article>
       <article class="price rv" style="--d:.2s">
         <div class="price-when">Выходные</div>
         <div class="price-time">сб–вс · та же сетка, что в будни</div>
-        <div class="price-sum eq">0 ₽ <small>наценки</small></div>
+        <div class="price-sum eq" style="font-size:32px">Как в будни</div>
         <div class="price-pp"><span data-pp="am">400</span> ₽ утром и <span data-pp="pm">500</span> ₽ после <span data-pp="border">13:00</span></div>
       </article>
     </div>
+    <p class="sec-lead" style="font-size:16px;margin-top:22px">Если играете через 13:00, считаем по частям: 12:00–14:00 = <span data-pp="am">400</span> + <span data-pp="pm">500</span> = <span data-pp="mixed">900</span> ₽ за комнату. Ракетки — отдельно.</p>
     <div class="extras">
       <div class="extra rv"><em>Абонемент</em><b>5 ч — 2 200 ₽</b><span>Час по 440 ₽ в любое время — после 13:00 выгоднее на 60 ₽. Действует не меньше 3 месяцев.</span></div>
       <div class="extra rv" style="--d:.08s"><em>Абонемент</em><b>10 ч — 4 200 ₽</b><span>Час по 420 ₽ — после 13:00 экономия 80 ₽ с каждого часа. Действует не меньше 3 месяцев.</span></div>
@@ -1214,6 +1200,7 @@ function priceFor(start,hours){
 function applyPrices(){
   var s=S();
   $$('[data-pp]').forEach(function(el){
+    if(el.getAttribute('data-pp')==='mixed'){el.textContent=fmt(s.priceAm+s.pricePm);return}
     var m=/^(am|pm|border|racket)(?:([*\/])(\d+))?$/.exec(el.getAttribute('data-pp'));if(!m)return;
     if(m[1]==='border'){el.textContent=hhmm(s.border);return}
     var v=m[1]==='am'?s.priceAm:m[1]==='pm'?s.pricePm:s.racket;
@@ -1223,7 +1210,6 @@ function applyPrices(){
 }
 
 /* ---------- calculator ---------- */
-var KINO=500; // ориентир цены разового посещения фитнес-клуба
 var cStart=$('#cStart'),hOut=$('#hOut'),rOut=$('#rOut');
 var st={start:960,hours:2,ppl:4,pro:0};
 function fillStart(){
@@ -1253,21 +1239,14 @@ function calc(){
   $('#oSub').innerHTML='Итого <b>'+fmt(total)+' ₽</b> за стол · '+hhmm(st.start)+'–'+hhmm(end)+
     (mix?' · до '+hhmm(s.border)+' по '+s.priceAm+' ₽, после — по '+s.pricePm+' ₽':'')+
     (extra?' · в т.ч. проф. ракетки '+fmt(extra)+' ₽':'');
-  var maxv=Math.max(perExact,KINO)*1.1;
-  $('#oBarUs').style.width=Math.max(4,perExact/maxv*100)+'%';
-  $('#oBarKino').style.width=(KINO/maxv*100)+'%';
-  $('#oBarUsV').textContent=fmt(perExact)+' ₽';
-  $('#oBarKinoV').textContent='~'+fmt(KINO)+' ₽';
-  var diff=KINO-perExact,v=$('#oVerdict');
-  if(diff>=20){
-    v.innerHTML='Дешевле разового фитнеса на <b>'+fmt(diff)+' ₽</b> с каждого — и это '+hoursLabel(st.hours)+' живой игры вместо тренажёров.';
-  }else if(diff>-20){
-    v.innerHTML='Примерно как <b>разовый фитнес</b> — только '+hoursLabel(st.hours)+' азарта вместо беговой дорожки.';
-  }else{
-    v.innerHTML='Совет: позовите ещё друзей — вчетвером выйдет <b>~'+fmt(Math.ceil(total/4/10)*10)+' ₽</b> с человека.';
-  }
-  if(st.ppl<4&&diff>=20){v.innerHTML+=' Вчетвером — ещё дешевле.'}
-  if(st.start<s.border&&!mix&&st.ppl>1){v.innerHTML+=' Утренний тариф — самый выгодный.'}
+  var amMinutes=Math.max(0,Math.min(end,s.border)-st.start),pmMinutes=st.hours*60-amMinutes;
+  var lines=[];
+  if(amMinutes)lines.push('<div><span>Аренда до '+hhmm(s.border)+' · '+hoursLabel(amMinutes/60)+' × '+s.priceAm+' ₽/ч</span><b>'+fmt(amMinutes/60*s.priceAm)+' ₽</b></div>');
+  if(pmMinutes)lines.push('<div><span>Аренда после '+hhmm(s.border)+' · '+hoursLabel(pmMinutes/60)+' × '+s.pricePm+' ₽/ч</span><b>'+fmt(pmMinutes/60*s.pricePm)+' ₽</b></div>');
+  lines.push('<div><span>Проф. ракетки'+(st.pro?' · '+st.pro+' × '+s.racket+' ₽/ч × '+hoursLabel(st.hours):' · не выбраны')+'</span><b>'+fmt(extra)+' ₽</b></div>');
+  lines.push('<div><span>Доля каждого · '+fmt(total)+' ₽ ÷ '+st.ppl+'</span><b>'+perExact.toLocaleString('ru-RU',{maximumFractionDigits:2})+' ₽</b></div>');
+  $('#oBreakdown').innerHTML=lines.join('');
+  $('#oVerdict').innerHTML=st.ppl<4?'Можно разделить аренду на четверых. Стоимость дополнительных ракеток зависит от их количества.':'Вся комната для вашей компании. Сумма выше уже разделена на 4 игроков.';
   var b=$('#calcBook');
   b.setAttribute('data-book-title',hhmm(st.start)+'–'+hhmm(end));
   b.setAttribute('data-book-start',st.start);
@@ -1300,6 +1279,14 @@ function renderSlots(offset){
   var dateStr=d.toLocaleDateString('ru-RU',{day:'numeric',month:'long',weekday:'long'});
   $('#slotsDate').innerHTML=(offset?'Завтра':'Сегодня')+'<small>'+dateStr+(weekend?' · выходной, цены как в будни':'')+'</small>';
   grid.innerHTML='';
+  var avState=BookingAPI.availabilityState(ds);
+  grid.setAttribute('aria-busy',String(avState.status==='loading'));
+  if(avState.status!=='ready'){
+    var pending=document.createElement('div');pending.className='slots-empty';pending.setAttribute('role','status');
+    pending.textContent=avState.status==='error'?'Не удалось загрузить занятость. '+(avState.error||''):'Загружаем актуальное время…';
+    if(avState.status==='error'){var retry=document.createElement('button');retry.type='button';retry.className='btn btn-ghost btn-sm';retry.textContent='Повторить';retry.onclick=function(){loadSlots(curDay)};pending.appendChild(retry)}
+    grid.appendChild(pending);$('#slotsCount').textContent='';return;
+  }
   var free=0,total=0;
   slots.forEach(function(x){
     var m=x.start;total++;
@@ -1332,13 +1319,21 @@ function renderSlots(offset){
 }
 function selectTab(n){
   $$('.tabs [role=tab]').forEach(function(t){t.setAttribute('aria-selected',String(+t.getAttribute('data-day')===n))});
-  renderSlots(n);
+  loadSlots(n);
 }
 $$('.tabs [role=tab]').forEach(function(t){t.addEventListener('click',function(){selectTab(+t.getAttribute('data-day'))})});
-renderSlots(0);
-setInterval(function(){renderSlots(curDay)},60*1000);
+function loadSlots(offset){
+  curDay=offset;var d=new Date();d.setDate(d.getDate()+offset);var ds=PP.ymd(d);
+  var loading=BookingAPI.refreshAvailability(ds);renderSlots(offset);
+  loading.catch(function(){}).finally(function(){if(curDay===offset){renderSlots(offset);fillStart();applyPrices();calc()}});
+}
+loadSlots(0);
+setInterval(function(){if(document.visibilityState==='visible')loadSlots(curDay)},60*1000);
+document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible')loadSlots(curDay)});
+window.addEventListener('hashchange',function(){if(location.hash==='#slots')loadSlots(curDay)});
+$$('a[href="#slots"]').forEach(function(a){a.addEventListener('click',function(){loadSlots(curDay)})});
 /* изменения из админки (цены, блокировки) и новые брони — сразу на странице */
-window.addEventListener('pp:change',function(){renderSlots(curDay);fillStart();applyPrices();calc()});
+window.addEventListener('pp:change',function(){renderSlots(curDay);fillStart();applyPrices();calc();var mixed=document.querySelector('[data-pp=mixed]');if(mixed)mixed.textContent=fmt(S().priceAm+S().pricePm)});
 
 /* ---------- hero rally canvas ---------- */
 (function(){
@@ -1512,7 +1507,7 @@ window.addEventListener('pp:change',function(){renderSlots(curDay);fillStart();a
 
 })();
 </script>
-<script src="booking.js?v=20260926b"></script>
+<script src="booking.js?v=20261017"></script>
 <script>
 /* ---------- «Найди партнёра»: лента, фильтры, отклики, жалобы ---------- */
 (function(){

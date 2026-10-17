@@ -10,7 +10,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script src="community.js?v=20260926b"></script>
+<script src="community.js?v=20261017"></script>
+<script src="shared-booking.js?v=20261017"></script>
 <style>
 :root{
   --bg:#07080f;
@@ -342,12 +343,12 @@ table.t{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px;fo
     </a>
     <h1 id="loginTitle">Панель администратора</h1>
     <p>Брони, оплаты, клиенты, сообщество и журнал согласий.</p>
-    <div class="pp-demo"><span>Демо-доступ: логин <b>admin</b>, пароль <b>pingpoint</b>. В боевой версии — учётные записи на сервере.</span></div>
+    <div class="pp-demo"><span>Вход по учётной записи администратора, настроенной на сервере сайта.</span></div>
     <div class="pp-e" role="alert" id="loginErr"></div>
     <div class="pp-f"><label class="pp-l" for="lgLogin">Логин</label><input class="pp-i" id="lgLogin" name="login" autocomplete="username" required autocapitalize="off" spellcheck="false"></div>
     <div class="pp-f"><label class="pp-l" for="lgPass">Пароль</label><input class="pp-i" id="lgPass" name="password" type="password" autocomplete="current-password" required></div>
     <button class="btn btn-main" type="submit">Войти</button>
-    <div class="login-foot"><a href="index.html">← На сайт</a><span>Данные демонстрационные</span></div>
+    <div class="login-foot"><a href="index.html">← На сайт</a><span>Общие брони на сервере</span></div>
   </form>
 </main>
 
@@ -360,7 +361,7 @@ table.t{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px;fo
     </a>
     <nav class="nav" id="nav" aria-label="Разделы"></nav>
     <div class="side-foot">
-      <p class="demo-note">Данные демонстрационные — хранятся только в этом браузере.</p>
+      <p class="demo-note">Брони и оплаты хранятся на сервере. Профили и объявления — в этом браузере.</p>
       <h2>Документы</h2>
       <ul id="docsList"></ul>
       <p class="req">ИП Исаков Игорь Константинович<br>ИНН 323407837462<br>ОГРНИП 325320000017817</p>
@@ -374,7 +375,7 @@ table.t{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px;fo
       <h1 id="pageTitle" tabindex="-1">Сводка</h1>
       <span class="top-date" id="topDate"></span>
       <div class="top-r">
-        <span class="demo-pill" tabindex="0" title="Все брони, оплаты и клиенты — демонстрационные. В боевой версии данные приходят с сервера.">Демо-данные</span>
+        <span class="demo-pill" tabindex="0" title="Брони и занятость синхронизируются с сервером сайта.">Сервер сайта</span>
         <a class="btn btn-ghost btn-xs" href="index.html">На сайт</a>
         <button class="btn btn-ghost btn-xs" type="button" data-logout>Выйти</button>
       </div>
@@ -470,6 +471,7 @@ function durOpts(sel) { return DURS.map(d => '<option value="' + d + '"' + (d ==
 /* Занятые получасы на дату (своя бронь не считается занятой) */
 function slotMarks(date, own) {
   const m = {};
+  if(BK.availabilityState(date).status!=='ready'){const s=BK.settings();for(let minute=s.open;minute<s.close;minute+=30)m[minute]='занятость не загружена';return m;}
   try {
     BK.availabilitySync(date).forEach(s => {
       if (s.state !== 'busy' && s.state !== 'blocked') return;
@@ -828,7 +830,12 @@ function openBooking(id) {
         '</tbody></table></div>' : '<p class="pp-h">Платежей нет.</p>') +
       '<h3 class="sub-h">История</h3><ol class="hist">' + (b.history || []).slice().reverse().map(h => '<li style="--c:' + (STATUS_COLOR[h.s] || '#8f9bff') + '"><time>' + dtFmt(h.at) + '</time><b>' + esc(P.BOOKING_STATUS[h.s] || h.s) + '</b> <span class="dim">· ' + esc(BY[h.by] || h.by || '') + '</span>' + (h.note ? '<p>' + esc(h.note) + '</p>' : '') + '</li>').join('') + '</ol>';
 
-    const fillStarts = () => { const d = $('#' + I.d, box).value || b.date; const cur = Number($('#' + I.s, box).value || b.start); $('#' + I.s, box).innerHTML = timeOpts(s.open, s.close - 60, cur, slotMarks(d, b)); };
+    const fillStarts = async () => {
+      const d=$('#'+I.d,box).value||b.date,select=$('#'+I.s,box),button=$('[data-move-save]',box),current=Number(select.value||b.start);
+      select.disabled=true;button.disabled=true;select.innerHTML='<option>Загружаем занятость…</option>';
+      try{await BK.refreshAvailability(d);if($('#'+I.d,box).value!==d)return;select.innerHTML=timeOpts(s.open,s.close-60,current,slotMarks(d,b));select.disabled=false;button.disabled=false;}
+      catch(x){select.innerHTML='<option>Не удалось загрузить</option>';$('[data-move-err]',box).textContent=x.message;}
+    };
     fillStarts();
     $('#' + I.d, box).addEventListener('change', fillStarts);
     $('[data-client]', box).addEventListener('click', e => openClient(e.currentTarget.dataset.client));
@@ -917,8 +924,14 @@ function openManual(pre) {
   const el = k => $('#' + I[k], box);
   UI.bindPhoneMask(el('ph'));
   if (pre.phone) el('ph').value = UI.maskPhone(pre.phone);
-  const fillStarts = () => { const cur = Number(el('s').value || (pre.start != null ? pre.start : Math.max(s.open, Math.min(s.close - 60, Math.ceil((new Date().getHours() * 60 + new Date().getMinutes()) / 30) * 30)))); el('s').innerHTML = timeOpts(s.open, s.close - 60, cur, slotMarks(el('d').value)); };
+  const fillStarts = async () => {
+    const date=el('d').value,select=el('s'),button=$('[type=submit]',box),current=Number(select.value||pre.start||s.open);
+    select.disabled=true;button.disabled=true;select.innerHTML='<option value="">Загружаем занятость…</option>';
+    try{await BK.refreshAvailability(date);if(el('d').value!==date)return;select.innerHTML=timeOpts(s.open,s.close-60,current,slotMarks(date));select.disabled=false;button.disabled=false;quote();}
+    catch(x){select.innerHTML='<option value="">Не удалось загрузить</option>';$('[data-err]',box).textContent=x.message;}
+  };
   const quote = () => {
+    if(el('s').disabled||!el('s').value)return;
     const rk = Math.min(Number(el('r').value), Number(el('p').value));
     let q, promoErr = '';
     try { q = BK.quote({ start: Number(el('s').value), dur: Number(el('l').value), rackets: rk }, el('pr').value.trim() || null); }
@@ -929,8 +942,8 @@ function openManual(pre) {
     if (!clash && st + du > s.close) clash = 'Комната закрывается в ' + hhmm(s.close) + '.';
     $('[data-quote]', box).innerHTML = 'По тарифу: <b>' + money(q.total) + '</b> · аренда ' + money(q.rent) + (q.rackets ? ' + ракетки ' + money(q.rackets) : '') + (q.discount ? ' − скидка ' + money(q.discount) : '') + (promoErr ? '<br><span style="color:#ffc2d1">' + esc(promoErr) + '</span>' : '') + (clash ? '<br><span style="color:#ffc2d1">' + esc(clash) + '</span>' : '');
   };
-  fillStarts(); quote();
-  el('d').addEventListener('change', () => { fillStarts(); quote(); });
+  fillStarts();
+  el('d').addEventListener('change', fillStarts);
   ['s', 'l', 'p', 'r'].forEach(k => el(k).addEventListener('change', quote));
   el('pr').addEventListener('input', quote);
   $('[data-cancel]', box).addEventListener('click', () => sh.close());
@@ -1357,7 +1370,7 @@ function renderSettings(v, alive) {
       '<div class="acts"><button class="btn btn-main btn-sm" type="submit">Сохранить настройки</button><button class="btn btn-ghost btn-sm" type="button" data-revert>Отменить изменения</button><span class="dim" data-state style="font-size:13px"></span></div>' +
     '</form></section>' +
     '<section class="panel" aria-labelledby="hPr"><div class="panel-h"><h2 id="hPr">Промокоды</h2><div class="acts"><button class="btn btn-main btn-sm" type="button" data-newpromo>+ Новый промокод</button></div></div><div data-promos></div><p class="note">Промокод применяется к сумме брони (аренда + ракетки). Выключенный код сразу перестаёт приниматься на сайте; «0» в лимите — без ограничения.</p></section>' +
-    '<section class="panel" aria-labelledby="hDemo"><div class="panel-h"><h2 id="hDemo">Демо-данные</h2></div><p class="note top0">Вернуть исходные брони, оплаты, объявления и журнал согласий. Всё, что создано вручную, пропадёт. Вход в админку сохранится.</p><div class="acts" style="margin-top:12px"><button class="btn btn-danger btn-sm" type="button" data-reset>Сбросить демо-данные</button></div></section>';
+    '<section class="panel"><div class="panel-h"><h2>Хранение данных</h2></div><p class="note top0">Общие брони сохраняются на сервере. Сброс данных из интерфейса отключён.</p></section>';
   const el = k => $('#' + I[k], v);
   const form = $('[data-form]', v);
   const markDirty = () => { dirty = true; $('[data-state]', v).textContent = 'Есть несохранённые изменения'; preview(); };
@@ -1402,10 +1415,6 @@ function renderSettings(v, alive) {
   $('[data-promos]', v).addEventListener('click', e => {
     const t = e.target.closest('[data-toggle]'); if (t) { const on = t.getAttribute('aria-checked') !== 'true'; act(null, () => A.togglePromo(t.dataset.toggle, on), 'Промокод ' + t.dataset.toggle + (on ? ' включён' : ' выключен')); return; }
     const ed = e.target.closest('[data-edit]'); if (ed) { const p = promos.find(x => x.code === ed.dataset.edit); if (p) openPromo(p); }
-  });
-  $('[data-reset]', v).addEventListener('click', async () => {
-    const r = await confirmSheet({ title: 'Сбросить демо-данные?', text: 'Все брони, оплаты, объявления, отклики и записи журнала вернутся к исходным демонстрационным. То, что вы создали вручную, <b>пропадёт</b>.', ok: 'Сбросить', danger: true });
-    if (r) { const x = await act(null, () => A.resetDemo(), 'Демо-данные сброшены'); if (x.ok) { try { fill(await A.getSettings()); } catch (e) {} } }
   });
   let promos = [];
   async function refresh() {
@@ -1452,6 +1461,7 @@ function openPromo(p) {
 
 /* ---------- старт ---------- */
 if (A.isLogged()) showApp(); else showLogin();
+BK.ready.then(()=>{if(A.isLogged())showApp();}).catch(x=>{$('#loginErr').textContent=x.message;});
 })();
 </script>
 </body>

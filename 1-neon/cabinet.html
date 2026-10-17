@@ -11,7 +11,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script src="community.js?v=20260926b"></script>
+<script src="community.js?v=20261017"></script>
+<script src="shared-booking.js?v=20261017"></script>
 <style>
 :root{
   --bg:#07080f;
@@ -858,7 +859,7 @@ async function pPosts() {
 function openPostForm(post, fmode) {
   me = C.meSync();
   if (!me || me.deletion) return;
-  if (!me.docsOk) { confirmDocs(); return; }
+  if (!me.docsOk) { confirmDocs(() => openPostForm(post, fmode)); return; }
   const id = 'pf' + Date.now().toString(36);
   const cond = Object.assign({ photo: true, age: true, prefs: true }, me.publicCond);
   let photo = post && post.ownPhoto ? post.photo : null;
@@ -866,16 +867,17 @@ function openPostForm(post, fmode) {
   const days = post ? post.days : [], times = post ? post.times : [];
   const tf = post && post.timeFrom != null ? post.timeFrom : '';
   const opts = ['<option value="">не важно</option>'];
-  for (let m = 600; m <= 1170; m += 30) opts.push('<option value="' + m + '"' + (tf === m ? ' selected' : '') + '>с ' + P.hhmm(m) + '</option>');
+  for (const m of P.allowedPostStarts(times)) opts.push('<option value="' + m + '"' + (tf === m ? ' selected' : '') + '>с ' + P.hhmm(m) + '</option>');
   const form = document.createElement('form');
-  form.className = 'pf'; form.noValidate = true;
+  form.className = 'pf'; form.id=id; form.noValidate = true;
+  let step=1, sending=false;
   form.innerHTML =
     '<fieldset class="pp-f pp-fs"><legend class="pp-l">Формат</legend><div class="pp-chips">' + P.FORMATS.map(f => '<label class="pp-chip"><input type="radio" name="' + id + 'fmt" value="' + f[0] + '"' + (fmt === f[0] ? ' checked' : '') + '><span>' + esc(f[1]) + '</span></label>').join('') + '</div></fieldset>' +
     '<fieldset class="pp-f pp-fs"><legend class="pp-l">Уровень партнёра</legend><div class="pp-chips">' + [['any', 'Любой']].concat(P.LEVELS).map(l => '<label class="pp-chip"><input type="radio" name="' + id + 'pl" value="' + l[0] + '"' + (pl === l[0] ? ' checked' : '') + '><span>' + esc(l[1]) + '</span></label>').join('') + '</div></fieldset>' +
     '<fieldset class="pp-f pp-fs"><legend class="pp-l">Дни</legend><div class="pp-chips days">' + P.DAY_SHORT.map((d, i) => '<label class="pp-chip"><input type="checkbox" name="' + id + 'd" value="' + i + '"' + (days.indexOf(i) >= 0 ? ' checked' : '') + '><span>' + d + '</span></label>').join('') + '</div></fieldset>' +
     '<div class="pf-row">' +
       '<fieldset class="pp-f pp-fs"><legend class="pp-l">Время</legend><div class="pp-chips">' + P.TIMES.map(t => '<label class="pp-chip"><input type="checkbox" name="' + id + 't" value="' + t[0] + '"' + (times.indexOf(t[0]) >= 0 ? ' checked' : '') + '><span>' + esc(t[1]) + ' <small>' + esc(t[2]) + '</small></span></label>').join('') + '</div></fieldset>' +
-      '<div class="pp-f"><label class="pp-l" for="' + id + 'tf">Или конкретно</label><select class="pp-i" id="' + id + 'tf">' + opts.join('') + '</select><span class="hint">Можно указать и время суток, и точное начало.</span></div>' +
+      '<div class="pp-f"><label class="pp-l" for="' + id + 'tf">Точное начало</label><select class="pp-i" id="' + id + 'tf">' + opts.join('') + '</select><span class="hint">Точное начало — только внутри выбранных периодов.</span><span class="hint" data-time-note aria-live="polite"></span></div>' +
     '</div>' +
     '<div class="pp-f"><div class="pp-row"><label class="pp-l" for="' + id + 'x">Текст объявления</label><span class="pp-cnt" data-cnt aria-live="polite"></span></div>' +
       '<textarea class="pp-i" id="' + id + 'x" maxlength="300" rows="4" placeholder="Например: играю пару лет для себя, хочу регулярного партнёра по вечерам. Стол пополам.">' + esc(post ? post.text : '') + '</textarea>' +
@@ -897,13 +899,34 @@ function openPostForm(post, fmode) {
     '<div data-cons></div>' +
     '<div class="pp-e" data-err role="alert"></div>' +
     '<p class="pp-h pp-miss" data-miss aria-live="polite"></p>' +
-    '<div class="pp-sheet-foot"><button class="btn btn-main calm" type="submit">' + (fmode === 'edit' ? 'Сохранить' : 'Опубликовать') + '</button><button class="btn btn-ghost" type="button" data-cancel>Отмена</button></div>';
+    '<div class="pp-sheet-foot"><button class="btn btn-ghost" type="button" data-back>Назад</button><button class="btn btn-main calm" type="button" data-next>Далее</button><button class="btn btn-main calm" type="submit" form="' + id + '">' + (fmode === 'edit' ? 'Сохранить' : 'Опубликовать') + '</button><button class="btn btn-ghost" type="button" data-cancel>Отмена</button></div>';
+  const children=Array.from(form.children), panels=[];
+  [[0,1],[2,3,4],[5,6,7]].forEach((indices,i)=>{
+    const panel=document.createElement('section');panel.className='pf-step';panel.setAttribute('aria-label',['Формат и уровень','Дни, время и текст','Фото и условия публикации'][i]);
+    form.insertBefore(panel,children[indices[0]]);indices.forEach(n=>panel.appendChild(children[n]));panels.push(panel);
+  });
+  const progress=document.createElement('p');progress.className='pf-progress';progress.setAttribute('aria-live','polite');form.prepend(progress);
   const cons = me.publicOk ? null : U.consentChecks(['consent_public'], { onChange: validate });
   if (cons) form.querySelector('[data-cons]').appendChild(cons.el);
   const title = fmode === 'new' ? 'Новое объявление' : fmode === 'reopen' ? 'Опубликовать снова' : 'Редактировать объявление';
   const sh = U.sheet({ title: title, sub: fmode === 'new' ? 'Появится в ленте «Найди партнёра» сразу после публикации' : 'Проверьте детали и условия показа', body: form, width: 680 });
   const q = s => form.querySelector(s);
   const txt = q('#' + id + 'x'), sel = q('#' + id + 'tf'), submit = q('[type=submit]'), miss = q('[data-miss]'), err = q('[data-err]');
+  const footer=q('.pp-sheet-foot'),back=q('[data-back]'),next=q('[data-next]'),cancel=q('[data-cancel]');
+  footer.classList.add('pf-actions');footer.prepend(miss);footer.prepend(err);sh.body.after(footer);
+  function showStep(focus){
+    panels.forEach((panel,i)=>panel.hidden=i!==step-1);
+    progress.textContent='Шаг '+step+' из 3 · '+['Формат и уровень','Дни, время и текст','Фото и публикация'][step-1];
+    back.hidden=step===1;next.hidden=step===3;submit.hidden=step!==3;
+    sh.body.scrollTop=0;validate();
+    if(focus){const first=panels[step-1].querySelector('input,select,textarea,button');if(first)first.focus();}
+  }
+  function syncTimes(){
+    const selected=$$('input[name="'+id+'t"]:checked',form).map(i=>i.value),allowed=P.allowedPostStarts(selected),old=sel.value;
+    sel.innerHTML='<option value="">Любое в выбранном периоде</option>'+allowed.map(m=>'<option value="'+m+'">с '+P.hhmm(m)+'</option>').join('');
+    if(old!==''&&allowed.includes(Number(old)))sel.value=old;
+    else if(old!=='')q('[data-time-note]').textContent='Предыдущее точное начало сброшено: оно вне выбранного периода. Выберите подходящее время.';
+  }
   const val = () => ({
     format: (q('input[name="' + id + 'fmt"]:checked') || {}).value || null,
     partnerLevel: (q('input[name="' + id + 'pl"]:checked') || {}).value || 'any',
@@ -942,14 +965,17 @@ function openPostForm(post, fmode) {
     if (n < 20) extra.push('текст — ещё ' + (20 - n) + ' ' + P.plural(20 - n, 'символ', 'символа', 'символов'));
     if (n > 300) extra.push('текст — не больше 300 символов');
     const m = cons ? cons.missing() : [];
-    submit.disabled = !!(m.length || extra.length);
-    miss.textContent = submit.disabled ? U.missingHint(m, extra).replace('отметьте', m.length ? 'отметьте' : 'заполните') : '';
+    const relevant=step===1?extra.filter(x=>x==='формат'):step===2?extra:extra.concat(m.length?['согласие на распространение']:[]);
+    submit.disabled=sending||!!(m.length||extra.length);next.disabled=sending||!!relevant.length;back.disabled=sending;cancel.disabled=sending;
+    miss.textContent=relevant.length?'Чтобы продолжить, заполните: '+relevant.join(', ')+'.':'';
     const cnt = q('[data-cnt]'); cnt.textContent = txt.value.length + ' / 300'; cnt.classList.toggle('over', txt.value.length > 300);
     drawPreview();
   }
   form.addEventListener('input', () => { readCond(); validate(); });
-  form.addEventListener('change', () => { readCond(); validate(); });
-  q('[data-cancel]').addEventListener('click', () => sh.close('cancel'));
+  form.addEventListener('change', e => { if(e.target.name===id+'t')syncTimes();readCond(); validate(); });
+  back.addEventListener('click',()=>{if(!sending){step=Math.max(1,step-1);showStep(true)}});
+  next.addEventListener('click',()=>{validate();if(!next.disabled){step=Math.min(3,step+1);showStep(true)}});
+  cancel.addEventListener('click', () => {if(!sending)sh.close('cancel')});
   q('[data-ppick]').addEventListener('click', () => q('[data-pfile]').click());
   q('[data-preset]').addEventListener('click', () => { photo = null; drawPhoto(); drawPreview(); q('[data-ppick]').focus(); });
   q('[data-pfile]').addEventListener('change', async e => {
@@ -960,9 +986,10 @@ function openPostForm(post, fmode) {
     catch (x) { q('[data-perr]').textContent = errText(x); }
   });
   form.addEventListener('submit', async e => {
-    e.preventDefault(); err.textContent = '';
+    e.preventDefault(); if(sending)return;err.textContent = '';
+    if(step<3){validate();if(!next.disabled){step++;showStep(true)}return;}
     validate(); if (submit.disabled) return;
-    busy(submit, true);
+    sending=true;validate();busy(submit, true);
     try {
       readCond();
       await C.setPublicConditions({ photo: cond.photo, age: cond.age, prefs: cond.prefs }, 'post');
@@ -975,9 +1002,10 @@ function openPostForm(post, fmode) {
       sh.close('ok');
       U.toast(fmode === 'new' ? 'Объявление опубликовано. Отклики появятся во вкладке «Отклики мне»' : fmode === 'reopen' ? 'Объявление снова в ленте' : 'Изменения сохранены', { kind: 'ok' });
       if (tab !== 'posts') location.hash = '#posts'; else scheduleRender(true);
-    } catch (x) { err.textContent = errText(x); busy(submit, false); validate(); }
+    } catch (x) { sending=false;err.textContent = errText(x); busy(submit, false); validate(); }
   });
-  drawPhoto(); validate();
+  if(tf!==''&&!P.allowedPostStarts(times).includes(Number(tf)))q('[data-time-note]').textContent='Старое точное начало было вне выбранного периода и сброшено. Выберите подходящее время.';
+  drawPhoto();showStep(false);
 }
 
 async function postAction(act, id, btn) {
@@ -1104,8 +1132,8 @@ function bookingCard(b, past) {
   let refund = '';
   if (b.status === 'refund_partial') refund = b.refundAmount == null ? '<li><span class="st warn">Ожидает расчёта возврата</span></li>' : '<li>Возвращено <b>' + P.money(b.refundAmount) + '</b></li>';
   if (b.status === 'refunded') refund = '<li>Возвращено <b>' + P.money(b.refundAmount != null ? b.refundAmount : b.amount) + '</b></li>';
-  let code = '';
-  if (b.status === 'paid' && !past) code = '<div class="cbk-code"><span>Код доступа: <code aria-label="скрыт">••••••</code></span><button class="btn btn-ghost btn-xs" type="button" data-act="bk-code" data-id="' + b.id + '" data-k="bc-' + b.id + '">Показать код</button></div>';
+  let code = b.test?'<p class="hint">Тестовая бронь · деньги не списаны, код доступа не выдаётся.</p>':'';
+  if (b.status === 'paid' && !past && b.code) code = '<div class="cbk-code"><span>Код доступа: <code aria-label="скрыт">••••••</code></span><button class="btn btn-ghost btn-xs" type="button" data-act="bk-code" data-id="' + b.id + '" data-k="bc-' + b.id + '">Показать код</button></div>';
   let acts = '', hints = [];
   if (!past) {
     if (b.status === 'pending') acts += '<button class="btn btn-main calm btn-xs" type="button" data-act="bk-pay" data-id="' + b.id + '" data-k="bp-' + b.id + '">Перейти к оплате</button>';
@@ -1239,12 +1267,12 @@ async function pDocs() {
       '<div class="acts"><button class="btn btn-ghost btn-sm" type="button" data-act="export" data-k="exp">Скачать мои данные</button><button class="btn btn-ghost btn-sm" type="button" data-act="cookie-cfg" data-k="ck2">Настройки cookie</button><button class="pp-link danger" type="button" data-act="delete-profile" data-k="delp">Удалить профиль</button></div>' +
     '</section></div>';
 }
-function confirmDocs() {
-  if (U.checkDocUpdates()) return;
+function confirmDocs(onDone) {
+  if (U.checkDocUpdates({onClose:()=>{me=C.meSync();if(me&&me.docsOk&&onDone)onDone();}})) return;
   me = C.meSync(); if (!me) return;
   C.docs().then(list => {
     const ids = list.filter(d => d.for.indexOf('registration') >= 0 && d.status !== 'ok').map(d => d.id);
-    if (!ids.length) { U.toast('Все документы уже подтверждены', { kind: 'ok' }); scheduleRender(true); return; }
+    if (!ids.length) { U.toast('Все документы уже подтверждены', { kind: 'ok' }); scheduleRender(true);if(onDone)onDone(); return; }
     const box = document.createElement('div');
     box.innerHTML = '<p class="pp-h" style="font-size:15px;color:var(--muted);margin:0 0 16px">Чтобы пользоваться кабинетом, подтвердите документы:</p><div data-c></div><p class="pp-h pp-miss" data-miss aria-live="polite"></p><div class="pp-e" role="alert"></div><div class="pp-sheet-foot"><button class="btn btn-main calm" type="button" data-ok>Подтвердить</button></div>';
     const btn = box.querySelector('[data-ok]'), miss = box.querySelector('[data-miss]');
@@ -1255,7 +1283,7 @@ function confirmDocs() {
     const sh = U.sheet({ title: 'Подтвердите документы', body: box, width: 560 });
     btn.addEventListener('click', async () => {
       busy(btn, true);
-      try { await C.acceptDocs(ids, { context: 'cabinet' }); U.toast('Спасибо! Документы подтверждены', { kind: 'ok' }); sh.close('ok'); }
+      try { await C.acceptDocs(ids, { context: 'cabinet' }); U.toast('Спасибо! Документы подтверждены', { kind: 'ok' }); sh.close('ok');if(onDone)onDone(); }
       catch (x) { box.querySelector('.pp-e').textContent = errText(x); busy(btn, false); }
     });
   });
@@ -1422,6 +1450,6 @@ route(true);
 setTimeout(() => U.checkDocUpdates(), 500);
 })();
 </script>
-<script src="booking.js?v=20260926b"></script>
+<script src="booking.js?v=20261017"></script>
 </body>
 </html>
